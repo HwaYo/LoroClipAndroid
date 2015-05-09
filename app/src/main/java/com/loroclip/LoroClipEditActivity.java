@@ -54,8 +54,7 @@ import android.widget.Toast;
 import com.loroclip.soundfile.SoundFile;
 
 public class LoroClipEditActivity extends Activity
-    implements MarkerView.MarkerListener,
-               WaveformView.WaveformListener
+    implements WaveformView.WaveformListener
 {
     private long mLoadingLastUpdateTime;
     private boolean mLoadingKeepGoing;
@@ -74,8 +73,6 @@ public class LoroClipEditActivity extends Activity
     private int mNewFileKind;
     private boolean mWasGetContentIntent;
     private WaveformView mWaveformView;
-    private MarkerView mStartMarker;
-    private MarkerView mEndMarker;
     private TextView mInfo;
     private String mInfoContent;
     private ImageButton mPlayButton;
@@ -87,8 +84,6 @@ public class LoroClipEditActivity extends Activity
     private int mMaxPos;
     private int mStartPos;
     private int mEndPos;
-    private boolean mStartVisible;
-    private boolean mEndVisible;
     private int mLastDisplayedStartPos;
     private int mLastDisplayedEndPos;
     private int mOffset;
@@ -106,10 +101,6 @@ public class LoroClipEditActivity extends Activity
     private int mTouchInitialEndPos;
     private long mWaveformTouchStartMsec;
     private float mDensity;
-    private int mMarkerLeftInset;
-    private int mMarkerRightInset;
-    private int mMarkerTopOffset;
-    private int mMarkerBottomOffset;
 
     private Thread mLoadSoundFileThread;
     private Thread mRecordAudioThread;
@@ -119,18 +110,10 @@ public class LoroClipEditActivity extends Activity
     private BookmarkMap savedBookmarks;
     private BookmarkListView bookmarkListView;
 
-
-    // Result codes
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
-    /**
-     * This is a special intent action that means "edit a sound file".
-     */
     public static final String EDIT = "com.loroclip.action.EDIT";
 
-    //
-    // Public methods and protected overrides
-    //
 
     /** Called when the activity is first created. */
     @Override
@@ -245,9 +228,6 @@ public class LoroClipEditActivity extends Activity
 
         mHandler.postDelayed(new Runnable() {
                 public void run() {
-                    mStartMarker.requestFocus();
-                    markerFocus(mStartMarker);
-
                     mWaveformView.setZoomLevel(saveZoomLevel);
                     mWaveformView.recomputeHeights(mDensity);
 
@@ -383,120 +363,6 @@ public class LoroClipEditActivity extends Activity
     }
 
     //
-    // MarkerListener
-    //
-
-    public void markerDraw() {
-    }
-
-    public void markerTouchStart(MarkerView marker, float x) {
-        mTouchDragging = true;
-        mTouchStart = x;
-        mTouchInitialStartPos = mStartPos;
-        mTouchInitialEndPos = mEndPos;
-    }
-
-    public void markerTouchMove(MarkerView marker, float x) {
-        float delta = x - mTouchStart;
-
-        if (marker == mStartMarker) {
-            mStartPos = trap((int)(mTouchInitialStartPos + delta));
-            mEndPos = trap((int)(mTouchInitialEndPos + delta));
-        } else {
-            mEndPos = trap((int)(mTouchInitialEndPos + delta));
-            if (mEndPos < mStartPos)
-                mEndPos = mStartPos;
-        }
-
-        updateDisplay();
-    }
-
-    public void markerTouchEnd(MarkerView marker) {
-        mTouchDragging = false;
-        if (marker == mStartMarker) {
-            setOffsetGoalStart();
-        } else {
-            setOffsetGoalEnd();
-        }
-    }
-
-    public void markerLeft(MarkerView marker, int velocity) {
-        mKeyDown = true;
-
-        if (marker == mStartMarker) {
-            int saveStart = mStartPos;
-            mStartPos = trap(mStartPos - velocity);
-            mEndPos = trap(mEndPos - (saveStart - mStartPos));
-            setOffsetGoalStart();
-        }
-
-        if (marker == mEndMarker) {
-            if (mEndPos == mStartPos) {
-                mStartPos = trap(mStartPos - velocity);
-                mEndPos = mStartPos;
-            } else {
-                mEndPos = trap(mEndPos - velocity);
-            }
-
-            setOffsetGoalEnd();
-        }
-
-        updateDisplay();
-    }
-
-    public void markerRight(MarkerView marker, int velocity) {
-        mKeyDown = true;
-
-        if (marker == mStartMarker) {
-            int saveStart = mStartPos;
-            mStartPos += velocity;
-            if (mStartPos > mMaxPos)
-                mStartPos = mMaxPos;
-            mEndPos += (mStartPos - saveStart);
-            if (mEndPos > mMaxPos)
-                mEndPos = mMaxPos;
-
-            setOffsetGoalStart();
-        }
-
-        if (marker == mEndMarker) {
-            mEndPos += velocity;
-            if (mEndPos > mMaxPos)
-                mEndPos = mMaxPos;
-
-            setOffsetGoalEnd();
-        }
-
-        updateDisplay();
-    }
-
-    public void markerEnter(MarkerView marker) {
-    }
-
-    public void markerKeyUp() {
-        mKeyDown = false;
-        updateDisplay();
-    }
-
-    public void markerFocus(MarkerView marker) {
-        mKeyDown = false;
-        if (marker == mStartMarker) {
-            setOffsetGoalStartNoUpdate();
-        } else {
-            setOffsetGoalEndNoUpdate();
-        }
-
-        // Delay updaing the display because if this focus was in
-        // response to a touch event, we want to receive the touch
-        // event too before updating the display.
-        mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    updateDisplay();
-                }
-            }, 100);
-    }
-
-    //
     // Static About dialog method, also called from LoroClipSelectActivity
     //
 
@@ -525,11 +391,6 @@ public class LoroClipEditActivity extends Activity
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDensity = metrics.density;
 
-        mMarkerLeftInset = (int)(46 * mDensity);
-        mMarkerRightInset = (int)(48 * mDensity);
-        mMarkerTopOffset = (int)(10 * mDensity);
-        mMarkerBottomOffset = (int)(10 * mDensity);
-
         mPlayButton = (ImageButton)findViewById(R.id.play);
         mPlayButton.setOnClickListener(mPlayListener);
         mRewindButton = (ImageButton)findViewById(R.id.rew);
@@ -555,26 +416,13 @@ public class LoroClipEditActivity extends Activity
             mMaxPos = mWaveformView.maxPos();
         }
 
-        mStartMarker = (MarkerView)findViewById(R.id.startmarker);
-        mStartMarker.setListener(this);
-        mStartMarker.setAlpha(1f);
-        mStartMarker.setFocusable(true);
-        mStartMarker.setFocusableInTouchMode(true);
-        mStartVisible = true;
-
-        mEndMarker = (MarkerView)findViewById(R.id.endmarker);
-        mEndMarker.setListener(this);
-        mEndMarker.setAlpha(1f);
-        mEndMarker.setFocusable(true);
-        mEndMarker.setFocusableInTouchMode(true);
-        mEndVisible = true;
-
-
         bookmarkListView = (BookmarkListView) findViewById(R.id.bookmarkListView);
         bookmarkListView.setAdapter(new ArrayAdapter<String>(
                 this, android.R.layout.simple_list_item_single_choice, savedBookmarks.keySet().toArray(new String[savedBookmarks.keySet().size()])
         ));
         bookmarkListView.setOnItemClickListener(testListener);
+
+
         updateDisplay();
     }
 
@@ -806,8 +654,7 @@ public class LoroClipEditActivity extends Activity
         mOffsetGoal = 0;
         mFlingVelocity = 0;
         resetPositions();
-        if (mEndPos > mMaxPos)
-            mEndPos = mMaxPos;
+        mEndPos = mMaxPos;
 
         mCaption =
             mSoundFile.getFiletype() + ", " +
@@ -874,86 +721,12 @@ public class LoroClipEditActivity extends Activity
         }
 
         mWaveformView.setParameters(mStartPos, mEndPos, mOffset);
-//        Log.d("test", "Startpos = " + String.valueOf(mStartPos));
-//        Log.d("test", "endpos = " + String.valueOf(mEndPos));
-//        Log.d("test", "offset = " + String.valueOf(mOffset));
+        Log.d("testlog", String.valueOf(mPlayEndMsec));
 
         mWaveformView.invalidate();
 
-        mStartMarker.setContentDescription(
-                getResources().getText(R.string.start_marker) + " " +
-                        formatTime(mStartPos));
-        mEndMarker.setContentDescription(
-                getResources().getText(R.string.end_marker) + " " +
-                        formatTime(mEndPos));
-
-        int startX = mStartPos - mOffset - mMarkerLeftInset;
-        if (startX + mStartMarker.getWidth() >= 0) {
-            if (!mStartVisible) {
-                // Delay this to avoid flicker
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        mStartVisible = true;
-                        mStartMarker.setAlpha(1f);
-                    }
-                }, 0);
-            }
-        } else {
-            if (mStartVisible) {
-                mStartMarker.setAlpha(0f);
-                mStartVisible = false;
-            }
-            startX = 0;
-        }
-
-        int endX = mEndPos - mOffset - mEndMarker.getWidth() + mMarkerRightInset;
-        if (endX + mEndMarker.getWidth() >= 0) {
-            if (!mEndVisible) {
-                // Delay this to avoid flicker
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        mEndVisible = true;
-                        mEndMarker.setAlpha(1f);
-                    }
-                }, 0);
-            }
-        } else {
-            if (mEndVisible) {
-                mEndMarker.setAlpha(0f);
-                mEndVisible = false;
-            }
-            endX = 0;
-        }
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(
-                startX,
-                mMarkerTopOffset,
-                -mStartMarker.getWidth(),
-                -mStartMarker.getHeight());
-        mStartMarker.setLayoutParams(params);
-
-        params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(
-                endX,
-                mWaveformView.getMeasuredHeight() - mEndMarker.getHeight() - mMarkerBottomOffset,
-                -mStartMarker.getWidth(),
-                -mStartMarker.getHeight());
-        mEndMarker.setLayoutParams(params);
-
-
-        params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(
-                endX / 2,
-                mWaveformView.getMeasuredHeight() - mEndMarker.getHeight() - mMarkerBottomOffset,
-                -mStartMarker.getWidth(),
-                -mStartMarker.getHeight());
+        int startX = mStartPos - mOffset;
+        int endX = mEndPos - mOffset;
     }
 
     private Runnable mTimerRunnable = new Runnable() {
@@ -984,7 +757,7 @@ public class LoroClipEditActivity extends Activity
 
     private void resetPositions() {
         mStartPos = mWaveformView.secondsToPixels(0.0);
-        mEndPos = mWaveformView.secondsToPixels(15.0);
+        mEndPos = mWaveformView.secondsToPixels(25.0);
     }
 
     private int trap(int pos) {
@@ -1461,9 +1234,6 @@ public class LoroClipEditActivity extends Activity
                     if (newPos < mPlayStartMsec)
                         newPos = mPlayStartMsec;
                     mPlayer.seekTo(newPos);
-                } else {
-                    mStartMarker.requestFocus();
-                    markerFocus(mStartMarker);
                 }
             }
         };
@@ -1475,9 +1245,6 @@ public class LoroClipEditActivity extends Activity
                     if (newPos > mPlayEndMsec)
                         newPos = mPlayEndMsec;
                     mPlayer.seekTo(newPos);
-                } else {
-                    mEndMarker.requestFocus();
-                    markerFocus(mEndMarker);
                 }
             }
         };
