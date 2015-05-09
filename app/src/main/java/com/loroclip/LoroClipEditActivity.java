@@ -323,11 +323,8 @@ public class LoroClipEditActivity extends Activity
             if (mIsPlaying) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
-                if (seekMsec >= mPlayStartMsec &&
-                    seekMsec < mPlayEndMsec) {
+                if (seekMsec < mPlayEndMsec) {
                     mPlayer.seekTo(seekMsec);
-                } else {
-                    handlePause();
                 }
             } else {
                 onPlay((int)(mTouchStart + mOffset));
@@ -721,8 +718,6 @@ public class LoroClipEditActivity extends Activity
         }
 
         mWaveformView.setParameters(mStartPos, mEndPos, mOffset);
-        Log.d("testlog", String.valueOf(mPlayEndMsec));
-
         mWaveformView.invalidate();
 
         int startX = mStartPos - mOffset;
@@ -831,7 +826,8 @@ public class LoroClipEditActivity extends Activity
         if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.pause();
         }
-        mWaveformView.setPlayback(-1);
+//        mWaveformView.setPlayback(mWaveformView.getmPlaybackPos());
+        mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
         mIsPlaying = false;
         mWaveformView.setIsBookmarking(false);
         enableDisableButtons();
@@ -1223,7 +1219,12 @@ public class LoroClipEditActivity extends Activity
 
     private OnClickListener mPlayListener = new OnClickListener() {
             public void onClick(View sender) {
-                onPlay(mStartPos);
+                if (mPlayStartMsec == 0) {
+                    onPlay(mStartPos);
+                }
+                else {
+                    onPlay(mWaveformView.getmPlaybackPos());
+                }
             }
         };
 

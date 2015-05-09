@@ -32,7 +32,7 @@
   </style>
 
   <style name="ToolbarBackground">
-    <item name="android:background">#222233</item>
+    <item name="android:background">#666666</item>
   </style>
 
   <style name="ChooseContactBackground">
