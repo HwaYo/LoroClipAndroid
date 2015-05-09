@@ -58,7 +58,6 @@ public class WaveformView extends View {
     // Colors
     private Paint mGridPaint;
     private Paint mSelectedLinePaint;
-    private Paint mUnselectedLinePaint;
     private Paint mUnselectedBkgndLinePaint;
     private Paint mBorderLinePaint;
     private Paint mPlaybackLinePaint;
@@ -111,10 +110,6 @@ public class WaveformView extends View {
         mSelectedLinePaint.setAntiAlias(false);
         mSelectedLinePaint.setColor(
                 getResources().getColor(R.drawable.waveform_selected));
-        mUnselectedLinePaint = new Paint();
-        mUnselectedLinePaint.setAntiAlias(false);
-        mUnselectedLinePaint.setColor(
-                getResources().getColor(R.drawable.waveform_unselected));
         mUnselectedBkgndLinePaint = new Paint();
         mUnselectedBkgndLinePaint.setAntiAlias(false);
         mUnselectedBkgndLinePaint.setColor(
@@ -425,13 +420,11 @@ public class WaveformView extends View {
 
         // Draw waveform
         for (i = 0; i < width; i++) {
-            Paint paint;
+            Paint paint = mSelectedLinePaint;
             if (i + start >= mSelectionStart &&
                 i + start < mSelectionEnd) {
-                paint = mSelectedLinePaint;
             } else {
                 drawWaveformLine(canvas, i, 0, measuredHeight, mUnselectedBkgndLinePaint);
-                paint = mUnselectedLinePaint;
             }
 
             // real-time paint bookmark
@@ -470,7 +463,7 @@ public class WaveformView extends View {
             mBorderLinePaint);
         canvas.drawLine(
             mSelectionEnd - mOffset + 0.5f, 0,
-            mSelectionEnd - mOffset + 0.5f, measuredHeight - 30,
+            mSelectionEnd - mOffset + 0.5f, measuredHeight,
             mBorderLinePaint);
 
         // Draw timecode
