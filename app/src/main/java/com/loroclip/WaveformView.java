@@ -252,6 +252,7 @@ public class WaveformView extends View {
             mZoomLevel--;
             mSelectionStart *= 2;
             mSelectionEnd *= 2;
+            mPlaybackPos *= 2;
             mHeightsAtThisZoomLevel = null;
             int offsetCenter = mOffset + getMeasuredWidth() / 2;
             offsetCenter *= 2;
@@ -271,6 +272,7 @@ public class WaveformView extends View {
             mZoomLevel++;
             mSelectionStart /= 2;
             mSelectionEnd /= 2;
+            mPlaybackPos /= 2;
             int offsetCenter = mOffset + getMeasuredWidth() / 2;
             offsetCenter /= 2;
             mOffset = offsetCenter - getMeasuredWidth() / 2;
@@ -467,13 +469,7 @@ public class WaveformView extends View {
             mBorderLinePaint);
 
         // Draw timecode
-        double timecodeIntervalSecs = 1.0;
-        if (timecodeIntervalSecs / onePixelInSecs < 50) {
-            timecodeIntervalSecs = 5.0;
-        }
-        if (timecodeIntervalSecs / onePixelInSecs < 50) {
-            timecodeIntervalSecs = 15.0;
-        }
+        double timecodeIntervalSecs = 30.0;
 
         // Draw grid
         fractionalSecs = mOffset * onePixelInSecs;
