@@ -59,7 +59,7 @@
        android:layout_height="wrap_content"
        android:gravity="center_horizontal">
 
-      <Button android:id="@+id/save"
+      <Button android:id="@+id/recordSave"
          android:text="@string/file_save_button_save"
          android:layout_width="100sp" 
          android:layout_height="wrap_content"

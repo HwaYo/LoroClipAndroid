@@ -108,7 +108,7 @@
       <EditText
        android:id="@+id/endtext"
        android:nextFocusLeft="@+id/starttext"
-       android:nextFocusRight="@+id/save"
+       android:nextFocusRight="@+id/recordSave"
        android:textSize="16sp"
        android:inputType="number|numberDecimal"
        android:layout_width="70dip"

@@ -16,8 +16,6 @@
 
 package com.loroclip;
 
-import java.util.ArrayList;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -29,6 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 public class FileSaveDialog extends Dialog {
 
@@ -108,7 +108,7 @@ public class FileSaveDialog extends Dialog {
                 }
             });
 
-        Button save = (Button)findViewById(R.id.save);
+        Button save = (Button)findViewById(R.id.recordSave);
         save.setOnClickListener(saveListener);
         Button cancel = (Button)findViewById(R.id.cancel);
         cancel.setOnClickListener(cancelListener);
