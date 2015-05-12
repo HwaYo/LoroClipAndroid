@@ -259,6 +259,18 @@ public class WaveformView extends View {
             mOffset = offsetCenter - getMeasuredWidth() / 2;
             if (mOffset < 0)
                 mOffset = 0;
+            for (final ArrayList<Integer> arr : mBookmarkList) {
+                if (arr.size() == 4) {
+                    ArrayList<Integer> new_arr = new ArrayList<Integer>() {{
+                        add(arr.get(0));
+                        add(arr.get(1) * 2);
+                        add(arr.get(2) * 2);
+                        add(arr.get(3));
+
+                    }};
+                    mBookmarkList.set(mBookmarkList.indexOf(arr), new_arr);
+                }
+            }
             invalidate();
         }
     }
@@ -279,6 +291,19 @@ public class WaveformView extends View {
             if (mOffset < 0)
                 mOffset = 0;
             mHeightsAtThisZoomLevel = null;
+            for (final ArrayList<Integer> arr : mBookmarkList) {
+                if (arr.size() == 4) {
+                    ArrayList<Integer> new_arr = new ArrayList<Integer>() {{
+                        add(arr.get(0));
+                        add(arr.get(1) / 2);
+                        add(arr.get(2) / 2);
+                        add(arr.get(3));
+
+                    }};
+
+                    mBookmarkList.set(mBookmarkList.indexOf(arr), new_arr);
+                }
+            }
             invalidate();
         }
     }
@@ -363,6 +388,45 @@ public class WaveformView extends View {
         invalidate();
     }
 
+    public void drawBookmarkLine(Canvas canvas, int measuredHeight) {
+        for (ArrayList<Integer> arr : mBookmarkList) {
+            if (arr.size() == 4) {
+                mBookmarkLinePaint.setColor(arr.get(0));
+                int bmStart = arr.get(1);
+                int bmEnd = arr.get(2);
+
+                for (int k = bmStart; k <= bmEnd; k++) {
+                    canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
+                }
+            }
+        }
+    }
+
+    private void resetBookmarkByZoomLevel(){
+        for (ArrayList<Integer> arr : mBookmarkList) {
+            if (arr.size() == 4) {
+                int bmStart = arr.get(1);
+                int bmEnd = arr.get(2);
+
+                if (arr.get(3) < getZoomLevel()) {
+                    bmStart *= 2 * (arr.get(3) - getZoomLevel());
+                    bmEnd *= 2 * (arr.get(3) - getZoomLevel());
+                } else if (arr.get(3) < getZoomLevel()){
+                    bmStart /= 2 * (getZoomLevel() - arr.get(3));
+                    bmEnd /= 2 * (getZoomLevel() - arr.get(3));
+                }
+
+                Log.d("testlogstart", String.valueOf(bmStart));
+                Log.d("testlogend", String.valueOf(bmEnd));
+                Log.d(("testlogzoom"), String.valueOf(arr.get(3)));
+                Log.d(("testlogzoomlevel"), String.valueOf(getZoomLevel()));
+
+            }
+        }
+    }
+
+
+
     protected void drawWaveformLine(Canvas canvas,
                                     int x, int y0, int y1,
                                     Paint paint) {
@@ -410,15 +474,8 @@ public class WaveformView extends View {
             }
         }
 
+        drawBookmarkLine(canvas, measuredHeight);
 
-        for (ArrayList<Integer> arr : mBookmarkList) {
-            if (arr.size() == 3) {
-                mBookmarkLinePaint.setColor(arr.get(0));
-                for (int k = arr.get(1); k <= arr.get(2); k++) {
-                    canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
-                }
-            }
-        }
 
         // Draw waveform
         for (i = 0; i < width; i++) {

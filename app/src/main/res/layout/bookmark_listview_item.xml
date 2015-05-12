@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="40dip"
+    android:gravity="center_vertical"
+    android:background="@drawable/bookmark_list_selector">
+
+    <ImageView
+        android:layout_width="10dip"
+        android:layout_height="match_parent"
+        android:id="@+id/bookmarkColor"
+        android:background="#ffd8e5b8"
+        android:baselineAlignBottom="false" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView" />
+        android:id="@+id/bookmarkName"
+        android:text="Bookmark Name"
+        android:paddingLeft="15dip"
+        android:textSize="20dip" />
 
-    <ImageView
-        android:layout_width="5dip"
-        android:layout_height="10dip"
-        android:id="@+id/imageView"
-        android:background="#ffd8e5b8" />
 </LinearLayout>

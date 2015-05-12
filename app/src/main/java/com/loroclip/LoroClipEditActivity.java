@@ -282,10 +282,6 @@ public class LoroClipEditActivity extends Activity
         return super.onKeyDown(keyCode, event);
     }
 
-    //
-    // WaveformListener
-    //
-
     /**
      * Every time we get a message that our waveform drew, see if we need to
      * animate and trigger another redraw.
@@ -323,9 +319,12 @@ public class LoroClipEditActivity extends Activity
             if (mIsPlaying) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
-                if (seekMsec < mPlayEndMsec) {
-                    mPlayer.seekTo(seekMsec);
+
+                if (seekMsec <= mPlayer.getCurrentPosition()){
+                    mWaveformView.setIsBookmarking(false);
                 }
+
+                mPlayer.seekTo(seekMsec);
             } else {
                 onPlay((int)(mTouchStart + mOffset));
             }
@@ -414,10 +413,8 @@ public class LoroClipEditActivity extends Activity
         }
 
         bookmarkListView = (BookmarkListView) findViewById(R.id.bookmarkListView);
-        bookmarkListView.setAdapter(new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_single_choice, savedBookmarks.keySet().toArray(new String[savedBookmarks.keySet().size()])
-        ));
-        bookmarkListView.setOnItemClickListener(testListener);
+        bookmarkListView.setAdapter(new BookmarkListViewAdapter());
+        bookmarkListView.setOnItemClickListener(bookmarkListListener);
 
 
         updateDisplay();
@@ -459,8 +456,8 @@ public class LoroClipEditActivity extends Activity
                     long now = getCurrentTime();
                     if (now - mLoadingLastUpdateTime > 100) {
                         mProgressDialog.setProgress(
-                            (int)(mProgressDialog.getMax() *
-                                  fractionComplete));
+                                (int) (mProgressDialog.getMax() *
+                                        fractionComplete));
                         mLoadingLastUpdateTime = now;
                     }
                     return mLoadingKeepGoing;
@@ -472,7 +469,7 @@ public class LoroClipEditActivity extends Activity
             public void run() {
                 try {
                     mSoundFile = SoundFile.create(mFile.getAbsolutePath(),
-                                                       listener);
+                            listener);
 
                     if (mSoundFile == null) {
                         mProgressDialog.dismiss();
@@ -826,7 +823,11 @@ public class LoroClipEditActivity extends Activity
         if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.pause();
         }
-//        mWaveformView.setPlayback(mWaveformView.getmPlaybackPos());
+
+        for (int i=0;i<bookmarkListView.getChildCount();i++){
+            View v = bookmarkListView.getChildAt(i);
+            v.setSelected(false);
+        }
         mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
         mIsPlaying = false;
         mWaveformView.setIsBookmarking(false);
@@ -1230,10 +1231,9 @@ public class LoroClipEditActivity extends Activity
 
     private OnClickListener mRewindListener = new OnClickListener() {
             public void onClick(View sender) {
+                mWaveformView.setIsBookmarking(false);
                 if (mIsPlaying) {
                     int newPos = mPlayer.getCurrentPosition() - 5000;
-                    if (newPos < mPlayStartMsec)
-                        newPos = mPlayStartMsec;
                     mPlayer.seekTo(newPos);
                 }
             }
@@ -1250,24 +1250,26 @@ public class LoroClipEditActivity extends Activity
             }
         };
 
-    private AdapterView.OnItemClickListener testListener = new AdapterView.OnItemClickListener() {
+    private AdapterView.OnItemClickListener bookmarkListListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             String  bookmarkName    = (String) bookmarkListView.getItemAtPosition(position);
             int color = savedBookmarks.get(bookmarkName);
-            bookmarkListView.setItemChecked(position, true);
 
             if (mIsPlaying) {
                 if (mWaveformView.isBookmarking()) {
                     ArrayList<Integer> currentBookmark = mBookmarkList.get(mBookmarkList.size() - 1);
                     currentBookmark.add(mWaveformView.getmPlaybackPos());
+                    currentBookmark.add(mWaveformView.getZoomLevel());
                     mWaveformView.setmBookmarkList(mBookmarkList);
+                    view.setSelected(false);
                     mWaveformView.setIsBookmarking(false);
                 } else {
                     mBookmarkList.add(new ArrayList<Integer>());
                     ArrayList<Integer> currentBookmark = mBookmarkList.get(mBookmarkList.size() - 1);
                     currentBookmark.add(color);
                     currentBookmark.add(mWaveformView.getmPlaybackPos());
+                    view.setSelected(true);
                     mWaveformView.setIsBookmarking(true);
                     mWaveformView.setCurrentBookmarkPaintColor(color);
                 }

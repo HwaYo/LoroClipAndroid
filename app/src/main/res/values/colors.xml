@@ -27,6 +27,8 @@
   <drawable name="timecode">#ddffffdd</drawable>
   <drawable name="timecode_shadow">#aa000000</drawable>
 
+  <drawable name="bookmark_selected">#666666</drawable>
+
   <drawable name="type_bkgnd_alarm">#88880000</drawable>
   <drawable name="type_bkgnd_ringtone">#88008888</drawable>
   <drawable name="type_bkgnd_notification">#88666600</drawable>

@@ -90,11 +90,11 @@
      android:layout_width="match_parent"
      android:layout_height="wrap_content">
 
-  <com.loroclip.BookmarkListView
+     <com.loroclip.BookmarkListView
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/bookmarkListView" />
-
+      android:layout_height="120dip"
+      android:id="@+id/bookmarkListView"
+         android:smoothScrollbar="true" />
  </LinearLayout>
 
 </LinearLayout>

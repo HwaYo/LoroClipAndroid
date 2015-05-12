@@ -10,5 +10,11 @@ public class BookmarkMap extends HashMap<String, Integer> {
         put("important", 0xffe56673);
         put("i dont know", 0xffff66ff);
         put("great", 0xFF90FFB0);
+        put("important2", 0xffe56673);
+        put("i dont know2", 0xffff66ff);
+        put("great2", 0xFF90FFB0);
+        put("important3", 0xffe56673);
+        put("i dont know3", 0xffff66ff);
+        put("great3", 0xFF90FFB0);
     }
 }
