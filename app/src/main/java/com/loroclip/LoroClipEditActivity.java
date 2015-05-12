@@ -51,6 +51,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loroclip.model.Bookmark;
+import com.loroclip.model.BookmarkHistory;
 import com.loroclip.soundfile.SoundFile;
 
 public class LoroClipEditActivity extends Activity
@@ -109,6 +111,8 @@ public class LoroClipEditActivity extends Activity
     private ArrayList<ArrayList<Integer>> mBookmarkList;
     private BookmarkMap savedBookmarks;
     private BookmarkListView bookmarkListView;
+
+    private BookmarkHistory current_bookmark;
 
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
@@ -322,6 +326,7 @@ public class LoroClipEditActivity extends Activity
 
                 if (seekMsec <= mPlayer.getCurrentPosition()){
                     mWaveformView.setIsBookmarking(false);
+                    resetSelection();
                 }
 
                 mPlayer.seekTo(seekMsec);
@@ -398,6 +403,7 @@ public class LoroClipEditActivity extends Activity
 
         mWaveformView = (WaveformView)findViewById(R.id.waveform);
         mWaveformView.setListener(this);
+        mWaveformView.setmFilename(mFilename);
 
         mInfo = (TextView)findViewById(R.id.info);
         mInfo.setText(mCaption);
@@ -416,7 +422,7 @@ public class LoroClipEditActivity extends Activity
         bookmarkListView.setAdapter(new BookmarkListViewAdapter());
         bookmarkListView.setOnItemClickListener(bookmarkListListener);
 
-
+        mWaveformView.refreshBookmarkHistroyList();
         updateDisplay();
     }
 
@@ -470,7 +476,6 @@ public class LoroClipEditActivity extends Activity
                 try {
                     mSoundFile = SoundFile.create(mFile.getAbsolutePath(),
                             listener);
-
                     if (mSoundFile == null) {
                         mProgressDialog.dismiss();
                         String name = mFile.getName().toLowerCase();
@@ -717,8 +722,8 @@ public class LoroClipEditActivity extends Activity
         mWaveformView.setParameters(mStartPos, mEndPos, mOffset);
         mWaveformView.invalidate();
 
-        int startX = mStartPos - mOffset;
-        int endX = mEndPos - mOffset;
+
+
     }
 
     private Runnable mTimerRunnable = new Runnable() {
@@ -824,13 +829,10 @@ public class LoroClipEditActivity extends Activity
             mPlayer.pause();
         }
 
-        for (int i=0;i<bookmarkListView.getChildCount();i++){
-            View v = bookmarkListView.getChildAt(i);
-            v.setSelected(false);
-        }
         mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
         mIsPlaying = false;
         mWaveformView.setIsBookmarking(false);
+        resetSelection();
         enableDisableButtons();
     }
 
@@ -1254,28 +1256,31 @@ public class LoroClipEditActivity extends Activity
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             String  bookmarkName    = (String) bookmarkListView.getItemAtPosition(position);
-            int color = savedBookmarks.get(bookmarkName);
 
             if (mIsPlaying) {
                 if (mWaveformView.isBookmarking()) {
-                    ArrayList<Integer> currentBookmark = mBookmarkList.get(mBookmarkList.size() - 1);
-                    currentBookmark.add(mWaveformView.getmPlaybackPos());
-                    currentBookmark.add(mWaveformView.getZoomLevel());
-                    mWaveformView.setmBookmarkList(mBookmarkList);
+                    current_bookmark.setEnd(mWaveformView.getmPlaybackPos());
+                    current_bookmark.save();
                     view.setSelected(false);
                     mWaveformView.setIsBookmarking(false);
+                    mWaveformView.addBookmarkHistory(current_bookmark);
                 } else {
-                    mBookmarkList.add(new ArrayList<Integer>());
-                    ArrayList<Integer> currentBookmark = mBookmarkList.get(mBookmarkList.size() - 1);
-                    currentBookmark.add(color);
-                    currentBookmark.add(mWaveformView.getmPlaybackPos());
+                    Bookmark bookmark = Bookmark.find(Bookmark.class, "name = ?", bookmarkName).get(0);
+                    current_bookmark = new BookmarkHistory(mWaveformView.getmPlaybackPos(), mFilename, bookmark.getColor(), bookmark.getName());
                     view.setSelected(true);
                     mWaveformView.setIsBookmarking(true);
-                    mWaveformView.setCurrentBookmarkPaintColor(color);
+                    mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
                 }
             }
         }
     };
+
+    public void resetSelection(){
+        for (int i=0;i<bookmarkListView.getChildCount();i++){
+            View v = bookmarkListView.getChildAt(i);
+            v.setSelected(false);
+        }
+    }
 
     private long getCurrentTime() {
         return System.nanoTime() / 1000000;

@@ -42,12 +42,6 @@
                  android:largeHeap="true"
                  android:allowBackup="true">
 
-        <meta-data android:name="DATABASE" android:value="loroclip_data.db" />
-        <meta-data android:name="VERSION" android:value="2" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.loroclip" />
-
-
         <activity android:name="com.loroclip.LoroClipSelectActivity"
                   android:label="@string/main_activity_label">
             <intent-filter>
@@ -85,7 +79,7 @@
         </activity>
 
         <meta-data android:name="DATABASE" android:value="database.db" />
-        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="VERSION" android:value="3" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.loroclip" />
     </application>
