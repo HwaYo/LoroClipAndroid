@@ -18,17 +18,33 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="files" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8be080e-2b6e-474b-a139-946e4587963e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/commons_io_2_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/commons-io-2.4/build.gradle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/commons-io-2.4/commons-io-2.4.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/commons-io-2.4/commons-io-2.4.jar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/assets/sugar_upgrades/1.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Bookmark.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/LoroClipAndroid.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/WaveformView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/WaveformView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/editor.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/editor.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/editor.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout-land/editor.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LoroClipAndroid.iws" />
@@ -59,34 +75,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="activity_record.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.689655">
-              <caret line="80" column="36" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LoroClipEditActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-262.44446">
-              <caret line="670" column="8" selection-start-line="670" selection-start-column="8" selection-end-line="670" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SamplePlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/SamplePlayer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.222222">
-              <caret line="176" column="40" selection-start-line="176" selection-start-column="40" selection-end-line="176" selection-end-column="40" />
+            <state vertical-scroll-proportion="-68.888885">
+              <caret line="229" column="37" selection-start-line="229" selection-start-column="34" selection-end-line="229" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -95,8 +88,34 @@
       <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.4444447">
-              <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
+            <state vertical-scroll-proportion="-7.2222223">
+              <caret line="54" column="18" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="18" />
+              <folding>
+                <element signature="e#2668#2878#0" expanded="true" />
+                <element signature="e#2877#2878#0" expanded="true" />
+                <element signature="e#2923#3360#0" expanded="true" />
+                <element signature="e#3359#3360#0" expanded="true" />
+                <element signature="e#3404#3641#0" expanded="true" />
+                <element signature="e#3640#3641#0" expanded="true" />
+                <element signature="e#3722#3843#0" expanded="true" />
+                <element signature="e#3842#3843#0" expanded="true" />
+                <element signature="e#6024#7323#0" expanded="true" />
+                <element signature="e#6380#6609#0" expanded="true" />
+                <element signature="e#6608#6609#0" expanded="true" />
+                <element signature="e#7322#7323#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="save_dialog.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/save_dialog.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.6206896">
+              <caret line="7" column="197" selection-start-line="7" selection-start-column="197" selection-end-line="7" selection-end-column="197" />
               <folding />
             </state>
           </provider>
@@ -112,11 +131,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.56925994">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -126,36 +145,57 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SoundFile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/SoundFile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.666666">
-              <caret line="166" column="37" selection-start-line="166" selection-start-column="37" selection-end-line="166" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RecorderTask.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="12.111111">
-              <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
+              <caret line="93" column="17" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
               <folding>
-                <element signature="e#1320#1321#0" expanded="false" />
-                <element signature="e#1349#1350#0" expanded="false" />
-                <element signature="e#1435#1436#0" expanded="false" />
-                <element signature="e#1457#1458#0" expanded="false" />
-                <element signature="e#1481#1482#0" expanded="false" />
-                <element signature="e#1503#1504#0" expanded="false" />
-                <element signature="e#1530#1531#0" expanded="false" />
-                <element signature="e#1553#1554#0" expanded="false" />
+                <element signature="e#3725#3756#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoroClipSelectActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="11.55">
+              <caret line="496" column="26" selection-start-line="496" selection-start-column="24" selection-end-line="496" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="media_select.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/media_select.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bookmark_listview_item.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/bookmark_listview_item.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Record.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -200,6 +240,502 @@
     </option>
     <option name="availableTasks">
       <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <list>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugUnitTestJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preReleaseBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Creates a version of android.jar that's suitable for unit tests." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mockableAndroidJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseUnitTestJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preCompileReleaseUnitTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the android (on device) tests for the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugAndroidTestAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Release build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lintRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeReleaseAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all variants of all applications and secondary packages." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assemble" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs and runs instrumentation tests for all flavors on connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="connectedAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the Android dependencies of the project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="androidDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareReleaseDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Run unit tests for the debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="testDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="buildDependents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Release builds." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="installDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugUnitTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="checkReleaseManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareDebugDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDebugBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the android (on device) tests for the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="jarDebugClasses" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugResValues" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseUnitTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDebugAndroidTestBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lintDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAndroidTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare com.github.satyan:sugar:1.3.1" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareComGithubSatyanSugar131Library" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDebugUnitTestBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseUnitTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareReleaseUnitTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstalls the Release build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Run unit tests for all variants." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="test" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareDebugAndroidTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugAndroidTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugAndroidTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugAndroidTestBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs and runs the tests for Debug build on connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="connectedAndroidTestDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAndroidTestSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareDebugUnitTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="validateDebugSigning" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAndroidTestAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all the Test applications." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAndroidTestRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugAndroidTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dexDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAndroidTestNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeReleaseResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugSources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Uninstall all applications." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="uninstallAll" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugAndroidTestResValues" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugUnitTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDexDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="jarReleaseClasses" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the signing info for each variant." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="signingReport" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all checks." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="check" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on just the fatal issues in the Release build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lintVitalRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preDexDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks on currently connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="connectedCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Deletes the build directory." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="clean" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugAndroidTestAssets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="build" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="deviceCheck" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileLint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the android (on device) tests for the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="installDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects it depends on." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="buildNeeded" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugAndroidTestJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugNdk" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preReleaseUnitTestBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="packageDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preCompileDebugUnitTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileDebugRenderscript" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="preBuild" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="zipalignDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="compileReleaseJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateReleaseResValues" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the unit tests for the Debug build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleDebugUnitTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles all Debug builds." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="generateDebugBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processDebugAndroidTestManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="checkDebugManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="processReleaseJavaRes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the unit tests for the Release build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="assembleReleaseUnitTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs and runs instrumentation tests using all Device Providers." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="deviceAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on all variants." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="lint" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Run unit tests for the release build." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="testRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mergeDebugAndroidTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="dexDebug" />
+              </ExternalTaskPojo>
+            </list>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app">
           <value>
             <list>
@@ -577,6 +1113,11 @@
                 <option name="name" value="preReleaseUnitTestBuild" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare com.github.satyan:sugar:1.3.1" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="prepareComGithubSatyanSugar131Library" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="prepareDebugAndroidTestDependencies" />
               </ExternalTaskPojo>
@@ -695,7 +1236,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4293888888000" />
+        <entry key="$PROJECT_DIR$" value="4293889198000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -861,90 +1402,10 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.satyan/sugar/1.3.1/3b7ea56e1bf19fec967a9d1e91d55a6963816a26/sugar-1.3.1.aar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/app" />
-                      </ExternalModuleBuildClasspathPojo>
-                    </value>
-                  </entry>
-                  <entry key="$PROJECT_DIR$/commons-io-2.4">
-                    <value>
-                      <ExternalModuleBuildClasspathPojo>
-                        <option name="entries">
-                          <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.2.2/gradle-1.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.2.2/gradle-1.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/1.2.2/gradle-core-1.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/1.2.2/gradle-core-1.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/24.2.2/lint-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/24.2.2/lint-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-gradle/5.1/proguard-gradle-5.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-gradle/5.1/proguard-gradle-5.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.2.2/builder-1.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.2.2/builder-1.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.4/ecj-4.4-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.4/ecj-4.4.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/24.2.2/lint-checks-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/24.2.2/lint-checks-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.1/proguard-base-5.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.1/proguard-base-5.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/24.2.2/sdk-common-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/24.2.2/sdk-common-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/1.2.2/builder-test-api-1.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/1.2.2/builder-test-api-1.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/24.2.2/ddmlib-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/24.2.2/ddmlib-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.2.2/builder-model-1.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.2.2/builder-model-1.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/24.2.2/common-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/24.2.2/common-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/24.2.2/manifest-merger-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/24.2.2/manifest-merger-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/24.2.2/sdklib-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/24.2.2/sdklib-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.3/asm-5.0.3-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/24.2.2/lint-api-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/24.2.2/lint-api-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/24.2.2/annotations-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/24.2.2/annotations-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/17.0/guava-17.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/17.0/guava-17.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/24.2.2/dvlib-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/24.2.2/dvlib-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/24.2.2/layoutlib-api-24.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/24.2.2/layoutlib-api-24.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpcore/4.1/httpcore-4.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpcore/4.1/httpcore-4.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
-                          </list>
-                        </option>
-                        <option name="path" value="$PROJECT_DIR$/commons-io-2.4" />
                       </ExternalModuleBuildClasspathPojo>
                     </value>
                   </entry>
@@ -953,59 +1414,108 @@
               <option name="name" value="app" />
               <option name="projectBuildClasspath">
                 <list>
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/ant-1.9.3.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/ant-launcher-1.9.3.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-base-services-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-base-services-groovy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-cli-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-core-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-docs-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-launcher-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-messaging-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-model-core-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-model-groovy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-open-api-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-resources-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-tooling-api-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-ui-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-wrapper-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/groovy-all-2.3.6.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/ant-antlr-1.9.3.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-announce-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-antlr-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-build-comparison-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-build-init-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-code-quality-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-cunit-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-dependency-management-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-diagnostics-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ear-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ide-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ide-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ivy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-jacoco-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-javascript-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-jetty-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-groovy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-java-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-jvm-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-maven-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-osgi-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-platform-base-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-platform-jvm-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-platform-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-plugin-development-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-plugin-use-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-plugins-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-publish-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-reporting-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-resources-http-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-scala-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-signing-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-sonar-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/ivy-2.2.0.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/announce" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/antlr" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/base-services" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/base-services-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/build-comparison" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/build-init" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/cli" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/code-quality" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/core" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/cunit" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/dependency-management" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/diagnostics" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ear" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ide" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ide-native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/internal-integ-testing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/internal-testing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ivy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/jacoco" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/javascript" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/jetty" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-java" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-jvm" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/launcher" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/maven" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/messaging" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/model-core" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/model-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/open-api" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/osgi" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-base" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-jvm" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugin-development" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugin-use" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugins" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/publish" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/reporting" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/resources" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/resources-http" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/scala" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/signing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/sonar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/tooling-api" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ui" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/wrapper" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/ant-1.9.3.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/ant-launcher-1.9.3.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-base-services-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-base-services-groovy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-cli-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-core-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-docs-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-launcher-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-messaging-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-model-core-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-model-groovy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-open-api-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-resources-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-tooling-api-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-ui-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-wrapper-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/groovy-all-2.3.6.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/ant-antlr-1.9.3.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-announce-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-antlr-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-build-comparison-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-build-init-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-code-quality-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-cunit-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-dependency-management-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-diagnostics-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ear-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ide-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ide-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ivy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-jacoco-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-javascript-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-jetty-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-groovy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-java-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-jvm-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-maven-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-osgi-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-base-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-jvm-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugin-development-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugin-use-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugins-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-publish-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-reporting-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-resources-http-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-scala-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-signing-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-sonar-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/ivy-2.2.0.jar" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/java" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/groovy" />
                 </list>
@@ -1035,16 +1545,19 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordWaveformView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/editor.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/WaveformView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/SoundFile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/SamplePlayer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/util/RecordWaveformView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/save_dialog.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1062,7 +1575,7 @@
     <option name="width" value="1680" />
     <option name="height" value="1050" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -1085,73 +1598,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="loroclip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="loroclip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recorder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1168,6 +1614,137 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="LoroClipAndroid" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="media_select_row.xml" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="media_select.xml" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loroclip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1200,6 +1777,9 @@
       <recent name="com.loroclip.recorder" />
       <recent name="com.loroclip.recorder.util" />
       <recent name="com.loroclip" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
     </key>
     <key name="android.template.packageName">
       <recent name="com.loroclip" />
@@ -1411,7 +1991,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1419,19 +1999,19 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39958158" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41945606" sideWeight="0.502442" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41945606" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41945606" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24725275" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24725275" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1464,19 +2044,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java</url>
-          <line>1464</line>
+          <line>1231</line>
           <properties />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/WaveformView.java</url>
-          <line>530</line>
+          <line>519</line>
           <properties />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/WaveformView.java</url>
-          <line>544</line>
+          <line>533</line>
           <properties />
           <option name="timeStamp" value="33" />
         </line-breakpoint>
@@ -1494,7 +2074,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java</url>
-          <line>976</line>
+          <line>743</line>
           <properties class="com.loroclip.LoroClipEditActivity" />
           <option name="timeStamp" value="23" />
         </line-breakpoint>
@@ -1504,46 +2084,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Applications/sdk/sources/android-21/java/lang/Exception.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/util/WaveFileHeaderCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="3" selection-start-line="55" selection-start-column="3" selection-end-line="55" selection-end-column="3" />
-          <folding>
-            <element signature="e#1320#1321#0" expanded="false" />
-            <element signature="e#1349#1350#0" expanded="false" />
-            <element signature="e#1435#1436#0" expanded="false" />
-            <element signature="e#1457#1458#0" expanded="false" />
-            <element signature="e#1481#1482#0" expanded="false" />
-            <element signature="e#1503#1504#0" expanded="false" />
-            <element signature="e#1530#1531#0" expanded="false" />
-            <element signature="e#1553#1554#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/PlayerTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1560,7 +2100,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1568,7 +2107,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="127" column="1" selection-start-line="127" selection-start-column="1" selection-end-line="128" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1576,7 +2114,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="122" column="33" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="33" />
-          <folding />
+          <folding>
+            <element signature="e#2668#2878#0" expanded="true" />
+            <element signature="e#2877#2878#0" expanded="true" />
+            <element signature="e#2923#3360#0" expanded="true" />
+            <element signature="e#3359#3360#0" expanded="true" />
+            <element signature="e#3404#3641#0" expanded="true" />
+            <element signature="e#3640#3641#0" expanded="true" />
+            <element signature="e#3722#3843#0" expanded="true" />
+            <element signature="e#3842#3843#0" expanded="true" />
+            <element signature="e#6024#7323#0" expanded="true" />
+            <element signature="e#6380#6609#0" expanded="true" />
+            <element signature="e#6608#6609#0" expanded="true" />
+            <element signature="e#7322#7323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1584,440 +2135,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4445" column="0" selection-start-line="4445" selection-start-column="0" selection-end-line="4445" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#814119#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#61629#61635#0" expanded="false" />
-            <element signature="e#135207#135208#0" expanded="false" />
-            <element signature="e#135246#135247#0" expanded="false" />
-            <element signature="e#178357#178358#0" expanded="false" />
-            <element signature="e#178406#178407#0" expanded="false" />
-            <element signature="e#186080#186081#0" expanded="false" />
-            <element signature="e#186144#186145#0" expanded="false" />
-            <element signature="e#186564#186565#0" expanded="false" />
-            <element signature="e#186604#186605#0" expanded="false" />
-            <element signature="e#187379#187380#0" expanded="false" />
-            <element signature="e#187431#187432#0" expanded="false" />
-            <element signature="e#187644#187645#0" expanded="false" />
-            <element signature="e#187698#187699#0" expanded="false" />
-            <element signature="e#188220#188221#0" expanded="false" />
-            <element signature="e#188274#188275#0" expanded="false" />
-            <element signature="e#188719#188720#0" expanded="false" />
-            <element signature="e#188772#188773#0" expanded="false" />
-            <element signature="e#195978#195979#0" expanded="false" />
-            <element signature="e#196037#196038#0" expanded="false" />
-            <element signature="e#220898#220899#0" expanded="false" />
-            <element signature="e#220942#220943#0" expanded="false" />
-            <element signature="e#229325#229326#0" expanded="false" />
-            <element signature="e#229370#229371#0" expanded="false" />
-            <element signature="e#232471#232472#0" expanded="false" />
-            <element signature="e#232513#232514#0" expanded="false" />
-            <element signature="e#234126#234127#0" expanded="false" />
-            <element signature="e#234160#234161#0" expanded="false" />
-            <element signature="e#235187#235188#0" expanded="false" />
-            <element signature="e#235222#235223#0" expanded="false" />
-            <element signature="e#235736#235737#0" expanded="false" />
-            <element signature="e#235795#235796#0" expanded="false" />
-            <element signature="e#236046#236047#0" expanded="false" />
-            <element signature="e#236119#236120#0" expanded="false" />
-            <element signature="e#238062#238063#0" expanded="false" />
-            <element signature="e#238124#238125#0" expanded="false" />
-            <element signature="e#239106#239107#0" expanded="false" />
-            <element signature="e#239163#239164#0" expanded="false" />
-            <element signature="e#239895#239896#0" expanded="false" />
-            <element signature="e#239934#239935#0" expanded="false" />
-            <element signature="e#240274#240275#0" expanded="false" />
-            <element signature="e#240324#240325#0" expanded="false" />
-            <element signature="e#240625#240626#0" expanded="false" />
-            <element signature="e#240665#240666#0" expanded="false" />
-            <element signature="e#241010#241011#0" expanded="false" />
-            <element signature="e#241062#241063#0" expanded="false" />
-            <element signature="e#241354#241355#0" expanded="false" />
-            <element signature="e#241391#241392#0" expanded="false" />
-            <element signature="e#241721#241722#0" expanded="false" />
-            <element signature="e#241767#241768#0" expanded="false" />
-            <element signature="e#242065#242066#0" expanded="false" />
-            <element signature="e#242104#242105#0" expanded="false" />
-            <element signature="e#242444#242445#0" expanded="false" />
-            <element signature="e#242494#242495#0" expanded="false" />
-            <element signature="e#242801#242802#0" expanded="false" />
-            <element signature="e#242843#242844#0" expanded="false" />
-            <element signature="e#258166#258167#0" expanded="false" />
-            <element signature="e#258211#258212#0" expanded="false" />
-            <element signature="e#258675#258676#0" expanded="false" />
-            <element signature="e#258716#258717#0" expanded="false" />
-            <element signature="e#259461#259462#0" expanded="false" />
-            <element signature="e#259512#259513#0" expanded="false" />
-            <element signature="e#260212#260213#0" expanded="false" />
-            <element signature="e#260273#260274#0" expanded="false" />
-            <element signature="e#268772#268773#0" expanded="false" />
-            <element signature="e#268841#268842#0" expanded="false" />
-            <element signature="e#271598#271599#0" expanded="false" />
-            <element signature="e#271640#271641#0" expanded="false" />
-            <element signature="e#272694#272695#0" expanded="false" />
-            <element signature="e#272758#272759#0" expanded="false" />
-            <element signature="e#273990#273991#0" expanded="false" />
-            <element signature="e#274050#274051#0" expanded="false" />
-            <element signature="e#274515#274516#0" expanded="false" />
-            <element signature="e#274577#274578#0" expanded="false" />
-            <element signature="e#274880#274881#0" expanded="false" />
-            <element signature="e#274950#274951#0" expanded="false" />
-            <element signature="e#277569#277570#0" expanded="false" />
-            <element signature="e#277640#277641#0" expanded="false" />
-            <element signature="e#278013#278014#0" expanded="false" />
-            <element signature="e#278086#278087#0" expanded="false" />
-            <element signature="e#281634#281635#0" expanded="false" />
-            <element signature="e#281699#281700#0" expanded="false" />
-            <element signature="e#285205#285206#0" expanded="false" />
-            <element signature="e#285287#285288#0" expanded="false" />
-            <element signature="e#286168#286174#0" expanded="false" />
-            <element signature="e#289831#289837#0" expanded="false" />
-            <element signature="e#295374#295375#0" expanded="false" />
-            <element signature="e#295426#295427#0" expanded="false" />
-            <element signature="e#296379#296380#0" expanded="false" />
-            <element signature="e#296431#296432#0" expanded="false" />
-            <element signature="e#320707#320708#0" expanded="false" />
-            <element signature="e#320753#320754#0" expanded="false" />
-            <element signature="e#320959#320960#0" expanded="false" />
-            <element signature="e#320987#320988#0" expanded="false" />
-            <element signature="e#321067#321068#0" expanded="false" />
-            <element signature="e#321118#321119#0" expanded="false" />
-            <element signature="e#321196#321197#0" expanded="false" />
-            <element signature="e#321251#321252#0" expanded="false" />
-            <element signature="e#324235#324236#0" expanded="false" />
-            <element signature="e#324275#324276#0" expanded="false" />
-            <element signature="e#324820#324821#0" expanded="false" />
-            <element signature="e#324861#324862#0" expanded="false" />
-            <element signature="e#334002#334003#0" expanded="false" />
-            <element signature="e#334030#334031#0" expanded="false" />
-            <element signature="e#334465#334466#0" expanded="false" />
-            <element signature="e#334493#334494#0" expanded="false" />
-            <element signature="e#334922#334923#0" expanded="false" />
-            <element signature="e#334950#334951#0" expanded="false" />
-            <element signature="e#336108#336109#0" expanded="false" />
-            <element signature="e#336154#336155#0" expanded="false" />
-            <element signature="e#337564#337565#0" expanded="false" />
-            <element signature="e#337637#337638#0" expanded="false" />
-            <element signature="e#339357#339358#0" expanded="false" />
-            <element signature="e#339392#339393#0" expanded="false" />
-            <element signature="e#346228#346229#0" expanded="false" />
-            <element signature="e#346259#346260#0" expanded="false" />
-            <element signature="e#346963#346964#0" expanded="false" />
-            <element signature="e#346991#346992#0" expanded="false" />
-            <element signature="e#348843#348844#0" expanded="false" />
-            <element signature="e#348871#348872#0" expanded="false" />
-            <element signature="e#350919#350920#0" expanded="false" />
-            <element signature="e#350947#350948#0" expanded="false" />
-            <element signature="e#351582#351583#0" expanded="false" />
-            <element signature="e#351610#351611#0" expanded="false" />
-            <element signature="e#352580#352581#0" expanded="false" />
-            <element signature="e#352608#352609#0" expanded="false" />
-            <element signature="e#353734#353735#0" expanded="false" />
-            <element signature="e#353761#353762#0" expanded="false" />
-            <element signature="e#354333#354334#0" expanded="false" />
-            <element signature="e#354361#354362#0" expanded="false" />
-            <element signature="e#356083#356084#0" expanded="false" />
-            <element signature="e#356110#356111#0" expanded="false" />
-            <element signature="e#357042#357043#0" expanded="false" />
-            <element signature="e#357070#357071#0" expanded="false" />
-            <element signature="e#358870#358871#0" expanded="false" />
-            <element signature="e#358898#358899#0" expanded="false" />
-            <element signature="e#363654#363655#0" expanded="false" />
-            <element signature="e#363713#363714#0" expanded="false" />
-            <element signature="e#373979#373980#0" expanded="false" />
-            <element signature="e#374020#374021#0" expanded="false" />
-            <element signature="e#374128#374129#0" expanded="false" />
-            <element signature="e#374165#374166#0" expanded="false" />
-            <element signature="e#385896#385897#0" expanded="false" />
-            <element signature="e#385926#385927#0" expanded="false" />
-            <element signature="e#386208#386209#0" expanded="false" />
-            <element signature="e#386249#386250#0" expanded="false" />
-            <element signature="e#386529#386530#0" expanded="false" />
-            <element signature="e#386570#386571#0" expanded="false" />
-            <element signature="e#386950#386951#0" expanded="false" />
-            <element signature="e#386981#386982#0" expanded="false" />
-            <element signature="e#387347#387348#0" expanded="false" />
-            <element signature="e#387378#387379#0" expanded="false" />
-            <element signature="e#387581#387582#0" expanded="false" />
-            <element signature="e#387618#387619#0" expanded="false" />
-            <element signature="e#387820#387821#0" expanded="false" />
-            <element signature="e#387857#387858#0" expanded="false" />
-            <element signature="e#388802#388803#0" expanded="false" />
-            <element signature="e#388860#388861#0" expanded="false" />
-            <element signature="e#389399#389400#0" expanded="false" />
-            <element signature="e#389436#389437#0" expanded="false" />
-            <element signature="e#389724#389725#0" expanded="false" />
-            <element signature="e#389783#389784#0" expanded="false" />
-            <element signature="e#390325#390326#0" expanded="false" />
-            <element signature="e#390363#390364#0" expanded="false" />
-            <element signature="e#391775#391776#0" expanded="false" />
-            <element signature="e#391829#391830#0" expanded="false" />
-            <element signature="e#395723#395724#0" expanded="false" />
-            <element signature="e#395771#395772#0" expanded="false" />
-            <element signature="e#396971#396972#0" expanded="false" />
-            <element signature="e#397020#397021#0" expanded="false" />
-            <element signature="e#398447#398448#0" expanded="false" />
-            <element signature="e#398496#398497#0" expanded="false" />
-            <element signature="e#399999#400000#0" expanded="false" />
-            <element signature="e#400045#400046#0" expanded="false" />
-            <element signature="e#401173#401174#0" expanded="false" />
-            <element signature="e#401219#401220#0" expanded="false" />
-            <element signature="e#402391#402392#0" expanded="false" />
-            <element signature="e#402437#402438#0" expanded="false" />
-            <element signature="e#403830#403831#0" expanded="false" />
-            <element signature="e#403876#403877#0" expanded="false" />
-            <element signature="e#405138#405139#0" expanded="false" />
-            <element signature="e#405221#405222#0" expanded="false" />
-            <element signature="e#406515#406516#0" expanded="false" />
-            <element signature="e#406542#406543#0" expanded="false" />
-            <element signature="e#411998#411999#0" expanded="false" />
-            <element signature="e#412025#412026#0" expanded="false" />
-            <element signature="e#414067#414068#0" expanded="false" />
-            <element signature="e#414097#414098#0" expanded="false" />
-            <element signature="e#414267#414268#0" expanded="false" />
-            <element signature="e#414329#414330#0" expanded="false" />
-            <element signature="e#416314#416315#0" expanded="false" />
-            <element signature="e#416342#416343#0" expanded="false" />
-            <element signature="e#418406#418407#0" expanded="false" />
-            <element signature="e#418435#418436#0" expanded="false" />
-            <element signature="e#420563#420564#0" expanded="false" />
-            <element signature="e#420611#420612#0" expanded="false" />
-            <element signature="e#420992#420993#0" expanded="false" />
-            <element signature="e#421034#421035#0" expanded="false" />
-            <element signature="e#421397#421398#0" expanded="false" />
-            <element signature="e#421444#421445#0" expanded="false" />
-            <element signature="e#421823#421824#0" expanded="false" />
-            <element signature="e#421864#421865#0" expanded="false" />
-            <element signature="e#422239#422240#0" expanded="false" />
-            <element signature="e#422296#422297#0" expanded="false" />
-            <element signature="e#422687#422688#0" expanded="false" />
-            <element signature="e#422738#422739#0" expanded="false" />
-            <element signature="e#422987#422988#0" expanded="false" />
-            <element signature="e#423036#423037#0" expanded="false" />
-            <element signature="e#423884#423885#0" expanded="false" />
-            <element signature="e#423936#423937#0" expanded="false" />
-            <element signature="e#425150#425151#0" expanded="false" />
-            <element signature="e#425202#425203#0" expanded="false" />
-            <element signature="e#426215#426216#0" expanded="false" />
-            <element signature="e#426267#426268#0" expanded="false" />
-            <element signature="e#427314#427315#0" expanded="false" />
-            <element signature="e#427355#427356#0" expanded="false" />
-            <element signature="e#428559#428560#0" expanded="false" />
-            <element signature="e#428612#428613#0" expanded="false" />
-            <element signature="e#431717#431718#0" expanded="false" />
-            <element signature="e#431756#431757#0" expanded="false" />
-            <element signature="e#433454#433455#0" expanded="false" />
-            <element signature="e#433500#433501#0" expanded="false" />
-            <element signature="e#435836#435837#0" expanded="false" />
-            <element signature="e#435869#435870#0" expanded="false" />
-            <element signature="e#437173#437174#0" expanded="false" />
-            <element signature="e#437225#437226#0" expanded="false" />
-            <element signature="e#442128#442129#0" expanded="false" />
-            <element signature="e#442164#442165#0" expanded="false" />
-            <element signature="e#444331#444332#0" expanded="false" />
-            <element signature="e#444383#444384#0" expanded="false" />
-            <element signature="e#453573#453574#0" expanded="false" />
-            <element signature="e#453605#453606#0" expanded="false" />
-            <element signature="e#456852#456853#0" expanded="false" />
-            <element signature="e#456894#456895#0" expanded="false" />
-            <element signature="e#469756#469757#0" expanded="false" />
-            <element signature="e#469796#469797#0" expanded="false" />
-            <element signature="e#488629#488630#0" expanded="false" />
-            <element signature="e#488686#488687#0" expanded="false" />
-            <element signature="e#489373#489374#0" expanded="false" />
-            <element signature="e#489406#489407#0" expanded="false" />
-            <element signature="e#490175#490176#0" expanded="false" />
-            <element signature="e#490206#490207#0" expanded="false" />
-            <element signature="e#490973#490974#0" expanded="false" />
-            <element signature="e#491006#491007#0" expanded="false" />
-            <element signature="e#491654#491655#0" expanded="false" />
-            <element signature="e#491688#491689#0" expanded="false" />
-            <element signature="e#492441#492442#0" expanded="false" />
-            <element signature="e#492472#492473#0" expanded="false" />
-            <element signature="e#493222#493223#0" expanded="false" />
-            <element signature="e#493256#493257#0" expanded="false" />
-            <element signature="e#500264#500265#0" expanded="false" />
-            <element signature="e#500292#500293#0" expanded="false" />
-            <element signature="e#505045#505046#0" expanded="false" />
-            <element signature="e#505094#505095#0" expanded="false" />
-            <element signature="e#505727#505728#0" expanded="false" />
-            <element signature="e#505795#505796#0" expanded="false" />
-            <element signature="e#513960#513961#0" expanded="false" />
-            <element signature="e#514018#514019#0" expanded="false" />
-            <element signature="e#515617#515618#0" expanded="false" />
-            <element signature="e#515658#515659#0" expanded="false" />
-            <element signature="e#517705#517706#0" expanded="false" />
-            <element signature="e#517777#517778#0" expanded="false" />
-            <element signature="e#523008#523009#0" expanded="false" />
-            <element signature="e#523058#523059#0" expanded="false" />
-            <element signature="e#530573#530574#0" expanded="false" />
-            <element signature="e#530646#530647#0" expanded="false" />
-            <element signature="e#537153#537154#0" expanded="false" />
-            <element signature="e#537180#537181#0" expanded="false" />
-            <element signature="e#537858#537859#0" expanded="false" />
-            <element signature="e#537891#537892#0" expanded="false" />
-            <element signature="e#539498#539499#0" expanded="false" />
-            <element signature="e#539525#539526#0" expanded="false" />
-            <element signature="e#548088#548089#0" expanded="false" />
-            <element signature="e#548133#548134#0" expanded="false" />
-            <element signature="e#551618#551619#0" expanded="false" />
-            <element signature="e#551669#551670#0" expanded="false" />
-            <element signature="e#551869#551870#0" expanded="false" />
-            <element signature="e#551909#551910#0" expanded="false" />
-            <element signature="e#562892#562893#0" expanded="false" />
-            <element signature="e#562920#562921#0" expanded="false" />
-            <element signature="e#563637#563638#0" expanded="false" />
-            <element signature="e#563665#563666#0" expanded="false" />
-            <element signature="e#563987#563988#0" expanded="false" />
-            <element signature="e#564011#564012#0" expanded="false" />
-            <element signature="e#564336#564337#0" expanded="false" />
-            <element signature="e#564360#564361#0" expanded="false" />
-            <element signature="e#564679#564680#0" expanded="false" />
-            <element signature="e#564703#564704#0" expanded="false" />
-            <element signature="e#565031#565032#0" expanded="false" />
-            <element signature="e#565055#565056#0" expanded="false" />
-            <element signature="e#567967#567968#0" expanded="false" />
-            <element signature="e#568042#568043#0" expanded="false" />
-            <element signature="e#601771#601772#0" expanded="false" />
-            <element signature="e#601795#601796#0" expanded="false" />
-            <element signature="e#611712#611713#0" expanded="false" />
-            <element signature="e#611745#611746#0" expanded="false" />
-            <element signature="e#616248#616249#0" expanded="false" />
-            <element signature="e#616307#616308#0" expanded="false" />
-            <element signature="e#617301#617302#0" expanded="false" />
-            <element signature="e#617342#617343#0" expanded="false" />
-            <element signature="e#630535#630536#0" expanded="false" />
-            <element signature="e#630569#630570#0" expanded="false" />
-            <element signature="e#638670#638671#0" expanded="false" />
-            <element signature="e#638704#638705#0" expanded="false" />
-            <element signature="e#638990#638991#0" expanded="false" />
-            <element signature="e#639027#639028#0" expanded="false" />
-            <element signature="e#642856#642857#0" expanded="false" />
-            <element signature="e#642894#642895#0" expanded="false" />
-            <element signature="e#644268#644269#0" expanded="false" />
-            <element signature="e#644328#644329#0" expanded="false" />
-            <element signature="e#645901#645902#0" expanded="false" />
-            <element signature="e#645962#645963#0" expanded="false" />
-            <element signature="e#658602#658603#0" expanded="false" />
-            <element signature="e#658669#658670#0" expanded="false" />
-            <element signature="e#659015#659016#0" expanded="false" />
-            <element signature="e#659041#659042#0" expanded="false" />
-            <element signature="e#659316#659317#0" expanded="false" />
-            <element signature="e#659343#659344#0" expanded="false" />
-            <element signature="e#659787#659788#0" expanded="false" />
-            <element signature="e#659813#659814#0" expanded="false" />
-            <element signature="e#662305#662306#0" expanded="false" />
-            <element signature="e#662329#662330#0" expanded="false" />
-            <element signature="e#665434#665435#0" expanded="false" />
-            <element signature="e#665459#665460#0" expanded="false" />
-            <element signature="e#680186#680187#0" expanded="false" />
-            <element signature="e#680219#680220#0" expanded="false" />
-            <element signature="e#680994#680995#0" expanded="false" />
-            <element signature="e#681026#681027#0" expanded="false" />
-            <element signature="e#681759#681760#0" expanded="false" />
-            <element signature="e#681799#681800#0" expanded="false" />
-            <element signature="e#684021#684022#0" expanded="false" />
-            <element signature="e#684077#684078#0" expanded="false" />
-            <element signature="e#684415#684416#0" expanded="false" />
-            <element signature="e#684472#684473#0" expanded="false" />
-            <element signature="e#685149#685150#0" expanded="false" />
-            <element signature="e#685177#685178#0" expanded="false" />
-            <element signature="e#692928#692929#0" expanded="false" />
-            <element signature="e#692970#692971#0" expanded="false" />
-            <element signature="e#697954#697955#0" expanded="false" />
-            <element signature="e#698015#698016#0" expanded="false" />
-            <element signature="e#698534#698535#0" expanded="false" />
-            <element signature="e#698595#698596#0" expanded="false" />
-            <element signature="e#699128#699129#0" expanded="false" />
-            <element signature="e#699170#699171#0" expanded="false" />
-            <element signature="e#707873#707874#0" expanded="false" />
-            <element signature="e#707901#707902#0" expanded="false" />
-            <element signature="e#709070#709071#0" expanded="false" />
-            <element signature="e#709139#709140#0" expanded="false" />
-            <element signature="e#716936#716937#0" expanded="false" />
-            <element signature="e#716974#716975#0" expanded="false" />
-            <element signature="e#723493#723494#0" expanded="false" />
-            <element signature="e#723546#723547#0" expanded="false" />
-            <element signature="e#755143#755144#0" expanded="false" />
-            <element signature="e#755189#755190#0" expanded="false" />
-            <element signature="e#755248#755249#0" expanded="false" />
-            <element signature="e#755296#755297#0" expanded="false" />
-            <element signature="e#755678#755679#0" expanded="false" />
-            <element signature="e#755731#755732#0" expanded="false" />
-            <element signature="e#755798#755799#0" expanded="false" />
-            <element signature="e#755853#755854#0" expanded="false" />
-            <element signature="e#756235#756236#0" expanded="false" />
-            <element signature="e#756288#756289#0" expanded="false" />
-            <element signature="e#756347#756348#0" expanded="false" />
-            <element signature="e#756402#756403#0" expanded="false" />
-            <element signature="e#756784#756785#0" expanded="false" />
-            <element signature="e#756837#756838#0" expanded="false" />
-            <element signature="e#756896#756897#0" expanded="false" />
-            <element signature="e#756951#756952#0" expanded="false" />
-            <element signature="e#757277#757278#0" expanded="false" />
-            <element signature="e#757319#757320#0" expanded="false" />
-            <element signature="e#757378#757379#0" expanded="false" />
-            <element signature="e#757422#757423#0" expanded="false" />
-            <element signature="e#757748#757749#0" expanded="false" />
-            <element signature="e#757790#757791#0" expanded="false" />
-            <element signature="e#757849#757850#0" expanded="false" />
-            <element signature="e#757893#757894#0" expanded="false" />
-            <element signature="e#758219#758220#0" expanded="false" />
-            <element signature="e#758261#758262#0" expanded="false" />
-            <element signature="e#758320#758321#0" expanded="false" />
-            <element signature="e#758364#758365#0" expanded="false" />
-            <element signature="e#758725#758726#0" expanded="false" />
-            <element signature="e#758774#758775#0" expanded="false" />
-            <element signature="e#758833#758834#0" expanded="false" />
-            <element signature="e#758884#758885#0" expanded="false" />
-            <element signature="e#759251#759252#0" expanded="false" />
-            <element signature="e#759301#759302#0" expanded="false" />
-            <element signature="e#759360#759361#0" expanded="false" />
-            <element signature="e#759412#759413#0" expanded="false" />
-            <element signature="e#759779#759780#0" expanded="false" />
-            <element signature="e#759829#759830#0" expanded="false" />
-            <element signature="e#759888#759889#0" expanded="false" />
-            <element signature="e#759940#759941#0" expanded="false" />
-            <element signature="e#760292#760293#0" expanded="false" />
-            <element signature="e#760339#760340#0" expanded="false" />
-            <element signature="e#760398#760399#0" expanded="false" />
-            <element signature="e#760447#760448#0" expanded="false" />
-            <element signature="e#760799#760800#0" expanded="false" />
-            <element signature="e#760846#760847#0" expanded="false" />
-            <element signature="e#760905#760906#0" expanded="false" />
-            <element signature="e#760954#760955#0" expanded="false" />
-            <element signature="e#764548#764549#0" expanded="false" />
-            <element signature="e#764604#764605#0" expanded="false" />
-            <element signature="e#764928#764929#0" expanded="false" />
-            <element signature="e#764985#764986#0" expanded="false" />
-            <element signature="e#766975#766976#0" expanded="false" />
-            <element signature="e#767046#767047#0" expanded="false" />
-            <element signature="e#767478#767479#0" expanded="false" />
-            <element signature="e#767516#767517#0" expanded="false" />
-            <element signature="e#768383#768384#0" expanded="false" />
-            <element signature="e#768431#768432#0" expanded="false" />
-            <element signature="e#768866#768867#0" expanded="false" />
-            <element signature="e#768904#768905#0" expanded="false" />
-            <element signature="e#778719#778720#0" expanded="false" />
-            <element signature="e#778760#778761#0" expanded="false" />
-            <element signature="e#779187#779188#0" expanded="false" />
-            <element signature="e#779224#779225#0" expanded="false" />
-            <element signature="e#779473#779474#0" expanded="false" />
-            <element signature="e#779514#779515#0" expanded="false" />
-            <element signature="e#779711#779712#0" expanded="false" />
-            <element signature="e#779772#779773#0" expanded="false" />
-            <element signature="e#779830#779831#0" expanded="false" />
-            <element signature="e#779893#779894#0" expanded="false" />
-            <element signature="e#780865#780881#0" expanded="false" />
-            <element signature="e#785010#785016#0" expanded="false" />
-            <element signature="e#790478#790484#0" expanded="false" />
-            <element signature="e#807987#807988#0" expanded="false" />
-            <element signature="e#808022#808023#0" expanded="false" />
-            <element signature="e#809399#809400#0" expanded="false" />
-            <element signature="e#809447#809448#0" expanded="false" />
-            <element signature="e#809617#809618#0" expanded="false" />
-            <element signature="e#809680#809681#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2036,30 +2153,21 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-          <folding>
-            <element signature="e#1320#1321#0" expanded="false" />
-            <element signature="e#1349#1350#0" expanded="false" />
-            <element signature="e#1435#1436#0" expanded="false" />
-            <element signature="e#1457#1458#0" expanded="false" />
-            <element signature="e#1481#1482#0" expanded="false" />
-            <element signature="e#1503#1504#0" expanded="false" />
-            <element signature="e#1530#1531#0" expanded="false" />
-            <element signature="e#1553#1554#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2107,440 +2215,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4445" column="0" selection-start-line="4445" selection-start-column="0" selection-end-line="4445" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#814119#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#61629#61635#0" expanded="false" />
-            <element signature="e#135207#135208#0" expanded="false" />
-            <element signature="e#135246#135247#0" expanded="false" />
-            <element signature="e#178357#178358#0" expanded="false" />
-            <element signature="e#178406#178407#0" expanded="false" />
-            <element signature="e#186080#186081#0" expanded="false" />
-            <element signature="e#186144#186145#0" expanded="false" />
-            <element signature="e#186564#186565#0" expanded="false" />
-            <element signature="e#186604#186605#0" expanded="false" />
-            <element signature="e#187379#187380#0" expanded="false" />
-            <element signature="e#187431#187432#0" expanded="false" />
-            <element signature="e#187644#187645#0" expanded="false" />
-            <element signature="e#187698#187699#0" expanded="false" />
-            <element signature="e#188220#188221#0" expanded="false" />
-            <element signature="e#188274#188275#0" expanded="false" />
-            <element signature="e#188719#188720#0" expanded="false" />
-            <element signature="e#188772#188773#0" expanded="false" />
-            <element signature="e#195978#195979#0" expanded="false" />
-            <element signature="e#196037#196038#0" expanded="false" />
-            <element signature="e#220898#220899#0" expanded="false" />
-            <element signature="e#220942#220943#0" expanded="false" />
-            <element signature="e#229325#229326#0" expanded="false" />
-            <element signature="e#229370#229371#0" expanded="false" />
-            <element signature="e#232471#232472#0" expanded="false" />
-            <element signature="e#232513#232514#0" expanded="false" />
-            <element signature="e#234126#234127#0" expanded="false" />
-            <element signature="e#234160#234161#0" expanded="false" />
-            <element signature="e#235187#235188#0" expanded="false" />
-            <element signature="e#235222#235223#0" expanded="false" />
-            <element signature="e#235736#235737#0" expanded="false" />
-            <element signature="e#235795#235796#0" expanded="false" />
-            <element signature="e#236046#236047#0" expanded="false" />
-            <element signature="e#236119#236120#0" expanded="false" />
-            <element signature="e#238062#238063#0" expanded="false" />
-            <element signature="e#238124#238125#0" expanded="false" />
-            <element signature="e#239106#239107#0" expanded="false" />
-            <element signature="e#239163#239164#0" expanded="false" />
-            <element signature="e#239895#239896#0" expanded="false" />
-            <element signature="e#239934#239935#0" expanded="false" />
-            <element signature="e#240274#240275#0" expanded="false" />
-            <element signature="e#240324#240325#0" expanded="false" />
-            <element signature="e#240625#240626#0" expanded="false" />
-            <element signature="e#240665#240666#0" expanded="false" />
-            <element signature="e#241010#241011#0" expanded="false" />
-            <element signature="e#241062#241063#0" expanded="false" />
-            <element signature="e#241354#241355#0" expanded="false" />
-            <element signature="e#241391#241392#0" expanded="false" />
-            <element signature="e#241721#241722#0" expanded="false" />
-            <element signature="e#241767#241768#0" expanded="false" />
-            <element signature="e#242065#242066#0" expanded="false" />
-            <element signature="e#242104#242105#0" expanded="false" />
-            <element signature="e#242444#242445#0" expanded="false" />
-            <element signature="e#242494#242495#0" expanded="false" />
-            <element signature="e#242801#242802#0" expanded="false" />
-            <element signature="e#242843#242844#0" expanded="false" />
-            <element signature="e#258166#258167#0" expanded="false" />
-            <element signature="e#258211#258212#0" expanded="false" />
-            <element signature="e#258675#258676#0" expanded="false" />
-            <element signature="e#258716#258717#0" expanded="false" />
-            <element signature="e#259461#259462#0" expanded="false" />
-            <element signature="e#259512#259513#0" expanded="false" />
-            <element signature="e#260212#260213#0" expanded="false" />
-            <element signature="e#260273#260274#0" expanded="false" />
-            <element signature="e#268772#268773#0" expanded="false" />
-            <element signature="e#268841#268842#0" expanded="false" />
-            <element signature="e#271598#271599#0" expanded="false" />
-            <element signature="e#271640#271641#0" expanded="false" />
-            <element signature="e#272694#272695#0" expanded="false" />
-            <element signature="e#272758#272759#0" expanded="false" />
-            <element signature="e#273990#273991#0" expanded="false" />
-            <element signature="e#274050#274051#0" expanded="false" />
-            <element signature="e#274515#274516#0" expanded="false" />
-            <element signature="e#274577#274578#0" expanded="false" />
-            <element signature="e#274880#274881#0" expanded="false" />
-            <element signature="e#274950#274951#0" expanded="false" />
-            <element signature="e#277569#277570#0" expanded="false" />
-            <element signature="e#277640#277641#0" expanded="false" />
-            <element signature="e#278013#278014#0" expanded="false" />
-            <element signature="e#278086#278087#0" expanded="false" />
-            <element signature="e#281634#281635#0" expanded="false" />
-            <element signature="e#281699#281700#0" expanded="false" />
-            <element signature="e#285205#285206#0" expanded="false" />
-            <element signature="e#285287#285288#0" expanded="false" />
-            <element signature="e#286168#286174#0" expanded="false" />
-            <element signature="e#289831#289837#0" expanded="false" />
-            <element signature="e#295374#295375#0" expanded="false" />
-            <element signature="e#295426#295427#0" expanded="false" />
-            <element signature="e#296379#296380#0" expanded="false" />
-            <element signature="e#296431#296432#0" expanded="false" />
-            <element signature="e#320707#320708#0" expanded="false" />
-            <element signature="e#320753#320754#0" expanded="false" />
-            <element signature="e#320959#320960#0" expanded="false" />
-            <element signature="e#320987#320988#0" expanded="false" />
-            <element signature="e#321067#321068#0" expanded="false" />
-            <element signature="e#321118#321119#0" expanded="false" />
-            <element signature="e#321196#321197#0" expanded="false" />
-            <element signature="e#321251#321252#0" expanded="false" />
-            <element signature="e#324235#324236#0" expanded="false" />
-            <element signature="e#324275#324276#0" expanded="false" />
-            <element signature="e#324820#324821#0" expanded="false" />
-            <element signature="e#324861#324862#0" expanded="false" />
-            <element signature="e#334002#334003#0" expanded="false" />
-            <element signature="e#334030#334031#0" expanded="false" />
-            <element signature="e#334465#334466#0" expanded="false" />
-            <element signature="e#334493#334494#0" expanded="false" />
-            <element signature="e#334922#334923#0" expanded="false" />
-            <element signature="e#334950#334951#0" expanded="false" />
-            <element signature="e#336108#336109#0" expanded="false" />
-            <element signature="e#336154#336155#0" expanded="false" />
-            <element signature="e#337564#337565#0" expanded="false" />
-            <element signature="e#337637#337638#0" expanded="false" />
-            <element signature="e#339357#339358#0" expanded="false" />
-            <element signature="e#339392#339393#0" expanded="false" />
-            <element signature="e#346228#346229#0" expanded="false" />
-            <element signature="e#346259#346260#0" expanded="false" />
-            <element signature="e#346963#346964#0" expanded="false" />
-            <element signature="e#346991#346992#0" expanded="false" />
-            <element signature="e#348843#348844#0" expanded="false" />
-            <element signature="e#348871#348872#0" expanded="false" />
-            <element signature="e#350919#350920#0" expanded="false" />
-            <element signature="e#350947#350948#0" expanded="false" />
-            <element signature="e#351582#351583#0" expanded="false" />
-            <element signature="e#351610#351611#0" expanded="false" />
-            <element signature="e#352580#352581#0" expanded="false" />
-            <element signature="e#352608#352609#0" expanded="false" />
-            <element signature="e#353734#353735#0" expanded="false" />
-            <element signature="e#353761#353762#0" expanded="false" />
-            <element signature="e#354333#354334#0" expanded="false" />
-            <element signature="e#354361#354362#0" expanded="false" />
-            <element signature="e#356083#356084#0" expanded="false" />
-            <element signature="e#356110#356111#0" expanded="false" />
-            <element signature="e#357042#357043#0" expanded="false" />
-            <element signature="e#357070#357071#0" expanded="false" />
-            <element signature="e#358870#358871#0" expanded="false" />
-            <element signature="e#358898#358899#0" expanded="false" />
-            <element signature="e#363654#363655#0" expanded="false" />
-            <element signature="e#363713#363714#0" expanded="false" />
-            <element signature="e#373979#373980#0" expanded="false" />
-            <element signature="e#374020#374021#0" expanded="false" />
-            <element signature="e#374128#374129#0" expanded="false" />
-            <element signature="e#374165#374166#0" expanded="false" />
-            <element signature="e#385896#385897#0" expanded="false" />
-            <element signature="e#385926#385927#0" expanded="false" />
-            <element signature="e#386208#386209#0" expanded="false" />
-            <element signature="e#386249#386250#0" expanded="false" />
-            <element signature="e#386529#386530#0" expanded="false" />
-            <element signature="e#386570#386571#0" expanded="false" />
-            <element signature="e#386950#386951#0" expanded="false" />
-            <element signature="e#386981#386982#0" expanded="false" />
-            <element signature="e#387347#387348#0" expanded="false" />
-            <element signature="e#387378#387379#0" expanded="false" />
-            <element signature="e#387581#387582#0" expanded="false" />
-            <element signature="e#387618#387619#0" expanded="false" />
-            <element signature="e#387820#387821#0" expanded="false" />
-            <element signature="e#387857#387858#0" expanded="false" />
-            <element signature="e#388802#388803#0" expanded="false" />
-            <element signature="e#388860#388861#0" expanded="false" />
-            <element signature="e#389399#389400#0" expanded="false" />
-            <element signature="e#389436#389437#0" expanded="false" />
-            <element signature="e#389724#389725#0" expanded="false" />
-            <element signature="e#389783#389784#0" expanded="false" />
-            <element signature="e#390325#390326#0" expanded="false" />
-            <element signature="e#390363#390364#0" expanded="false" />
-            <element signature="e#391775#391776#0" expanded="false" />
-            <element signature="e#391829#391830#0" expanded="false" />
-            <element signature="e#395723#395724#0" expanded="false" />
-            <element signature="e#395771#395772#0" expanded="false" />
-            <element signature="e#396971#396972#0" expanded="false" />
-            <element signature="e#397020#397021#0" expanded="false" />
-            <element signature="e#398447#398448#0" expanded="false" />
-            <element signature="e#398496#398497#0" expanded="false" />
-            <element signature="e#399999#400000#0" expanded="false" />
-            <element signature="e#400045#400046#0" expanded="false" />
-            <element signature="e#401173#401174#0" expanded="false" />
-            <element signature="e#401219#401220#0" expanded="false" />
-            <element signature="e#402391#402392#0" expanded="false" />
-            <element signature="e#402437#402438#0" expanded="false" />
-            <element signature="e#403830#403831#0" expanded="false" />
-            <element signature="e#403876#403877#0" expanded="false" />
-            <element signature="e#405138#405139#0" expanded="false" />
-            <element signature="e#405221#405222#0" expanded="false" />
-            <element signature="e#406515#406516#0" expanded="false" />
-            <element signature="e#406542#406543#0" expanded="false" />
-            <element signature="e#411998#411999#0" expanded="false" />
-            <element signature="e#412025#412026#0" expanded="false" />
-            <element signature="e#414067#414068#0" expanded="false" />
-            <element signature="e#414097#414098#0" expanded="false" />
-            <element signature="e#414267#414268#0" expanded="false" />
-            <element signature="e#414329#414330#0" expanded="false" />
-            <element signature="e#416314#416315#0" expanded="false" />
-            <element signature="e#416342#416343#0" expanded="false" />
-            <element signature="e#418406#418407#0" expanded="false" />
-            <element signature="e#418435#418436#0" expanded="false" />
-            <element signature="e#420563#420564#0" expanded="false" />
-            <element signature="e#420611#420612#0" expanded="false" />
-            <element signature="e#420992#420993#0" expanded="false" />
-            <element signature="e#421034#421035#0" expanded="false" />
-            <element signature="e#421397#421398#0" expanded="false" />
-            <element signature="e#421444#421445#0" expanded="false" />
-            <element signature="e#421823#421824#0" expanded="false" />
-            <element signature="e#421864#421865#0" expanded="false" />
-            <element signature="e#422239#422240#0" expanded="false" />
-            <element signature="e#422296#422297#0" expanded="false" />
-            <element signature="e#422687#422688#0" expanded="false" />
-            <element signature="e#422738#422739#0" expanded="false" />
-            <element signature="e#422987#422988#0" expanded="false" />
-            <element signature="e#423036#423037#0" expanded="false" />
-            <element signature="e#423884#423885#0" expanded="false" />
-            <element signature="e#423936#423937#0" expanded="false" />
-            <element signature="e#425150#425151#0" expanded="false" />
-            <element signature="e#425202#425203#0" expanded="false" />
-            <element signature="e#426215#426216#0" expanded="false" />
-            <element signature="e#426267#426268#0" expanded="false" />
-            <element signature="e#427314#427315#0" expanded="false" />
-            <element signature="e#427355#427356#0" expanded="false" />
-            <element signature="e#428559#428560#0" expanded="false" />
-            <element signature="e#428612#428613#0" expanded="false" />
-            <element signature="e#431717#431718#0" expanded="false" />
-            <element signature="e#431756#431757#0" expanded="false" />
-            <element signature="e#433454#433455#0" expanded="false" />
-            <element signature="e#433500#433501#0" expanded="false" />
-            <element signature="e#435836#435837#0" expanded="false" />
-            <element signature="e#435869#435870#0" expanded="false" />
-            <element signature="e#437173#437174#0" expanded="false" />
-            <element signature="e#437225#437226#0" expanded="false" />
-            <element signature="e#442128#442129#0" expanded="false" />
-            <element signature="e#442164#442165#0" expanded="false" />
-            <element signature="e#444331#444332#0" expanded="false" />
-            <element signature="e#444383#444384#0" expanded="false" />
-            <element signature="e#453573#453574#0" expanded="false" />
-            <element signature="e#453605#453606#0" expanded="false" />
-            <element signature="e#456852#456853#0" expanded="false" />
-            <element signature="e#456894#456895#0" expanded="false" />
-            <element signature="e#469756#469757#0" expanded="false" />
-            <element signature="e#469796#469797#0" expanded="false" />
-            <element signature="e#488629#488630#0" expanded="false" />
-            <element signature="e#488686#488687#0" expanded="false" />
-            <element signature="e#489373#489374#0" expanded="false" />
-            <element signature="e#489406#489407#0" expanded="false" />
-            <element signature="e#490175#490176#0" expanded="false" />
-            <element signature="e#490206#490207#0" expanded="false" />
-            <element signature="e#490973#490974#0" expanded="false" />
-            <element signature="e#491006#491007#0" expanded="false" />
-            <element signature="e#491654#491655#0" expanded="false" />
-            <element signature="e#491688#491689#0" expanded="false" />
-            <element signature="e#492441#492442#0" expanded="false" />
-            <element signature="e#492472#492473#0" expanded="false" />
-            <element signature="e#493222#493223#0" expanded="false" />
-            <element signature="e#493256#493257#0" expanded="false" />
-            <element signature="e#500264#500265#0" expanded="false" />
-            <element signature="e#500292#500293#0" expanded="false" />
-            <element signature="e#505045#505046#0" expanded="false" />
-            <element signature="e#505094#505095#0" expanded="false" />
-            <element signature="e#505727#505728#0" expanded="false" />
-            <element signature="e#505795#505796#0" expanded="false" />
-            <element signature="e#513960#513961#0" expanded="false" />
-            <element signature="e#514018#514019#0" expanded="false" />
-            <element signature="e#515617#515618#0" expanded="false" />
-            <element signature="e#515658#515659#0" expanded="false" />
-            <element signature="e#517705#517706#0" expanded="false" />
-            <element signature="e#517777#517778#0" expanded="false" />
-            <element signature="e#523008#523009#0" expanded="false" />
-            <element signature="e#523058#523059#0" expanded="false" />
-            <element signature="e#530573#530574#0" expanded="false" />
-            <element signature="e#530646#530647#0" expanded="false" />
-            <element signature="e#537153#537154#0" expanded="false" />
-            <element signature="e#537180#537181#0" expanded="false" />
-            <element signature="e#537858#537859#0" expanded="false" />
-            <element signature="e#537891#537892#0" expanded="false" />
-            <element signature="e#539498#539499#0" expanded="false" />
-            <element signature="e#539525#539526#0" expanded="false" />
-            <element signature="e#548088#548089#0" expanded="false" />
-            <element signature="e#548133#548134#0" expanded="false" />
-            <element signature="e#551618#551619#0" expanded="false" />
-            <element signature="e#551669#551670#0" expanded="false" />
-            <element signature="e#551869#551870#0" expanded="false" />
-            <element signature="e#551909#551910#0" expanded="false" />
-            <element signature="e#562892#562893#0" expanded="false" />
-            <element signature="e#562920#562921#0" expanded="false" />
-            <element signature="e#563637#563638#0" expanded="false" />
-            <element signature="e#563665#563666#0" expanded="false" />
-            <element signature="e#563987#563988#0" expanded="false" />
-            <element signature="e#564011#564012#0" expanded="false" />
-            <element signature="e#564336#564337#0" expanded="false" />
-            <element signature="e#564360#564361#0" expanded="false" />
-            <element signature="e#564679#564680#0" expanded="false" />
-            <element signature="e#564703#564704#0" expanded="false" />
-            <element signature="e#565031#565032#0" expanded="false" />
-            <element signature="e#565055#565056#0" expanded="false" />
-            <element signature="e#567967#567968#0" expanded="false" />
-            <element signature="e#568042#568043#0" expanded="false" />
-            <element signature="e#601771#601772#0" expanded="false" />
-            <element signature="e#601795#601796#0" expanded="false" />
-            <element signature="e#611712#611713#0" expanded="false" />
-            <element signature="e#611745#611746#0" expanded="false" />
-            <element signature="e#616248#616249#0" expanded="false" />
-            <element signature="e#616307#616308#0" expanded="false" />
-            <element signature="e#617301#617302#0" expanded="false" />
-            <element signature="e#617342#617343#0" expanded="false" />
-            <element signature="e#630535#630536#0" expanded="false" />
-            <element signature="e#630569#630570#0" expanded="false" />
-            <element signature="e#638670#638671#0" expanded="false" />
-            <element signature="e#638704#638705#0" expanded="false" />
-            <element signature="e#638990#638991#0" expanded="false" />
-            <element signature="e#639027#639028#0" expanded="false" />
-            <element signature="e#642856#642857#0" expanded="false" />
-            <element signature="e#642894#642895#0" expanded="false" />
-            <element signature="e#644268#644269#0" expanded="false" />
-            <element signature="e#644328#644329#0" expanded="false" />
-            <element signature="e#645901#645902#0" expanded="false" />
-            <element signature="e#645962#645963#0" expanded="false" />
-            <element signature="e#658602#658603#0" expanded="false" />
-            <element signature="e#658669#658670#0" expanded="false" />
-            <element signature="e#659015#659016#0" expanded="false" />
-            <element signature="e#659041#659042#0" expanded="false" />
-            <element signature="e#659316#659317#0" expanded="false" />
-            <element signature="e#659343#659344#0" expanded="false" />
-            <element signature="e#659787#659788#0" expanded="false" />
-            <element signature="e#659813#659814#0" expanded="false" />
-            <element signature="e#662305#662306#0" expanded="false" />
-            <element signature="e#662329#662330#0" expanded="false" />
-            <element signature="e#665434#665435#0" expanded="false" />
-            <element signature="e#665459#665460#0" expanded="false" />
-            <element signature="e#680186#680187#0" expanded="false" />
-            <element signature="e#680219#680220#0" expanded="false" />
-            <element signature="e#680994#680995#0" expanded="false" />
-            <element signature="e#681026#681027#0" expanded="false" />
-            <element signature="e#681759#681760#0" expanded="false" />
-            <element signature="e#681799#681800#0" expanded="false" />
-            <element signature="e#684021#684022#0" expanded="false" />
-            <element signature="e#684077#684078#0" expanded="false" />
-            <element signature="e#684415#684416#0" expanded="false" />
-            <element signature="e#684472#684473#0" expanded="false" />
-            <element signature="e#685149#685150#0" expanded="false" />
-            <element signature="e#685177#685178#0" expanded="false" />
-            <element signature="e#692928#692929#0" expanded="false" />
-            <element signature="e#692970#692971#0" expanded="false" />
-            <element signature="e#697954#697955#0" expanded="false" />
-            <element signature="e#698015#698016#0" expanded="false" />
-            <element signature="e#698534#698535#0" expanded="false" />
-            <element signature="e#698595#698596#0" expanded="false" />
-            <element signature="e#699128#699129#0" expanded="false" />
-            <element signature="e#699170#699171#0" expanded="false" />
-            <element signature="e#707873#707874#0" expanded="false" />
-            <element signature="e#707901#707902#0" expanded="false" />
-            <element signature="e#709070#709071#0" expanded="false" />
-            <element signature="e#709139#709140#0" expanded="false" />
-            <element signature="e#716936#716937#0" expanded="false" />
-            <element signature="e#716974#716975#0" expanded="false" />
-            <element signature="e#723493#723494#0" expanded="false" />
-            <element signature="e#723546#723547#0" expanded="false" />
-            <element signature="e#755143#755144#0" expanded="false" />
-            <element signature="e#755189#755190#0" expanded="false" />
-            <element signature="e#755248#755249#0" expanded="false" />
-            <element signature="e#755296#755297#0" expanded="false" />
-            <element signature="e#755678#755679#0" expanded="false" />
-            <element signature="e#755731#755732#0" expanded="false" />
-            <element signature="e#755798#755799#0" expanded="false" />
-            <element signature="e#755853#755854#0" expanded="false" />
-            <element signature="e#756235#756236#0" expanded="false" />
-            <element signature="e#756288#756289#0" expanded="false" />
-            <element signature="e#756347#756348#0" expanded="false" />
-            <element signature="e#756402#756403#0" expanded="false" />
-            <element signature="e#756784#756785#0" expanded="false" />
-            <element signature="e#756837#756838#0" expanded="false" />
-            <element signature="e#756896#756897#0" expanded="false" />
-            <element signature="e#756951#756952#0" expanded="false" />
-            <element signature="e#757277#757278#0" expanded="false" />
-            <element signature="e#757319#757320#0" expanded="false" />
-            <element signature="e#757378#757379#0" expanded="false" />
-            <element signature="e#757422#757423#0" expanded="false" />
-            <element signature="e#757748#757749#0" expanded="false" />
-            <element signature="e#757790#757791#0" expanded="false" />
-            <element signature="e#757849#757850#0" expanded="false" />
-            <element signature="e#757893#757894#0" expanded="false" />
-            <element signature="e#758219#758220#0" expanded="false" />
-            <element signature="e#758261#758262#0" expanded="false" />
-            <element signature="e#758320#758321#0" expanded="false" />
-            <element signature="e#758364#758365#0" expanded="false" />
-            <element signature="e#758725#758726#0" expanded="false" />
-            <element signature="e#758774#758775#0" expanded="false" />
-            <element signature="e#758833#758834#0" expanded="false" />
-            <element signature="e#758884#758885#0" expanded="false" />
-            <element signature="e#759251#759252#0" expanded="false" />
-            <element signature="e#759301#759302#0" expanded="false" />
-            <element signature="e#759360#759361#0" expanded="false" />
-            <element signature="e#759412#759413#0" expanded="false" />
-            <element signature="e#759779#759780#0" expanded="false" />
-            <element signature="e#759829#759830#0" expanded="false" />
-            <element signature="e#759888#759889#0" expanded="false" />
-            <element signature="e#759940#759941#0" expanded="false" />
-            <element signature="e#760292#760293#0" expanded="false" />
-            <element signature="e#760339#760340#0" expanded="false" />
-            <element signature="e#760398#760399#0" expanded="false" />
-            <element signature="e#760447#760448#0" expanded="false" />
-            <element signature="e#760799#760800#0" expanded="false" />
-            <element signature="e#760846#760847#0" expanded="false" />
-            <element signature="e#760905#760906#0" expanded="false" />
-            <element signature="e#760954#760955#0" expanded="false" />
-            <element signature="e#764548#764549#0" expanded="false" />
-            <element signature="e#764604#764605#0" expanded="false" />
-            <element signature="e#764928#764929#0" expanded="false" />
-            <element signature="e#764985#764986#0" expanded="false" />
-            <element signature="e#766975#766976#0" expanded="false" />
-            <element signature="e#767046#767047#0" expanded="false" />
-            <element signature="e#767478#767479#0" expanded="false" />
-            <element signature="e#767516#767517#0" expanded="false" />
-            <element signature="e#768383#768384#0" expanded="false" />
-            <element signature="e#768431#768432#0" expanded="false" />
-            <element signature="e#768866#768867#0" expanded="false" />
-            <element signature="e#768904#768905#0" expanded="false" />
-            <element signature="e#778719#778720#0" expanded="false" />
-            <element signature="e#778760#778761#0" expanded="false" />
-            <element signature="e#779187#779188#0" expanded="false" />
-            <element signature="e#779224#779225#0" expanded="false" />
-            <element signature="e#779473#779474#0" expanded="false" />
-            <element signature="e#779514#779515#0" expanded="false" />
-            <element signature="e#779711#779712#0" expanded="false" />
-            <element signature="e#779772#779773#0" expanded="false" />
-            <element signature="e#779830#779831#0" expanded="false" />
-            <element signature="e#779893#779894#0" expanded="false" />
-            <element signature="e#780865#780881#0" expanded="false" />
-            <element signature="e#785010#785016#0" expanded="false" />
-            <element signature="e#790478#790484#0" expanded="false" />
-            <element signature="e#807987#807988#0" expanded="false" />
-            <element signature="e#808022#808023#0" expanded="false" />
-            <element signature="e#809399#809400#0" expanded="false" />
-            <element signature="e#809447#809448#0" expanded="false" />
-            <element signature="e#809617#809618#0" expanded="false" />
-            <element signature="e#809680#809681#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2583,7 +2257,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="127" column="1" selection-start-line="127" selection-start-column="1" selection-end-line="128" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2591,7 +2264,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2611,7 +2283,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="63" column="32" selection-start-line="63" selection-start-column="32" selection-end-line="63" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2619,7 +2290,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="31" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2627,7 +2297,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="48" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2635,7 +2304,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2643,7 +2311,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="33" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2651,28 +2318,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2424569">
           <caret line="29" column="47" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/editor.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="39" selection-end-column="45" />
-          <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file:///Applications/sdk/sources/android-21/com/android/internal/app/AlertController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2680,7 +2342,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2688,7 +2349,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2696,15 +2356,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="266" column="35" selection-start-line="266" selection-start-column="35" selection-end-line="266" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2712,7 +2363,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2721,7 +2371,7 @@
         <state vertical-scroll-proportion="-8.666667">
           <caret line="259" column="28" selection-start-line="259" selection-start-column="28" selection-end-line="259" selection-end-column="28" />
           <folding>
-            <element signature="e#0#22097#0" expanded="true" />
+            <element signature="e#0#21622#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
@@ -2737,7 +2387,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/SamplePlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.222222">
+        <state vertical-scroll-proportion="0.0">
           <caret line="176" column="40" selection-start-line="176" selection-start-column="40" selection-end-line="176" selection-end-column="40" />
           <folding />
         </state>
@@ -2745,52 +2395,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="12.111111">
-          <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
-          <folding>
-            <element signature="e#1320#1321#0" expanded="false" />
-            <element signature="e#1349#1350#0" expanded="false" />
-            <element signature="e#1435#1436#0" expanded="false" />
-            <element signature="e#1457#1458#0" expanded="false" />
-            <element signature="e#1481#1482#0" expanded="false" />
-            <element signature="e#1503#1504#0" expanded="false" />
-            <element signature="e#1530#1531#0" expanded="false" />
-            <element signature="e#1553#1554#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-262.44446">
-          <caret line="670" column="8" selection-start-line="670" selection-start-column="8" selection-end-line="670" selection-end-column="8" />
+          <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.689655">
-          <caret line="80" column="36" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4444447">
-          <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="36" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -2805,8 +2422,106 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56925994">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/save_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.6206896">
+          <caret line="7" column="197" selection-start-line="7" selection-start-column="197" selection-end-line="7" selection-end-column="197" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/sdk/sources/android-21/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33206832">
+          <caret line="929" column="19" selection-start-line="929" selection-start-column="19" selection-end-line="929" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/bookmark_listview_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-68.888885">
+          <caret line="229" column="37" selection-start-line="229" selection-start-column="34" selection-end-line="229" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.2222223">
+          <caret line="54" column="18" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="18" />
+          <folding>
+            <element signature="e#2668#2878#0" expanded="true" />
+            <element signature="e#2877#2878#0" expanded="true" />
+            <element signature="e#2923#3360#0" expanded="true" />
+            <element signature="e#3359#3360#0" expanded="true" />
+            <element signature="e#3404#3641#0" expanded="true" />
+            <element signature="e#3640#3641#0" expanded="true" />
+            <element signature="e#3722#3843#0" expanded="true" />
+            <element signature="e#3842#3843#0" expanded="true" />
+            <element signature="e#6024#7323#0" expanded="true" />
+            <element signature="e#6380#6609#0" expanded="true" />
+            <element signature="e#6608#6609#0" expanded="true" />
+            <element signature="e#7322#7323#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/media_select.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="93" column="17" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+          <folding>
+            <element signature="e#3725#3756#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="11.55">
+          <caret line="496" column="26" selection-start-line="496" selection-start-column="24" selection-end-line="496" selection-end-column="26" />
           <folding />
         </state>
       </provider>

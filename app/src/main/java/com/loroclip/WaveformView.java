@@ -58,7 +58,6 @@ public class WaveformView extends View {
     // Colors
     private Paint mGridPaint;
     private Paint mSelectedLinePaint;
-    private Paint mUnselectedLinePaint;
     private Paint mUnselectedBkgndLinePaint;
     private Paint mBorderLinePaint;
     private Paint mPlaybackLinePaint;
@@ -111,10 +110,6 @@ public class WaveformView extends View {
         mSelectedLinePaint.setAntiAlias(false);
         mSelectedLinePaint.setColor(
                 getResources().getColor(R.drawable.waveform_selected));
-        mUnselectedLinePaint = new Paint();
-        mUnselectedLinePaint.setAntiAlias(false);
-        mUnselectedLinePaint.setColor(
-                getResources().getColor(R.drawable.waveform_unselected));
         mUnselectedBkgndLinePaint = new Paint();
         mUnselectedBkgndLinePaint.setAntiAlias(false);
         mUnselectedBkgndLinePaint.setColor(
@@ -257,6 +252,7 @@ public class WaveformView extends View {
             mZoomLevel--;
             mSelectionStart *= 2;
             mSelectionEnd *= 2;
+            mPlaybackPos *= 2;
             mHeightsAtThisZoomLevel = null;
             int offsetCenter = mOffset + getMeasuredWidth() / 2;
             offsetCenter *= 2;
@@ -276,6 +272,7 @@ public class WaveformView extends View {
             mZoomLevel++;
             mSelectionStart /= 2;
             mSelectionEnd /= 2;
+            mPlaybackPos /= 2;
             int offsetCenter = mOffset + getMeasuredWidth() / 2;
             offsetCenter /= 2;
             mOffset = offsetCenter - getMeasuredWidth() / 2;
@@ -425,13 +422,11 @@ public class WaveformView extends View {
 
         // Draw waveform
         for (i = 0; i < width; i++) {
-            Paint paint;
+            Paint paint = mSelectedLinePaint;
             if (i + start >= mSelectionStart &&
                 i + start < mSelectionEnd) {
-                paint = mSelectedLinePaint;
             } else {
                 drawWaveformLine(canvas, i, 0, measuredHeight, mUnselectedBkgndLinePaint);
-                paint = mUnselectedLinePaint;
             }
 
             // real-time paint bookmark
@@ -470,17 +465,11 @@ public class WaveformView extends View {
             mBorderLinePaint);
         canvas.drawLine(
             mSelectionEnd - mOffset + 0.5f, 0,
-            mSelectionEnd - mOffset + 0.5f, measuredHeight - 30,
+            mSelectionEnd - mOffset + 0.5f, measuredHeight,
             mBorderLinePaint);
 
         // Draw timecode
-        double timecodeIntervalSecs = 1.0;
-        if (timecodeIntervalSecs / onePixelInSecs < 50) {
-            timecodeIntervalSecs = 5.0;
-        }
-        if (timecodeIntervalSecs / onePixelInSecs < 50) {
-            timecodeIntervalSecs = 15.0;
-        }
+        double timecodeIntervalSecs = 30.0;
 
         // Draw grid
         fractionalSecs = mOffset * onePixelInSecs;

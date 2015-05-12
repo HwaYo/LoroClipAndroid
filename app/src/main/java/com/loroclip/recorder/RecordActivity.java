@@ -1,20 +1,27 @@
 package com.loroclip.recorder;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.loroclip.R;
+import com.loroclip.model.Record;
 import com.loroclip.recorder.util.WaveFileHeaderCreator;
 
 import java.io.File;
@@ -28,12 +35,11 @@ public class RecordActivity extends Activity {
 
   private RecorderTask recordTask;
 
-  private PlayerTask playerTask;
-
   private Button recordStartButton;
   private Button recordPauseButton;
   private Button recordStopButton;
   private Button recordSaveButton;
+  private AlertDialog saveDialog;
 
   private Chronometer chronometer;
 
@@ -88,6 +94,7 @@ public class RecordActivity extends Activity {
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
       }
+
     });
 
     recordPauseButton.setOnClickListener(new View.OnClickListener() {
@@ -116,41 +123,11 @@ public class RecordActivity extends Activity {
       }
     });
 
+    saveDialog = createSaveDialog();
     recordSaveButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-//        playerTask = new PlayerTask();
-//        playerTask.setWaveData(recordTask.getWaveData());
-//        playerTask.start();
-        final File savefile = new File(getSavePath(), "test3.wav");
-
-        try {
-          byte[] data = recordTask.getWaveData().getByteArray();
-          savefile.createNewFile();
-
-          FileOutputStream stream = new FileOutputStream(savefile);
-          try {
-            WaveFileHeaderCreator.pushWaveHeader(stream, RATE, CHANNEL_CONFIG, AUDIO_ENCODING, data.length);
-            stream.write(data);
-          } finally {
-            if (stream != null) {
-              stream.close();
-            }
-          }
-        } catch (IOException ex) {
-        }
-        String path = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
-
-        Log.d("Files", "Path: " + path);
-        File f = new File(path);
-        File file[] = f.listFiles();
-
-
-        try {
-          PlayShortAudioFileViaAudioTrack(path + "test3.wav");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+        saveDialog.show();
       }
     });
   }
@@ -222,5 +199,77 @@ public class RecordActivity extends Activity {
     else
       Log.d("TCAudio", "audio track is not initialised ");
 
+  }
+
+
+  private AlertDialog createSaveDialog() {
+    final Handler handler = new Handler();
+    final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
+    return new AlertDialog.Builder(this)
+        .setTitle("파일저장")
+        .setView(view)
+        .setPositiveButton("저장", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            EditText filename = (EditText) view.findViewById(R.id.filenameEditText);
+            final File file = new File(getSavePath(), filename.getText() + ".wav");
+            saveRecordFile(file);
+
+            handler.post(new Runnable() {
+              @Override
+              public void run() {
+                Toast.makeText(RecordActivity.this, "Save completed: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+              }
+            });
+
+            String path = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
+
+            Record record = new Record();
+
+            record.setFile(path + file.getName());
+            record.setTitle(filename.getText() +"");
+            record.save();
+
+//            List<Record> records = Record.listAll(Record.class);
+//
+//            Record a = records.get(records.size()- 1);
+//
+//            Log.d("Files", "file: " + a.getFile());
+//            Log.d("Files", "title: " + a.getTitle());
+//
+//            try {
+//              PlayShortAudioFileViaAudioTrack(a.getFile());
+//            } catch (IOException e) {
+//              e.printStackTrace();
+//            }
+          }
+        })
+        .setNegativeButton("취소", null)
+        .create();
+  }
+
+
+  private boolean saveRecordFile(File savefile) {
+    byte[] data = recordTask.getWaveData().getByteArray();
+    if (data.length == 0) {
+      return false;
+    }
+
+    try {
+      savefile.createNewFile();
+
+      FileOutputStream targetStream = new FileOutputStream(savefile);
+      try {
+        WaveFileHeaderCreator.pushWaveHeader(targetStream, RATE, CHANNEL_CONFIG, AUDIO_ENCODING, data.length);
+        targetStream.write(data);
+      } finally {
+        if (targetStream != null) {
+          targetStream.close();
+        }
+      }
+      return true;
+    } catch (IOException ex) {
+      return false;
+    }
   }
 }

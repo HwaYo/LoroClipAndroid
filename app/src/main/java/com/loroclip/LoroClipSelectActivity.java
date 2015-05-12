@@ -48,6 +48,7 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.loroclip.recorder.RecordActivity;
 import com.loroclip.soundfile.SoundFile;
 
 public class LoroClipSelectActivity
@@ -490,10 +491,8 @@ public class LoroClipSelectActivity
 
     private void onRecord() {
         try {
-            Intent intent = new Intent(Intent.ACTION_EDIT, Uri.parse("record"));
-            intent.putExtra("was_get_content_intent", mWasGetContentIntent);
-            intent.setClassName( "com.loroclip", "com.loroclip.LoroClipEditActivity");
-            startActivityForResult(intent, REQUEST_CODE_EDIT);
+            Intent i = new Intent(LoroClipSelectActivity.this, RecordActivity.class);
+            startActivity(i);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
         }
