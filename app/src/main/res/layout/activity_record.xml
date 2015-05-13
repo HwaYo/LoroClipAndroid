@@ -85,6 +85,10 @@
         android:orientation="vertical"
         android:layout_width="351dp"
         android:layout_height="110dp"
-        android:layout_weight="0.40">
+        android:layout_weight="0.40"
+        android:id="@+id/displayView">
+
+
+
     </LinearLayout>
 </LinearLayout>

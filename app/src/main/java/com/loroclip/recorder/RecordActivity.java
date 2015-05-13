@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loroclip.R;
@@ -29,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 
 public class RecordActivity extends Activity {
@@ -40,6 +42,7 @@ public class RecordActivity extends Activity {
   private Button recordStopButton;
   private Button recordSaveButton;
   private AlertDialog saveDialog;
+  private WaveDisplayView waveformView;
 
   private Chronometer chronometer;
 
@@ -58,6 +61,10 @@ public class RecordActivity extends Activity {
     recordPauseButton = (Button) findViewById(R.id.recordPause);
     recordStopButton = (Button) findViewById(R.id.recordStop);
     recordSaveButton = (Button) findViewById(R.id.recordSave);
+
+    LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayView);
+    waveformView = new WaveDisplayView(getBaseContext());
+    displayLayout.addView(waveformView);
 
     chronometer = (Chronometer) findViewById(R.id.chronometer);
 
@@ -134,7 +141,7 @@ public class RecordActivity extends Activity {
 
   private void startRecording() {
     try {
-      recordTask = new RecorderTask();
+      recordTask = new RecorderTask(waveformView);
     } catch (IllegalArgumentException ex) {
     }
     recordTask.start();
@@ -230,18 +237,18 @@ public class RecordActivity extends Activity {
             record.setTitle(filename.getText() +"");
             record.save();
 
-//            List<Record> records = Record.listAll(Record.class);
-//
-//            Record a = records.get(records.size()- 1);
-//
-//            Log.d("Files", "file: " + a.getFile());
-//            Log.d("Files", "title: " + a.getTitle());
-//
-//            try {
-//              PlayShortAudioFileViaAudioTrack(a.getFile());
-//            } catch (IOException e) {
-//              e.printStackTrace();
-//            }
+            List<Record> records = Record.listAll(Record.class);
+
+            Record a = records.get(records.size()- 1);
+
+            Log.d("Files", "file: " + a.getFile());
+            Log.d("Files", "title: " + a.getTitle());
+
+            try {
+              PlayShortAudioFileViaAudioTrack(a.getFile());
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           }
         })
         .setNegativeButton("취소", null)

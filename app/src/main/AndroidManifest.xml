@@ -40,15 +40,14 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
-
-    <application android:label="@string/loroclip_app_name"
-                 android:name="com.orm.SugarApp"
-                 android:icon="@drawable/lorocliplogo"
-                 android:theme="@android:style/Theme.Holo"
-                 android:largeHeap="true"
-                 android:allowBackup="true">
+    <application
+        android:name="com.orm.SugarApp"
+        android:allowBackup="true"
+        android:icon="@drawable/lorocliplogo"
+        android:label="@string/loroclip_app_name"
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.Holo" >
         <activity
-
             android:name=".LoroClipSelectActivity"
             android:label="@string/main_activity_label" >
             <intent-filter>
@@ -90,17 +89,28 @@
             android:name=".ChooseContactActivity"
             android:configChanges="orientation|keyboardHidden" >
         </activity>
-
         <activity
             android:name=".recorder.RecordActivity"
             android:label="@string/title_activity_record" >
         </activity>
 
+        <meta-data
+            android:name="DATABASE"
+            android:value="database.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.loroclip" />
 
-        <meta-data android:name="DATABASE" android:value="database.db" />
-        <meta-data android:name="VERSION" android:value="1" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.loroclip" />
+        <activity
+            android:name=".recorder.RecordListActivity"
+            android:label="@string/title_activity_record_list" >
+        </activity>
     </application>
 
 </manifest>

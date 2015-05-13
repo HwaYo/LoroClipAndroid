@@ -13,19 +13,20 @@ public class RecorderTask extends Thread {
 	private boolean isPaused;
 
 
-	private WaveData waveData;
+	private WaveDisplayView waveForm;
 
 	private static final int RATE = 44100;
 	private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
-	public RecorderTask() throws IllegalArgumentException {
+	public RecorderTask(WaveDisplayView waveForm) throws IllegalArgumentException {
 		this.bufferSize = AudioRecord.getMinBufferSize(RATE, CHANNEL_CONFIG, AUDIO_ENCODING);
 		this.buffer = new byte[bufferSize];
 		this.recorder = new AudioRecord(MediaRecorder.AudioSource.MIC, RATE, CHANNEL_CONFIG, AUDIO_ENCODING, bufferSize);
-		this.waveData = new WaveData();
+		this.waveForm = waveForm;
 		this.isRunning = false;
 		this.isPaused = false;
+		this.waveForm.setDrawData(bufferSize);
 	}
 
 	@Override
@@ -36,7 +37,7 @@ public class RecorderTask extends Thread {
 			while (isRunning) {
 				if(!isPaused) {
 					int len = recorder.read(buffer, 0, buffer.length);
-					waveData.addWaveData(buffer, 0, len);
+					waveForm.addWaveData(buffer, 0, len);
 				}
 			}
 		} finally {
@@ -51,8 +52,8 @@ public class RecorderTask extends Thread {
 		this.isRunning = false;
 	}
 
-	public WaveData getWaveData() {
-		return waveData;
+	public WaveDisplayView getWaveData() {
+		return waveForm;
 	}
 
 	public boolean isPaused() {
