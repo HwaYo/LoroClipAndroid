@@ -30,6 +30,7 @@ import android.view.View;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.soundfile.SoundFile;
+import com.loroclip.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -394,8 +395,10 @@ public class WaveformView extends View {
     public void drawBookmarkLine(Canvas canvas, int measuredHeight) {
         for (BookmarkHistory bookmarkHistory : bookmarkHistroyList) {
             mBookmarkLinePaint.setColor(bookmarkHistory.getColor());
+            int start = millisecsToPixels(bookmarkHistory.getStart());
+            int end = millisecsToPixels(bookmarkHistory.getEnd());
 
-            for (int k = bookmarkHistory.getStart(); k <= bookmarkHistory.getEnd(); k++) {
+            for (int k = start; k <= end; k++) {
                 canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
             }
         }
@@ -515,13 +518,7 @@ public class WaveformView extends View {
             if (integerTimecodeNew != integerTimecode) {
                 integerTimecode = integerTimecodeNew;
 
-                // Turn, e.g. 67 seconds into "1:07"
-                String timecodeMinutes = "" + (integerSecs / 60);
-                String timecodeSeconds = "" + (integerSecs % 60);
-                if ((integerSecs % 60) < 10) {
-                    timecodeSeconds = "0" + timecodeSeconds;
-                }
-                String timecodeStr = timecodeMinutes + ":" + timecodeSeconds;
+                String timecodeStr = Util.secondsToMinutesStr(integerSecs);
                 float offset = (float) (
                     0.5 * mTimecodePaint.measureText(timecodeStr));
                 canvas.drawText(timecodeStr,
@@ -535,6 +532,8 @@ public class WaveformView extends View {
             mListener.waveformDraw();
         }
     }
+
+
 
     /**
      * Called once when a new sound file is added
@@ -687,4 +686,6 @@ public class WaveformView extends View {
     public void addBookmarkHistory(BookmarkHistory current_bookmark) {
         bookmarkHistroyList.add(current_bookmark);
     }
+
+
 }

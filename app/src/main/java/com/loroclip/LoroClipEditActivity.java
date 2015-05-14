@@ -252,8 +252,7 @@ public class LoroClipEditActivity extends Activity
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_save).setVisible(true);
-        menu.findItem(R.id.action_reset).setVisible(true);
-        menu.findItem(R.id.action_about).setVisible(true);
+        menu.findItem(R.id.action_show_all_bookmarks).setVisible(true);
         return true;
     }
 
@@ -263,13 +262,8 @@ public class LoroClipEditActivity extends Activity
         case R.id.action_save:
             onSave();
             return true;
-        case R.id.action_reset:
-            resetPositions();
-            mOffsetGoal = 0;
-            updateDisplay();
-            return true;
-        case R.id.action_about:
-            onAbout(this);
+        case R.id.action_show_all_bookmarks:
+            onSelectBookmark();
             return true;
         default:
             return false;
@@ -363,10 +357,6 @@ public class LoroClipEditActivity extends Activity
         updateDisplay();
     }
 
-    //
-    // Static About dialog method, also called from LoroClipSelectActivity
-    //
-
     public static void onAbout(final Activity activity) {
         new AlertDialog.Builder(activity)
             .setTitle(R.string.about_title)
@@ -376,14 +366,6 @@ public class LoroClipEditActivity extends Activity
             .show();
     }
 
-    //
-    // Internal methods
-    //
-
-    /**
-     * Called from both onCreate and onConfigurationChanged
-     * (if the user switched layouts)
-     */
     private void loadGui() {
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.editor);
@@ -874,13 +856,6 @@ public class LoroClipEditActivity extends Activity
         }
     }
 
-    /**
-     * Show a "final" alert dialog that will exit the activity
-     * after the user clicks on the OK button.  If an exception
-     * is passed, it's assumed to be an error condition, and the
-     * dialog is presented as an error, and the stack trace is
-     * logged.  If there's no exception, it's a success message.
-     */
     private void showFinalAlert(Exception e, CharSequence message) {
         CharSequence title;
         if (e != null) {
@@ -1259,14 +1234,14 @@ public class LoroClipEditActivity extends Activity
 
             if (mIsPlaying) {
                 if (mWaveformView.isBookmarking()) {
-                    current_bookmark.setEnd(mWaveformView.getmPlaybackPos());
+                    current_bookmark.setEnd(mPlayer.getCurrentPosition());
                     current_bookmark.save();
                     view.setSelected(false);
                     mWaveformView.setIsBookmarking(false);
                     mWaveformView.addBookmarkHistory(current_bookmark);
                 } else {
                     Bookmark bookmark = Bookmark.find(Bookmark.class, "name = ?", bookmarkName).get(0);
-                    current_bookmark = new BookmarkHistory(mWaveformView.getmPlaybackPos(), mFilename, bookmark.getColor(), bookmark.getName());
+                    current_bookmark = new BookmarkHistory(mPlayer.getCurrentPosition(), mFilename, bookmark.getColor(), bookmark.getName());
                     view.setSelected(true);
                     mWaveformView.setIsBookmarking(true);
                     mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
@@ -1291,5 +1266,27 @@ public class LoroClipEditActivity extends Activity
         PrintWriter writer = new PrintWriter(stream, true);
         e.printStackTrace(writer);
         return stream.toString();
+    }
+
+
+    private void onSelectBookmark(){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                int pos = mWaveformView.millisecsToPixels(msg.arg1);
+
+                if (mIsPlaying){
+                    mPlayer.seekTo(msg.arg1);
+                } else {
+                    onPlay(pos);
+                }
+
+            }
+        };
+
+        Message msg = Message.obtain(handler);
+
+        SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mFilename, msg);
+        savedBookmarkHistoryListDialog.show();
     }
 }
