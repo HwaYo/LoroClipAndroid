@@ -16,10 +16,8 @@
 
 package com.loroclip;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import android.accounts.AccountManagerFuture;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -48,7 +46,17 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.loroclip.model.Record;
 import com.loroclip.soundfile.SoundFile;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class LoroClipSelectActivity
     extends ListActivity

@@ -1,5 +1,6 @@
 package com.loroclip.model;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 import java.sql.Date;
@@ -14,7 +15,9 @@ public class Record extends SugarRecord<Record> {
     public String bookmark;
     public String file;
     public boolean deleted;
+    @SerializedName("created_at")
     public Date createdAt;
+    @SerializedName("updated_at")
     public Date updatedAt;
 
     public Record(){
