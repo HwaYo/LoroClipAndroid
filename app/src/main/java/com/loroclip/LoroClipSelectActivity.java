@@ -493,7 +493,6 @@ public class LoroClipSelectActivity
     private void onRecord() {
         try {
             Intent i = new Intent(LoroClipSelectActivity.this, RecordActivity.class);
-//            Intent i = new Intent(LoroClipSelectActivity.this, RecordListActivity.class);
             startActivity(i);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
@@ -515,12 +514,18 @@ public class LoroClipSelectActivity
     }
 
     private void refreshListView() {
-        mInternalCursor = null;
-        mExternalCursor = null;
-        Bundle args = new Bundle();
-        args.putString("filter", mFilter.getQuery().toString());
-        getLoaderManager().restartLoader(INTERNAL_CURSOR_ID,  args, this);
-        getLoaderManager().restartLoader(EXTERNAL_CURSOR_ID,  args, this);
+//        mInternalCursor = null;
+//        mExternalCursor = null;
+//        Bundle args = new Bundle();
+//        args.putString("filter", mFilter.getQuery().toString());
+//        getLoaderManager().restartLoader(INTERNAL_CURSOR_ID,  args, this);
+//        getLoaderManager().restartLoader(EXTERNAL_CURSOR_ID,  args, this);
+        try {
+            Intent i = new Intent(LoroClipSelectActivity.this, RecordListActivity.class);
+            startActivity(i);
+        } catch (Exception e) {
+            Log.e("LoroClip", "Couldn't start editor");
+        }
     }
 
     private static final String[] INTERNAL_COLUMNS = new String[] {

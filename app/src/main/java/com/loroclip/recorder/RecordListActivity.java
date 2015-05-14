@@ -83,15 +83,3 @@ public class RecordListActivity extends Activity {
     }
   };
 }
-
-
-//String filename = "/storage/emulated/0/Loroclip/aaaa.wav";
-//Log.d("Files", "filename: " + filename);
-//    try {
-//    Intent intent = new Intent(Intent.ACTION_EDIT, Uri.parse(filename));
-//    intent.putExtra("was_get_content_intent", mWasGetContentIntent);
-//    intent.setClassName( "com.loroclip", "com.loroclip.LoroClipEditActivity");
-//    startActivityForResult(intent, REQUEST_CODE_EDIT);
-//    } catch (Exception e) {
-//    Log.e("LoroClip", "Couldn't start editor");
-//    }

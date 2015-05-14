@@ -12,18 +12,11 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="182dp"
-        android:layout_gravity="center_horizontal"
-        android:weightSum="1"
-        android:layout_weight="0.49">
+        android:layout_width="351dp"
+        android:layout_height="50dp"
+        android:id="@+id/displayView">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listView"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.25"/>
+
 
     </LinearLayout>
 
@@ -39,7 +32,8 @@
             android:layout_height="match_parent"
             android:id="@+id/chronometer"
             android:layout_gravity="center_horizontal"
-            />
+            android:textSize="40dp"
+            android:gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
@@ -83,12 +77,18 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="351dp"
-        android:layout_height="110dp"
-        android:layout_weight="0.40"
-        android:id="@+id/displayView">
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:weightSum="1"
+        android:layout_weight="0.49">
 
-
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1.72"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,16 +1,14 @@
+
 package com.loroclip.recorder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,14 +21,8 @@ import android.widget.Toast;
 
 import com.loroclip.R;
 import com.loroclip.model.Record;
-import com.loroclip.recorder.util.WaveFileHeaderCreator;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 
 
 public class RecordActivity extends Activity {
@@ -91,6 +83,16 @@ public class RecordActivity extends Activity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    File file = new File(recordTask.getFilePath());
+    if(file.exists()) {
+      file.delete();
+    }
+    stopTask(recordTask);
   }
 
   private void addEvnetListener() {
@@ -171,44 +173,6 @@ public class RecordActivity extends Activity {
     return state.equals(Environment.MEDIA_MOUNTED);
   }
 
-
-  private void PlayShortAudioFileViaAudioTrack(String filePath) throws IOException
-  {
-    // We keep temporarily filePath globally as we have only two sample sounds now..
-    if (filePath==null) {
-      return;
-    }
-
-    //Reading the file..
-    byte[] byteData = null;
-    File file = null;
-    file = new File(filePath); // for ex. path= "/sdcard/samplesound.pcm" or "/sdcard/samplesound.wav"
-    byteData = new byte[(int) file.length()];
-    FileInputStream in = null;
-    try {
-      in = new FileInputStream( file );
-      in.read( byteData );
-      in.close();
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-// Set and push to audio track..
-    int intSize = android.media.AudioTrack.getMinBufferSize(RATE, CHANNEL_CONFIG, AUDIO_ENCODING);
-    AudioTrack at = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, CHANNEL_CONFIG,  AUDIO_ENCODING, intSize, AudioTrack.MODE_STREAM);
-    if (at!=null) {
-      at.play();
-// Write the byte array to the track
-      at.write(byteData, 0, byteData.length);
-      at.stop();
-      at.release();
-    }
-    else
-      Log.d("TCAudio", "audio track is not initialised ");
-
-  }
-
-
   private AlertDialog createSaveDialog() {
     final Handler handler = new Handler();
     final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
@@ -219,64 +183,30 @@ public class RecordActivity extends Activity {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             EditText filename = (EditText) view.findViewById(R.id.filenameEditText);
-            final File file = new File(getSavePath(), filename.getText() + ".wav");
-            saveRecordFile(file);
+            
+            final String newFilePath =  Environment.getExternalStorageDirectory().toString() + "/Loroclip/" + filename.getText() + ".wav";
+
+            File file = new File(recordTask.getFilePath());
+            File file2 = new File(newFilePath);
+
+            file.renameTo(file2);
+            file.delete();
+
 
             handler.post(new Runnable() {
               @Override
               public void run() {
-                Toast.makeText(RecordActivity.this, "Save completed: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecordActivity.this, "Save completed: " + newFilePath , Toast.LENGTH_SHORT).show();
               }
             });
-
-            String path = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
-
+            
             Record record = new Record();
-
-            record.setFile(path + file.getName());
-            record.setTitle(filename.getText() +"");
+            record.setFile(newFilePath);
+            record.setTitle(filename.getText() + "");
             record.save();
-
-            List<Record> records = Record.listAll(Record.class);
-
-            Record a = records.get(records.size()- 1);
-
-            Log.d("Files", "file: " + a.getFile());
-            Log.d("Files", "title: " + a.getTitle());
-
-            try {
-              PlayShortAudioFileViaAudioTrack(a.getFile());
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
           }
         })
         .setNegativeButton("취소", null)
         .create();
-  }
-
-
-  private boolean saveRecordFile(File savefile) {
-    byte[] data = recordTask.getWaveData().getByteArray();
-    if (data.length == 0) {
-      return false;
-    }
-
-    try {
-      savefile.createNewFile();
-
-      FileOutputStream targetStream = new FileOutputStream(savefile);
-      try {
-        WaveFileHeaderCreator.pushWaveHeader(targetStream, RATE, CHANNEL_CONFIG, AUDIO_ENCODING, data.length);
-        targetStream.write(data);
-      } finally {
-        if (targetStream != null) {
-          targetStream.close();
-        }
-      }
-      return true;
-    } catch (IOException ex) {
-      return false;
-    }
   }
 }

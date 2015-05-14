@@ -6,24 +6,29 @@ package com.loroclip.recorder;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.media.AudioFormat;
 import android.os.Handler;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 
 
-public class WaveDisplayView extends View implements WaveDataStore {
+public class WaveDisplayView extends View {
 
 	private final Handler handler;
-	private final ByteArrayOutputStream waveData = new ByteArrayOutputStream(44100 * 2 * 10);
 
 	byte[] data;
 	double[] drawData;
 	private int index;
 
 	private final Paint waveBaseLine = new Paint();
+
+	FileOutputStream out;
+	String path, fileName;
+	private static final int RATE = 44100;
+	private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_CONFIGURATION_MONO;
+	private static final int AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
 	public WaveDisplayView(Context context) {
 		super(context);
@@ -37,15 +42,29 @@ public class WaveDisplayView extends View implements WaveDataStore {
 		index = 0;
 	}
 
+//	public void makeFile() {
+//		path = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
+//		fileName = new SimpleDateFormat("yyyy-MM-dd-ss").format(new Date()) + ".wav";
+//		Log.d("files", String.valueOf(data.length));
+//		try {
+//			out = new FileOutputStream( new File(path, fileName));
+//			WaveFileHeaderCreator.pushWaveHeader(out, RATE, CHANNEL_CONFIG, AUDIO_ENCODING, data.length);
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	public String getFilePath() {
+//		return path + fileName;
+//	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) this.getLayoutParams();
-
-		int width = this.getWidth() - lp.leftMargin -lp.rightMargin - 30;
-
-
+		int width = this.getWidth();
 		int height = this.getHeight();
 
 
@@ -104,7 +123,7 @@ public class WaveDisplayView extends View implements WaveDataStore {
 		for(int i = 1 ; i < number ; i ++) {
 			waveDataPart = Arrays.copyOfRange(ds, ds.length / number * i, ds.length / number * (i + 1));
 			Arrays.sort(waveDataPart);
-			drawData[index++] = waveDataPart[waveDataPart.length - 1]  * 5;
+			drawData[index++] = waveDataPart[waveDataPart.length - 1] * 5;
 		}
 	}
 
@@ -116,33 +135,11 @@ public class WaveDisplayView extends View implements WaveDataStore {
 		canvas.drawLine(x, y, x, nextY, waveBaseLine);
 	}
 
-	@Override
-	public byte[] getAllWaveData() {
-		return waveData.toByteArray();
-	}
-
-	@Override
-	public void addWaveData(byte[] data) {
-		addWaveData(data, 0, data.length);
-	}
-
-	@Override
 	public void addWaveData(byte[] data, int offset, int length) {
-		this.data = data;
-		waveData.write(data, offset, length);
-		fireInvalidate();
-	}
 
-	@Override
-	public void closeWaveData() {
-		byte[] bs = waveData.toByteArray();
-		waveData.reset();
-		addWaveData(bs);
-	}
+			this.data = data;
+//			out.write(data, offset, length);
 
-	@Override
-	public void clearWaveData() {
-		waveData.reset();
 		fireInvalidate();
 	}
 
@@ -154,7 +151,6 @@ public class WaveDisplayView extends View implements WaveDataStore {
 			}
 		});
 	}
-
 
 	public static double[] convertWaveData(byte[] waveData) {
 		double[] result = new double[waveData.length / 2];
@@ -195,9 +191,5 @@ public class WaveDisplayView extends View implements WaveDataStore {
 			}
 		}
 		return result;
-	}
-
-	public byte[] getByteArray() {
-		return waveData.toByteArray();
 	}
 }

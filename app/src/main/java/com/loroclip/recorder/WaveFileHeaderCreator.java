@@ -1,4 +1,4 @@
-package com.loroclip.recorder.util;
+package com.loroclip.recorder;
 
 import android.media.AudioFormat;
 
