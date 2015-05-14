@@ -51,6 +51,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loroclip.model.Bookmark;
+import com.loroclip.model.BookmarkHistory;
 import com.loroclip.soundfile.SoundFile;
 
 public class LoroClipEditActivity extends Activity
@@ -109,6 +111,8 @@ public class LoroClipEditActivity extends Activity
     private ArrayList<ArrayList<Integer>> mBookmarkList;
     private BookmarkMap savedBookmarks;
     private BookmarkListView bookmarkListView;
+
+    private BookmarkHistory current_bookmark;
 
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
@@ -248,8 +252,7 @@ public class LoroClipEditActivity extends Activity
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_save).setVisible(true);
-        menu.findItem(R.id.action_reset).setVisible(true);
-        menu.findItem(R.id.action_about).setVisible(true);
+        menu.findItem(R.id.action_show_all_bookmarks).setVisible(true);
         return true;
     }
 
@@ -259,13 +262,8 @@ public class LoroClipEditActivity extends Activity
         case R.id.action_save:
             onSave();
             return true;
-        case R.id.action_reset:
-            resetPositions();
-            mOffsetGoal = 0;
-            updateDisplay();
-            return true;
-        case R.id.action_about:
-            onAbout(this);
+        case R.id.action_show_all_bookmarks:
+            onSelectBookmark();
             return true;
         default:
             return false;
@@ -281,10 +279,6 @@ public class LoroClipEditActivity extends Activity
 
         return super.onKeyDown(keyCode, event);
     }
-
-    //
-    // WaveformListener
-    //
 
     /**
      * Every time we get a message that our waveform drew, see if we need to
@@ -323,9 +317,13 @@ public class LoroClipEditActivity extends Activity
             if (mIsPlaying) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
-                if (seekMsec < mPlayEndMsec) {
-                    mPlayer.seekTo(seekMsec);
+
+                if (seekMsec <= mPlayer.getCurrentPosition()){
+                    mWaveformView.setIsBookmarking(false);
+                    resetSelection();
                 }
+
+                mPlayer.seekTo(seekMsec);
             } else {
                 onPlay((int)(mTouchStart + mOffset));
             }
@@ -359,10 +357,6 @@ public class LoroClipEditActivity extends Activity
         updateDisplay();
     }
 
-    //
-    // Static About dialog method, also called from LoroClipSelectActivity
-    //
-
     public static void onAbout(final Activity activity) {
         new AlertDialog.Builder(activity)
             .setTitle(R.string.about_title)
@@ -372,14 +366,6 @@ public class LoroClipEditActivity extends Activity
             .show();
     }
 
-    //
-    // Internal methods
-    //
-
-    /**
-     * Called from both onCreate and onConfigurationChanged
-     * (if the user switched layouts)
-     */
     private void loadGui() {
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.editor);
@@ -399,6 +385,7 @@ public class LoroClipEditActivity extends Activity
 
         mWaveformView = (WaveformView)findViewById(R.id.waveform);
         mWaveformView.setListener(this);
+        mWaveformView.setmFilename(mFilename);
 
         mInfo = (TextView)findViewById(R.id.info);
         mInfo.setText(mCaption);
@@ -414,12 +401,10 @@ public class LoroClipEditActivity extends Activity
         }
 
         bookmarkListView = (BookmarkListView) findViewById(R.id.bookmarkListView);
-        bookmarkListView.setAdapter(new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_single_choice, savedBookmarks.keySet().toArray(new String[savedBookmarks.keySet().size()])
-        ));
-        bookmarkListView.setOnItemClickListener(testListener);
+        bookmarkListView.setAdapter(new BookmarkListViewAdapter());
+        bookmarkListView.setOnItemClickListener(bookmarkListListener);
 
-
+        mWaveformView.refreshBookmarkHistroyList();
         updateDisplay();
     }
 
@@ -459,8 +444,8 @@ public class LoroClipEditActivity extends Activity
                     long now = getCurrentTime();
                     if (now - mLoadingLastUpdateTime > 100) {
                         mProgressDialog.setProgress(
-                            (int)(mProgressDialog.getMax() *
-                                  fractionComplete));
+                                (int) (mProgressDialog.getMax() *
+                                        fractionComplete));
                         mLoadingLastUpdateTime = now;
                     }
                     return mLoadingKeepGoing;
@@ -472,8 +457,7 @@ public class LoroClipEditActivity extends Activity
             public void run() {
                 try {
                     mSoundFile = SoundFile.create(mFile.getAbsolutePath(),
-                                                       listener);
-
+                            listener);
                     if (mSoundFile == null) {
                         mProgressDialog.dismiss();
                         String name = mFile.getName().toLowerCase();
@@ -720,8 +704,8 @@ public class LoroClipEditActivity extends Activity
         mWaveformView.setParameters(mStartPos, mEndPos, mOffset);
         mWaveformView.invalidate();
 
-        int startX = mStartPos - mOffset;
-        int endX = mEndPos - mOffset;
+
+
     }
 
     private Runnable mTimerRunnable = new Runnable() {
@@ -826,10 +810,11 @@ public class LoroClipEditActivity extends Activity
         if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.pause();
         }
-//        mWaveformView.setPlayback(mWaveformView.getmPlaybackPos());
+
         mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
         mIsPlaying = false;
         mWaveformView.setIsBookmarking(false);
+        resetSelection();
         enableDisableButtons();
     }
 
@@ -871,13 +856,6 @@ public class LoroClipEditActivity extends Activity
         }
     }
 
-    /**
-     * Show a "final" alert dialog that will exit the activity
-     * after the user clicks on the OK button.  If an exception
-     * is passed, it's assumed to be an error condition, and the
-     * dialog is presented as an error, and the stack trace is
-     * logged.  If there's no exception, it's a success message.
-     */
     private void showFinalAlert(Exception e, CharSequence message) {
         CharSequence title;
         if (e != null) {
@@ -1230,10 +1208,9 @@ public class LoroClipEditActivity extends Activity
 
     private OnClickListener mRewindListener = new OnClickListener() {
             public void onClick(View sender) {
+                mWaveformView.setIsBookmarking(false);
                 if (mIsPlaying) {
                     int newPos = mPlayer.getCurrentPosition() - 5000;
-                    if (newPos < mPlayStartMsec)
-                        newPos = mPlayStartMsec;
                     mPlayer.seekTo(newPos);
                 }
             }
@@ -1250,30 +1227,35 @@ public class LoroClipEditActivity extends Activity
             }
         };
 
-    private AdapterView.OnItemClickListener testListener = new AdapterView.OnItemClickListener() {
+    private AdapterView.OnItemClickListener bookmarkListListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             String  bookmarkName    = (String) bookmarkListView.getItemAtPosition(position);
-            int color = savedBookmarks.get(bookmarkName);
-            bookmarkListView.setItemChecked(position, true);
 
             if (mIsPlaying) {
                 if (mWaveformView.isBookmarking()) {
-                    ArrayList<Integer> currentBookmark = mBookmarkList.get(mBookmarkList.size() - 1);
-                    currentBookmark.add(mWaveformView.getmPlaybackPos());
-                    mWaveformView.setmBookmarkList(mBookmarkList);
+                    current_bookmark.setEnd(mPlayer.getCurrentPosition());
+                    current_bookmark.save();
+                    view.setSelected(false);
                     mWaveformView.setIsBookmarking(false);
+                    mWaveformView.addBookmarkHistory(current_bookmark);
                 } else {
-                    mBookmarkList.add(new ArrayList<Integer>());
-                    ArrayList<Integer> currentBookmark = mBookmarkList.get(mBookmarkList.size() - 1);
-                    currentBookmark.add(color);
-                    currentBookmark.add(mWaveformView.getmPlaybackPos());
+                    Bookmark bookmark = Bookmark.find(Bookmark.class, "name = ?", bookmarkName).get(0);
+                    current_bookmark = new BookmarkHistory(mPlayer.getCurrentPosition(), mFilename, bookmark.getColor(), bookmark.getName());
+                    view.setSelected(true);
                     mWaveformView.setIsBookmarking(true);
-                    mWaveformView.setCurrentBookmarkPaintColor(color);
+                    mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
                 }
             }
         }
     };
+
+    public void resetSelection(){
+        for (int i=0;i<bookmarkListView.getChildCount();i++){
+            View v = bookmarkListView.getChildAt(i);
+            v.setSelected(false);
+        }
+    }
 
     private long getCurrentTime() {
         return System.nanoTime() / 1000000;
@@ -1284,5 +1266,27 @@ public class LoroClipEditActivity extends Activity
         PrintWriter writer = new PrintWriter(stream, true);
         e.printStackTrace(writer);
         return stream.toString();
+    }
+
+
+    private void onSelectBookmark(){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                int pos = mWaveformView.millisecsToPixels(msg.arg1);
+
+                if (mIsPlaying){
+                    mPlayer.seekTo(msg.arg1);
+                } else {
+                    onPlay(pos);
+                }
+
+            }
+        };
+
+        Message msg = Message.obtain(handler);
+
+        SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mFilename, msg);
+        savedBookmarkHistoryListDialog.show();
     }
 }

@@ -36,11 +36,11 @@
     <supports-screens android:anyDensity="true" />
 
     <application android:label="@string/loroclip_app_name"
+                 android:name="com.orm.SugarApp"
                  android:icon="@drawable/lorocliplogo"
                  android:theme="@android:style/Theme.Holo"
                  android:largeHeap="true"
                  android:allowBackup="true">
-
 
         <activity android:name="com.loroclip.LoroClipSelectActivity"
                   android:label="@string/main_activity_label">
@@ -78,6 +78,10 @@
                   android:configChanges="orientation|keyboardHidden">
         </activity>
 
+        <meta-data android:name="DATABASE" android:value="database.db" />
+        <meta-data android:name="VERSION" android:value="3" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.loroclip" />
     </application>
 
 </manifest>

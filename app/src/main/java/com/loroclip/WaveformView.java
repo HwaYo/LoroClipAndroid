@@ -27,9 +27,13 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
+import com.loroclip.model.Bookmark;
+import com.loroclip.model.BookmarkHistory;
 import com.loroclip.soundfile.SoundFile;
+import com.loroclip.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * WaveformView is an Android view that displays a visual representation
@@ -45,6 +49,10 @@ import java.util.ArrayList;
  * the selected part of the waveform in a different color.
  */
 public class WaveformView extends View {
+
+
+
+
     public interface WaveformListener {
         public void waveformTouchStart(float x);
         public void waveformTouchMove(float x);
@@ -93,6 +101,8 @@ public class WaveformView extends View {
     private Paint mBookmarkLinePaint;
     private int bmStart;
     private boolean isBookmarking;
+    private List<BookmarkHistory> bookmarkHistroyList;
+    private String mFilename;
 
 
 
@@ -191,6 +201,7 @@ public class WaveformView extends View {
         currentBookmarkPaint = new Paint();
         currentBookmarkPaint.setAntiAlias(false);
 
+        bookmarkHistroyList = new ArrayList<BookmarkHistory>();
     }
 
     @Override
@@ -259,6 +270,10 @@ public class WaveformView extends View {
             mOffset = offsetCenter - getMeasuredWidth() / 2;
             if (mOffset < 0)
                 mOffset = 0;
+            for (BookmarkHistory bh : bookmarkHistroyList) {
+                bh.setStart(bh.getStart() * 2);
+                bh.setEnd(bh.getEnd() * 2);
+            }
             invalidate();
         }
     }
@@ -279,6 +294,10 @@ public class WaveformView extends View {
             if (mOffset < 0)
                 mOffset = 0;
             mHeightsAtThisZoomLevel = null;
+            for (BookmarkHistory bh : bookmarkHistroyList) {
+                bh.setStart(bh.getStart() / 2);
+                bh.setEnd(bh.getEnd() / 2);
+            }
             invalidate();
         }
     }
@@ -339,9 +358,19 @@ public class WaveformView extends View {
         mListener = listener;
     }
 
+    public void setmFilename(String mFilename) {
+        this.mFilename = mFilename;
+    }
+
     public void setIsBookmarking(boolean isBookmarking) {
         bmStart = mPlaybackPos;
         this.isBookmarking = isBookmarking;
+    }
+
+    public void refreshBookmarkHistroyList() {
+        if (hasBookmarkHistory()) {
+            bookmarkHistroyList = BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename);
+        }
     }
 
     public boolean isBookmarking() {
@@ -363,14 +392,31 @@ public class WaveformView extends View {
         invalidate();
     }
 
+    public void drawBookmarkLine(Canvas canvas, int measuredHeight) {
+        for (BookmarkHistory bookmarkHistory : bookmarkHistroyList) {
+            mBookmarkLinePaint.setColor(bookmarkHistory.getColor());
+            int start = millisecsToPixels(bookmarkHistory.getStart());
+            int end = millisecsToPixels(bookmarkHistory.getEnd());
+
+            for (int k = start; k <= end; k++) {
+                canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
+            }
+        }
+    }
+
+    private boolean hasBookmarkHistory() {
+        if (BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename).size() >= 1){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     protected void drawWaveformLine(Canvas canvas,
                                     int x, int y0, int y1,
                                     Paint paint) {
         canvas.drawLine(x, y0, x, y1, paint);
-    }
-
-    public void setmBookmarkList(ArrayList<ArrayList<Integer>> mBookmarkList) {
-        this.mBookmarkList = mBookmarkList;
     }
 
     @Override
@@ -410,15 +456,8 @@ public class WaveformView extends View {
             }
         }
 
+        drawBookmarkLine(canvas, measuredHeight);
 
-        for (ArrayList<Integer> arr : mBookmarkList) {
-            if (arr.size() == 3) {
-                mBookmarkLinePaint.setColor(arr.get(0));
-                for (int k = arr.get(1); k <= arr.get(2); k++) {
-                    canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
-                }
-            }
-        }
 
         // Draw waveform
         for (i = 0; i < width; i++) {
@@ -440,16 +479,11 @@ public class WaveformView extends View {
                 ctr + 1 + mHeightsAtThisZoomLevel[start + i],
                 paint);
 
-
-
-
             if (i + start == mPlaybackPos) {
                 canvas.drawLine(i, 0, i, measuredHeight, mPlaybackLinePaint);
             }
 
         }
-
-
 
         // If we can see the right edge of the waveform, draw the
         // non-waveform area to the right as unselected
@@ -484,13 +518,7 @@ public class WaveformView extends View {
             if (integerTimecodeNew != integerTimecode) {
                 integerTimecode = integerTimecodeNew;
 
-                // Turn, e.g. 67 seconds into "1:07"
-                String timecodeMinutes = "" + (integerSecs / 60);
-                String timecodeSeconds = "" + (integerSecs % 60);
-                if ((integerSecs % 60) < 10) {
-                    timecodeSeconds = "0" + timecodeSeconds;
-                }
-                String timecodeStr = timecodeMinutes + ":" + timecodeSeconds;
+                String timecodeStr = Util.secondsToMinutesStr(integerSecs);
                 float offset = (float) (
                     0.5 * mTimecodePaint.measureText(timecodeStr));
                 canvas.drawText(timecodeStr,
@@ -504,6 +532,8 @@ public class WaveformView extends View {
             mListener.waveformDraw();
         }
     }
+
+
 
     /**
      * Called once when a new sound file is added
@@ -650,4 +680,12 @@ public class WaveformView extends View {
                 (int)(mValuesByZoomLevel[mZoomLevel][i] * halfHeight);
         }
     }
+
+
+
+    public void addBookmarkHistory(BookmarkHistory current_bookmark) {
+        bookmarkHistroyList.add(current_bookmark);
+    }
+
+
 }
