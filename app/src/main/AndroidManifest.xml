@@ -43,11 +43,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_CALL_LOG" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -116,21 +115,11 @@
                 android:resource="@xml/authenticator" />
         </service>
 
-        <meta-data
-            android:name="DATABASE"
-            android:value="database.db" />
-        <meta-data
-            android:name="VERSION"
-            android:value="1" />
-        <meta-data
-            android:name="QUERY_LOG"
-            android:value="true" />
-        <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.loroclip" />
-
+        <meta-data android:name="DATABASE" android:value="database.db" />
+        <meta-data android:name="VERSION" android:value="3" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.loroclip" />
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-
     </application>
 
 </manifest>

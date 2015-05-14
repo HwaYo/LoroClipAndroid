@@ -6,7 +6,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -43,8 +42,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         AccessToken token = AccessToken.getCurrentAccessToken();
 
         if (token != null) {
-            Log.d("login", token.getToken());
-
             retrieveAuthTokenWithFacebookToken(token);
             return;
         }
@@ -120,12 +117,12 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
                     @Override
                     public void onCancel() {
-                        Log.d("login", "Cancel");
+
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Log.d("login", "Error");
+
                     }
                 });
     }

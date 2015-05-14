@@ -46,7 +46,10 @@ public class TokenManager {
                         public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
                             Account[] accounts = mAccountManager.getAccountsByType(LoroClipAccount.ACCOUNT_TYPE);
                             mAccount = accounts[0];
-                            callback.run(null);
+
+                            if (callback != null) {
+                                callback.run(null);
+                            }
                         }
                     }, null);
         }
@@ -54,7 +57,7 @@ public class TokenManager {
         mAccount = accounts[0];
         callback.run(null);
 
-        return null;
+            return null;
     }
 
     public AccountManagerFuture<Bundle> getAccessToken(Activity activity, final TokenManagerCallback callback) {

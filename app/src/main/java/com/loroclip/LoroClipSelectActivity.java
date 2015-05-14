@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.database.Cursor;
 import android.database.MergeCursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -90,6 +92,33 @@ public class LoroClipSelectActivity
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        final Activity activity = this;
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                // Initialization required from main entry.
+                TokenManager.getInstance().initialize(activity, getApplicationContext(), new TokenManager.TokenManagerCallback() {
+                    @Override
+                    public void run(String s) {
+                        progressDialog.dismiss();
+                    }
+                });
+
+                return null;
+            }
+        }.execute();
+
+        initialize();
+    }
+
+    private void initialize() {
         mShowAll = false;
 
         String status = Environment.getExternalStorageState();
@@ -121,18 +150,18 @@ public class LoroClipSelectActivity
                     null,
                     // Map from database columns...
                     new String[] {
-                        MediaStore.Audio.Media.ARTIST,
-                        MediaStore.Audio.Media.ALBUM,
-                        MediaStore.Audio.Media.TITLE,
-                        MediaStore.Audio.Media._ID,
-                        MediaStore.Audio.Media._ID},
-                        // To widget ids in the row layout...
+                            MediaStore.Audio.Media.ARTIST,
+                            MediaStore.Audio.Media.ALBUM,
+                            MediaStore.Audio.Media.TITLE,
+                            MediaStore.Audio.Media._ID,
+                            MediaStore.Audio.Media._ID},
+                    // To widget ids in the row layout...
                     new int[] {
-                        R.id.row_artist,
-                        R.id.row_album,
-                        R.id.row_title,
-                        R.id.row_icon,
-                        R.id.row_options_button},
+                            R.id.row_artist,
+                            R.id.row_album,
+                            R.id.row_title,
+                            R.id.row_icon,
+                            R.id.row_options_button},
                     0);
 
             setListAdapter(mAdapter);
@@ -142,9 +171,9 @@ public class LoroClipSelectActivity
             // Normal click - open the editor
             getListView().setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent,
-                        View view,
-                        int position,
-                        long id) {
+                                        View view,
+                                        int position,
+                                        long id) {
                     startLoroClipEditor();
                 }
             });

@@ -12,4 +12,6 @@ public class BookmarkListView extends ListView {
     public BookmarkListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+
 }
