@@ -100,13 +100,25 @@ public class LoroClipSelectActivity
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        // Test code !
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                // Initialization required from main entry.
-                TokenManager.getInstance().initialize(activity, getApplicationContext(), new TokenManager.TokenManagerCallback() {
+                TokenManager.getInstance().getAccessToken(activity, new TokenManager.TokenManagerCallback() {
                     @Override
-                    public void run(String s) {
+                    public void run(String token) {
+                        LoroClipAPIClient client = new LoroClipAPIClient(token);
+                        client.getService().listRecords(new Callback<List<Record>>() {
+                            @Override
+                            public void success(List<Record> records, Response response) {
+                                Toast.makeText(getApplicationContext(), records.get(0).title, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+
+                            }
+                        });
                         progressDialog.dismiss();
                     }
                 });

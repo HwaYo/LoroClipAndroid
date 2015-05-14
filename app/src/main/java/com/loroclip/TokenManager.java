@@ -13,6 +13,7 @@ import android.os.Bundle;
  */
 public class TokenManager {
     private static TokenManager mInstance;
+    private boolean mIsInitialized;
     private Context mContext;
     private AccountManager mAccountManager;
     private Account mAccount;
@@ -21,7 +22,9 @@ public class TokenManager {
         void run(String s);
     }
 
-    private TokenManager() {}
+    private TokenManager() {
+        mIsInitialized = false;
+    }
 
     public static TokenManager getInstance() {
         if (mInstance == null) {
@@ -46,6 +49,7 @@ public class TokenManager {
                         public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
                             Account[] accounts = mAccountManager.getAccountsByType(LoroClipAccount.ACCOUNT_TYPE);
                             mAccount = accounts[0];
+                            mIsInitialized = true;
 
                             if (callback != null) {
                                 callback.run(null);
@@ -55,13 +59,14 @@ public class TokenManager {
         }
 
         mAccount = accounts[0];
+        mIsInitialized = true;
         callback.run(null);
 
-            return null;
+        return null;
     }
 
-    public AccountManagerFuture<Bundle> getAccessToken(Activity activity, final TokenManagerCallback callback) {
-        return mAccountManager.getAuthToken(mAccount, LoroClipAccount.AUTHTOKEN_TYPE, null, activity, new AccountManagerCallback<Bundle>() {
+    public void getAccessToken(final Activity activity, final TokenManagerCallback callback) {
+        final AccountManagerCallback<Bundle> authTokenCallback = new AccountManagerCallback<Bundle>() {
             @Override
             public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
                 try {
@@ -71,6 +76,17 @@ public class TokenManager {
                     callback.run(null);
                 }
             }
-        }, null);
+        };
+
+        if (!mIsInitialized) {
+            initialize(activity, activity.getApplicationContext(), new TokenManagerCallback() {
+                @Override
+                public void run(String s) {
+                    mAccountManager.getAuthToken(mAccount, LoroClipAccount.AUTHTOKEN_TYPE, null, activity, authTokenCallback, null);
+                }
+            });
+        } else {
+            mAccountManager.getAuthToken(mAccount, LoroClipAccount.AUTHTOKEN_TYPE, null, activity, authTokenCallback, null);
+        }
     }
 }
