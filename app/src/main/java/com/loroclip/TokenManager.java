@@ -12,7 +12,9 @@ import android.os.Bundle;
  * Created by angdev on 15. 5. 12..
  */
 public class TokenManager {
-    private static TokenManager mInstance;
+    private static TokenManager sInstance;
+    private static final Object sInstanceLock = new Object();
+
     private boolean mIsInitialized;
     private Context mContext;
     private AccountManager mAccountManager;
@@ -27,14 +29,14 @@ public class TokenManager {
     }
 
     public static TokenManager getInstance() {
-        if (mInstance == null) {
-            synchronized (TokenManager.class) {
-                if (mInstance == null) {
-                    mInstance = new TokenManager();
+        if (sInstance == null) {
+            synchronized (sInstanceLock) {
+                if (sInstance == null) {
+                    sInstance = new TokenManager();
                 }
             }
         }
-        return mInstance;
+        return sInstance;
     }
 
     public AccountManagerFuture<Bundle> initialize(final Activity activity, final Context context, final TokenManagerCallback callback) {
