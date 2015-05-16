@@ -53,18 +53,13 @@
         android:label="@string/loroclip_app_name"
         android:largeHeap="true"
         android:theme="@android:style/Theme.Holo" >
+
         <activity
             android:name=".LoroClipSelectActivity"
             android:label="@string/main_activity_label" >
             <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.OPENABLE" />
-
-                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
 
@@ -81,8 +76,6 @@
             android:windowSoftInputMode="adjustResize" >
             <intent-filter android:label="@string/edit_intent" >
                 <action android:name="android.intent.action.EDIT" />
-
-                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
 
@@ -91,14 +84,15 @@
             android:name=".ChooseContactActivity"
             android:configChanges="orientation|keyboardHidden" >
         </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service android:name=".AuthenticatorService" >
@@ -136,7 +130,7 @@
             android:value="database.db" />
         <meta-data
             android:name="VERSION"
-            android:value="3" />
+            android:value="1" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />

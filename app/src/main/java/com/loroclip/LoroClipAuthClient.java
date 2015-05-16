@@ -9,7 +9,7 @@ import retrofit.http.Query;
  * Created by angdev on 15. 5. 12..
  */
 public class LoroClipAuthClient {
-    private static final String API_ENDPOINT = "http://10.0.2.2:3000";
+    private static final String API_ENDPOINT = "http://parrot.192.168.1.100.xip.io";
     private RestAdapter mRestAdapter;
     private LoroClipAuthService mService;
 
