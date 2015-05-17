@@ -66,7 +66,7 @@ void start(JNIEnv *env, jobject *vorbisDataFeed, jmethodID* startMethodId, long 
     jstring vendorString = (*env)->NewStringUTF(env, vendor);
 
     //Get decode stream info class and constructor
-    jclass decodeStreamInfoClass = (*env)->FindClass(env, "org/xiph/vorbis/decoder/DecodeStreamInfo");
+    jclass decodeStreamInfoClass = (*env)->FindClass(env, "com/loroclip/decoder/DecodeStreamInfo");
     jmethodID constructor = (*env)->GetMethodID(env, decodeStreamInfoClass, "<init>", "(JJLjava/lang/String;)V");
 
     //Create the decode stream info object
@@ -100,12 +100,12 @@ JNIEXPORT int JNICALL Java_com_loroclip_decoder_VorbisDecoder_startDecoding
     jshortArray jShortArrayWriteBuffer = (*env)->NewShortArray(env, BUFFER_LENGTH*2);
 
     //Find our java classes we'll be calling
-    jclass vorbisDataFeedClass = (*env)->FindClass(env, "org/xiph/vorbis/decoder/DecodeFeed");
+    jclass vorbisDataFeedClass = (*env)->FindClass(env, "com/loroclip/decoder/DecodeFeed");
 
     //Find our java method id's we'll be calling
     jmethodID readVorbisDataMethodId = (*env)->GetMethodID(env, vorbisDataFeedClass, "readVorbisData", "([BI)I");
     jmethodID writePCMDataMethodId = (*env)->GetMethodID(env, vorbisDataFeedClass, "writePCMData", "([SI)V");
-    jmethodID startMethodId = (*env)->GetMethodID(env, vorbisDataFeedClass, "start", "(Lorg/xiph/vorbis/decoder/DecodeStreamInfo;)V");
+    jmethodID startMethodId = (*env)->GetMethodID(env, vorbisDataFeedClass, "start", "(Lcom/loroclip/decoder/DecodeStreamInfo;)V");
     jmethodID startReadingHeaderMethodId = (*env)->GetMethodID(env, vorbisDataFeedClass, "startReadingHeader", "()V");
     jmethodID stopMethodId = (*env)->GetMethodID(env, vorbisDataFeedClass, "stop", "()V");
 
