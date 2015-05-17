@@ -55,25 +55,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncRecords(LoroClipAPIClient.LoroClipService service) {
-        Date oldestSyncedAt = Record.getOldestSyncedAt();
+        Date oldestSyncedAt = Record.getOldestSyncedAt(Record.class);
         int oldestSyncedAtTimestamp = (int) (oldestSyncedAt.getTime() / 1000);
 
         try {
             // Pull
             List<Record> records = service.pullRecords(oldestSyncedAtTimestamp);
             for (Record record : records) {
-                Record mappedRecord = Record.findByUUID(record.uuid);
+                Record mappedRecord = Record.findByUuid(Record.class, record.uuid);
                 if (mappedRecord != null) {
-                    if (record.deleted) {
+                    if (record.isDeleted()) {
                         mappedRecord.delete(true);
                     }
-                    else if (mappedRecord.updatedAt.before(record.updatedAt)) {
-                        mappedRecord.overwriteEntity(record);
+                    else if (mappedRecord.getUpdatedAt().before(record.getUpdatedAt())) {
+                        mappedRecord.overwrite(record);
                     }
                     // else then required push sync
                 } else {
                     // todo: override #save
-                    record.save(true);
+                    record.saveAsSynced();
                 }
             }
 
@@ -81,8 +81,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             List<Record> syncedRecords = service.pushRecords(new LoroClipAPIClient.LoroClipService.PushRecordsParams(dirtyRecords));
 
             for (Record record : syncedRecords) {
-                Record mappedRecord = Record.findByUUID(record.uuid);
-                mappedRecord.save(true);
+                Record mappedRecord = Record.findByUuid(Record.class, record.uuid);
+                mappedRecord.saveAsSynced();
             }
         } catch (RetrofitError e) {
 
