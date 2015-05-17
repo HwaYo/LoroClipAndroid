@@ -30,7 +30,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8be080e-2b6e-474b-a139-946e4587963e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LoroClipAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -130,46 +134,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.3636364">
-              <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6217949">
+              <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#onCreateOptionsMenu#0;class#RecordActivity#0" expanded="false" />
-                <element signature="method#addEvnetListener#0;class#RecordActivity#0" expanded="false" />
-                <element signature="e#2324#2481#0" expanded="true" />
-                <element signature="e#2480#2481#0" expanded="true" />
-                <element signature="e#2526#2826#0" expanded="true" />
-                <element signature="e#2825#2826#0" expanded="true" />
-                <element signature="e#2870#3025#0" expanded="true" />
-                <element signature="e#3024#3025#0" expanded="true" />
-                <element signature="e#3106#3227#0" expanded="true" />
-                <element signature="e#3226#3227#0" expanded="true" />
-                <element signature="e#4266#4267#0" expanded="true" />
-                <element signature="e#4304#4305#0" expanded="true" />
-                <element signature="e#4334#4335#0" expanded="true" />
-                <element signature="e#4374#4375#0" expanded="true" />
-                <element signature="e#4553#4554#0" expanded="true" />
-                <element signature="e#4601#4602#0" expanded="true" />
-                <element signature="e#5016#5204#0" expanded="true" />
-                <element signature="e#5203#5204#0" expanded="true" />
-                <element signature="e#5730#5731#0" expanded="true" />
-                <element signature="e#5802#5803#0" expanded="true" />
-                <element signature="e#6584#6892#0" expanded="true" />
-                <element signature="e#6891#6892#0" expanded="true" />
+                <element signature="e#2362#2681#0" expanded="true" />
+                <element signature="e#2680#2681#0" expanded="true" />
+                <element signature="e#2726#2993#0" expanded="true" />
+                <element signature="e#2992#2993#0" expanded="true" />
+                <element signature="e#3040#3311#0" expanded="true" />
+                <element signature="e#3310#3311#0" expanded="true" />
+                <element signature="e#3392#3787#0" expanded="true" />
+                <element signature="e#3786#3787#0" expanded="true" />
+                <element signature="e#4826#4827#0" expanded="true" />
+                <element signature="e#4864#4865#0" expanded="true" />
+                <element signature="e#4894#4895#0" expanded="true" />
+                <element signature="e#4934#4935#0" expanded="true" />
+                <element signature="e#5528#5694#0" expanded="true" />
+                <element signature="e#5693#5694#0" expanded="true" />
+                <element signature="e#6220#6221#0" expanded="true" />
+                <element signature="e#6292#6293#0" expanded="true" />
+                <element signature="e#7108#7416#0" expanded="true" />
+                <element signature="e#7415#7416#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActivityThread.java" pinned="false" current-in-tab="false">
-        <entry file="file:///Applications/sdk/sources/android-21/android/app/ActivityThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3163" column="0" selection-start-line="3163" selection-start-column="0" selection-end-line="3163" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -177,8 +167,8 @@
       <file leaf-file-name="activity_record.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.553571">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.71428573">
+              <caret line="68" column="42" selection-start-line="68" selection-start-column="42" selection-end-line="68" selection-end-column="42" />
               <folding>
                 <element signature="e#277#312#0" expanded="true" />
                 <element signature="e#350#385#0" expanded="true" />
@@ -225,20 +215,21 @@
       <file leaf-file-name="RecodWaveformView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="121" column="44" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
+            <state vertical-scroll-proportion="-7.703704">
+              <caret line="104" column="37" selection-start-line="104" selection-start-column="37" selection-end-line="104" selection-end-column="37" />
               <folding>
-                <element signature="e#2877#2979#0" expanded="true" />
-                <element signature="e#2978#2979#0" expanded="true" />
+                <element signature="e#2532#2533#0" expanded="true" />
+                <element signature="e#2991#3093#0" expanded="true" />
+                <element signature="e#3092#3093#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RecordListActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RecordListActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.73913044">
+            <state vertical-scroll-proportion="0.0">
               <caret line="30" column="80" selection-start-line="30" selection-start-column="80" selection-end-line="30" selection-end-column="80" />
               <folding>
                 <element signature="e#805#1477#0" expanded="true" />
@@ -251,8 +242,8 @@
       <file leaf-file-name="VorbisRecorder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.6296296">
-              <caret line="226" column="4" selection-start-line="226" selection-start-column="4" selection-end-line="228" selection-end-column="5" />
+            <state vertical-scroll-proportion="-13.814815">
+              <caret line="162" column="33" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;field#TAG#0;class#VorbisRecorder#0" expanded="false" />
@@ -262,19 +253,28 @@
                 <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
                 <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
                 <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
-                <element signature="e#1662#1677#0" expanded="true" />
+                <element signature="e#1701#1716#0" expanded="true" />
                 <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-                <element signature="method#FileEncodeFeed#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-                <element signature="e#5922#5946#0" expanded="true" />
-                <element signature="e#6782#6783#0" expanded="true" />
-                <element signature="e#6817#6818#0" expanded="true" />
-                <element signature="e#6855#6856#0" expanded="true" />
-                <element signature="e#6903#6904#0" expanded="true" />
-                <element signature="e#6943#6944#0" expanded="true" />
-                <element signature="e#6994#6995#0" expanded="true" />
-                <element signature="e#8545#8546#0" expanded="true" />
-                <element signature="e#8604#8605#0" expanded="true" />
+                <element signature="e#5943#5967#0" expanded="true" />
+                <element signature="e#6803#6804#0" expanded="true" />
+                <element signature="e#6838#6839#0" expanded="true" />
+                <element signature="e#6876#6877#0" expanded="true" />
+                <element signature="e#6924#6925#0" expanded="true" />
+                <element signature="e#6964#6965#0" expanded="true" />
+                <element signature="e#7015#7016#0" expanded="true" />
+                <element signature="e#8566#8567#0" expanded="true" />
+                <element signature="e#8625#8626#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EncodeFeed.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/EncodeFeed.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1665,12 +1665,12 @@
         <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk" />
         <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.h" />
         <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.c" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java" />
       </list>
     </option>
   </component>
@@ -1736,7 +1736,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="AndroidView" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -2681,7 +2681,7 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46548116" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28974897" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2020757" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2748,16 +2748,16 @@
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java</url>
-          <line>119</line>
-          <properties />
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java</url>
           <line>3</line>
           <properties />
           <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java</url>
+          <line>121</line>
+          <properties />
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java</url>
@@ -2766,7 +2766,7 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="56" />
+      <option name="time" value="57" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2933,8 +2933,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="1858" column="55" selection-start-line="1858" selection-start-column="55" selection-end-line="1858" selection-end-column="55" />
           <folding>
-            <marker date="1431852177000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1431852177000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1431868746000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1431868746000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -3103,36 +3103,12 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/EncodeFeed.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.553571">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="e#277#312#0" expanded="true" />
-            <element signature="e#350#385#0" expanded="true" />
-            <element signature="e#421#454#0" expanded="true" />
-            <element signature="e#493#526#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file:///Applications/sdk/sources/android-21/android/app/ActivityThread.java">
@@ -3175,21 +3151,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="121" column="44" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
+          <caret line="30" column="80" selection-start-line="30" selection-start-column="80" selection-end-line="30" selection-end-column="80" />
           <folding>
-            <element signature="e#2877#2979#0" expanded="true" />
-            <element signature="e#2978#2979#0" expanded="true" />
+            <element signature="e#805#1477#0" expanded="true" />
+            <element signature="e#1476#1477#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.71428573">
+          <caret line="68" column="42" selection-start-line="68" selection-start-column="42" selection-end-line="68" selection-end-column="42" />
+          <folding>
+            <element signature="e#277#312#0" expanded="true" />
+            <element signature="e#350#385#0" expanded="true" />
+            <element signature="e#421#454#0" expanded="true" />
+            <element signature="e#493#526#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.703704">
+          <caret line="104" column="37" selection-start-line="104" selection-start-column="37" selection-end-line="104" selection-end-column="37" />
+          <folding>
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2991#3093#0" expanded="true" />
+            <element signature="e#3092#3093#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/EncodeFeed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.6296296">
-          <caret line="226" column="4" selection-start-line="226" selection-start-column="4" selection-end-line="228" selection-end-column="5" />
+        <state vertical-scroll-proportion="-13.814815">
+          <caret line="162" column="33" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#TAG#0;class#VorbisRecorder#0" expanded="false" />
@@ -3199,61 +3211,45 @@
             <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
             <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
             <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="e#1662#1677#0" expanded="true" />
+            <element signature="e#1701#1716#0" expanded="true" />
             <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="method#FileEncodeFeed#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="e#5922#5946#0" expanded="true" />
-            <element signature="e#6782#6783#0" expanded="true" />
-            <element signature="e#6817#6818#0" expanded="true" />
-            <element signature="e#6855#6856#0" expanded="true" />
-            <element signature="e#6903#6904#0" expanded="true" />
-            <element signature="e#6943#6944#0" expanded="true" />
-            <element signature="e#6994#6995#0" expanded="true" />
-            <element signature="e#8545#8546#0" expanded="true" />
-            <element signature="e#8604#8605#0" expanded="true" />
+            <element signature="e#5943#5967#0" expanded="true" />
+            <element signature="e#6803#6804#0" expanded="true" />
+            <element signature="e#6838#6839#0" expanded="true" />
+            <element signature="e#6876#6877#0" expanded="true" />
+            <element signature="e#6924#6925#0" expanded="true" />
+            <element signature="e#6964#6965#0" expanded="true" />
+            <element signature="e#7015#7016#0" expanded="true" />
+            <element signature="e#8566#8567#0" expanded="true" />
+            <element signature="e#8625#8626#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3636364">
-          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6217949">
+          <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#onCreateOptionsMenu#0;class#RecordActivity#0" expanded="false" />
-            <element signature="method#addEvnetListener#0;class#RecordActivity#0" expanded="false" />
-            <element signature="e#2324#2481#0" expanded="true" />
-            <element signature="e#2480#2481#0" expanded="true" />
-            <element signature="e#2526#2826#0" expanded="true" />
-            <element signature="e#2825#2826#0" expanded="true" />
-            <element signature="e#2870#3025#0" expanded="true" />
-            <element signature="e#3024#3025#0" expanded="true" />
-            <element signature="e#3106#3227#0" expanded="true" />
-            <element signature="e#3226#3227#0" expanded="true" />
-            <element signature="e#4266#4267#0" expanded="true" />
-            <element signature="e#4304#4305#0" expanded="true" />
-            <element signature="e#4334#4335#0" expanded="true" />
-            <element signature="e#4374#4375#0" expanded="true" />
-            <element signature="e#4553#4554#0" expanded="true" />
-            <element signature="e#4601#4602#0" expanded="true" />
-            <element signature="e#5016#5204#0" expanded="true" />
-            <element signature="e#5203#5204#0" expanded="true" />
-            <element signature="e#5730#5731#0" expanded="true" />
-            <element signature="e#5802#5803#0" expanded="true" />
-            <element signature="e#6584#6892#0" expanded="true" />
-            <element signature="e#6891#6892#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.73913044">
-          <caret line="30" column="80" selection-start-line="30" selection-start-column="80" selection-end-line="30" selection-end-column="80" />
-          <folding>
-            <element signature="e#805#1477#0" expanded="true" />
-            <element signature="e#1476#1477#0" expanded="true" />
+            <element signature="e#2362#2681#0" expanded="true" />
+            <element signature="e#2680#2681#0" expanded="true" />
+            <element signature="e#2726#2993#0" expanded="true" />
+            <element signature="e#2992#2993#0" expanded="true" />
+            <element signature="e#3040#3311#0" expanded="true" />
+            <element signature="e#3310#3311#0" expanded="true" />
+            <element signature="e#3392#3787#0" expanded="true" />
+            <element signature="e#3786#3787#0" expanded="true" />
+            <element signature="e#4826#4827#0" expanded="true" />
+            <element signature="e#4864#4865#0" expanded="true" />
+            <element signature="e#4894#4895#0" expanded="true" />
+            <element signature="e#4934#4935#0" expanded="true" />
+            <element signature="e#5528#5694#0" expanded="true" />
+            <element signature="e#5693#5694#0" expanded="true" />
+            <element signature="e#6220#6221#0" expanded="true" />
+            <element signature="e#6292#6293#0" expanded="true" />
+            <element signature="e#7108#7416#0" expanded="true" />
+            <element signature="e#7415#7416#0" expanded="true" />
           </folding>
         </state>
       </provider>

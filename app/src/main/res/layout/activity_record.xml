@@ -52,6 +52,8 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
+            android:state_enabled="false"
+            android:visibility="gone"
             android:text="일시정지"
             android:id="@+id/recordPause"
             android:layout_weight="0.20"/>
@@ -60,17 +62,22 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:text="녹음중지"
-            android:id="@+id/recordStop"
+            android:state_enabled="false"
+            android:visibility="gone"
+            android:text="녹음재개"
+            android:id="@+id/recordRestart"
             android:layout_weight="0.17"/>
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:text="저장하기"
-            android:id="@+id/recordSave"
+            android:state_enabled="false"
+            android:visibility="gone"
+            android:text="녹음중지"
+            android:id="@+id/recordStop"
             android:layout_weight="0.17"/>
+
     </LinearLayout>
 
     <LinearLayout

@@ -31,7 +31,7 @@ public class RecodWaveformView extends View {
 		waveBaseLine.setStrokeWidth(1.0f);
 		waveBaseLine.setStrokeCap(Paint.Cap.ROUND);
 
-		data = new byte[0];
+		data = null;
 		index = 0;
 	}
 
@@ -43,7 +43,7 @@ public class RecodWaveformView extends View {
 		int height = this.getHeight();
 
 
-		if(data.length == 0) {
+		if(data == null) {
 			return;
 		}
 
@@ -104,6 +104,13 @@ public class RecodWaveformView extends View {
 
 	public void setDrawData(int size) {
 		drawData = new double[size];
+	}
+
+	public void clearWaveData() {
+		data = null;
+		index = 0;
+		drawData = new double[drawData.length];
+		fireInvalidate();
 	}
 	private void drawWaveLine(Canvas canvas, double value, float x, float y, int height) {
 		float nextY = height * -1 * (float)(value - 1.0) / 2.0f;

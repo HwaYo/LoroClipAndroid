@@ -74,13 +74,15 @@ public class VorbisRecorder {
    */
   private final EncodeFeed encodeFeed;
 
+  private RecodWaveformView waveForm;
+
   /**
    * recorder의 현재 상태를 나타냄
    */
   private final AtomicReference<RecorderState> currentState = new AtomicReference<RecorderState>(RecorderState.STOPPED);
 
   private class FileEncodeFeed implements EncodeFeed {
-    private RecodWaveformView waveForm;
+
 
     /**
      * 쓸 파일
@@ -102,13 +104,12 @@ public class VorbisRecorder {
      *
      * @param fileToSaveTo 쓸파일
      */
-    public FileEncodeFeed(File fileToSaveTo, RecodWaveformView waveForm) {
+    public FileEncodeFeed(File fileToSaveTo) {
       if (fileToSaveTo == null) {
         throw new IllegalArgumentException("File to save to must not be null");
       }
       this.fileToSaveTo = fileToSaveTo;
-      this.waveForm = waveForm;
-      this.waveForm.setDrawData(BUFFER_LENGTH);
+
     }
 
     @Override
@@ -156,9 +157,10 @@ public class VorbisRecorder {
     @Override
     public void stop() {
 
-      if (isRecording() || isStopping()) {
+      if (isRecording() || isStopping() || isPaused()) {
         // 멈춤상태 등록
         currentState.set(RecorderState.STOPPED);
+        waveForm.clearWaveData();
 
         // outputStream 닫기
         if (outputStream != null) {
@@ -181,7 +183,7 @@ public class VorbisRecorder {
 
     @Override
     public void stopEncoding() {
-      if (isRecording()) {
+      if (isRecording() || isPaused()) {
         currentState.set(RecorderState.STOPPING);
       }
     }
@@ -228,7 +230,9 @@ public class VorbisRecorder {
       fileToSaveTo.deleteOnExit();
     }
 
-    this.encodeFeed = new FileEncodeFeed(fileToSaveTo, waveForm);
+    this.waveForm = waveForm;
+    this.waveForm.setDrawData(BUFFER_LENGTH);
+    this.encodeFeed = new FileEncodeFeed(fileToSaveTo);
   }
 
   /**

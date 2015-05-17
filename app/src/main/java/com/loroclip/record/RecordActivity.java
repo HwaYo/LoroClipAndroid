@@ -31,7 +31,7 @@ public class RecordActivity extends Activity {
   private Button recordStartButton;
   private Button recordPauseButton;
   private Button recordStopButton;
-  private Button recordSaveButton;
+  private Button recordRestartButton;
   private RecodWaveformView waveformView;
   private AlertDialog saveDialog;
 
@@ -46,7 +46,8 @@ public class RecordActivity extends Activity {
     recordStartButton = (Button) findViewById(R.id.recordStart);
     recordPauseButton = (Button) findViewById(R.id.recordPause);
     recordStopButton = (Button) findViewById(R.id.recordStop);
-    recordSaveButton = (Button) findViewById(R.id.recordSave);
+    recordRestartButton = (Button) findViewById(R.id.recordRestart);
+
 
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayView);
     waveformView = new RecodWaveformView(getBaseContext());
@@ -75,6 +76,7 @@ public class RecordActivity extends Activity {
   @Override
   public void onDestroy() {
     super.onDestroy();
+    recorderHandler.stop();
     recorderHandler.deleteTempAudioRecordFile();
   }
 
@@ -84,35 +86,47 @@ public class RecordActivity extends Activity {
       public void onClick(View v) {
         recorderHandler.start();
         timerHandler.start();
+
+        recordStartButton.setVisibility(View.GONE);
+        recordPauseButton.setVisibility(View.VISIBLE);
+        recordStopButton.setVisibility(View.VISIBLE);
       }
     });
 
     recordPauseButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if(recorderHandler.isPaused()) {
-          recorderHandler.restart();
-          timerHandler.restart();
-        } else {
-          recorderHandler.pause();
-          timerHandler.pause();
-        }
+        recorderHandler.pause();
+        timerHandler.pause();
+
+        recordPauseButton.setVisibility(View.GONE);
+        recordRestartButton.setVisibility(View.VISIBLE);
       }
     });
 
+    recordRestartButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        recorderHandler.restart();
+        timerHandler.restart();
+
+        recordRestartButton.setVisibility(View.GONE);
+        recordPauseButton.setVisibility(View.VISIBLE);
+      }
+    });
+
+    saveDialog = createSaveDialog();
     recordStopButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         recorderHandler.stop();
         timerHandler.stop();
-      }
-    });
-
-    saveDialog = createSaveDialog();
-    recordSaveButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
         saveDialog.show();
+
+        recordStopButton.setVisibility(View.GONE);
+        recordPauseButton.setVisibility(View.GONE);
+        recordRestartButton.setVisibility(View.GONE);
+        recordStartButton.setVisibility(View.VISIBLE);
       }
     });
   }
@@ -149,13 +163,9 @@ public class RecordActivity extends Activity {
     }
 
     private void stop() {
-      if (loroclipRecorder != null && loroclipRecorder.isRecording()) {
+      if (loroclipRecorder != null && (loroclipRecorder.isRecording() || loroclipRecorder.isPaused())) {
         loroclipRecorder.stop();
       }
-    }
-
-    public boolean isPaused() {
-      return loroclipRecorder.isPaused();
     }
 
     public void recordFileSave(String fileName) {
@@ -171,7 +181,7 @@ public class RecordActivity extends Activity {
       handler.post(new Runnable() {
         @Override
         public void run() {
-          Toast.makeText(RecordActivity.this, "Save completed: " + newFilePath, Toast.LENGTH_SHORT).show();
+          Toast.makeText(RecordActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
         }
       });
 
@@ -222,7 +232,7 @@ public class RecordActivity extends Activity {
   private AlertDialog createSaveDialog() {
     final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
     return new AlertDialog.Builder(this)
-        .setTitle("파일저장")
+        .setTitle("파일저장 (저장안함을 누를시 현재 녹음파일을 되돌릴수 없습니다.!!)")
         .setView(view)
         .setPositiveButton("저장", new DialogInterface.OnClickListener() {
           @Override
@@ -231,7 +241,7 @@ public class RecordActivity extends Activity {
             recorderHandler.recordFileSave(filename.getText().toString());
           }
         })
-        .setNegativeButton("취소", null)
+        .setNegativeButton("저장안함", null)
         .create();
   }
 }
