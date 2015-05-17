@@ -44,6 +44,8 @@ public class RecordActivity extends Activity {
   private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_CONFIGURATION_MONO;
   private static final int AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
+  private VorbisRecorder vorbisRecorder;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -142,19 +144,39 @@ public class RecordActivity extends Activity {
   }
 
   private void startRecording() {
-    try {
-      recordTask = new RecorderTask(waveformView);
-    } catch (IllegalArgumentException ex) {
+//    try {
+//      recordTask = new RecorderTask(waveformView);
+//    } catch (IllegalArgumentException ex) {
+//    }
+//    recordTask.start();
+
+    if (vorbisRecorder == null || vorbisRecorder.isStopped()) {
+      //Get location to save to
+      File fileToSaveTo = new File(Environment.getExternalStorageDirectory(), "saveTo333.ogg");
+
+      //Create our recorder if necessary
+      if (vorbisRecorder == null) {
+        vorbisRecorder = new VorbisRecorder(fileToSaveTo, waveformView);
+      }
+
+      int sampleRate = 44100;
+      int channels = 2;
+      Float quality = 1.0f;
+      vorbisRecorder.start(sampleRate, channels, quality);
+
     }
-    recordTask.start();
   }
 
 
   private void stopTask(RecorderTask task) {
-    task.stopTask();
-    try {
-      task.join(1000);
-    } catch (InterruptedException e) {
+//    task.stopTask();
+//    try {
+//      task.join(1000);
+//    } catch (InterruptedException e) {
+//    }
+
+    if (vorbisRecorder != null && vorbisRecorder.isRecording()) {
+      vorbisRecorder.stop();
     }
   }
 
