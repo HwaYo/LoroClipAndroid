@@ -1,4 +1,4 @@
-CREATE TABLE "records" (
+CREATE TABLE "record" (
 "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 "title" varchar,
 "note" text,
@@ -7,5 +7,6 @@ CREATE TABLE "records" (
 "updated_at" datetime NOT NULL,
 "deleted" boolean DEFAULT 'f',
 "uuid" varchar,
-"last_synced_at" datetime NOT NULL
+"synced_at" datetime,
+"dirty" boolean DEFAULT 'f'
 );

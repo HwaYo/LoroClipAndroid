@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.loroclip.model.Record;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -35,27 +36,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-//        android.os.Debug.waitForDebugger();
+        android.os.Debug.waitForDebugger();
 
         AccountManager accountManager = AccountManager.get(mContext);
         try {
             String accessToken = accountManager.blockingGetAuthToken(account, LoroClipAccount.AUTHTOKEN_TYPE, true);
             LoroClipAPIClient client = new LoroClipAPIClient(accessToken);
-            List<Record> records = null;
 
+            syncRecords(client.getService());
 
-            try {
-                records = client.getService().pullRecords(0);
-                for (Record record : records) {
-                    record.save();
-                }
-
-            } catch (RetrofitError e) {
-                if (e.getResponse().getStatus() == 401) {
-                    accountManager.invalidateAuthToken(LoroClipAccount.ACCOUNT_TYPE, accessToken);
-                    return;
-                }
-            }
         } catch (OperationCanceledException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -66,9 +55,35 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncRecords(LoroClipAPIClient.LoroClipService service) {
+        Date oldestSyncedAt = Record.getOldestSyncedAt();
+        int oldestSyncedAtTimestamp = (int) (oldestSyncedAt.getTime() / 1000);
 
         try {
-            List<Record> records = service.pullRecords(0);
+            // Pull
+            List<Record> records = service.pullRecords(oldestSyncedAtTimestamp);
+            for (Record record : records) {
+                Record mappedRecord = Record.findByUUID(record.uuid);
+                if (mappedRecord != null) {
+                    if (record.deleted) {
+                        mappedRecord.delete(true);
+                    }
+                    else if (mappedRecord.updatedAt.before(record.updatedAt)) {
+                        mappedRecord.overwriteEntity(record);
+                    }
+                    // else then required push sync
+                } else {
+                    // todo: override #save
+                    record.save(true);
+                }
+            }
+
+            List<Record> dirtyRecords = Record.find(Record.class, "dirty = ?", "1");
+            List<Record> syncedRecords = service.pushRecords(new LoroClipAPIClient.LoroClipService.PushRecordsParams(dirtyRecords));
+
+            for (Record record : syncedRecords) {
+                Record mappedRecord = Record.findByUUID(record.uuid);
+                mappedRecord.save(true);
+            }
         } catch (RetrofitError e) {
 
         }

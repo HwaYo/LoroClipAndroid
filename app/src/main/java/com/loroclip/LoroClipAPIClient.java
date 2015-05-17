@@ -9,14 +9,16 @@ import java.util.List;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
  * Created by angdev on 15. 5. 12..
  */
 public class LoroClipAPIClient {
-    private static final String API_ENDPOINT = "http://parrot.192.168.1.100.xip.io/api/v1";
+    private static final String API_ENDPOINT = "http://parrot.192.168.0.11.xip.io/api/v1";
     private RestAdapter mRestAdapter;
     private LoroClipService mService;
     private String mAccessToken;
@@ -24,6 +26,14 @@ public class LoroClipAPIClient {
     public interface LoroClipService {
         @GET("/records/pull")
         List<Record> pullRecords(@Query("last_synced_at") int lastSyncedAt);
+
+        class PushRecordsParams {
+            PushRecordsParams(List<Record> records) { this.records = records; }
+            public List<Record> records;
+        }
+
+        @POST("/records/push")
+        List<Record> pushRecords(@Body PushRecordsParams params);
     }
 
     public LoroClipAPIClient(String accessToken) {

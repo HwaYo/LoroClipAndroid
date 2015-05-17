@@ -92,8 +92,6 @@ public class LoroClipSelectActivity
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        Toast.makeText(this, String.valueOf(Record.count(Record.class, null, null)), Toast.LENGTH_SHORT).show();
-
         initialize();
     }
 
