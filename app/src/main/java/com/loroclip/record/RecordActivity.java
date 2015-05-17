@@ -75,6 +75,7 @@ public class RecordActivity extends Activity {
   @Override
   public void onDestroy() {
     super.onDestroy();
+    recorderHandler.deleteTempAudioRecordFile();
   }
 
   private void addEvnetListener() {
@@ -156,6 +157,36 @@ public class RecordActivity extends Activity {
     public boolean isPaused() {
       return loroclipRecorder.isPaused();
     }
+
+    public void recordFileSave(String fileName) {
+      final Handler handler = new Handler();
+      final String fromFilePath = LOROCLIP_PATH + LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION;
+      final String newFilePath =  LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
+
+      File from = new File(fromFilePath);
+      File to = new File(newFilePath);
+
+      from.renameTo(to);
+
+      handler.post(new Runnable() {
+        @Override
+        public void run() {
+          Toast.makeText(RecordActivity.this, "Save completed: " + newFilePath, Toast.LENGTH_SHORT).show();
+        }
+      });
+
+      Record record = new Record();
+      record.setFile(newFilePath);
+      record.setTitle(fileName);
+      record.save();
+    }
+
+    public void deleteTempAudioRecordFile() {
+      File tempAudioRecordFile = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
+      if(tempAudioRecordFile.exists()){
+        tempAudioRecordFile.deleteOnExit();
+      }
+    }
   }
 
 
@@ -189,7 +220,6 @@ public class RecordActivity extends Activity {
   }
 
   private AlertDialog createSaveDialog() {
-    final Handler handler = new Handler();
     final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
     return new AlertDialog.Builder(this)
         .setTitle("파일저장")
@@ -198,27 +228,7 @@ public class RecordActivity extends Activity {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             EditText filename = (EditText) view.findViewById(R.id.filenameEditText);
-
-            final String newFilePath =  Environment.getExternalStorageDirectory().toString() + "/Loroclip/" + filename.getText() + ".wav";
-
-            File file = new File(newFilePath);
-            File file2 = new File(newFilePath);
-
-            file.renameTo(file2);
-            file.delete();
-
-
-            handler.post(new Runnable() {
-              @Override
-              public void run() {
-                Toast.makeText(RecordActivity.this, "Save completed: " + newFilePath, Toast.LENGTH_SHORT).show();
-              }
-            });
-
-            Record record = new Record();
-            record.setFile(newFilePath);
-            record.setTitle(filename.getText() + "");
-            record.save();
+            recorderHandler.recordFileSave(filename.getText().toString());
           }
         })
         .setNegativeButton("취소", null)

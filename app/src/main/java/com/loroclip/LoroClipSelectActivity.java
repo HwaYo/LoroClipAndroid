@@ -49,7 +49,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.loroclip.record.RecordActivity;
-import com.loroclip.record.recorder.RecordListActivity;
+import com.loroclip.record.RecordListActivity;
 import com.loroclip.soundfile.SoundFile;
 
 public class LoroClipSelectActivity
