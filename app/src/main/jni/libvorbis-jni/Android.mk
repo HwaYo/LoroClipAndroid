@@ -13,7 +13,7 @@ LOCAL_SHARED_LIBRARIES := libogg libvorbis
 LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog
 
 LOCAL_SRC_FILES := \
-	com_loroclip_encoder_VorbisEncoder.c \
+	com_loroclip_record_encoder_VorbisEncoder.c \
 	com_loroclip_decoder_VorbisDecoder.c
 
 include $(BUILD_SHARED_LIBRARY)

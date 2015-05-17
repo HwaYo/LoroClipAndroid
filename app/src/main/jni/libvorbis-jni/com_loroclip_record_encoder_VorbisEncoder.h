@@ -8,8 +8,8 @@
 #include <android/log.h>
 
 
-#ifndef _Included_com_loroclip_encoder_VorbisEncoder
-#define _Included_com_loroclip_encoder_VorbisEncoder
+#ifndef _Included_com_loroclip_record_encoder_VorbisEncoder
+#define _Included_com_loroclip_record_encoder_VorbisEncoder
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -36,14 +36,14 @@ int startEncoding(JNIEnv *env, jclass *cls_ptr, jlong *sampleRate_ptr, jlong *ch
  * Method:    startEncodingWithQuality
  * Signature: (JJFLcom/loroclip/encoder/EncodeFeed;)I
  */
-JNIEXPORT jint JNICALL Java_com_loroclip_encoder_VorbisEncoder_startEncodingWithQuality
+JNIEXPORT jint JNICALL Java_com_loroclip_record_encoder_VorbisEncoder_startEncodingWithQuality
 (JNIEnv *env, jclass cls, jlong sampleRate, jlong channels, jfloat quality, jobject encoderDataFeed);
 /*
  * Class:     com_loroclip_encoder_VorbisEncoder
  * Method:    startEncodingWithBitrate
  * Signature: (JJJLcom/loroclip/encoder/EncodeFeed;)I
  */
-JNIEXPORT jint JNICALL Java_com_loroclip_encoder_VorbisEncoder_startEncodingWithBitrate
+JNIEXPORT jint JNICALL Java_com_loroclip_record_encoder_VorbisEncoder_startEncodingWithBitrate
 (JNIEnv *env, jclass cls, jlong sampleRate, jlong channels, jlong bitrate, jobject encoderDataFeed);
 
 #ifdef __cplusplus

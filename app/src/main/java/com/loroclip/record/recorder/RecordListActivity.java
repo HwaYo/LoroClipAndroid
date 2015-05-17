@@ -1,4 +1,4 @@
-package com.loroclip.recorder;
+package com.loroclip.record.recorder;
 
 import android.app.Activity;
 import android.content.Intent;

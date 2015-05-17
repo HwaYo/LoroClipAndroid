@@ -1,10 +1,9 @@
 
-package com.loroclip.recorder;
+package com.loroclip.record;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.media.AudioFormat;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,30 +20,23 @@ import android.widget.Toast;
 
 import com.loroclip.R;
 import com.loroclip.model.Record;
+import com.loroclip.record.View.RecodWaveformView;
+import com.loroclip.record.recorder.VorbisRecorder;
 
 import java.io.File;
 
 
 public class RecordActivity extends Activity {
 
-  private RecorderTask recordTask;
-
   private Button recordStartButton;
   private Button recordPauseButton;
   private Button recordStopButton;
   private Button recordSaveButton;
+  private RecodWaveformView waveformView;
   private AlertDialog saveDialog;
-  private WaveDisplayView waveformView;
 
-  private Chronometer chronometer;
-
-  private long stoppedTime;
-
-  private static final int RATE = 44100;
-  private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-  private static final int AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-
-  private VorbisRecorder vorbisRecorder;
+  private RecorderHandler recorderHandler;
+  private TimerHandler timerHandler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,69 +49,52 @@ public class RecordActivity extends Activity {
     recordSaveButton = (Button) findViewById(R.id.recordSave);
 
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayView);
-    waveformView = new WaveDisplayView(getBaseContext());
+    waveformView = new RecodWaveformView(getBaseContext());
     displayLayout.addView(waveformView);
 
-    chronometer = (Chronometer) findViewById(R.id.chronometer);
-
+    this.recorderHandler = new RecorderHandler();
+    this.timerHandler = new TimerHandler();
     addEvnetListener();
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_record, menu);
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
     }
-
     return super.onOptionsItemSelected(item);
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
-    File file = new File(recordTask.getFilePath());
-    if(file.exists()) {
-      file.delete();
-    }
-    stopTask(recordTask);
   }
 
   private void addEvnetListener() {
     recordStartButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startRecording();
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
+        recorderHandler.start();
+        timerHandler.start();
       }
-
     });
 
     recordPauseButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if(recordTask.isPaused()) {
-          recordTask.toResume();
-
-          chronometer.setBase(SystemClock.elapsedRealtime() + stoppedTime);
-          chronometer.start();
+        if(recorderHandler.isPaused()) {
+          recorderHandler.restart();
+          timerHandler.restart();
         } else {
-          recordTask.pause();
-          chronometer.stop();
-          stoppedTime = chronometer.getBase() - SystemClock.elapsedRealtime();
+          recorderHandler.pause();
+          timerHandler.pause();
         }
       }
     });
@@ -127,10 +102,8 @@ public class RecordActivity extends Activity {
     recordStopButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        stopTask(recordTask);
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        stoppedTime = 0;
-        chronometer.stop();
+        recorderHandler.stop();
+        timerHandler.stop();
       }
     });
 
@@ -143,56 +116,76 @@ public class RecordActivity extends Activity {
     });
   }
 
-  private void startRecording() {
-//    try {
-//      recordTask = new RecorderTask(waveformView);
-//    } catch (IllegalArgumentException ex) {
-//    }
-//    recordTask.start();
+  private class RecorderHandler {
+    private VorbisRecorder loroclipRecorder;
 
-    if (vorbisRecorder == null || vorbisRecorder.isStopped()) {
-      //Get location to save to
-      File fileToSaveTo = new File(Environment.getExternalStorageDirectory(), "saveTo333.ogg");
+    private final int LOROCLIP_AUDIO_CHANNELS = 2;
+    private final float LOROCLIP_AUDIO_QUALITY = 0.4f;
+    private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
-      //Create our recorder if necessary
-      if (vorbisRecorder == null) {
-        vorbisRecorder = new VorbisRecorder(fileToSaveTo, waveformView);
+    private final String AUDIO_OGG_EXTENSION = ".ogg";
+    private final String LOROCLIP_TEMP_RECORDING_FILE_NAME = "loroclip_temp_recording_file";
+    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
+
+    public void start() {
+      if (loroclipRecorder == null || loroclipRecorder.isStopped()) {
+        File fileToSaveTo = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
+
+        //Create our recorder if necessary
+        if (loroclipRecorder == null) {
+          loroclipRecorder = new VorbisRecorder(fileToSaveTo, waveformView);
+        }
+        loroclipRecorder.start(LOROCLIP_AUDIO_SAMPLE_RATE, LOROCLIP_AUDIO_CHANNELS, LOROCLIP_AUDIO_QUALITY);
       }
+    }
 
-      int sampleRate = 44100;
-      int channels = 2;
-      Float quality = 1.0f;
-      vorbisRecorder.start(sampleRate, channels, quality);
+    private void pause() {
+      loroclipRecorder.pause();
+    }
 
+    private void restart() {
+      loroclipRecorder.restart();
+    }
+
+    private void stop() {
+      if (loroclipRecorder != null && loroclipRecorder.isRecording()) {
+        loroclipRecorder.stop();
+      }
+    }
+
+    public boolean isPaused() {
+      return loroclipRecorder.isPaused();
     }
   }
 
 
-  private void stopTask(RecorderTask task) {
-//    task.stopTask();
-//    try {
-//      task.join(1000);
-//    } catch (InterruptedException e) {
-//    }
+  private class TimerHandler {
+    private Chronometer chronometer;
+    private long stoppedTime;
 
-    if (vorbisRecorder != null && vorbisRecorder.isRecording()) {
-      vorbisRecorder.stop();
+    public TimerHandler() {
+      chronometer = (Chronometer) findViewById(R.id.chronometer);
     }
-  }
-
-  private File getSavePath() {
-    if (hasSDCard()) {
-      File path = new File(Environment.getExternalStorageDirectory(), "/Loroclip/");
-      path.mkdirs();
-      return path;
-    } else {
-      return getFilesDir();
+    public void start() {
+      chronometer.setBase(SystemClock.elapsedRealtime());
+      chronometer.start();
     }
-  }
 
-  private boolean hasSDCard() {
-    String state = Environment.getExternalStorageState();
-    return state.equals(Environment.MEDIA_MOUNTED);
+    public void pause() {
+      chronometer.stop();
+      stoppedTime = chronometer.getBase() - SystemClock.elapsedRealtime();
+    }
+
+    public void restart() {
+      chronometer.setBase(SystemClock.elapsedRealtime() + stoppedTime);
+      chronometer.start();
+    }
+
+    public void stop() {
+      chronometer.setBase(SystemClock.elapsedRealtime());
+      stoppedTime = 0;
+      chronometer.stop();
+    }
   }
 
   private AlertDialog createSaveDialog() {
@@ -205,10 +198,10 @@ public class RecordActivity extends Activity {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             EditText filename = (EditText) view.findViewById(R.id.filenameEditText);
-            
+
             final String newFilePath =  Environment.getExternalStorageDirectory().toString() + "/Loroclip/" + filename.getText() + ".wav";
 
-            File file = new File(recordTask.getFilePath());
+            File file = new File(newFilePath);
             File file2 = new File(newFilePath);
 
             file.renameTo(file2);
@@ -218,10 +211,10 @@ public class RecordActivity extends Activity {
             handler.post(new Runnable() {
               @Override
               public void run() {
-                Toast.makeText(RecordActivity.this, "Save completed: " + newFilePath , Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecordActivity.this, "Save completed: " + newFilePath, Toast.LENGTH_SHORT).show();
               }
             });
-            
+
             Record record = new Record();
             record.setFile(newFilePath);
             record.setTitle(filename.getText() + "");

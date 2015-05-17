@@ -48,8 +48,8 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.loroclip.recorder.RecordActivity;
-import com.loroclip.recorder.RecordListActivity;
+import com.loroclip.record.RecordActivity;
+import com.loroclip.record.recorder.RecordListActivity;
 import com.loroclip.soundfile.SoundFile;
 
 public class LoroClipSelectActivity

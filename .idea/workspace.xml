@@ -30,11 +30,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8be080e-2b6e-474b-a139-946e4587963e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi-v7a/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi-v7a/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/mips/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/mips/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/x86/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/x86/objs/vorbis-jni/com_loroclip_decoder_VorbisDecoder.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.c" afterPath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveFileHeaderCreator.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/EncodeFeed.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/EncodeFeed.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/VorbisEncoder.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/VorbisEncoder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/RecordListActivity.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveDisplayView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.c" afterPath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.c" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.h" afterPath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk" afterPath="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_record_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_record_list.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/libs/armeabi/libvorbis-jni.so" afterPath="$PROJECT_DIR$/app/src/main/libs/armeabi/libvorbis-jni.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/libs/armeabi-v7a/libvorbis-jni.so" afterPath="$PROJECT_DIR$/app/src/main/libs/armeabi-v7a/libvorbis-jni.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/libs/mips/libvorbis-jni.so" afterPath="$PROJECT_DIR$/app/src/main/libs/mips/libvorbis-jni.so" />
@@ -43,6 +54,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi-v7a/libvorbis-jni.so" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi-v7a/libvorbis-jni.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/mips/libvorbis-jni.so" afterPath="$PROJECT_DIR$/app/src/main/obj/local/mips/libvorbis-jni.so" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/x86/libvorbis-jni.so" afterPath="$PROJECT_DIR$/app/src/main/obj/local/x86/libvorbis-jni.so" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_record.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_record.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_record_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_record_list.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LoroClipAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -142,106 +156,158 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="VorbisEncoder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/VorbisEncoder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.259259">
-              <caret line="28" column="51" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.6296296">
-              <caret line="158" column="70" selection-start-line="158" selection-start-column="70" selection-end-line="158" selection-end-column="70" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="com_loroclip_encoder_VorbisEncoder.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.111111">
-              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WaveDisplayView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveDisplayView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="com_loroclip_encoder_VorbisEncoder.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="32" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="com_loroclip_decoder_VorbisDecoder.c" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51194537">
-              <caret line="156" column="20" selection-start-line="156" selection-start-column="18" selection-end-line="156" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VorbisRecorder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.11111">
-              <caret line="122" column="8" selection-start-line="122" selection-start-column="8" selection-end-line="122" selection-end-column="8" />
+            <state vertical-scroll-proportion="-25.363636">
+              <caret line="141" column="26" selection-start-line="141" selection-start-column="26" selection-end-line="141" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#11382#11406#0" expanded="true" />
-                <element signature="e#13836#13837#0" expanded="true" />
-                <element signature="e#13897#13898#0" expanded="true" />
+                <element signature="method#onCreateOptionsMenu#0;class#RecordActivity#0" expanded="false" />
+                <element signature="method#onOptionsItemSelected#0;class#RecordActivity#0" expanded="false" />
+                <element signature="method#addEvnetListener#0;class#RecordActivity#0" expanded="false" />
+                <element signature="e#2275#2432#0" expanded="true" />
+                <element signature="e#2431#2432#0" expanded="true" />
+                <element signature="e#2477#2777#0" expanded="true" />
+                <element signature="e#2776#2777#0" expanded="true" />
+                <element signature="e#2821#2976#0" expanded="true" />
+                <element signature="e#2975#2976#0" expanded="true" />
+                <element signature="e#3057#3178#0" expanded="true" />
+                <element signature="e#3177#3178#0" expanded="true" />
+                <element signature="e#4255#4256#0" expanded="true" />
+                <element signature="e#4285#4286#0" expanded="true" />
+                <element signature="e#4325#4326#0" expanded="true" />
+                <element signature="e#4504#4505#0" expanded="true" />
+                <element signature="e#4552#4553#0" expanded="true" />
+                <element signature="e#4685#4686#0" expanded="true" />
+                <element signature="e#4757#4758#0" expanded="true" />
+                <element signature="method#createSaveDialog#0;class#RecordActivity#0" expanded="false" />
+                <element signature="e#5582#6526#0" expanded="true" />
+                <element signature="e#6119#6337#0" expanded="true" />
+                <element signature="e#6336#6337#0" expanded="true" />
+                <element signature="e#6525#6526#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DecodeFeed.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/decoder/DecodeFeed.java">
+      <file leaf-file-name="ActivityThread.java" pinned="false" current-in-tab="false">
+        <entry file="file:///Applications/sdk/sources/android-21/android/app/ActivityThread.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+              <caret line="3163" column="0" selection-start-line="3163" selection-start-column="0" selection-end-line="3163" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RecorderTask.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java">
+      <file leaf-file-name="activity_record.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.074074">
-              <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="42" />
+            <state vertical-scroll-proportion="-4.553571">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding>
+                <element signature="e#277#312#0" expanded="true" />
+                <element signature="e#350#385#0" expanded="true" />
+                <element signature="e#421#454#0" expanded="true" />
+                <element signature="e#493#526#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="com_loroclip_record_encoder_VorbisEncoder.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.407408">
+              <caret line="222" column="30" selection-start-line="222" selection-start-column="19" selection-end-line="222" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EncodeFeed.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/EncodeFeed.java">
+      <file leaf-file-name="Android.mk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+              <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="18" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RecodWaveformView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="121" column="44" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
+              <folding>
+                <element signature="e#2877#2979#0" expanded="true" />
+                <element signature="e#2978#2979#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="com_loroclip_record_encoder_VorbisEncoder.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VorbisRecorder.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.50810015">
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;field#TAG#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="docComment;field#BUFFER_LENGTH#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="docComment;field#numberOfChannels#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="docComment;field#quality#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="e#1662#1677#0" expanded="true" />
+                <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="method#FileEncodeFeed#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
+                <element signature="e#5922#5946#0" expanded="true" />
+                <element signature="e#6782#6783#0" expanded="true" />
+                <element signature="e#6817#6818#0" expanded="true" />
+                <element signature="e#6855#6856#0" expanded="true" />
+                <element signature="e#6903#6904#0" expanded="true" />
+                <element signature="e#6943#6944#0" expanded="true" />
+                <element signature="e#6994#6995#0" expanded="true" />
+                <element signature="e#8545#8546#0" expanded="true" />
+                <element signature="e#8604#8605#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoroClipSelectActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="284" column="13" selection-start-line="284" selection-start-column="13" selection-end-line="284" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -1578,8 +1644,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/MicRecordTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/RecordTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/RecordActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/LoroclipRecoder.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordTask.java" />
@@ -1594,11 +1658,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/SamplePlayer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/util/RecordWaveformView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/save_dialog.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record_list.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/PlayerTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveDataStore.java" />
@@ -1608,22 +1670,31 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveDisplayView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/VorbisRecorder.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/EncodeFeed.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/VorbisEncoder.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/VorbisEncoder.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/HelloNDK.java" />
         <option value="$PROJECT_DIR$/local.properties" />
         <option value="$PROJECT_DIR$/app/src/main/jni/Application.mk" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/decoder/DecodeStreamInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.h" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.h" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.c" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java" />
         <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.c" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/EncodeFeed.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/VorbisEncoder.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecodingWaveformView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/RecodingWaveformView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.h" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.c" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.h" />
+        <option value="$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.c" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java" />
       </list>
     </option>
   </component>
@@ -2063,6 +2134,82 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loroclip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="View" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loroclip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="recorder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2097,41 +2244,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="encoder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="loroclip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="decoder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2146,10 +2263,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="LoroClipAndroid" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2186,12 +2299,26 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="soundfile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2222,8 +2349,68 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loroclip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loroclip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="View" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loroclip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="record" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="recorder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2503,10 +2690,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2519,16 +2707,15 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46548116" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2020757" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2020757" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26312578" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3294979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2899878" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23221758" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2585,16 +2772,16 @@
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java</url>
-          <line>118</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java</url>
+          <line>119</line>
           <properties />
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java</url>
-          <line>249</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java</url>
+          <line>3</line>
           <properties />
-          <option name="timeStamp" value="53" />
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java</url>
@@ -2603,28 +2790,11 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="54" />
+      <option name="time" value="56" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/media_select.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.931034">
-          <caret line="24" column="41" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="41" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/MarkerView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="3" selection-start-line="35" selection-start-column="3" selection-end-line="35" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Applications/sdk/sources/android-21/android/widget/AdapterView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33206832">
@@ -2666,34 +2836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/editor.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.793103">
-          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-51.37037">
-          <caret line="273" column="23" selection-start-line="273" selection-start-column="23" selection-end-line="273" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2819#2867#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/AfterSaveActionDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2720,13 +2862,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="460" column="31" selection-start-line="460" selection-start-column="31" selection-end-line="460" selection-end-column="31" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveFileHeaderCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="84" selection-start-line="12" selection-start-column="84" selection-end-line="12" selection-end-column="84" />
         </state>
       </provider>
     </entry>
@@ -2757,30 +2892,6 @@
             <element signature="e#36475#36476#0" expanded="false" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="74" selection-start-line="73" selection-start-column="74" selection-end-line="73" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/sdk/sources/android-21/android/app/ActivityThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3507" column="0" selection-start-line="3507" selection-start-column="0" selection-end-line="3507" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
@@ -2846,8 +2957,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="1858" column="55" selection-start-line="1858" selection-start-column="55" selection-end-line="1858" selection-end-column="55" />
           <folding>
-            <marker date="1431830284000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1431830284000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1431846725000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1431846725000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2882,14 +2993,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/jni/include/ogg/config_types.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2747253">
@@ -2914,14 +3017,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/jni/Android.mk">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2934,22 +3029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/VorbisEncoder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.259259">
-          <caret line="28" column="51" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/encoder/EncodeFeed.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -2970,72 +3049,234 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecordActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/decoder/DecodeFeed.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.6296296">
-          <caret line="158" column="70" selection-start-line="158" selection-start-column="70" selection-end-line="158" selection-end-column="70" />
+        <state vertical-scroll-proportion="0.02446982">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.h">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/VorbisEncoder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="32" />
+          <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="21" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_encoder_VorbisEncoder.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.111111">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveDisplayView.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Bookmark.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/RecorderTask.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.074074">
-          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/VorbisRecorder.java">
+    <entry file="file:///Applications/sdk/sources/android-21/java/util/concurrent/atomic/AtomicReference.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.11111">
-          <caret line="122" column="8" selection-start-line="122" selection-start-column="8" selection-end-line="122" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.33278957">
+          <caret line="37" column="11" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#11382#11406#0" expanded="true" />
-            <element signature="e#13836#13837#0" expanded="true" />
-            <element signature="e#13897#13898#0" expanded="true" />
+            <element signature="e#1205#1206#0" expanded="false" />
+            <element signature="e#1241#1242#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/decoder/DecodeFeed.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_decoder_VorbisDecoder.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51194537">
-          <caret line="156" column="20" selection-start-line="156" selection-start-column="18" selection-end-line="156" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="26" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/sdk/sources/android-21/android/os/Process.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33297414">
+          <caret line="269" column="28" selection-start-line="269" selection-start-column="28" selection-end-line="269" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/RecordListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="74" selection-start-line="73" selection-start-column="74" selection-end-line="73" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/editor.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.0">
+          <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="32" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/encoder/EncodeFeed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.553571">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <element signature="e#277#312#0" expanded="true" />
+            <element signature="e#350#385#0" expanded="true" />
+            <element signature="e#421#454#0" expanded="true" />
+            <element signature="e#493#526#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file:///Applications/sdk/sources/android-21/android/app/ActivityThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3163" column="0" selection-start-line="3163" selection-start-column="0" selection-end-line="3163" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/com_loroclip_record_encoder_VorbisEncoder.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.407408">
+          <caret line="222" column="30" selection-start-line="222" selection-start-column="19" selection-end-line="222" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="284" column="13" selection-start-line="284" selection-start-column="13" selection-end-line="284" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/libvorbis-jni/Android.mk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="18" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="44" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
+          <folding>
+            <element signature="e#2877#2979#0" expanded="true" />
+            <element signature="e#2978#2979#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-25.363636">
+          <caret line="141" column="26" selection-start-line="141" selection-start-column="26" selection-end-line="141" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onCreateOptionsMenu#0;class#RecordActivity#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#RecordActivity#0" expanded="false" />
+            <element signature="method#addEvnetListener#0;class#RecordActivity#0" expanded="false" />
+            <element signature="e#2275#2432#0" expanded="true" />
+            <element signature="e#2431#2432#0" expanded="true" />
+            <element signature="e#2477#2777#0" expanded="true" />
+            <element signature="e#2776#2777#0" expanded="true" />
+            <element signature="e#2821#2976#0" expanded="true" />
+            <element signature="e#2975#2976#0" expanded="true" />
+            <element signature="e#3057#3178#0" expanded="true" />
+            <element signature="e#3177#3178#0" expanded="true" />
+            <element signature="e#4255#4256#0" expanded="true" />
+            <element signature="e#4285#4286#0" expanded="true" />
+            <element signature="e#4325#4326#0" expanded="true" />
+            <element signature="e#4504#4505#0" expanded="true" />
+            <element signature="e#4552#4553#0" expanded="true" />
+            <element signature="e#4685#4686#0" expanded="true" />
+            <element signature="e#4757#4758#0" expanded="true" />
+            <element signature="method#createSaveDialog#0;class#RecordActivity#0" expanded="false" />
+            <element signature="e#5582#6526#0" expanded="true" />
+            <element signature="e#6119#6337#0" expanded="true" />
+            <element signature="e#6336#6337#0" expanded="true" />
+            <element signature="e#6525#6526#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/recorder/VorbisRecorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50810015">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;field#TAG#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="docComment;field#BUFFER_LENGTH#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="docComment;field#numberOfChannels#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="docComment;field#quality#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="e#1662#1677#0" expanded="true" />
+            <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="method#FileEncodeFeed#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
+            <element signature="e#5922#5946#0" expanded="true" />
+            <element signature="e#6782#6783#0" expanded="true" />
+            <element signature="e#6817#6818#0" expanded="true" />
+            <element signature="e#6855#6856#0" expanded="true" />
+            <element signature="e#6903#6904#0" expanded="true" />
+            <element signature="e#6943#6944#0" expanded="true" />
+            <element signature="e#6994#6995#0" expanded="true" />
+            <element signature="e#8545#8546#0" expanded="true" />
+            <element signature="e#8604#8605#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

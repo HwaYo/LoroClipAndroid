@@ -1,20 +1,18 @@
 /**
  *
  */
-package com.loroclip.recorder;
+package com.loroclip.record.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.media.AudioFormat;
 import android.os.Handler;
 import android.view.View;
 
-import java.io.FileOutputStream;
 import java.util.Arrays;
 
 
-public class WaveDisplayView extends View {
+public class RecodWaveformView extends View {
 
 	private final Handler handler;
 
@@ -24,13 +22,8 @@ public class WaveDisplayView extends View {
 
 	private final Paint waveBaseLine = new Paint();
 
-	FileOutputStream out;
-	String path, fileName;
-	private static final int RATE = 44100;
-	private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-	private static final int AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
-	public WaveDisplayView(Context context) {
+	public RecodWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
 		waveBaseLine.setARGB(255, 128, 255, 128);
@@ -41,24 +34,6 @@ public class WaveDisplayView extends View {
 		data = new byte[0];
 		index = 0;
 	}
-
-//	public void makeFile() {
-//		path = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
-//		fileName = new SimpleDateFormat("yyyy-MM-dd-ss").format(new Date()) + ".wav";
-//		Log.d("files", String.valueOf(data.length));
-//		try {
-//			out = new FileOutputStream( new File(path, fileName));
-//			WaveFileHeaderCreator.pushWaveHeader(out, RATE, CHANNEL_CONFIG, AUDIO_ENCODING, data.length);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public String getFilePath() {
-//		return path + fileName;
-//	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -135,11 +110,8 @@ public class WaveDisplayView extends View {
 		canvas.drawLine(x, y, x, nextY, waveBaseLine);
 	}
 
-	public void addWaveData(byte[] data, int offset, int length) {
-
-			this.data = data;
-//			out.write(data, offset, length);
-
+	public void addWaveData(byte[] data) {
+		this.data = data;
 		fireInvalidate();
 	}
 
@@ -147,7 +119,7 @@ public class WaveDisplayView extends View {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				WaveDisplayView.this.invalidate();
+				RecodWaveformView.this.invalidate();
 			}
 		});
 	}

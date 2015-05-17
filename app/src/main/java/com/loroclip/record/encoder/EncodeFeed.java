@@ -1,13 +1,7 @@
-package com.loroclip.encoder; /**
+package com.loroclip.record.encoder; /**
  * Created by stompesi on 15. 5. 16..
  */
-/**
- * This feed is to be used by the native {@link VorbisEncoder} which will read raw pcm data and write encoded vorbis
- * data.
- * User: vincent
- * Date: 3/27/13
- * Time: 2:11 PM
- */
+
 public interface EncodeFeed {
   /**
    * Everything was a success

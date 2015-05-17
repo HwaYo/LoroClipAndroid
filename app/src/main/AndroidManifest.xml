@@ -90,7 +90,7 @@
             android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity
-            android:name=".recorder.RecordActivity"
+            android:name=".record.RecordActivity"
             android:label="@string/title_activity_record" >
         </activity>
 
@@ -108,7 +108,7 @@
             android:value="com.loroclip" />
 
         <activity
-            android:name=".recorder.RecordListActivity"
+            android:name=".record.recorder.RecordListActivity"
             android:label="@string/title_activity_record_list" >
         </activity>
     </application>

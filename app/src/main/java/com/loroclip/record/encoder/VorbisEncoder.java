@@ -1,12 +1,6 @@
-package com.loroclip.encoder;
+package com.loroclip.record.encoder;
 /**
  * Created by stompesi on 15. 5. 16..
- */
-/**
- * The native encoder to interface via JNI
- * User: vincent
- * Date: 3/27/13
- * Time: 9:07 AM
  */
 public class VorbisEncoder {
   /**

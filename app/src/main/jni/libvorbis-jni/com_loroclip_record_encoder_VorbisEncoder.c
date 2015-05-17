@@ -1,4 +1,4 @@
-#include "com_loroclip_encoder_VorbisEncoder.h"
+#include "com_loroclip_record_encoder_VorbisEncoder.h"
 
 /*message codes to send to the java layer*/
 #define ERROR_INITIALIZING -44
@@ -86,7 +86,7 @@ int startEncoding(JNIEnv *env, jclass *cls_ptr, jlong *sampleRate_ptr, jlong *ch
     jbyteArray jByteArrayWriteBuffer = (*env)->NewByteArray(env, READ*8);
 
     //Find our java classes we'll be calling
-    jclass encoderDataFeedClass = (*env)->FindClass(env, "com/loroclip/encoder/EncodeFeed");
+    jclass encoderDataFeedClass = (*env)->FindClass(env, "com/loroclip/record/encoder/EncodeFeed");
 
 
 
@@ -301,7 +301,7 @@ int startEncoding(JNIEnv *env, jclass *cls_ptr, jlong *sampleRate_ptr, jlong *ch
 
 
 
-JNIEXPORT jint JNICALL Java_com_loroclip_encoder_VorbisEncoder_startEncodingWithQuality
+JNIEXPORT jint JNICALL Java_com_loroclip_record_encoder_VorbisEncoder_startEncodingWithQuality
 (JNIEnv *env, jclass cls, jlong sampleRate, jlong channels, jfloat quality, jobject encoderDataFeed) {
     startEncoding(env, &cls, &sampleRate, &channels, &quality, &NO_BITRATE, &encoderDataFeed, WITH_QUALITY);
 }
@@ -311,7 +311,7 @@ JNIEXPORT jint JNICALL Java_com_loroclip_encoder_VorbisEncoder_startEncodingWith
  * Method:    startEncodingWithBitrate
  * Signature: (JJJLcom/loroclip/encoder/EncodeFeed;)I
  */
-JNIEXPORT jint JNICALL Java_com_loroclip_encoder_VorbisEncoder_startEncodingWithBitrate
+JNIEXPORT jint JNICALL Java_com_loroclip_record_encoder_VorbisEncoder_startEncodingWithBitrate
 (JNIEnv *env, jclass cls, jlong sampleRate, jlong channels, jlong bitrate, jobject encoderDataFeed) {
     startEncoding(env, &cls, &sampleRate, &channels, &NO_QUALITY, &bitrate, &encoderDataFeed, WITH_BITRATE);
 }
