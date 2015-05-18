@@ -16,6 +16,13 @@
 
 package com.loroclip.soundfile;
 
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaCodec;
+import android.media.MediaExtractor;
+import android.media.MediaFormat;
+import android.media.MediaRecorder;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,13 +30,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
-
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.MediaCodec;
-import android.media.MediaExtractor;
-import android.media.MediaFormat;
-import android.media.MediaRecorder;
 
 public class SoundFile {
     private ProgressListener mProgressListener = null;
@@ -427,7 +427,7 @@ public class SoundFile {
         mFrameOffsets = null;  // not needed for recorded audio
         int i, j;
         int gain, value;
-        for (i=0; i<mNumFrames; i++){
+        for (i = 0 ; i < mNumFrames; i++){
             gain = -1;
             for(j=0; j<getSamplesPerFrame(); j++) {
                 value = java.lang.Math.abs(mDecodedSamples.get());

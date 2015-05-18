@@ -22,7 +22,6 @@ public class RecodWaveformView extends View {
 
 	private final Paint waveBaseLine = new Paint();
 
-
 	public RecodWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
@@ -48,10 +47,10 @@ public class RecodWaveformView extends View {
 		}
 
 		double[] ds = convertWaveData(data);
-
 		setPartDrawData(16, ds);
 
 		double[][] plots = convertPlotData(drawData, width);
+
 		float middle = height / 2.0f;
 		boolean isLastPlus = true;
 		for (int x = 0; x < width; x++) {
@@ -67,11 +66,11 @@ public class RecodWaveformView extends View {
 						}
 					}
 				} else {
-					double value = 0.0;
+
 					if (plots[x][1] < 0.0) {
 						isLastPlus = false;
 					} else {
-						value = plots[x][0];
+						double value = 0.001 + plots[x][0];
 						isLastPlus = true;
 						drawWaveLine(canvas, value, x, middle, height);
 						drawWaveLine(canvas, -value, x, middle, height);
@@ -104,6 +103,9 @@ public class RecodWaveformView extends View {
 
 	public void setDrawData(int size) {
 		drawData = new double[size];
+		for(int i = 0 ; i < drawData.length ; i++) {
+			drawData[i] = 0;
+		}
 	}
 
 	public void clearWaveData() {
@@ -112,6 +114,7 @@ public class RecodWaveformView extends View {
 		drawData = new double[drawData.length];
 		fireInvalidate();
 	}
+
 	private void drawWaveLine(Canvas canvas, double value, float x, float y, int height) {
 		float nextY = height * -1 * (float)(value - 1.0) / 2.0f;
 		canvas.drawLine(x, y, x, nextY, waveBaseLine);

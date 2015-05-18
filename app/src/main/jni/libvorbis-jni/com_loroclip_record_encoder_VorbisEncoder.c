@@ -30,7 +30,6 @@ long readPCMDataFromEncoderDataFeed(JNIEnv *env, jobject* encoderDataFeed, jmeth
 
     //Don't bother copying, just delete the reference and return 0
     if(readByteCount == 0) {
-        (*env)->DeleteLocalRef(env, (*jByteArrayBuffer));
         return 0;
     }
 
