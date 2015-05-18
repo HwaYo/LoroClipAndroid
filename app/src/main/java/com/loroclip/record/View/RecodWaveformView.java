@@ -93,12 +93,12 @@ public class RecodWaveformView extends View {
 
 		waveDataPart = Arrays.copyOfRange(ds, 0, ds.length / number * 1);
 		Arrays.sort(waveDataPart);
-		drawData[index++] = waveDataPart[waveDataPart.length - 1] * 5;
+		drawData[index++] = waveDataPart[waveDataPart.length - 1];
 
 		for(int i = 1 ; i < number ; i ++) {
 			waveDataPart = Arrays.copyOfRange(ds, ds.length / number * i, ds.length / number * (i + 1));
 			Arrays.sort(waveDataPart);
-			drawData[index++] = waveDataPart[waveDataPart.length - 1] * 5;
+			drawData[index++] = waveDataPart[waveDataPart.length - 1];
 		}
 	}
 

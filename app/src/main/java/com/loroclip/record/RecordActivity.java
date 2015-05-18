@@ -56,6 +56,8 @@ public class RecordActivity extends Activity {
     this.recorderHandler = new RecorderHandler();
     this.timerHandler = new TimerHandler();
     addEvnetListener();
+
+
   }
 
   @Override
@@ -143,6 +145,11 @@ public class RecordActivity extends Activity {
     private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
 
     public void start() {
+      File loroclipPath = new File(LOROCLIP_PATH);
+      if(!loroclipPath.exists()) {
+        loroclipPath.mkdirs();
+      }
+
       if (loroclipRecorder == null || loroclipRecorder.isStopped()) {
         File fileToSaveTo = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
 
