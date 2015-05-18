@@ -135,7 +135,7 @@ public class RecordActivity extends Activity {
     private VorbisRecorder loroclipRecorder;
 
     private final int LOROCLIP_AUDIO_CHANNELS = 2;
-    private final float LOROCLIP_AUDIO_QUALITY = 0.4f;
+    private final float LOROCLIP_AUDIO_QUALITY = 0.7f;
     private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
     private final String AUDIO_OGG_EXTENSION = ".ogg";
