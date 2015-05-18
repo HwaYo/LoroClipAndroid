@@ -16,12 +16,6 @@
 
 package com.loroclip;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.RandomAccessFile;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -45,9 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +47,13 @@ import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.soundfile.SoundFile;
 
-public class LoroClipEditActivity extends Activity
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+
+public class LoroClipEditActivity_copy extends Activity
     implements WaveformView.WaveformListener
 {
     private long mLoadingLastUpdateTime;
@@ -95,7 +93,7 @@ public class LoroClipEditActivity extends Activity
     private int mPlayEndMsec;
     private Handler mHandler;
     private boolean mIsPlaying;
-    private LoroClipPlayer mPlayer;
+    private SamplePlayer mPlayer;
     private boolean mTouchDragging;
     private float mTouchStart;
     private int mTouchInitialOffset;
@@ -117,7 +115,6 @@ public class LoroClipEditActivity extends Activity
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
-    private LoroClipPlayer mTestPlayer;
 
 
     /** Called when the activity is first created. */
@@ -193,8 +190,7 @@ public class LoroClipEditActivity extends Activity
         }
 
         if (mPlayer != null) {
-//            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
-            if (mPlayer.isPlaying()) {
+            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
                 mPlayer.stop();
             }
             mPlayer.release();
@@ -427,7 +423,7 @@ public class LoroClipEditActivity extends Activity
         mLoadingLastUpdateTime = getCurrentTime();
         mLoadingKeepGoing = true;
         mFinishActivity = false;
-        mProgressDialog = new ProgressDialog(LoroClipEditActivity.this);
+        mProgressDialog = new ProgressDialog(LoroClipEditActivity_copy.this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setTitle(R.string.progress_dialog_loading);
         mProgressDialog.setCancelable(true);
@@ -482,8 +478,7 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
-                    mPlayer = new LoroClipPlayer(mFile.getAbsolutePath());
+                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();
@@ -511,7 +506,7 @@ public class LoroClipEditActivity extends Activity
                     };
                     mHandler.post(runnable);
                 } else if (mFinishActivity){
-                    LoroClipEditActivity.this.finish();
+                    LoroClipEditActivity_copy.this.finish();
                 }
             }
         };
@@ -526,7 +521,7 @@ public class LoroClipEditActivity extends Activity
         mRecordingLastUpdateTime = getCurrentTime();
         mRecordingKeepGoing = true;
         mFinishActivity = false;
-        AlertDialog.Builder adBuilder = new AlertDialog.Builder(LoroClipEditActivity.this);
+        AlertDialog.Builder adBuilder = new AlertDialog.Builder(LoroClipEditActivity_copy.this);
         adBuilder.setTitle(getResources().getText(R.string.progress_dialog_recording));
         adBuilder.setCancelable(true);
         adBuilder.setNegativeButton(
@@ -589,7 +584,7 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
+                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mAlertDialog.dismiss();
                     e.printStackTrace();
@@ -610,7 +605,7 @@ public class LoroClipEditActivity extends Activity
                 }
                 mAlertDialog.dismiss();
                 if (mFinishActivity){
-                    LoroClipEditActivity.this.finish();
+                    LoroClipEditActivity_copy.this.finish();
                 } else {
                     Runnable runnable = new Runnable() {
                         public void run() {
@@ -841,12 +836,12 @@ public class LoroClipEditActivity extends Activity
             } else {
                 mPlayEndMsec = mWaveformView.pixelsToMillisecs(mEndPos);
             }
-//            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion() {
-//                    handlePause();
-//                }
-//            });
+            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion() {
+                    handlePause();
+                }
+            });
             mIsPlaying = true;
 
             mPlayer.seekTo(mPlayStartMsec);
@@ -871,7 +866,7 @@ public class LoroClipEditActivity extends Activity
             title = getResources().getText(R.string.alert_title_success);
         }
 
-        new AlertDialog.Builder(LoroClipEditActivity.this)
+        new AlertDialog.Builder(LoroClipEditActivity_copy.this)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(
@@ -1106,7 +1101,7 @@ public class LoroClipEditActivity extends Activity
         // If it's a notification, give the user the option of making
         // this their default notification.  If they say no, we're finished.
         if (mNewFileKind == FileSaveDialog.FILE_KIND_NOTIFICATION) {
-            new AlertDialog.Builder(LoroClipEditActivity.this)
+            new AlertDialog.Builder(LoroClipEditActivity_copy.this)
                 .setTitle(R.string.alert_title_success)
                 .setMessage(R.string.set_default_notification)
                 .setPositiveButton(R.string.alert_yes_button,
@@ -1114,7 +1109,7 @@ public class LoroClipEditActivity extends Activity
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                             RingtoneManager.setActualDefaultRingtoneUri(
-                                LoroClipEditActivity.this,
+                                LoroClipEditActivity_copy.this,
                                 RingtoneManager.TYPE_NOTIFICATION,
                                 newUri);
                             finish();
@@ -1142,11 +1137,11 @@ public class LoroClipEditActivity extends Activity
                     switch (actionId) {
                     case R.id.button_make_default:
                         RingtoneManager.setActualDefaultRingtoneUri(
-                            LoroClipEditActivity.this,
+                            LoroClipEditActivity_copy.this,
                             RingtoneManager.TYPE_RINGTONE,
                             newUri);
                         Toast.makeText(
-                            LoroClipEditActivity.this,
+                            LoroClipEditActivity_copy.this,
                             R.string.default_ringtone_success_message,
                             Toast.LENGTH_SHORT)
                             .show();
