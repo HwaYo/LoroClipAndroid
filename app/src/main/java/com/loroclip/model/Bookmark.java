@@ -1,23 +1,15 @@
 package com.loroclip.model;
 
-import com.orm.SugarRecord;
-
-import java.sql.Date;
 import java.util.List;
 
 /**
  * Created by angdev on 15. 5. 11..
  */
-public class Bookmark extends SugarRecord<Bookmark> {
-    private String uuid;
+public class Bookmark extends SyncableModel<Bookmark> {
     private String color;
     private String name;
-    private Date createdAt;
-    private Date updatedAt;
 
-
-    public Bookmark() {
-    }
+    public Bookmark() {}
 
     public Bookmark(String name, String color) {
         this.name = name;
@@ -36,16 +28,11 @@ public class Bookmark extends SugarRecord<Bookmark> {
         return Bookmark.listAll(Bookmark.class);
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public int getColor() {
-        return Integer.parseInt(color);
+        if (color == null) {
+            return 0;
+        }
+        return (int)Long.parseLong(color.replace("#", "ff"), 16);
     }
 
     public void setColor(String color) {

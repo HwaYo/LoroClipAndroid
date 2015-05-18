@@ -1,17 +1,24 @@
 package com.loroclip.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by angdev on 15. 5. 18..
  */
-public class SyncableModel<T> extends ModelSupport<T> {
+public class SyncableModel<T extends SugarRecord<T>> extends ModelSupport<T> {
+    private String uuid;
     @SerializedName("synced_at")
     private Date syncedAt;
     private boolean dirty;
+
+    public String getUuid() {
+        return uuid;
+    }
 
     public Date getSyncedAt() {
         return syncedAt;
@@ -51,8 +58,17 @@ public class SyncableModel<T> extends ModelSupport<T> {
     }
 
     public void saveAsSynced() {
-        this.dirty = false;
+        setDirty(false);
         this.syncedAt = new Date();
-        save();
+        super.save();
+    }
+
+    @Override
+    public void save() {
+        if (this.uuid != null) {
+            this.uuid = UUID.randomUUID().toString();
+        }
+        setDirty(true);
+        super.save();
     }
 }

@@ -12,7 +12,7 @@ public class BookmarkMap extends HashMap<String, Integer> {
     public BookmarkMap() {
         List<Bookmark> bmList = new Bookmark().initializeBookmark();
         for (Bookmark bookmark : bmList){
-            put(bookmark.getName(),bookmark.getColor());
+            put(bookmark.getName(), bookmark.getColor());
         }
     }
 

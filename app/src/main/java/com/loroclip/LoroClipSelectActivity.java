@@ -48,6 +48,7 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.loroclip.model.Bookmark;
 import com.loroclip.model.Record;
 import com.loroclip.soundfile.SoundFile;
 

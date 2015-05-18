@@ -2,7 +2,11 @@ package com.loroclip;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+import com.loroclip.model.Bookmark;
+import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
+import com.loroclip.model.SyncableModel;
 
 import java.util.List;
 
@@ -17,24 +21,11 @@ import retrofit.http.Query;
 /**
  * Created by angdev on 15. 5. 12..
  */
+
 public class LoroClipAPIClient {
-    private static final String API_ENDPOINT = "http://parrot.192.168.0.11.xip.io/api/v1";
+    private static final String API_ENDPOINT = "http://parrot.172.16.101.163.xip.io/api/v1";
     private RestAdapter mRestAdapter;
-    private LoroClipService mService;
     private String mAccessToken;
-
-    public interface LoroClipService {
-        @GET("/records/pull")
-        List<Record> pullRecords(@Query("last_synced_at") int lastSyncedAt);
-
-        class PushRecordsParams {
-            PushRecordsParams(List<Record> records) { this.records = records; }
-            public List<Record> records;
-        }
-
-        @POST("/records/push")
-        List<Record> pushRecords(@Body PushRecordsParams params);
-    }
 
     public LoroClipAPIClient(String accessToken) {
         this.mAccessToken = accessToken;
@@ -53,11 +44,39 @@ public class LoroClipAPIClient {
                 .setRequestInterceptor(requestInterceptor)
                 .setConverter(new GsonConverter(gson))
                 .build();
-
-        mService = mRestAdapter.create(LoroClipService.class);
     }
 
-    public LoroClipService getService() {
-        return mService;
+    public <T> T getService(Class<T> type) {
+        return mRestAdapter.create(type);
+    }
+
+    public static class PushEntitiesParams<T extends SyncableModel> {
+        PushEntitiesParams(List<T> entities) { this.entities = entities; }
+        @SerializedName("entities")
+        public List<T> entities;
+    }
+
+    public interface RecordAPIService {
+        @GET("/records/pull")
+        List<Record> pullEntities(@Query("last_synced_at") int lastSyncedAt);
+
+        @POST("/records/push")
+        List<Record> pushEntities(@Body PushEntitiesParams<Record> params);
+    }
+
+    public interface BookmarkAPIService {
+        @GET("/bookmarks/pull")
+        List<Bookmark> pullEntities(@Query("last_synced_at") int lastSyncedAt);
+
+        @POST("/bookmarks/push")
+        List<Bookmark> pushEntities(@Body PushEntitiesParams<Bookmark> params);
+    }
+
+    public interface BookmarkHistoryAPIService {
+        @GET("/bookmark_histories/pull")
+        List<BookmarkHistory> pullEntities(@Query("last_synced_at") int lastSyncedAt);
+
+        @POST("/bookmark_histories/push")
+        List<BookmarkHistory> pushEntities(@Body PushEntitiesParams<BookmarkHistory> params);
     }
 }

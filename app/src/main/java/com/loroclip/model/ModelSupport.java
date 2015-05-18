@@ -27,12 +27,16 @@ public class ModelSupport<T> extends SugarRecord<T> {
         return updatedAt;
     }
 
+    public void beforeSave() {}
+
     @Override
     public void save() {
         if (this.createdAt == null) {
             this.createdAt = new Date();
         }
         this.updatedAt = new Date();
+
+        beforeSave();
         super.save();
     }
 

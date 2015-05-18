@@ -10,11 +10,18 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
+import com.loroclip.model.Bookmark;
+import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
+import com.loroclip.model.SyncableModel;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit.RetrofitError;
 
@@ -36,14 +43,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-        android.os.Debug.waitForDebugger();
-
         AccountManager accountManager = AccountManager.get(mContext);
         try {
             String accessToken = accountManager.blockingGetAuthToken(account, LoroClipAccount.AUTHTOKEN_TYPE, true);
             LoroClipAPIClient client = new LoroClipAPIClient(accessToken);
 
-            syncRecords(client.getService());
+            syncIndependentEntities(client, LoroClipAPIClient.RecordAPIService.class, Record.class);
+            syncIndependentEntities(client, LoroClipAPIClient.BookmarkAPIService.class, Bookmark.class);
+            syncIndependentEntities(client, LoroClipAPIClient.BookmarkHistoryAPIService.class, BookmarkHistory.class);
 
         } catch (OperationCanceledException e) {
             e.printStackTrace();
@@ -51,41 +58,58 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             e.printStackTrace();
         } catch (AuthenticatorException e) {
             e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
-    private void syncRecords(LoroClipAPIClient.LoroClipService service) {
-        Date oldestSyncedAt = Record.getOldestSyncedAt(Record.class);
+    private <T, U extends SyncableModel>
+    Set<U> syncIndependentEntities(LoroClipAPIClient client, Class<T> serviceType, Class<U> entityType)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Date oldestSyncedAt = U.getOldestSyncedAt(entityType);
         int oldestSyncedAtTimestamp = (int) (oldestSyncedAt.getTime() / 1000);
+        T service = client.getService(serviceType);
+        Set<U> syncedEntities = new HashSet<>();
+
 
         try {
             // Pull
-            List<Record> records = service.pullRecords(oldestSyncedAtTimestamp);
-            for (Record record : records) {
-                Record mappedRecord = Record.findByUuid(Record.class, record.uuid);
-                if (mappedRecord != null) {
-                    if (record.isDeleted()) {
-                        mappedRecord.delete(true);
+            Method pullMethod = serviceType.getDeclaredMethod("pullEntities", int.class);
+            List<U> entities = (List<U>) pullMethod.invoke(service, oldestSyncedAtTimestamp);
+
+            for (U entity : entities) {
+                U mappedEntity = U.findByUuid(entityType, entity.getUuid());
+                if (mappedEntity != null) {
+                    if (entity.isDeleted()) {
+                        mappedEntity.delete(true);
+                    } else if (mappedEntity.getUpdatedAt().before(entity.getUpdatedAt())) {
+                        mappedEntity.overwrite(entity);
                     }
-                    else if (mappedRecord.getUpdatedAt().before(record.getUpdatedAt())) {
-                        mappedRecord.overwrite(record);
-                    }
-                    // else then required push sync
                 } else {
-                    // todo: override #save
-                    record.saveAsSynced();
+                    entity.saveAsSynced();
                 }
+                syncedEntities.add(entity);
             }
 
-            List<Record> dirtyRecords = Record.find(Record.class, "dirty = ?", "1");
-            List<Record> syncedRecords = service.pushRecords(new LoroClipAPIClient.LoroClipService.PushRecordsParams(dirtyRecords));
+            // Push
+            Method pushMethod = serviceType.getDeclaredMethod("pushEntities", LoroClipAPIClient.PushEntitiesParams.class);
+            List<U> dirtyEntities = U.find(entityType, "dirty = ?", "1");
+            List<U> clearEntities = (List<U>)pushMethod.invoke(service, new LoroClipAPIClient.PushEntitiesParams<U>(dirtyEntities));
 
-            for (Record record : syncedRecords) {
-                Record mappedRecord = Record.findByUuid(Record.class, record.uuid);
-                mappedRecord.saveAsSynced();
+            for (U entity : clearEntities) {
+                U mappedEntity = U.findByUuid(entityType, entity.getUuid());
+                mappedEntity.saveAsSynced();
+
+                syncedEntities.add(mappedEntity);
             }
         } catch (RetrofitError e) {
 
         }
+
+        return syncedEntities;
     }
 }
