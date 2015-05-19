@@ -99,7 +99,6 @@ public class LoroClipEditActivity extends Activity
     private float mTouchStart;
     private int mTouchInitialOffset;
     private int mTouchInitialStartPos;
-    private int mTouchInitialEndPos;
     private long mWaveformTouchStartMsec;
     private float mDensity;
 
@@ -354,15 +353,6 @@ public class LoroClipEditActivity extends Activity
         mOffset = mWaveformView.getOffset();
         mOffsetGoal = mOffset;
         updateDisplay();
-    }
-
-    public static void onAbout(final Activity activity) {
-        new AlertDialog.Builder(activity)
-            .setTitle(R.string.about_title)
-            .setMessage(R.string.about_text)
-            .setPositiveButton(R.string.alert_ok_button, null)
-            .setCancelable(false)
-            .show();
     }
 
     private void loadGui() {

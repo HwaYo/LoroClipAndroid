@@ -25,5 +25,4 @@ public class Record extends SugarRecord<Record> {
 
     public String getTitle() {return title;}
     public String getFile() {return file;}
-
 }
