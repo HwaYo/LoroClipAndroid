@@ -4,6 +4,7 @@ package com.loroclip.record;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.loroclip.LoroClipSelectActivity;
 import com.loroclip.R;
 import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
@@ -56,7 +58,7 @@ public class RecordActivity extends Activity {
 
     this.recorderHandler = new RecorderHandler();
     this.timerHandler = new TimerHandler();
-    addEvnetListener();
+    addEventListener();
 
 
   }
@@ -83,7 +85,7 @@ public class RecordActivity extends Activity {
     recorderHandler.deleteTempAudioRecordFile();
   }
 
-  private void addEvnetListener() {
+  private void addEventListener() {
     recordStartButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -178,11 +180,17 @@ public class RecordActivity extends Activity {
 
     public void recordFileSave(String fileName) {
       final Handler handler = new Handler();
-      final String fromFilePath = LOROCLIP_PATH + LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION;
-      final String newFilePath =  LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
+      String fromFilePath = LOROCLIP_PATH + LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION;
+      String newFilePath =  LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
 
       File from = new File(fromFilePath);
       File to = new File(newFilePath);
+
+      while (to.exists()){
+        fileName = fileName.concat("_dup");
+        newFilePath =  LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
+        to = new File(newFilePath);
+      }
 
       from.renameTo(to);
 
@@ -201,10 +209,10 @@ public class RecordActivity extends Activity {
       FrameGains fg = new FrameGains(waveformView.getJsonArray().toString());
       fg.setRecord(record);
       fg.save();
-
+      finish();
     }
 
-    public void deleteTempAudioRecordFile() {
+      public void deleteTempAudioRecordFile() {
       File tempAudioRecordFile = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
       if(tempAudioRecordFile.exists()){
         tempAudioRecordFile.deleteOnExit();

@@ -26,19 +26,15 @@ public class Record extends SugarRecord<Record> {
         this.file = file;
     }
 
-    public String getFile() {
-        return file;
-    }
-
     public void setFile(String file) {
         this.file = file;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getTitle() {return title;}
+    public String getFile() {return file;}
+
 }

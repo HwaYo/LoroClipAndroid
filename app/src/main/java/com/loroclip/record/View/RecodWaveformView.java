@@ -196,6 +196,7 @@ public class RecodWaveformView extends View {
 		for (int i = 0; i < mLenByZoomLevel; i++) {
 			mHeightsAtThisZoomLevel[i] = (int)(mValuesByZoomLevel[i] * halfHeight);
 		}
+		fireInvalidate();
 	}
 
 //	private int isFirst = 0;
@@ -214,9 +215,7 @@ public class RecodWaveformView extends View {
 		}
 		mJSONArray.put((int) Math.sqrt(gain));
 		numFrames++;
-
 		setDrawData();
-		fireInvalidate();
 	}
 
 	public JSONArray getJsonArray(){
