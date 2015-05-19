@@ -65,8 +65,11 @@ public class SyncableModel<T extends SugarRecord<T>> extends ModelSupport<T> {
 
     @Override
     public void save() {
-        if (this.uuid != null) {
+        if (this.uuid == null) {
             this.uuid = UUID.randomUUID().toString();
+        }
+        if (this.syncedAt == null) {
+            this.syncedAt = new Date(0);
         }
         setDirty(true);
         super.save();

@@ -16,12 +16,9 @@
 
 package com.loroclip;
 
-import android.accounts.AccountManagerFuture;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
-import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +27,6 @@ import android.database.Cursor;
 import android.database.MergeCursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -48,18 +44,13 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.loroclip.model.Bookmark;
-import com.loroclip.model.Record;
+import com.loroclip.record.RecordActivity;
+import com.loroclip.record.RecordListActivity;
 import com.loroclip.soundfile.SoundFile;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class LoroClipSelectActivity
     extends ListActivity
@@ -505,10 +496,8 @@ public class LoroClipSelectActivity
 
     private void onRecord() {
         try {
-            Intent intent = new Intent(Intent.ACTION_EDIT, Uri.parse("record"));
-            intent.putExtra("was_get_content_intent", mWasGetContentIntent);
-            intent.setClassName( "com.loroclip", "com.loroclip.LoroClipEditActivity");
-            startActivityForResult(intent, REQUEST_CODE_EDIT);
+            Intent i = new Intent(LoroClipSelectActivity.this, RecordActivity.class);
+            startActivity(i);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
         }
@@ -529,12 +518,18 @@ public class LoroClipSelectActivity
     }
 
     private void refreshListView() {
-        mInternalCursor = null;
-        mExternalCursor = null;
-        Bundle args = new Bundle();
-        args.putString("filter", mFilter.getQuery().toString());
-        getLoaderManager().restartLoader(INTERNAL_CURSOR_ID,  args, this);
-        getLoaderManager().restartLoader(EXTERNAL_CURSOR_ID,  args, this);
+//        mInternalCursor = null;
+//        mExternalCursor = null;
+//        Bundle args = new Bundle();
+//        args.putString("filter", mFilter.getQuery().toString());
+//        getLoaderManager().restartLoader(INTERNAL_CURSOR_ID,  args, this);
+//        getLoaderManager().restartLoader(EXTERNAL_CURSOR_ID,  args, this);
+        try {
+            Intent i = new Intent(LoroClipSelectActivity.this, RecordListActivity.class);
+            startActivity(i);
+        } catch (Exception e) {
+            Log.e("LoroClip", "Couldn't start editor");
+        }
     }
 
     private static final String[] INTERNAL_COLUMNS = new String[] {

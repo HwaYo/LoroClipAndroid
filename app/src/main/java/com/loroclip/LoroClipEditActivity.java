@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
+import com.loroclip.model.Record;
 import com.loroclip.soundfile.SoundFile;
 
 import java.io.ByteArrayOutputStream;
@@ -102,6 +103,8 @@ public class LoroClipEditActivity extends Activity
     private long mWaveformTouchStartMsec;
     private float mDensity;
 
+    private Record mRecord;
+
     private Thread mLoadSoundFileThread;
     private Thread mRecordAudioThread;
     private Thread mSaveSoundFileThread;
@@ -134,10 +137,11 @@ public class LoroClipEditActivity extends Activity
         mSaveSoundFileThread = null;
 
         Intent intent = getIntent();
-        
+        long recordId = intent.getLongExtra("record_id", 0);
+        mRecord = Record.findById(Record.class, Long.valueOf(recordId));
         mWasGetContentIntent = intent.getBooleanExtra("was_get_content_intent", false);
 
-        mFilename = intent.getData().toString().replaceFirst("file://", "").replaceAll("%20", " ");
+        mFilename = mRecord.getLocalFilePath();
         mSoundFile = null;
         mKeyDown = false;
 
@@ -402,7 +406,7 @@ public class LoroClipEditActivity extends Activity
         bookmarkListView.setAdapter(new BookmarkListViewAdapter());
         bookmarkListView.setOnItemClickListener(bookmarkListListener);
 
-        mWaveformView.refreshBookmarkHistoryList();
+//        mWaveformView.refreshBookmarkHistoryList();
         updateDisplay();
     }
 

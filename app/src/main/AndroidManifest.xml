@@ -26,25 +26,21 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="22" />
 
-    <supports-screens android:anyDensity="true" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -53,13 +49,21 @@
         android:label="@string/loroclip_app_name"
         android:largeHeap="true"
         android:theme="@android:style/Theme.Holo" >
-
         <activity
             android:name=".LoroClipSelectActivity"
             android:label="@string/main_activity_label" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
 
@@ -76,6 +80,7 @@
             android:windowSoftInputMode="adjustResize" >
             <intent-filter android:label="@string/edit_intent" >
                 <action android:name="android.intent.action.EDIT" />
+                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
 
@@ -94,6 +99,16 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name=".record.RecordListActivity"
+            android:label="@string/title_activity_record_list" >
+        </activity>
+
+        <activity
+            android:name=".record.RecordActivity"
+            android:label="@string/title_activity_record" >
+        </activity>
 
         <service android:name=".AuthenticatorService" >
             <intent-filter>

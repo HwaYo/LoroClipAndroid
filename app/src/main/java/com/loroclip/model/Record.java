@@ -45,8 +45,14 @@ public class Record extends SyncableModel<Record> {
     }
 
     public File getLocalFile() {
+        if (localFile == null) {
+            return null;
+        }
         return new File(localFile);
+    }
 
+    public void setLocalFile(File file) {
+        this.localFile = file.getAbsolutePath();
     }
 
     public List<BookmarkHistory> getBookmarkHistories() {
