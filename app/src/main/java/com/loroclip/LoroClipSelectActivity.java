@@ -186,7 +186,8 @@ public class LoroClipSelectActivity extends ListActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         selectedFileName = getfileNameFromRowView(((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.findViewById(android.R.id.text1));
-        menu.add(0, CMD_RENAME, 0, R.string.context_menu_edit);
+        // TODO: RENAME
+//        menu.add(0, CMD_RENAME, 0, R.string.context_menu_edit);
         menu.add(0, CMD_DELETE, 0, R.string.context_menu_delete);
     }
 
