@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +58,6 @@ public class RecordActivity extends Activity {
     this.timerHandler = new TimerHandler();
     addEventListener();
 
-
   }
 
   @Override
@@ -102,12 +103,16 @@ public class RecordActivity extends Activity {
     });
 
     saveDialog = createSaveDialog();
+
     recordStopButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         recorderHandler.stop();
         timerHandler.stop();
+
         saveDialog.show();
+        saveDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        saveDialog.setCanceledOnTouchOutside(false);
 
         recordStopButton.setVisibility(View.GONE);
         recordPauseButton.setVisibility(View.GONE);
@@ -115,6 +120,8 @@ public class RecordActivity extends Activity {
         recordStartButton.setVisibility(View.VISIBLE);
       }
     });
+
+
   }
 
   private class RecorderHandler {
@@ -130,6 +137,7 @@ public class RecordActivity extends Activity {
 
     public void start() {
       File loroclipPath = new File(LOROCLIP_PATH);
+      waveformView.startRecord();
       if(!loroclipPath.exists()) {
         loroclipPath.mkdirs();
       }
@@ -233,6 +241,26 @@ public class RecordActivity extends Activity {
 
   private AlertDialog createSaveDialog() {
     final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
+    EditText saveFile = (EditText)view.findViewById(R.id.filenameEditText);
+    saveFile.addTextChangedListener(new TextWatcher() {
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() == 0) {
+          saveDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        } else {
+          saveDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+        }
+      }
+
+      @Override // 입력이 끝났을 때
+      public void afterTextChanged(Editable s) {
+      }
+
+      @Override // 입력하기 전에
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    });
+
     return new AlertDialog.Builder(this)
         .setTitle("파일저장 (저장안함을 누를시 현재 녹음파일을 되돌릴수 없습니다.!!)")
         .setView(view)
@@ -243,7 +271,14 @@ public class RecordActivity extends Activity {
             recorderHandler.recordFileSave(filename.getText().toString());
           }
         })
-        .setNegativeButton("저장안함", null)
+        .setNegativeButton("저장안함", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            EditText filename = (EditText) view.findViewById(R.id.filenameEditText);
+            filename.setText("");
+            saveDialog.dismiss();
+          }
+        })
         .create();
   }
 }

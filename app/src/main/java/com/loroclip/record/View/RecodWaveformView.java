@@ -45,12 +45,16 @@ public class RecodWaveformView extends View {
 		waveBaseLine.setColor(getResources().getColor(R.drawable.waveform_selected));
 
 		initWaveformView();
+		mJSONArray = new JSONArray();
 	}
 
+	public  void startRecord() {
+		mJSONArray = new JSONArray();
+	}
 
 	public void initWaveformView() {
-		mJSONArray = new JSONArray();
 		numFrames = 0;
+		fireInvalidate();
 	}
 
 	@Override
