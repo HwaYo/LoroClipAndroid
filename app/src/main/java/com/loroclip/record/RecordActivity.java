@@ -55,7 +55,7 @@ public class RecordActivity extends Activity {
 
     this.recorderHandler = new RecorderHandler();
     this.timerHandler = new TimerHandler();
-    addEvnetListener();
+    addEventListener();
 
 
   }
@@ -82,7 +82,7 @@ public class RecordActivity extends Activity {
     recorderHandler.deleteTempAudioRecordFile();
   }
 
-  private void addEvnetListener() {
+  private void addEventListener() {
     recordStartButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
