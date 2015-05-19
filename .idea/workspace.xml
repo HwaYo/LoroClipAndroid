@@ -39,32 +39,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8be080e-2b6e-474b-a139-946e4587963e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListAdapter.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordListActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/lorocliplogo2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/type_alarm.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/type_notification.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/type_ringtone.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/after_save_action.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/editor.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/media_select.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/media_select_row.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/media_select_row.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/ChooseContactActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/ChooseContactActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/FileSaveDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/FileSaveDialog.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/AfterSaveActionDialog.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/ChooseContactActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/FileSaveDialog.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/MarkerView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_record.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_record_list.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/model/Record.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/SoundFile.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/SoundFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/contact_row.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/contact_row.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/select_options.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/select_options.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/edit_options.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/edit_options.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LoroClipAndroid.iws" />
@@ -173,8 +158,6 @@
               <folding>
                 <element signature="e#5352#5353#0" expanded="true" />
                 <element signature="e#5376#5377#0" expanded="true" />
-                <element signature="e#5427#5529#0" expanded="true" />
-                <element signature="e#5528#5529#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -219,9 +202,82 @@
       <file leaf-file-name="LoroClipEditActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5671875">
-              <caret line="473" column="48" selection-start-line="473" selection-start-column="34" selection-end-line="473" selection-end-column="48" />
-              <folding />
+            <state vertical-scroll-proportion="0.953125">
+              <caret line="967" column="0" selection-start-line="967" selection-start-column="0" selection-end-line="967" selection-end-column="0" />
+              <folding>
+                <element signature="e#6870#7093#0" expanded="true" />
+                <element signature="e#7092#7093#0" expanded="true" />
+                <element signature="e#12611#12643#0" expanded="true" />
+                <element signature="e#12748#12974#0" expanded="true" />
+                <element signature="e#12973#12974#0" expanded="true" />
+                <element signature="e#13074#13613#0" expanded="true" />
+                <element signature="e#13612#13613#0" expanded="true" />
+                <element signature="e#13701#16229#0" expanded="true" />
+                <element signature="e#14234#14320#0" expanded="true" />
+                <element signature="e#14389#14476#0" expanded="true" />
+                <element signature="e#14675#14870#0" expanded="true" />
+                <element signature="e#14869#14870#0" expanded="true" />
+                <element signature="e#15252#15417#0" expanded="true" />
+                <element signature="e#15416#15417#0" expanded="true" />
+                <element signature="e#15461#15661#0" expanded="true" />
+                <element signature="e#15568#15611#0" expanded="true" />
+                <element signature="e#15660#15661#0" expanded="true" />
+                <element signature="e#15878#16040#0" expanded="true" />
+                <element signature="e#16039#16040#0" expanded="true" />
+                <element signature="e#16228#16229#0" expanded="true" />
+                <element signature="e#16620#16678#0" expanded="true" />
+                <element signature="e#16769#16824#0" expanded="true" />
+                <element signature="e#16838#17072#0" expanded="true" />
+                <element signature="e#17071#17072#0" expanded="true" />
+                <element signature="e#17124#17177#0" expanded="true" />
+                <element signature="e#17191#17381#0" expanded="true" />
+                <element signature="e#17380#17381#0" expanded="true" />
+                <element signature="e#17933#18843#0" expanded="true" />
+                <element signature="e#18317#18683#0" expanded="true" />
+                <element signature="e#18682#18683#0" expanded="true" />
+                <element signature="e#18842#18843#0" expanded="true" />
+                <element signature="e#18933#20871#0" expanded="true" />
+                <element signature="e#19201#19539#0" expanded="true" />
+                <element signature="e#19403#19448#0" expanded="true" />
+                <element signature="e#19538#19539#0" expanded="true" />
+                <element signature="e#19918#20083#0" expanded="true" />
+                <element signature="e#20082#20083#0" expanded="true" />
+                <element signature="e#20127#20329#0" expanded="true" />
+                <element signature="e#20234#20279#0" expanded="true" />
+                <element signature="e#20328#20329#0" expanded="true" />
+                <element signature="e#20621#20783#0" expanded="true" />
+                <element signature="e#20782#20783#0" expanded="true" />
+                <element signature="e#20870#20871#0" expanded="true" />
+                <element signature="e#21576#21623#0" expanded="true" />
+                <element signature="e#23555#24043#0" expanded="true" />
+                <element signature="e#24042#24043#0" expanded="true" />
+                <element signature="e#24237#24274#0" expanded="true" />
+                <element signature="e#24416#24453#0" expanded="true" />
+                <element signature="e#24822#24823#0" expanded="true" />
+                <element signature="e#24875#24876#0" expanded="true" />
+                <element signature="e#24924#24925#0" expanded="true" />
+                <element signature="e#24985#24986#0" expanded="true" />
+                <element signature="e#25024#25025#0" expanded="true" />
+                <element signature="e#25075#25076#0" expanded="true" />
+                <element signature="e#25122#25123#0" expanded="true" />
+                <element signature="e#25181#25182#0" expanded="true" />
+                <element signature="e#27461#27640#0" expanded="true" />
+                <element signature="e#27639#27640#0" expanded="true" />
+                <element signature="e#27969#27988#0" expanded="true" />
+                <element signature="e#28271#28323#0" expanded="true" />
+                <element signature="e#28470#28522#0" expanded="true" />
+                <element signature="e#28704#28728#0" expanded="true" />
+                <element signature="e#28746#28982#0" expanded="true" />
+                <element signature="e#28981#28982#0" expanded="true" />
+                <element signature="e#29237#29497#0" expanded="true" />
+                <element signature="e#29496#29497#0" expanded="true" />
+                <element signature="e#29546#29893#0" expanded="true" />
+                <element signature="e#29892#29893#0" expanded="true" />
+                <element signature="e#29940#30258#0" expanded="true" />
+                <element signature="e#30257#30258#0" expanded="true" />
+                <element signature="e#31697#31698#0" expanded="true" />
+                <element signature="e#31747#31748#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -229,7 +285,7 @@
       <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.259259">
+            <state vertical-scroll-proportion="0.0">
               <caret line="202" column="0" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -251,20 +307,7 @@
                 <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
                 <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
                 <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
-                <element signature="e#1701#1716#0" expanded="false" />
                 <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-                <element signature="e#6764#6765#0" expanded="false" />
-                <element signature="e#6799#6800#0" expanded="false" />
-                <element signature="e#6837#6838#0" expanded="false" />
-                <element signature="e#6885#6886#0" expanded="false" />
-                <element signature="e#6925#6926#0" expanded="false" />
-                <element signature="e#6976#6977#0" expanded="false" />
-                <element signature="e#8100#8101#0" expanded="false" />
-                <element signature="e#8160#8161#0" expanded="false" />
-                <element signature="e#8314#8315#0" expanded="false" />
-                <element signature="e#8375#8376#0" expanded="false" />
-                <element signature="e#8527#8528#0" expanded="false" />
-                <element signature="e#8586#8587#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1644,7 +1687,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/util/RecordWaveformView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/save_dialog.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record_list.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipSelectActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/PlayerTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/recorder/WaveDataStore.java" />
@@ -1683,6 +1725,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/SoundFile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/record/View/RecodWaveformView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java" />
       </list>
     </option>
   </component>
@@ -1760,8 +1803,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -1776,26 +1817,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LoroClipAndroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1917,6 +1940,26 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="decoder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoroClipAndroid" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2203,7 +2246,6 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39958158" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20188284" sideWeight="0.504884" order="7" side_tool="true" content_ui="tabs" />
@@ -2212,7 +2254,7 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30125523" sideWeight="0.495116" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30125523" sideWeight="0.495116" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2020757" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2223,8 +2265,9 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2245,7 +2288,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java</url>
-          <line>1213</line>
+          <line>864</line>
           <properties />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
@@ -2293,8 +2336,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java</url>
-          <line>727</line>
-          <properties class="com.loroclip.LoroClipEditActivity" />
+          <line>697</line>
+          <properties />
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
@@ -2303,6 +2346,35 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/soundfile/SoundFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="578" column="0" selection-start-line="578" selection-start-column="0" selection-end-line="578" selection-end-column="0" />
+          <folding>
+            <element signature="e#2787#2788#0" expanded="true" />
+            <element signature="e#2825#2826#0" expanded="true" />
+            <element signature="e#4862#4863#0" expanded="true" />
+            <element signature="e#4894#4895#0" expanded="true" />
+            <element signature="e#4931#4932#0" expanded="true" />
+            <element signature="e#4963#4964#0" expanded="true" />
+            <element signature="e#5001#5002#0" expanded="true" />
+            <element signature="e#5035#5036#0" expanded="true" />
+            <element signature="e#5069#5070#0" expanded="true" />
+            <element signature="e#5103#5104#0" expanded="true" />
+            <element signature="e#5135#5136#0" expanded="true" />
+            <element signature="e#5167#5168#0" expanded="true" />
+            <element signature="e#5201#5202#0" expanded="true" />
+            <element signature="e#5270#5271#0" expanded="true" />
+            <element signature="e#5394#5395#0" expanded="true" />
+            <element signature="e#5427#5428#0" expanded="true" />
+            <element signature="e#5557#5558#0" expanded="true" />
+            <element signature="e#5615#5616#0" expanded="true" />
+            <element signature="e#5742#5743#0" expanded="true" />
+            <element signature="e#5776#5777#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2325,20 +2397,7 @@
             <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
             <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
             <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="e#1701#1716#0" expanded="false" />
             <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="e#6764#6765#0" expanded="false" />
-            <element signature="e#6799#6800#0" expanded="false" />
-            <element signature="e#6837#6838#0" expanded="false" />
-            <element signature="e#6885#6886#0" expanded="false" />
-            <element signature="e#6925#6926#0" expanded="false" />
-            <element signature="e#6976#6977#0" expanded="false" />
-            <element signature="e#8100#8101#0" expanded="false" />
-            <element signature="e#8160#8161#0" expanded="false" />
-            <element signature="e#8314#8315#0" expanded="false" />
-            <element signature="e#8375#8376#0" expanded="false" />
-            <element signature="e#8527#8528#0" expanded="false" />
-            <element signature="e#8586#8587#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2367,13 +2426,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5120482">
           <caret line="17" column="33" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/AfterSaveActionDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -2623,7 +2675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2661,20 +2712,7 @@
             <element signature="docComment;class#RecorderState#0;class#VorbisRecorder#0" expanded="false" />
             <element signature="docComment;field#encodeFeed#0;class#VorbisRecorder#0" expanded="false" />
             <element signature="docComment;field#currentState#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="e#1701#1716#0" expanded="false" />
             <element signature="docComment;field#outputStream#0;class#FileEncodeFeed#0;class#VorbisRecorder#0" expanded="false" />
-            <element signature="e#6764#6765#0" expanded="false" />
-            <element signature="e#6799#6800#0" expanded="false" />
-            <element signature="e#6837#6838#0" expanded="false" />
-            <element signature="e#6885#6886#0" expanded="false" />
-            <element signature="e#6925#6926#0" expanded="false" />
-            <element signature="e#6976#6977#0" expanded="false" />
-            <element signature="e#8100#8101#0" expanded="false" />
-            <element signature="e#8160#8161#0" expanded="false" />
-            <element signature="e#8314#8315#0" expanded="false" />
-            <element signature="e#8375#8376#0" expanded="false" />
-            <element signature="e#8527#8528#0" expanded="false" />
-            <element signature="e#8586#8587#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2694,16 +2732,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3572594">
           <caret line="232" column="24" selection-start-line="232" selection-start-column="24" selection-end-line="232" selection-end-column="24" />
-          <folding>
-            <element signature="e#7496#7720#0" expanded="true" />
-            <element signature="e#7719#7720#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/record/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.259259">
+        <state vertical-scroll-proportion="0.0">
           <caret line="202" column="0" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2747,8 +2782,6 @@
           <folding>
             <element signature="e#5352#5353#0" expanded="true" />
             <element signature="e#5376#5377#0" expanded="true" />
-            <element signature="e#5427#5529#0" expanded="true" />
-            <element signature="e#5528#5529#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2763,9 +2796,82 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/loroclip/LoroClipEditActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5671875">
-          <caret line="473" column="48" selection-start-line="473" selection-start-column="34" selection-end-line="473" selection-end-column="48" />
-          <folding />
+        <state vertical-scroll-proportion="0.953125">
+          <caret line="967" column="0" selection-start-line="967" selection-start-column="0" selection-end-line="967" selection-end-column="0" />
+          <folding>
+            <element signature="e#6870#7093#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#12611#12643#0" expanded="true" />
+            <element signature="e#12748#12974#0" expanded="true" />
+            <element signature="e#12973#12974#0" expanded="true" />
+            <element signature="e#13074#13613#0" expanded="true" />
+            <element signature="e#13612#13613#0" expanded="true" />
+            <element signature="e#13701#16229#0" expanded="true" />
+            <element signature="e#14234#14320#0" expanded="true" />
+            <element signature="e#14389#14476#0" expanded="true" />
+            <element signature="e#14675#14870#0" expanded="true" />
+            <element signature="e#14869#14870#0" expanded="true" />
+            <element signature="e#15252#15417#0" expanded="true" />
+            <element signature="e#15416#15417#0" expanded="true" />
+            <element signature="e#15461#15661#0" expanded="true" />
+            <element signature="e#15568#15611#0" expanded="true" />
+            <element signature="e#15660#15661#0" expanded="true" />
+            <element signature="e#15878#16040#0" expanded="true" />
+            <element signature="e#16039#16040#0" expanded="true" />
+            <element signature="e#16228#16229#0" expanded="true" />
+            <element signature="e#16620#16678#0" expanded="true" />
+            <element signature="e#16769#16824#0" expanded="true" />
+            <element signature="e#16838#17072#0" expanded="true" />
+            <element signature="e#17071#17072#0" expanded="true" />
+            <element signature="e#17124#17177#0" expanded="true" />
+            <element signature="e#17191#17381#0" expanded="true" />
+            <element signature="e#17380#17381#0" expanded="true" />
+            <element signature="e#17933#18843#0" expanded="true" />
+            <element signature="e#18317#18683#0" expanded="true" />
+            <element signature="e#18682#18683#0" expanded="true" />
+            <element signature="e#18842#18843#0" expanded="true" />
+            <element signature="e#18933#20871#0" expanded="true" />
+            <element signature="e#19201#19539#0" expanded="true" />
+            <element signature="e#19403#19448#0" expanded="true" />
+            <element signature="e#19538#19539#0" expanded="true" />
+            <element signature="e#19918#20083#0" expanded="true" />
+            <element signature="e#20082#20083#0" expanded="true" />
+            <element signature="e#20127#20329#0" expanded="true" />
+            <element signature="e#20234#20279#0" expanded="true" />
+            <element signature="e#20328#20329#0" expanded="true" />
+            <element signature="e#20621#20783#0" expanded="true" />
+            <element signature="e#20782#20783#0" expanded="true" />
+            <element signature="e#20870#20871#0" expanded="true" />
+            <element signature="e#21576#21623#0" expanded="true" />
+            <element signature="e#23555#24043#0" expanded="true" />
+            <element signature="e#24042#24043#0" expanded="true" />
+            <element signature="e#24237#24274#0" expanded="true" />
+            <element signature="e#24416#24453#0" expanded="true" />
+            <element signature="e#24822#24823#0" expanded="true" />
+            <element signature="e#24875#24876#0" expanded="true" />
+            <element signature="e#24924#24925#0" expanded="true" />
+            <element signature="e#24985#24986#0" expanded="true" />
+            <element signature="e#25024#25025#0" expanded="true" />
+            <element signature="e#25075#25076#0" expanded="true" />
+            <element signature="e#25122#25123#0" expanded="true" />
+            <element signature="e#25181#25182#0" expanded="true" />
+            <element signature="e#27461#27640#0" expanded="true" />
+            <element signature="e#27639#27640#0" expanded="true" />
+            <element signature="e#27969#27988#0" expanded="true" />
+            <element signature="e#28271#28323#0" expanded="true" />
+            <element signature="e#28470#28522#0" expanded="true" />
+            <element signature="e#28704#28728#0" expanded="true" />
+            <element signature="e#28746#28982#0" expanded="true" />
+            <element signature="e#28981#28982#0" expanded="true" />
+            <element signature="e#29237#29497#0" expanded="true" />
+            <element signature="e#29496#29497#0" expanded="true" />
+            <element signature="e#29546#29893#0" expanded="true" />
+            <element signature="e#29892#29893#0" expanded="true" />
+            <element signature="e#29940#30258#0" expanded="true" />
+            <element signature="e#30257#30258#0" expanded="true" />
+            <element signature="e#31697#31698#0" expanded="true" />
+            <element signature="e#31747#31748#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

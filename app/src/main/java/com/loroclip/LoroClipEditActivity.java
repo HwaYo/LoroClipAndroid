@@ -19,17 +19,12 @@ package com.loroclip;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -41,7 +36,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
@@ -50,7 +44,6 @@ import com.loroclip.soundfile.SoundFile;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class LoroClipEditActivity extends Activity
@@ -93,7 +86,7 @@ public class LoroClipEditActivity extends Activity
     private int mPlayEndMsec;
     private Handler mHandler;
     private boolean mIsPlaying;
-    private LoroClipPlayer mPlayer;
+    private SamplePlayer mPlayer;
     private boolean mTouchDragging;
     private float mTouchStart;
     private int mTouchInitialOffset;
@@ -114,7 +107,6 @@ public class LoroClipEditActivity extends Activity
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
-    private LoroClipPlayer mTestPlayer;
 
 
     /** Called when the activity is first created. */
@@ -190,8 +182,7 @@ public class LoroClipEditActivity extends Activity
         }
 
         if (mPlayer != null) {
-//            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
-            if (mPlayer.isPlaying()) {
+            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
                 mPlayer.stop();
             }
             mPlayer.release();
@@ -250,7 +241,6 @@ public class LoroClipEditActivity extends Activity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.action_save).setVisible(true);
         menu.findItem(R.id.action_show_all_bookmarks).setVisible(true);
         return true;
     }
@@ -258,9 +248,6 @@ public class LoroClipEditActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
-                onSave();
-                return true;
             case R.id.action_show_all_bookmarks:
                 onSelectBookmark();
                 return true;
@@ -470,8 +457,7 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
-                    mPlayer = new LoroClipPlayer(mFile.getAbsolutePath());
+                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();
@@ -577,7 +563,7 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
+                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mAlertDialog.dismiss();
                     e.printStackTrace();
@@ -829,13 +815,17 @@ public class LoroClipEditActivity extends Activity
             } else {
                 mPlayEndMsec = mWaveformView.pixelsToMillisecs(mEndPos);
             }
-//            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion() {
-//                    handlePause();
-//                }
-//            });
+            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion() {
+                    handlePause();
+                }
+            });
             mIsPlaying = true;
+
+            if (startPosition >= mEndPos){
+                mPlayStartMsec = 0;
+            }
 
             mPlayer.seekTo(mPlayStartMsec);
             mPlayer.start();
@@ -878,314 +868,6 @@ public class LoroClipEditActivity extends Activity
         showFinalAlert(e, getResources().getText(messageResourceId));
     }
 
-    private String makeRingtoneFilename(CharSequence title, String extension) {
-        String subdir;
-        String externalRootDir = Environment.getExternalStorageDirectory().getPath();
-        if (!externalRootDir.endsWith("/")) {
-            externalRootDir += "/";
-        }
-        switch(mNewFileKind) {
-            default:
-            case FileSaveDialog.FILE_KIND_MUSIC:
-                // TODO(nfaralli): can directly use Environment.getExternalStoragePublicDirectory(
-                // Environment.DIRECTORY_MUSIC).getPath() instead
-                subdir = "media/audio/music/";
-                break;
-            case FileSaveDialog.FILE_KIND_ALARM:
-                subdir = "media/audio/alarms/";
-                break;
-            case FileSaveDialog.FILE_KIND_NOTIFICATION:
-                subdir = "media/audio/notifications/";
-                break;
-            case FileSaveDialog.FILE_KIND_RINGTONE:
-                subdir = "media/audio/ringtones/";
-                break;
-        }
-        String parentdir = externalRootDir + subdir;
-
-        // Create the parent directory
-        File parentDirFile = new File(parentdir);
-        parentDirFile.mkdirs();
-
-        // If we can't write to that special path, try just writing
-        // directly to the sdcard
-        if (!parentDirFile.isDirectory()) {
-            parentdir = externalRootDir;
-        }
-
-        // Turn the title into a filename
-        String filename = "";
-        for (int i = 0; i < title.length(); i++) {
-            if (Character.isLetterOrDigit(title.charAt(i))) {
-                filename += title.charAt(i);
-            }
-        }
-
-        // Try to make the filename unique
-        String path = null;
-        for (int i = 0; i < 100; i++) {
-            String testPath;
-            if (i > 0)
-                testPath = parentdir + filename + i + extension;
-            else
-                testPath = parentdir + filename + extension;
-
-            try {
-                RandomAccessFile f = new RandomAccessFile(new File(testPath), "r");
-                f.close();
-            } catch (Exception e) {
-                // Good, the file didn't exist
-                path = testPath;
-                break;
-            }
-        }
-
-        return path;
-    }
-
-    private void saveRingtone(final CharSequence title) {
-        // SoundFile will only encode in MPEG 4.
-        final String outPath = makeRingtoneFilename(title, ".m4a");
-
-        if (outPath == null) {
-            showFinalAlert(new Exception(), R.string.no_unique_filename);
-            return;
-        }
-
-        double startTime = mWaveformView.pixelsToSeconds(mStartPos);
-        double endTime = mWaveformView.pixelsToSeconds(mEndPos);
-        final int startFrame = mWaveformView.secondsToFrames(startTime);
-        final int endFrame = mWaveformView.secondsToFrames(endTime);
-        final int duration = (int)(endTime - startTime + 0.5);
-
-        // Create an indeterminate progress dialog
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setTitle(R.string.progress_dialog_saving);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
-
-        // Save the sound file in a background thread
-        mSaveSoundFileThread = new Thread() {
-            public void run() {
-                final File outFile = new File(outPath);
-                try {
-                    // Write the new file
-                    mSoundFile.WriteFile(outFile,
-                        startFrame,
-                        endFrame - startFrame);
-
-                    // Try to load the new file to make sure it worked
-                    final SoundFile.ProgressListener listener =
-                        new SoundFile.ProgressListener() {
-                            public boolean reportProgress(double frac) {
-                                // Do nothing - we're not going to try to
-                                // estimate when reloading a saved sound
-                                // since it's usually fast, but hard to
-                                // estimate anyway.
-                                return true;  // Keep going
-                            }
-                        };
-                    SoundFile.create(outPath, listener);
-                } catch (Exception e) {
-                    mProgressDialog.dismiss();
-
-                    CharSequence errorMessage;
-                    if (e.getMessage().equals("No space left on device")) {
-                        errorMessage = getResources().getText(
-                            R.string.no_space_error);
-                        e = null;
-                    } else {
-                        errorMessage = getResources().getText(
-                            R.string.write_error);
-                    }
-
-                    final CharSequence finalErrorMessage = errorMessage;
-                    final Exception finalException = e;
-                    Runnable runnable = new Runnable() {
-                        public void run() {
-                            showFinalAlert(finalException, finalErrorMessage);
-                        }
-                    };
-                    mHandler.post(runnable);
-                    return;
-                }
-
-                mProgressDialog.dismiss();
-
-                Runnable runnable = new Runnable() {
-                    public void run() {
-                        afterSavingRingtone(title,
-                            outPath,
-                            outFile,
-                            duration);
-                    }
-                };
-                mHandler.post(runnable);
-            }
-        };
-        mSaveSoundFileThread.start();
-    }
-
-    private void afterSavingRingtone(CharSequence title,
-                                     String outPath,
-                                     File outFile,
-                                     int duration) {
-        long length = outFile.length();
-        if (length <= 512) {
-            outFile.delete();
-            new AlertDialog.Builder(this)
-                .setTitle(R.string.alert_title_failure)
-                .setMessage(R.string.too_small_error)
-                .setPositiveButton(R.string.alert_ok_button, null)
-                .setCancelable(false)
-                .show();
-            return;
-        }
-
-        // Create the database record, pointing to the existing file path
-
-        long fileSize = outFile.length();
-        String mimeType = "audio/mpeg";
-
-        String artist = "" + getResources().getText(R.string.artist_name);
-
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DATA, outPath);
-        values.put(MediaStore.MediaColumns.TITLE, title.toString());
-        values.put(MediaStore.MediaColumns.SIZE, fileSize);
-        values.put(MediaStore.MediaColumns.MIME_TYPE, mimeType);
-
-        values.put(MediaStore.Audio.Media.ARTIST, artist);
-        values.put(MediaStore.Audio.Media.DURATION, duration);
-
-        values.put(MediaStore.Audio.Media.IS_RINGTONE,
-            mNewFileKind == FileSaveDialog.FILE_KIND_RINGTONE);
-        values.put(MediaStore.Audio.Media.IS_NOTIFICATION,
-            mNewFileKind == FileSaveDialog.FILE_KIND_NOTIFICATION);
-        values.put(MediaStore.Audio.Media.IS_ALARM,
-            mNewFileKind == FileSaveDialog.FILE_KIND_ALARM);
-        values.put(MediaStore.Audio.Media.IS_MUSIC,
-            mNewFileKind == FileSaveDialog.FILE_KIND_MUSIC);
-
-        // Insert it into the database
-        Uri uri = MediaStore.Audio.Media.getContentUriForPath(outPath);
-        final Uri newUri = getContentResolver().insert(uri, values);
-        setResult(RESULT_OK, new Intent().setData(newUri));
-
-        if (mWasGetContentIntent) {
-            finish();
-            return;
-        }
-
-        // There's nothing more to do with music or an alarm.  Show a
-        // success message and then quit.
-        if (mNewFileKind == FileSaveDialog.FILE_KIND_MUSIC ||
-            mNewFileKind == FileSaveDialog.FILE_KIND_ALARM) {
-            Toast.makeText(this,
-                R.string.save_success_message,
-                Toast.LENGTH_SHORT)
-                .show();
-            finish();
-            return;
-        }
-
-        // If it's a notification, give the user the option of making
-        // this their default notification.  If they say no, we're finished.
-        if (mNewFileKind == FileSaveDialog.FILE_KIND_NOTIFICATION) {
-            new AlertDialog.Builder(LoroClipEditActivity.this)
-                .setTitle(R.string.alert_title_success)
-                .setMessage(R.string.set_default_notification)
-                .setPositiveButton(R.string.alert_yes_button,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int whichButton) {
-                            RingtoneManager.setActualDefaultRingtoneUri(
-                                LoroClipEditActivity.this,
-                                RingtoneManager.TYPE_NOTIFICATION,
-                                newUri);
-                            finish();
-                        }
-                    })
-                .setNegativeButton(
-                    R.string.alert_no_button,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            finish();
-                        }
-                    })
-                .setCancelable(false)
-                .show();
-            return;
-        }
-
-        // If we get here, that means the type is a ringtone.  There are
-        // three choices: make this your default ringtone, assign it to a
-        // contact, or do nothing.
-
-        final Handler handler = new Handler() {
-            public void handleMessage(Message response) {
-                int actionId = response.arg1;
-                switch (actionId) {
-                    case R.id.button_make_default:
-                        RingtoneManager.setActualDefaultRingtoneUri(
-                            LoroClipEditActivity.this,
-                            RingtoneManager.TYPE_RINGTONE,
-                            newUri);
-                        Toast.makeText(
-                            LoroClipEditActivity.this,
-                            R.string.default_ringtone_success_message,
-                            Toast.LENGTH_SHORT)
-                            .show();
-                        finish();
-                        break;
-                    case R.id.button_choose_contact:
-                        chooseContactForRingtone(newUri);
-                        break;
-                    default:
-                    case R.id.button_do_nothing:
-                        finish();
-                        break;
-                }
-            }
-        };
-        Message message = Message.obtain(handler);
-        AfterSaveActionDialog dlog = new AfterSaveActionDialog(
-            this, message);
-        dlog.show();
-    }
-
-    private void chooseContactForRingtone(Uri uri) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_EDIT, uri);
-            intent.setClassName(
-                "com.loroclip",
-                "com.loroclip.ChooseContactActivity");
-            startActivityForResult(intent, REQUEST_CODE_CHOOSE_CONTACT);
-        } catch (Exception e) {
-            Log.e("LoroClip", "Couldn't open Choose Contact window");
-        }
-    }
-
-    private void onSave() {
-        if (mIsPlaying) {
-            handlePause();
-        }
-
-        final Handler handler = new Handler() {
-            public void handleMessage(Message response) {
-                CharSequence newTitle = (CharSequence)response.obj;
-                mNewFileKind = response.arg1;
-                saveRingtone(newTitle);
-            }
-        };
-        Message message = Message.obtain(handler);
-        FileSaveDialog dlog = new FileSaveDialog(
-            this, getResources(), mTitle, message);
-        dlog.show();
-    }
-
     private OnClickListener mPlayListener = new OnClickListener() {
         public void onClick(View sender) {
             if (mPlayStartMsec == 0) {
@@ -1202,6 +884,8 @@ public class LoroClipEditActivity extends Activity
             mWaveformView.setIsBookmarking(false);
             if (mIsPlaying) {
                 int newPos = mPlayer.getCurrentPosition() - 5000;
+                if (newPos < 0)
+                    newPos = 0;
                 mPlayer.seekTo(newPos);
             }
         }
