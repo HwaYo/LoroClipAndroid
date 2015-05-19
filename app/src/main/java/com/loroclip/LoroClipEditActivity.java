@@ -355,15 +355,6 @@ public class LoroClipEditActivity extends Activity
         updateDisplay();
     }
 
-    public static void onAbout(final Activity activity) {
-        new AlertDialog.Builder(activity)
-            .setTitle(R.string.about_title)
-            .setMessage(R.string.about_text)
-            .setPositiveButton(R.string.alert_ok_button, null)
-            .setCancelable(false)
-            .show();
-    }
-
     private void loadGui() {
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.editor);

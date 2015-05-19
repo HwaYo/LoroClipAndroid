@@ -163,7 +163,6 @@ public class LoroClipSelectActivity extends ListActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        menu.findItem(R.id.action_about).setVisible(true);
         menu.findItem(R.id.action_record).setVisible(true);
 
         return true;
@@ -172,9 +171,6 @@ public class LoroClipSelectActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.action_about:
-            LoroClipEditActivity.onAbout(this);
-            return true;
         case R.id.action_record:
             onRecord();
             return true;
