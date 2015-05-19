@@ -23,6 +23,12 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaRecorder;
 
+import com.loroclip.model.FrameGains;
+import com.loroclip.model.Record;
+import com.loroclip.util.Util;
+
+import org.json.JSONArray;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -54,6 +60,7 @@ public class SoundFile {
     private int[] mFrameGains;
     private int[] mFrameLens;
     private int[] mFrameOffsets;
+    private JSONArray mJSONArray;
 
     // Progress listener interface.
     public interface ProgressListener {
@@ -93,7 +100,7 @@ public class SoundFile {
     public static SoundFile create(String fileName,
                                    ProgressListener progressListener)
         throws java.io.FileNotFoundException,
-               java.io.IOException, InvalidInputException {
+        java.io.IOException, InvalidInputException {
         // First check that the file exists and that its extension is supported.
         File f = new File(fileName);
         if (!f.exists()) {
@@ -182,7 +189,7 @@ public class SoundFile {
 
     private void ReadFile(File inputFile)
         throws java.io.FileNotFoundException,
-               java.io.IOException, InvalidInputException {
+        java.io.IOException, InvalidInputException {
         MediaExtractor extractor = new MediaExtractor();
         MediaFormat format = null;
         int i;
@@ -207,150 +214,15 @@ public class SoundFile {
         mChannels = format.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
         mSampleRate = format.getInteger(MediaFormat.KEY_SAMPLE_RATE);
 
-        MediaCodec codec = MediaCodec.createDecoderByType(format.getString(MediaFormat.KEY_MIME));
-        codec.configure(format, null, null, 0);
-        codec.start();
-
-        int decodedSamplesSize = 0;  // size of the output buffer containing decoded samples.
-        byte[] decodedSamples = null;
-        ByteBuffer[] inputBuffers = codec.getInputBuffers();
-        ByteBuffer[] outputBuffers = codec.getOutputBuffers();
-        int sample_size;
-        MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
-        long presentation_time;
-        int tot_size_read = 0;
-        boolean done_reading = false;
-
-        // Set the size of the decoded samples buffer to 1MB (~6sec of a stereo stream at 44.1kHz).
-        // For longer streams, the buffer size will be increased later on, calculating a rough
-        // estimate of the total size needed to store all the samples in order to resize the buffer
-        // only once.
-        mDecodedBytes = ByteBuffer.allocate(1<<20);
-        while (true) {
-            // read data from file and feed it to the decoder input buffers.
-            int inputBufferIndex = codec.dequeueInputBuffer(100);
-            if (!done_reading && inputBufferIndex >= 0) {
-                sample_size = extractor.readSampleData(inputBuffers[inputBufferIndex], 0);
-                if (sample_size < 0) {
-                    // All samples have been read.
-                    codec.queueInputBuffer(
-                            inputBufferIndex, 0, 0, -1, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
-                    done_reading = true;
-                } else {
-                    presentation_time = extractor.getSampleTime();
-                    codec.queueInputBuffer(inputBufferIndex, 0, sample_size, presentation_time, 0);
-                    extractor.advance();
-                    tot_size_read += sample_size;
-                    if (mProgressListener != null) {
-                        if (!mProgressListener.reportProgress((float)(tot_size_read) / mFileSize)) {
-                            // We are asked to stop reading the file. Returning immediately. The
-                            // SoundFile object is invalid and should NOT be used afterward!
-                            extractor.release();
-                            extractor = null;
-                            codec.stop();
-                            codec.release();
-                            codec = null;
-                            return;
-                        }
-                    }
-                }
-            }
-
-            // Get decoded stream from the decoder output buffers.
-            int outputBufferIndex = codec.dequeueOutputBuffer(info, 100);
-            if (outputBufferIndex >= 0 && info.size > 0) {
-                if (decodedSamplesSize < info.size) {
-                    decodedSamplesSize = info.size;
-                    decodedSamples = new byte[decodedSamplesSize];
-                }
-                outputBuffers[outputBufferIndex].get(decodedSamples, 0, info.size);
-                outputBuffers[outputBufferIndex].clear();
-                // Check if buffer is big enough. Resize it if it's too small.
-                if (mDecodedBytes.remaining() < info.size) {
-                    // Getting a rough estimate of the total size, allocate 20% more, and
-                    // make sure to allocate at least 5MB more than the initial size.
-                    int position = mDecodedBytes.position();
-                    int newSize = (int)((position * (1.0 * mFileSize / tot_size_read)) * 1.2);
-                    if (newSize - position < info.size + 5 * (1<<20)) {
-                        newSize = position + info.size + 5 * (1<<20);
-                    }
-                    ByteBuffer newDecodedBytes = null;
-                    // Try to allocate memory. If we are OOM, try to run the garbage collector.
-                    int retry = 10;
-                    while(retry > 0) {
-                        try {
-                            newDecodedBytes = ByteBuffer.allocate(newSize);
-                            break;
-                        } catch (OutOfMemoryError oome) {
-                            // setting android:largeHeap="true" in <application> seem to help not
-                            // reaching this section.
-                            retry--;
-                        }
-                    }
-                    if (retry == 0) {
-                        // Failed to allocate memory... Stop reading more data and finalize the
-                        // instance with the data decoded so far.
-                        break;
-                    }
-                    //ByteBuffer newDecodedBytes = ByteBuffer.allocate(newSize);
-                    mDecodedBytes.rewind();
-                    newDecodedBytes.put(mDecodedBytes);
-                    mDecodedBytes = newDecodedBytes;
-                    mDecodedBytes.position(position);
-                }
-                mDecodedBytes.put(decodedSamples, 0, info.size);
-                codec.releaseOutputBuffer(outputBufferIndex, false);
-            } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
-                outputBuffers = codec.getOutputBuffers();
-            } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                // Subsequent data will conform to new format.
-                // We could check that codec.getOutputFormat(), which is the new output format,
-                // is what we expect.
-            }
-            if ((info.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
-                // We got all the decoded data from the decoder.
-                break;
-            }
+        try {
+            Record r = Record.find(Record.class, "file = ?", mInputFile.getAbsolutePath()).get(0);
+            FrameGains fg = FrameGains.find(FrameGains.class, "record = ?", String.valueOf(r.getId())).get(0);
+            JSONArray testJSON = new JSONArray(fg.getFrames());
+            mFrameGains = Util.JSONArrayToIntArray(testJSON);
+            mNumFrames = mFrameGains.length;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        mNumSamples = mDecodedBytes.position() / (mChannels * 2);  // One sample = 2 bytes.
-        mDecodedBytes.rewind();
-        mDecodedBytes.order(ByteOrder.LITTLE_ENDIAN);
-        mDecodedSamples = mDecodedBytes.asShortBuffer();
-        mAvgBitRate = (int)((mFileSize * 8) * ((float)mSampleRate / mNumSamples) / 1000);
-
-        extractor.release();
-        extractor = null;
-        codec.stop();
-        codec.release();
-        codec = null;
-
-        // Temporary hack to make it work with the old version.
-        mNumFrames = mNumSamples / getSamplesPerFrame();
-        mFrameGains = new int[mNumFrames];
-        mFrameLens = new int[mNumFrames];
-        mFrameOffsets = new int[mNumFrames];
-        int j;
-        int gain, value;
-        int frameLens = (int)((1000 * mAvgBitRate / 8) *
-                ((float)getSamplesPerFrame() / mSampleRate));
-        for (i=0; i<mNumFrames; i++){
-            gain = -1;
-            for(j=0; j<getSamplesPerFrame(); j++) {
-                value = 0;
-                for (int k=0; k<mChannels; k++) {
-                    value += java.lang.Math.abs(mDecodedSamples.get());
-                }
-                value /= mChannels;
-                if (gain < value) {
-                    gain = value;
-                }
-            }
-            mFrameGains[i] = (int)Math.sqrt(gain);  // here gain = sqrt(max value of 1st channel)...
-            mFrameLens[i] = frameLens;  // totally not accurate...
-            mFrameOffsets[i] = (int)(i * (1000 * mAvgBitRate / 8) *  //  = i * frameLens
-                    ((float)getSamplesPerFrame() / mSampleRate));
-        }
-        mDecodedSamples.rewind();
     }
 
     private void RecordAudio() {
@@ -365,21 +237,22 @@ public class SoundFile {
         mChannels = 1;  // record mono audio.
         short[] buffer = new short[1024];  // buffer contains 1 mono frame of 1024 16 bits samples
         int minBufferSize = AudioRecord.getMinBufferSize(
-                mSampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+            mSampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
         // make sure minBufferSize can contain at least 1 second of audio (16 bits sample).
         if (minBufferSize < mSampleRate * 2) {
             minBufferSize = mSampleRate * 2;
         }
         AudioRecord audioRecord = new AudioRecord(
-                MediaRecorder.AudioSource.DEFAULT,
-                mSampleRate,
-                AudioFormat.CHANNEL_IN_MONO,
-                AudioFormat.ENCODING_PCM_16BIT,
-                minBufferSize
-                );
+            MediaRecorder.AudioSource.DEFAULT,
+            mSampleRate,
+            AudioFormat.CHANNEL_IN_MONO,
+            AudioFormat.ENCODING_PCM_16BIT,
+            minBufferSize
+        );
 
         // Allocate memory for 20 seconds first. Reallocate later if more is needed.
-        mDecodedBytes = ByteBuffer.allocate(20 * mSampleRate * 2);
+        mDecodedBytes = ByteBuffer.allocate(20 * mSampleRate * 2)
+        ;
         mDecodedBytes.order(ByteOrder.LITTLE_ENDIAN);
         mDecodedSamples = mDecodedBytes.asShortBuffer();
         audioRecord.startRecording();
@@ -409,7 +282,7 @@ public class SoundFile {
             // Let the progress listener know how many seconds have been recorded.
             // The returned value tells us if we should keep recording or stop.
             if (!mProgressListener.reportProgress(
-                    (float)(mDecodedSamples.position()) / mSampleRate)) {
+                (float)(mDecodedSamples.position()) / mSampleRate)) {
                 break;
             }
         }
@@ -427,7 +300,7 @@ public class SoundFile {
         mFrameOffsets = null;  // not needed for recorded audio
         int i, j;
         int gain, value;
-        for (i = 0 ; i < mNumFrames; i++){
+        for (i=0; i<mNumFrames; i++){
             gain = -1;
             for(j=0; j<getSamplesPerFrame(); j++) {
                 value = java.lang.Math.abs(mDecodedSamples.get());
@@ -438,18 +311,33 @@ public class SoundFile {
             mFrameGains[i] = (int)Math.sqrt(gain);  // here gain = sqrt(max value of 1st channel)...
         }
         mDecodedSamples.rewind();
+
+        mJSONArray = new JSONArray();
+
+//        for(int values : mFrameGains)
+//        {
+//
+//            mJSONArray.put(values);
+//        }
+
+        for (int k=0;k<488000;k++) {
+            mJSONArray.put(0);
+        }
+
+
+
     }
 
     // should be removed in the near future...
     public void WriteFile(File outputFile, int startFrame, int numFrames)
-            throws java.io.IOException {
+        throws java.io.IOException {
         float startTime = (float)startFrame * getSamplesPerFrame() / mSampleRate;
         float endTime = (float)(startFrame + numFrames) * getSamplesPerFrame() / mSampleRate;
         WriteFile(outputFile, startTime, endTime);
     }
 
     public void WriteFile(File outputFile, float startTime, float endTime)
-            throws java.io.IOException {
+        throws java.io.IOException {
         int startOffset = (int)(startTime * mSampleRate) * 2 * mChannels;
         int numSamples = (int)((endTime - startTime) * mSampleRate);
 
@@ -490,7 +378,7 @@ public class SoundFile {
                 if (num_samples_left <= 0) {
                     // All samples have been read.
                     codec.queueInputBuffer(
-                            inputBufferIndex, 0, 0, -1, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
+                        inputBufferIndex, 0, 0, -1, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
                     done_reading = true;
                 } else {
                     inputBuffers[inputBufferIndex].clear();
@@ -510,7 +398,7 @@ public class SoundFile {
                     inputBuffers[inputBufferIndex].put(buffer);
                     presentation_time = (long) (((num_frames++) * frame_size * 1e6) / mSampleRate);
                     codec.queueInputBuffer(
-                            inputBufferIndex, 0, buffer.length, presentation_time, 0);
+                        inputBufferIndex, 0, buffer.length, presentation_time, 0);
                 }
             }
 
@@ -560,17 +448,31 @@ public class SoundFile {
         try {
             FileOutputStream outputStream = new FileOutputStream(outputFile);
             outputStream.write(
-                    MP4Header.getMP4Header(mSampleRate, mChannels, frame_sizes, bitrate));
+    / Write the ded stream to the file, 4kB at a time.
+        buffer = new byte[4096];
+        try {
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+            outputStream.write(
+                MP4Header.getMP4Header(mSampleRate, mChannels, frame_sizes, bitrate));
             while (encoded_size - encodedBytes.position() > buffer.length) {
                 encodedBytes.get(buffer);
                 outputStream.write(buffer);
             }
-            int remaining = encoded_size - encodedBytes.position();
+            int remaining = encoded_size - encodedB
+            tes.position();
             if (remaining > 0) {
                 encodedBytes.get(buffer, 0, remaining);
                 outputStream.write(buffer, 0, remaining);
             }
             outputStream.close();
+
+
+            // save record to database
+            Record r = new Record(outputFile.getName(), outputFile.getAbsolutePath());
+            r.save();
+            FrameGains fg = new FrameGains(mJSONArray.toString());
+            fg.setRecord(r);
+            fg.save();
         } catch (IOException e) {
             // TODO(nfaralli): Should and exception be thrown here? At least log this error.
         }

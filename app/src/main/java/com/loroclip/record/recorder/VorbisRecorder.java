@@ -135,6 +135,9 @@ public class VorbisRecorder {
         default:
           // 성공적으로 pcm 읽음
           waveForm.addWaveData(pcmDataBuffer);
+
+
+
           return read;
       }
     }

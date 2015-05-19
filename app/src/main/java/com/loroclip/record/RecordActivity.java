@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loroclip.R;
+import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecodWaveformView;
 import com.loroclip.record.recorder.VorbisRecorder;
@@ -196,6 +197,11 @@ public class RecordActivity extends Activity {
       record.setFile(newFilePath);
       record.setTitle(fileName);
       record.save();
+
+      FrameGains fg = new FrameGains(waveformView.getJsonArray().toString());
+      fg.setRecord(record);
+      fg.save();
+
     }
 
     public void deleteTempAudioRecordFile() {

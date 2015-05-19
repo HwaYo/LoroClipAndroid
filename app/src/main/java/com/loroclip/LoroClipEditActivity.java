@@ -39,7 +39,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,7 +93,7 @@ public class LoroClipEditActivity extends Activity
     private int mPlayEndMsec;
     private Handler mHandler;
     private boolean mIsPlaying;
-    private SamplePlayer mPlayer;
+    private LoroClipPlayer mPlayer;
     private boolean mTouchDragging;
     private float mTouchStart;
     private int mTouchInitialOffset;
@@ -116,6 +115,7 @@ public class LoroClipEditActivity extends Activity
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
+    private LoroClipPlayer mTestPlayer;
 
 
     /** Called when the activity is first created. */
@@ -191,7 +191,8 @@ public class LoroClipEditActivity extends Activity
         }
 
         if (mPlayer != null) {
-            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
+//            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
+            if (mPlayer.isPlaying()) {
                 mPlayer.stop();
             }
             mPlayer.release();
@@ -230,13 +231,13 @@ public class LoroClipEditActivity extends Activity
         loadGui();
 
         mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    mWaveformView.setZoomLevel(saveZoomLevel);
-                    mWaveformView.recomputeHeights(mDensity);
+            public void run() {
+                mWaveformView.setZoomLevel(saveZoomLevel);
+                mWaveformView.recomputeHeights(mDensity);
 
-                    updateDisplay();
-                }
-            }, 500);
+                updateDisplay();
+            }
+        }, 500);
     }
 
     @Override
@@ -258,14 +259,14 @@ public class LoroClipEditActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.action_save:
-            onSave();
-            return true;
-        case R.id.action_show_all_bookmarks:
-            onSelectBookmark();
-            return true;
-        default:
-            return false;
+            case R.id.action_save:
+                onSave();
+                return true;
+            case R.id.action_show_all_bookmarks:
+                onSelectBookmark();
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -443,8 +444,8 @@ public class LoroClipEditActivity extends Activity
                     long now = getCurrentTime();
                     if (now - mLoadingLastUpdateTime > 100) {
                         mProgressDialog.setProgress(
-                                (int) (mProgressDialog.getMax() *
-                                        fractionComplete));
+                            (int) (mProgressDialog.getMax() *
+                                fractionComplete));
                         mLoadingLastUpdateTime = now;
                     }
                     return mLoadingKeepGoing;
@@ -456,7 +457,7 @@ public class LoroClipEditActivity extends Activity
             public void run() {
                 try {
                     mSoundFile = SoundFile.create(mFile.getAbsolutePath(),
-                            listener);
+                        listener);
                     if (mSoundFile == null) {
                         mProgressDialog.dismiss();
                         String name = mFile.getName().toLowerCase();
@@ -479,7 +480,8 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-                    mPlayer = new SamplePlayer(mSoundFile);
+//                    mPlayer = new SamplePlayer(mSoundFile);
+                    mPlayer = new LoroClipPlayer(mFile.getAbsolutePath());
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();
@@ -585,7 +587,7 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-                    mPlayer = new SamplePlayer(mSoundFile);
+//                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mAlertDialog.dismiss();
                     e.printStackTrace();
@@ -638,10 +640,10 @@ public class LoroClipEditActivity extends Activity
 
         mCaption =
             mSoundFile.getFiletype() + ", " +
-            mSoundFile.getSampleRate() + " Hz, " +
-            mSoundFile.getAvgBitrateKbps() + " kbps, " +
-            formatTime(mMaxPos) + " " +
-            getResources().getString(R.string.time_seconds);
+                mSoundFile.getSampleRate() + " Hz, " +
+                mSoundFile.getAvgBitrateKbps() + " kbps, " +
+                formatTime(mMaxPos) + " " +
+                getResources().getString(R.string.time_seconds);
         mInfo.setText(mCaption);
 
         updateDisplay();
@@ -708,20 +710,20 @@ public class LoroClipEditActivity extends Activity
     }
 
     private Runnable mTimerRunnable = new Runnable() {
-            public void run() {
-                // Updating an EditText is slow on Android.  Make sure
-                // we only do the update if the text has actually changed.
-                if (mStartPos != mLastDisplayedStartPos){
-                    mLastDisplayedStartPos = mStartPos;
-                }
-
-                if (mEndPos != mLastDisplayedEndPos) {
-                    mLastDisplayedEndPos = mEndPos;
-                }
-
-                mHandler.postDelayed(mTimerRunnable, 100);
+        public void run() {
+            // Updating an EditText is slow on Android.  Make sure
+            // we only do the update if the text has actually changed.
+            if (mStartPos != mLastDisplayedStartPos){
+                mLastDisplayedStartPos = mStartPos;
             }
-        };
+
+            if (mEndPos != mLastDisplayedEndPos) {
+                mLastDisplayedEndPos = mEndPos;
+            }
+
+            mHandler.postDelayed(mTimerRunnable, 100);
+        }
+    };
 
     private void enableDisableButtons() {
         if (mIsPlaying) {
@@ -837,12 +839,12 @@ public class LoroClipEditActivity extends Activity
             } else {
                 mPlayEndMsec = mWaveformView.pixelsToMillisecs(mEndPos);
             }
-            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion() {
-                    handlePause();
-                }
-            });
+//            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
+//                @Override
+//                public void onCompletion() {
+//                    handlePause();
+//                }
+//            });
             mIsPlaying = true;
 
             mPlayer.seekTo(mPlayStartMsec);
@@ -893,21 +895,21 @@ public class LoroClipEditActivity extends Activity
             externalRootDir += "/";
         }
         switch(mNewFileKind) {
-        default:
-        case FileSaveDialog.FILE_KIND_MUSIC:
-            // TODO(nfaralli): can directly use Environment.getExternalStoragePublicDirectory(
-            // Environment.DIRECTORY_MUSIC).getPath() instead
-            subdir = "media/audio/music/";
-            break;
-        case FileSaveDialog.FILE_KIND_ALARM:
-            subdir = "media/audio/alarms/";
-            break;
-        case FileSaveDialog.FILE_KIND_NOTIFICATION:
-            subdir = "media/audio/notifications/";
-            break;
-        case FileSaveDialog.FILE_KIND_RINGTONE:
-            subdir = "media/audio/ringtones/";
-            break;
+            default:
+            case FileSaveDialog.FILE_KIND_MUSIC:
+                // TODO(nfaralli): can directly use Environment.getExternalStoragePublicDirectory(
+                // Environment.DIRECTORY_MUSIC).getPath() instead
+                subdir = "media/audio/music/";
+                break;
+            case FileSaveDialog.FILE_KIND_ALARM:
+                subdir = "media/audio/alarms/";
+                break;
+            case FileSaveDialog.FILE_KIND_NOTIFICATION:
+                subdir = "media/audio/notifications/";
+                break;
+            case FileSaveDialog.FILE_KIND_RINGTONE:
+                subdir = "media/audio/ringtones/";
+                break;
         }
         String parentdir = externalRootDir + subdir;
 
@@ -981,8 +983,8 @@ public class LoroClipEditActivity extends Activity
                 try {
                     // Write the new file
                     mSoundFile.WriteFile(outFile,
-                                         startFrame,
-                                         endFrame - startFrame);
+                        startFrame,
+                        endFrame - startFrame);
 
                     // Try to load the new file to make sure it worked
                     final SoundFile.ProgressListener listener =
@@ -1012,10 +1014,10 @@ public class LoroClipEditActivity extends Activity
                     final CharSequence finalErrorMessage = errorMessage;
                     final Exception finalException = e;
                     Runnable runnable = new Runnable() {
-                            public void run() {
-                                showFinalAlert(finalException, finalErrorMessage);
-                            }
-                        };
+                        public void run() {
+                            showFinalAlert(finalException, finalErrorMessage);
+                        }
+                    };
                     mHandler.post(runnable);
                     return;
                 }
@@ -1023,13 +1025,13 @@ public class LoroClipEditActivity extends Activity
                 mProgressDialog.dismiss();
 
                 Runnable runnable = new Runnable() {
-                        public void run() {
-                            afterSavingRingtone(title,
-                                                outPath,
-                                                outFile,
-                                                duration);
-                        }
-                    };
+                    public void run() {
+                        afterSavingRingtone(title,
+                            outPath,
+                            outFile,
+                            duration);
+                    }
+                };
                 mHandler.post(runnable);
             }
         };
@@ -1069,13 +1071,13 @@ public class LoroClipEditActivity extends Activity
         values.put(MediaStore.Audio.Media.DURATION, duration);
 
         values.put(MediaStore.Audio.Media.IS_RINGTONE,
-                   mNewFileKind == FileSaveDialog.FILE_KIND_RINGTONE);
+            mNewFileKind == FileSaveDialog.FILE_KIND_RINGTONE);
         values.put(MediaStore.Audio.Media.IS_NOTIFICATION,
-                   mNewFileKind == FileSaveDialog.FILE_KIND_NOTIFICATION);
+            mNewFileKind == FileSaveDialog.FILE_KIND_NOTIFICATION);
         values.put(MediaStore.Audio.Media.IS_ALARM,
-                   mNewFileKind == FileSaveDialog.FILE_KIND_ALARM);
+            mNewFileKind == FileSaveDialog.FILE_KIND_ALARM);
         values.put(MediaStore.Audio.Media.IS_MUSIC,
-                   mNewFileKind == FileSaveDialog.FILE_KIND_MUSIC);
+            mNewFileKind == FileSaveDialog.FILE_KIND_MUSIC);
 
         // Insert it into the database
         Uri uri = MediaStore.Audio.Media.getContentUriForPath(outPath);
@@ -1092,8 +1094,8 @@ public class LoroClipEditActivity extends Activity
         if (mNewFileKind == FileSaveDialog.FILE_KIND_MUSIC ||
             mNewFileKind == FileSaveDialog.FILE_KIND_ALARM) {
             Toast.makeText(this,
-                           R.string.save_success_message,
-                           Toast.LENGTH_SHORT)
+                R.string.save_success_message,
+                Toast.LENGTH_SHORT)
                 .show();
             finish();
             return;
@@ -1133,9 +1135,9 @@ public class LoroClipEditActivity extends Activity
         // contact, or do nothing.
 
         final Handler handler = new Handler() {
-                public void handleMessage(Message response) {
-                    int actionId = response.arg1;
-                    switch (actionId) {
+            public void handleMessage(Message response) {
+                int actionId = response.arg1;
+                switch (actionId) {
                     case R.id.button_make_default:
                         RingtoneManager.setActualDefaultRingtoneUri(
                             LoroClipEditActivity.this,
@@ -1155,9 +1157,9 @@ public class LoroClipEditActivity extends Activity
                     case R.id.button_do_nothing:
                         finish();
                         break;
-                    }
                 }
-            };
+            }
+        };
         Message message = Message.obtain(handler);
         AfterSaveActionDialog dlog = new AfterSaveActionDialog(
             this, message);
@@ -1182,12 +1184,12 @@ public class LoroClipEditActivity extends Activity
         }
 
         final Handler handler = new Handler() {
-                public void handleMessage(Message response) {
-                    CharSequence newTitle = (CharSequence)response.obj;
-                    mNewFileKind = response.arg1;
-                    saveRingtone(newTitle);
-                }
-            };
+            public void handleMessage(Message response) {
+                CharSequence newTitle = (CharSequence)response.obj;
+                mNewFileKind = response.arg1;
+                saveRingtone(newTitle);
+            }
+        };
         Message message = Message.obtain(handler);
         FileSaveDialog dlog = new FileSaveDialog(
             this, getResources(), mTitle, message);
@@ -1195,36 +1197,36 @@ public class LoroClipEditActivity extends Activity
     }
 
     private OnClickListener mPlayListener = new OnClickListener() {
-            public void onClick(View sender) {
-                if (mPlayStartMsec == 0) {
-                    onPlay(mStartPos);
-                }
-                else {
-                    onPlay(mWaveformView.getmPlaybackPos());
-                }
+        public void onClick(View sender) {
+            if (mPlayStartMsec == 0) {
+                onPlay(mStartPos);
             }
-        };
+            else {
+                onPlay(mWaveformView.getmPlaybackPos());
+            }
+        }
+    };
 
     private OnClickListener mRewindListener = new OnClickListener() {
-            public void onClick(View sender) {
-                mWaveformView.setIsBookmarking(false);
-                if (mIsPlaying) {
-                    int newPos = mPlayer.getCurrentPosition() - 5000;
-                    mPlayer.seekTo(newPos);
-                }
+        public void onClick(View sender) {
+            mWaveformView.setIsBookmarking(false);
+            if (mIsPlaying) {
+                int newPos = mPlayer.getCurrentPosition() - 5000;
+                mPlayer.seekTo(newPos);
             }
-        };
+        }
+    };
 
     private OnClickListener mFfwdListener = new OnClickListener() {
-            public void onClick(View sender) {
-                if (mIsPlaying) {
-                    int newPos = 5000 + mPlayer.getCurrentPosition();
-                    if (newPos > mPlayEndMsec)
-                        newPos = mPlayEndMsec;
-                    mPlayer.seekTo(newPos);
-                }
+        public void onClick(View sender) {
+            if (mIsPlaying) {
+                int newPos = 5000 + mPlayer.getCurrentPosition();
+                if (newPos > mPlayEndMsec)
+                    newPos = mPlayEndMsec;
+                mPlayer.seekTo(newPos);
             }
-        };
+        }
+    };
 
     private AdapterView.OnItemClickListener bookmarkListListener = new AdapterView.OnItemClickListener() {
         @Override

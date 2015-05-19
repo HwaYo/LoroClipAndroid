@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.view.View;
 
+import org.json.JSONArray;
+
 import java.util.Arrays;
 
 
@@ -22,6 +24,8 @@ public class RecodWaveformView extends View {
 
 	private final Paint waveBaseLine = new Paint();
 
+	private JSONArray mJSONArray;
+
 	public RecodWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
@@ -32,6 +36,7 @@ public class RecodWaveformView extends View {
 
 		data = null;
 		index = 0;
+		mJSONArray = new JSONArray();
 	}
 
 	@Override
@@ -112,6 +117,7 @@ public class RecodWaveformView extends View {
 		data = null;
 		index = 0;
 		drawData = new double[drawData.length];
+//		mJSONArray = new JSONArray();
 		fireInvalidate();
 	}
 
@@ -120,9 +126,37 @@ public class RecodWaveformView extends View {
 		canvas.drawLine(x, y, x, nextY, waveBaseLine);
 	}
 
+//	private int isFirst = 0;
 	public void addWaveData(byte[] data) {
+
 		this.data = data;
+
+		short[] shortData = new short[data.length];
+		for (int index = 0; index < shortData.length; index++) {
+			short d = (short) index;//((data[index * 2 + 1] << 8) + (data[index * 2] & 0xff));
+			shortData[index] = d;
+		}
+
+
+		int mNumFrames = shortData.length / 1024;
+
+		for (int i = 0; i < mNumFrames ; i++){
+			int gain = -1;
+			//getMax
+			for(int j=0 ; j < 1024 ; j++) {
+				int value = java.lang.Math.abs(shortData[i*1024 + j]);
+				if (gain < value) {
+					gain = value;
+				}
+			}
+			mJSONArray.put((int)Math.sqrt(gain));
+		}
+
 		fireInvalidate();
+	}
+
+	public JSONArray getJsonArray(){
+		return mJSONArray;
 	}
 
 	private void fireInvalidate() {
@@ -133,6 +167,7 @@ public class RecodWaveformView extends View {
 			}
 		});
 	}
+
 
 	public static double[] convertWaveData(byte[] waveData) {
 		double[] result = new double[waveData.length / 2];
