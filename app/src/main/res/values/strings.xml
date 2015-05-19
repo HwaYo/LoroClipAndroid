@@ -90,7 +90,7 @@
      Context menu items
      -->
 
-    <string name="context_menu_edit">Edit</string>
+    <string name="context_menu_edit">Rename</string>
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_default_ringtone">Set as Default Ringtone</string>
     <string name="context_menu_contact">Assign to Contact</string>
@@ -107,9 +107,6 @@
     <string name="ringtone_type_label">Type:</string>
 
     <string name="type_music">Music</string>
-    <string name="type_alarm">Alarm</string>
-    <string name="type_notification">Notification</string>
-    <string name="type_ringtone">Ringtone</string>
 
     <string name="ringtone_name_label">Name:</string>
 
@@ -119,15 +116,10 @@
      Delete confirmation dialog
      -->
 
-    <string name="delete_ringtone">Delete Ringtone</string>
-    <string name="delete_alarm">Delete Alarm</string>
-    <string name="delete_notification">Delete Notification</string>
     <string name="delete_music">Delete Music</string>
     <string name="delete_audio">Delete Audio</string>
 
     <string name="confirm_delete_loroclip">Are you sure?</string>
-    <string name="confirm_delete_non_loroclip"
-    >Are you sure?  This file was not created using LoroClip!</string>
 
     <string name="delete_ok_button">Delete</string>
     <string name="delete_cancel_button">Cancel</string>

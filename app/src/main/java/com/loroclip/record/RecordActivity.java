@@ -4,6 +4,7 @@ package com.loroclip.record;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.loroclip.LoroClipSelectActivity;
 import com.loroclip.R;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecodWaveformView;
@@ -196,9 +198,10 @@ public class RecordActivity extends Activity {
       record.setFile(newFilePath);
       record.setTitle(fileName);
       record.save();
+        finish();
     }
 
-    public void deleteTempAudioRecordFile() {
+      public void deleteTempAudioRecordFile() {
       File tempAudioRecordFile = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
       if(tempAudioRecordFile.exists()){
         tempAudioRecordFile.deleteOnExit();

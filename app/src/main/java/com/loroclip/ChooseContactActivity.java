@@ -80,7 +80,6 @@ public class ChooseContactActivity
                     Contacts.DISPLAY_NAME },
                 // To widget ids in the row layout...
                 new int[] {
-                    R.id.row_ringtone,
                     R.id.row_starred,
                     R.id.row_display_name },
                 0);

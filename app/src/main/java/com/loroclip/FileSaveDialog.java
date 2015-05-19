@@ -79,9 +79,6 @@ public class FileSaveDialog extends Dialog {
 
         mTypeArray = new ArrayList<String>();
         mTypeArray.add(resources.getString(R.string.type_music));
-        mTypeArray.add(resources.getString(R.string.type_alarm));
-        mTypeArray.add(resources.getString(R.string.type_notification));
-        mTypeArray.add(resources.getString(R.string.type_ringtone));
 
         mFilename = (EditText)findViewById(R.id.filename);
         mOriginalName = originalName;

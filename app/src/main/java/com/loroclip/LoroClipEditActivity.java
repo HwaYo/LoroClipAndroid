@@ -99,7 +99,6 @@ public class LoroClipEditActivity extends Activity
     private float mTouchStart;
     private int mTouchInitialOffset;
     private int mTouchInitialStartPos;
-    private int mTouchInitialEndPos;
     private long mWaveformTouchStartMsec;
     private float mDensity;
 
