@@ -15,15 +15,19 @@ import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.model.SyncableModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import retrofit.RetrofitError;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by angdev on 15. 5. 15..
@@ -52,6 +56,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             syncIndependentEntities(client, LoroClipAPIClient.BookmarkAPIService.class, Bookmark.class);
             syncIndependentEntities(client, LoroClipAPIClient.BookmarkHistoryAPIService.class, BookmarkHistory.class);
 
+            syncRecordFiles(client);
         } catch (OperationCanceledException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -111,5 +116,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         return syncedEntities;
+    }
+
+    private void syncRecordFiles(LoroClipAPIClient client) {
+        List<Record> fileSyncRequires = Record.find(Record.class, "remote_file = ?", null);
+        for (Record record : fileSyncRequires) {
+            File recordFile = record.getLocalFile();
+
+            if (recordFile == null) {
+                continue;
+            }
+
+            String mimeType = URLConnection.guessContentTypeFromName(recordFile.getName());
+            Record synced = client.getService(LoroClipAPIClient.RecordAPIService.class).uploadFile(
+                    new TypedString(record.getUuid()),
+                    new TypedFile(mimeType, recordFile)
+            );
+
+            record.setRemoteFilePath(synced.getRemoteFilePath());
+            record.saveAsSynced();
+        }
     }
 }

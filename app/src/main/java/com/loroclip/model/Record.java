@@ -1,5 +1,6 @@
 package com.loroclip.model;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -9,6 +10,7 @@ public class Record extends SyncableModel<Record> {
     private String title;
     private String note;
     private String file;
+    private String localFile;
 
     public String getTitle() {
         return title;
@@ -26,12 +28,25 @@ public class Record extends SyncableModel<Record> {
         this.note = note;
     }
 
-    public String getFile() {
+    public void setRemoteFilePath(String remoteFile) {
+        this.file = remoteFile;
+    }
+
+    public String getRemoteFilePath() {
         return file;
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public String getLocalFilePath() {
+        return localFile;
+    }
+
+    public void setLocalFilePath(String localFile) {
+        this.localFile = localFile;
+    }
+
+    public File getLocalFile() {
+        return new File(localFile);
+
     }
 
     public List<BookmarkHistory> getBookmarkHistories() {

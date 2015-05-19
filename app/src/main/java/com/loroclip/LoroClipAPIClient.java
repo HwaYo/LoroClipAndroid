@@ -15,8 +15,12 @@ import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by angdev on 15. 5. 12..
@@ -62,6 +66,10 @@ public class LoroClipAPIClient {
 
         @POST("/records/push")
         List<Record> pushEntities(@Body PushEntitiesParams<Record> params);
+
+        @Multipart
+        @POST("/records/file")
+        Record uploadFile(@Part("uuid") TypedString uuid, @Part("file") TypedFile recordFile);
     }
 
     public interface BookmarkAPIService {

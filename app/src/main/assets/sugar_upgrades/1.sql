@@ -3,6 +3,7 @@ CREATE TABLE "record" (
 "title" varchar,
 "note" text,
 "file" varchar,
+"local_file" varchar,
 "created_at" datetime NOT NULL,
 "updated_at" datetime NOT NULL,
 "deleted" boolean DEFAULT 'f',
