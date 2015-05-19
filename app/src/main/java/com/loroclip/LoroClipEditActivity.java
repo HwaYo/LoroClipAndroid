@@ -86,7 +86,7 @@ public class LoroClipEditActivity extends Activity
     private int mPlayEndMsec;
     private Handler mHandler;
     private boolean mIsPlaying;
-    private SamplePlayer mPlayer;
+    private LoroClipPlayer mPlayer;
     private boolean mTouchDragging;
     private float mTouchStart;
     private int mTouchInitialOffset;
@@ -107,6 +107,7 @@ public class LoroClipEditActivity extends Activity
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
+    private LoroClipPlayer mTestPlayer;
 
 
     /** Called when the activity is first created. */
@@ -182,7 +183,8 @@ public class LoroClipEditActivity extends Activity
         }
 
         if (mPlayer != null) {
-            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
+//            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
+            if (mPlayer.isPlaying()) {
                 mPlayer.stop();
             }
             mPlayer.release();
@@ -457,7 +459,8 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-                    mPlayer = new SamplePlayer(mSoundFile);
+//                    mPlayer = new SamplePlayer(mSoundFile);
+                    mPlayer = new LoroClipPlayer(mFile.getAbsolutePath());
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();
@@ -563,7 +566,7 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-                    mPlayer = new SamplePlayer(mSoundFile);
+//                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mAlertDialog.dismiss();
                     e.printStackTrace();
@@ -815,12 +818,12 @@ public class LoroClipEditActivity extends Activity
             } else {
                 mPlayEndMsec = mWaveformView.pixelsToMillisecs(mEndPos);
             }
-            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion() {
-                    handlePause();
-                }
-            });
+//            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
+//                @Override
+//                public void onCompletion() {
+//                    handlePause();
+//                }
+//            });
             mIsPlaying = true;
 
             if (startPosition >= mEndPos){

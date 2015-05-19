@@ -8,7 +8,6 @@ import java.io.IOException;
  * Created by minhyeok on 5/18/15.
  */
 public class LoroClipPlayer extends MediaPlayer {
-
   public LoroClipPlayer(String filepath) {
     try {
       setDataSource(filepath);

@@ -29,3 +29,4 @@ public class FrameGains extends SugarRecord<FrameGains> {
     this.record = record;
   }
 }
+
