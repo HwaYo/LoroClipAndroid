@@ -229,13 +229,13 @@ public class LoroClipEditActivity extends Activity
         loadGui();
 
         mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    mWaveformView.setZoomLevel(saveZoomLevel);
-                    mWaveformView.recomputeHeights(mDensity);
+          public void run() {
+            mWaveformView.setZoomLevel(saveZoomLevel);
+            mWaveformView.recomputeHeights(mDensity);
 
-                    updateDisplay();
-                }
-            }, 500);
+            updateDisplay();
+          }
+        }, 500);
     }
 
     @Override
@@ -831,6 +831,10 @@ public class LoroClipEditActivity extends Activity
             });
             mIsPlaying = true;
 
+            if (startPosition >= mEndPos){
+              mPlayStartMsec = 0;
+            }
+
             mPlayer.seekTo(mPlayStartMsec);
             mPlayer.start();
             updateDisplay();
@@ -888,6 +892,8 @@ public class LoroClipEditActivity extends Activity
                 mWaveformView.setIsBookmarking(false);
                 if (mIsPlaying) {
                     int newPos = mPlayer.getCurrentPosition() - 5000;
+                  if (newPos < 0)
+                    newPos = 0;
                     mPlayer.seekTo(newPos);
                 }
             }
