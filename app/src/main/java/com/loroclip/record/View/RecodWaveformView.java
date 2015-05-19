@@ -33,20 +33,24 @@ public class RecodWaveformView extends View {
 	int measuredWidth;
 	int measuredHeight;
 
-	boolean isFirstDraw;
+
+	int numFrames;
+	int[] frameGains;
+	int[] mHeightsAtThisZoomLevel;
 
 	public RecodWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
 		waveBaseLine.setAntiAlias(false);
 		waveBaseLine.setColor(getResources().getColor(R.drawable.waveform_selected));
-		mJSONArray = new JSONArray();
-		isFirstDraw = true;
+
+		initWaveformView();
 	}
 
 
-	public void clearWaveformView() {
-
+	public void initWaveformView() {
+		mJSONArray = new JSONArray();
+		numFrames = 0;
 	}
 
 	@Override
@@ -56,12 +60,9 @@ public class RecodWaveformView extends View {
 		if(numFrames == 0) {
 			return;
 		}
-		// Draw waveform
-		if(isFirstDraw) {
-			isFirstDraw = false;
-			measuredWidth = this.getWidth();
-			measuredHeight = this.getHeight();
-		}
+
+		measuredWidth = this.getWidth();
+		measuredHeight = this.getHeight();
 
 		int width = mHeightsAtThisZoomLevel.length;
 		int ctr = measuredHeight / 2;
@@ -77,24 +78,12 @@ public class RecodWaveformView extends View {
 		canvas.drawLine(x, y0, x, y1, paint);
 	}
 
-	int numFrames = 0;
-	int[] frameGains;
-	int[] mHeightsAtThisZoomLevel;
 	public void setDrawData() {
 		int start;
 		int makeSize;
-		if(isFirstDraw) {
-			start = 0;
-			makeSize = numFrames;
-		}else  {
-			if(numFrames < measuredWidth / 2) {
-				start = 0;
-			} else {
-				start = numFrames - measuredWidth / 2;
-			}
 
-			makeSize = numFrames < measuredWidth / 2? numFrames : measuredWidth / 2;
-		}
+		start = numFrames < measuredWidth / 2 ? 0 : numFrames - measuredWidth / 2;
+		makeSize = numFrames < measuredWidth / 2? numFrames : measuredWidth / 2;
 
 		frameGains = new int[makeSize];
 		for(int i = start, j = 0 ; i < start + makeSize ; i++ , j++) {
@@ -199,7 +188,6 @@ public class RecodWaveformView extends View {
 		fireInvalidate();
 	}
 
-//	private int isFirst = 0;
 	public void addWaveData(byte[] data) {
 		ShortBuffer shortBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
 		int mNumSamples = shortBuffer.capacity();

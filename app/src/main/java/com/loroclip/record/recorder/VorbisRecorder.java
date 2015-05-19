@@ -163,8 +163,8 @@ public class VorbisRecorder {
       if (isRecording() || isStopping() || isPaused()) {
         // 멈춤상태 등록
         currentState.set(RecorderState.STOPPED);
-        waveForm.clearWaveformView();
-
+        waveForm.initWaveformView();
+        
         // outputStream 닫기
         if (outputStream != null) {
           try {
