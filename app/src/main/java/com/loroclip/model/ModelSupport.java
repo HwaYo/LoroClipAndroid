@@ -29,6 +29,8 @@ public class ModelSupport<T> extends SugarRecord<T> {
 
     public void beforeSave() {}
 
+    public void decorate() {}
+
     @Override
     public void save() {
         if (this.createdAt == null) {

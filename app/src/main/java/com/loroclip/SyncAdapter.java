@@ -94,7 +94,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     } else if (mappedEntity.getUpdatedAt().before(entity.getUpdatedAt())) {
                         mappedEntity.overwrite(entity);
                     }
-                } else {
+                } else if (!entity.isDeleted()) {
                     entity.saveAsSynced();
                 }
                 syncedEntities.add(entity);
@@ -107,6 +107,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             for (U entity : clearEntities) {
                 U mappedEntity = U.findByUuid(entityType, entity.getUuid());
+                if (mappedEntity == null) {
+                    continue;
+                }
+
                 mappedEntity.saveAsSynced();
 
                 syncedEntities.add(mappedEntity);
@@ -119,11 +123,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncRecordFiles(LoroClipAPIClient client) {
-        List<Record> fileSyncRequires = Record.find(Record.class, "remote_file = ?", null);
-        for (Record record : fileSyncRequires) {
+        List<Record> records = Record.listAll(Record.class);
+        for (Record record : records) {
             File recordFile = record.getLocalFile();
 
-            if (recordFile == null) {
+            if (recordFile == null || record.getRemoteFilePath() != null) {
                 continue;
             }
 
@@ -133,8 +137,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     new TypedFile(mimeType, recordFile)
             );
 
-            record.setRemoteFilePath(synced.getRemoteFilePath());
-            record.saveAsSynced();
+            if (synced != null) {
+                record.setRemoteFilePath(synced.getRemoteFilePath());
+                record.saveAsSynced();
+            }
         }
     }
 }

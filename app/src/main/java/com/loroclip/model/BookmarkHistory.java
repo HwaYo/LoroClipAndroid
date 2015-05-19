@@ -20,8 +20,9 @@ public class BookmarkHistory extends SyncableModel<BookmarkHistory>{
     public BookmarkHistory() {
     }
 
-    public BookmarkHistory(float start) {
-        this.start = start;
+    public BookmarkHistory(Record record, Bookmark bookmark) {
+        this.record = record;
+        this.bookmark = bookmark;
     }
 
     public String getName() {
@@ -86,6 +87,17 @@ public class BookmarkHistory extends SyncableModel<BookmarkHistory>{
 
         if (bookmark_uuid != null) {
             bookmark = Bookmark.findByUuid(Bookmark.class, bookmark_uuid);
+        }
+    }
+
+    @Override
+    public void decorate() {
+        super.decorate();
+        if (record != null) {
+            record_uuid = record.getUuid();
+        }
+        if (bookmark != null) {
+            bookmark_uuid = bookmark.getUuid();
         }
     }
 }

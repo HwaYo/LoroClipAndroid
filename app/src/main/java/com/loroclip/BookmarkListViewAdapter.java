@@ -8,43 +8,40 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import com.loroclip.model.Bookmark;
+
+import java.util.List;
 
 /**
  * Created by minhyeok on 5/11/15.
  */
 public class BookmarkListViewAdapter extends BaseAdapter {
-    private ArrayList<String> bookmarkNameList;
-    private BookmarkMap savedBookmarkMap;
+    private List<Bookmark> mBookmarks;
 
     public BookmarkListViewAdapter() {
-        savedBookmarkMap = new BookmarkMap();
-        bookmarkNameList = new ArrayList<String>(Arrays.asList(savedBookmarkMap.keySet().toArray(new String[savedBookmarkMap.keySet().size()])));
+        mBookmarks = Bookmark.listAll(Bookmark.class);
     }
 
     @Override
     public int getCount() {
-        return bookmarkNameList.size();
+        return mBookmarks.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return bookmarkNameList.get(i);
+        return mBookmarks.get(i);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public long getItemId(int position) { return mBookmarks.get(position).getId(); }
 
     @Override
     public View getView(int pos, View view, ViewGroup parent) {
         Context context = parent.getContext();
-        String currentBookmarkName = bookmarkNameList.get(pos);
-        int currentBookmarkColor = savedBookmarkMap.get(currentBookmarkName);
+
+        Bookmark bookmark = mBookmarks.get(pos);
+        String currentBookmarkName = bookmark.getName();
+        int currentBookmarkColor = bookmark.getColor();
 
         if (view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,9 +52,8 @@ public class BookmarkListViewAdapter extends BaseAdapter {
 
             ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkColor);
             bookmarkColor.setBackgroundColor(currentBookmarkColor);
-
-
         }
+
         return view;
     }
 }

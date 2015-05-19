@@ -27,7 +27,7 @@ import retrofit.mime.TypedString;
  */
 
 public class LoroClipAPIClient {
-    private static final String API_ENDPOINT = "http://parrot.172.16.101.163.xip.io/api/v1";
+    private static final String API_ENDPOINT = "http://parrot.172.16.101.103.xip.io/api/v1";
     private RestAdapter mRestAdapter;
     private String mAccessToken;
 
@@ -55,7 +55,12 @@ public class LoroClipAPIClient {
     }
 
     public static class PushEntitiesParams<T extends SyncableModel> {
-        PushEntitiesParams(List<T> entities) { this.entities = entities; }
+        PushEntitiesParams(List<T> entities) {
+            this.entities = entities;
+            for (T entity : this.entities) {
+                entity.decorate();
+            }
+        }
         @SerializedName("entities")
         public List<T> entities;
     }

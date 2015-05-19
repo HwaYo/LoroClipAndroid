@@ -366,12 +366,6 @@ public class WaveformView extends View {
         this.isBookmarking = isBookmarking;
     }
 
-    public void refreshBookmarkHistoryList() {
-        if (hasBookmarkHistory()) {
-            bookmarkHistoryList = BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename);
-        }
-    }
-
     public boolean isBookmarking() {
         return isBookmarking;
     }
@@ -401,15 +395,6 @@ public class WaveformView extends View {
                 canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
             }
         }
-    }
-
-    private boolean hasBookmarkHistory() {
-        if (BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename).size() >= 1){
-            return true;
-        } else {
-            return false;
-        }
-
     }
 
     protected void drawWaveformLine(Canvas canvas,

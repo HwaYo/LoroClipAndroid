@@ -33,8 +33,7 @@ public class SyncableModel<T extends SugarRecord<T>> extends ModelSupport<T> {
     }
 
     public static <T extends SyncableModel> T findByUuid(Class<T> type, String uuid) {
-        String query = String.format("SELECT * FROM %s WHERE uuid = ?", getTableName(type));
-        List<T> entities = T.findWithQuery(type, query, uuid);
+        List<T> entities = T.find(type, "uuid = ?", uuid);
         if (entities.isEmpty()) {
             return null;
         }

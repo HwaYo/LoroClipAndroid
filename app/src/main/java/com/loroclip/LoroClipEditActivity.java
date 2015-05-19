@@ -52,7 +52,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
+import java.util.List;
 
 public class LoroClipEditActivity extends Activity
     implements WaveformView.WaveformListener
@@ -109,10 +109,7 @@ public class LoroClipEditActivity extends Activity
     private Thread mRecordAudioThread;
     private Thread mSaveSoundFileThread;
 
-    private ArrayList<ArrayList<Integer>> mBookmarkList;
-    private BookmarkMap savedBookmarks;
     private BookmarkListView bookmarkListView;
-
     private BookmarkHistory current_bookmark;
 
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
@@ -146,10 +143,6 @@ public class LoroClipEditActivity extends Activity
         mKeyDown = false;
 
         mHandler = new Handler();
-
-        mBookmarkList = new ArrayList<ArrayList<Integer>>();
-        savedBookmarks = new BookmarkMap();
-
 
         loadGui();
 
@@ -233,13 +226,13 @@ public class LoroClipEditActivity extends Activity
         loadGui();
 
         mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    mWaveformView.setZoomLevel(saveZoomLevel);
-                    mWaveformView.recomputeHeights(mDensity);
+            public void run() {
+                mWaveformView.setZoomLevel(saveZoomLevel);
+                mWaveformView.recomputeHeights(mDensity);
 
-                    updateDisplay();
-                }
-            }, 500);
+                updateDisplay();
+            }
+        }, 500);
     }
 
     @Override
@@ -406,7 +399,10 @@ public class LoroClipEditActivity extends Activity
         bookmarkListView.setAdapter(new BookmarkListViewAdapter());
         bookmarkListView.setOnItemClickListener(bookmarkListListener);
 
-//        mWaveformView.refreshBookmarkHistoryList();
+        List<BookmarkHistory> histories = mRecord.getBookmarkHistories();
+        for (BookmarkHistory history : histories) {
+            mWaveformView.addBookmarkHistory(history);
+        }
         updateDisplay();
     }
 
@@ -1232,18 +1228,19 @@ public class LoroClipEditActivity extends Activity
     private AdapterView.OnItemClickListener bookmarkListListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            String  bookmarkName    = (String) bookmarkListView.getItemAtPosition(position);
+            BookmarkListViewAdapter adapter = (BookmarkListViewAdapter) adapterView.getAdapter();
+            Bookmark bookmark = (Bookmark) adapter.getItem(position);
 
             if (mIsPlaying) {
                 if (mWaveformView.isBookmarking()) {
-                    current_bookmark.setEnd(mPlayer.getCurrentPosition());
+                    current_bookmark.setEnd((float)mPlayer.getCurrentPosition() / 1000);
                     current_bookmark.save();
                     view.setSelected(false);
                     mWaveformView.setIsBookmarking(false);
                     mWaveformView.addBookmarkHistory(current_bookmark);
                 } else {
-                    Bookmark bookmark = Bookmark.find(Bookmark.class, "name = ?", bookmarkName).get(0);
-                    current_bookmark = new BookmarkHistory((float)mPlayer.getCurrentPosition() / 1000);
+                    current_bookmark = new BookmarkHistory(mRecord, bookmark);
+                    current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
                     view.setSelected(true);
                     mWaveformView.setIsBookmarking(true);
                     mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
