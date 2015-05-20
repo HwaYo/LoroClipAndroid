@@ -715,7 +715,6 @@ public class LoroClipEditActivity extends Activity
     };
 
     private void togglePlayButton() {
-        Log.d("testlog", String.valueOf(mPlayer.isPlaying()));
         if (mPlayer.isPlaying()) {
             mPlayButton.setImageResource(android.R.drawable.ic_media_pause);
             mPlayButton.setContentDescription(getResources().getText(R.string.stop));
@@ -876,6 +875,8 @@ public class LoroClipEditActivity extends Activity
             else {
                 onPlay(mWaveformView.getmPlaybackPos());
             }
+
+            togglePlayButton();
         }
     };
 
