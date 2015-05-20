@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by angdev on 15. 5. 18..
  */
-public class ModelSupport<T> extends SugarRecord<T> {
+public abstract class ModelSupport<T extends ModelSupport> extends SugarRecord<T> {
     private boolean deleted;
     @SerializedName("created_at")
     private Date createdAt;
@@ -25,6 +25,13 @@ public class ModelSupport<T> extends SugarRecord<T> {
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void overwrite(T t) {
+        ModelSupport model = t;
+        this.createdAt = model.createdAt;
+        this.updatedAt = model.updatedAt;
+        this.deleted = model.deleted;
     }
 
     public void beforeSave() {}

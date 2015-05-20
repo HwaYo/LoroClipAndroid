@@ -32,4 +32,11 @@ public class Bookmark extends SyncableModel<Bookmark> {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public void overwrite(Bookmark bookmark) {
+        super.overwrite(bookmark);
+        this.name = bookmark.name;
+        this.color = bookmark.color;
+    }
 }

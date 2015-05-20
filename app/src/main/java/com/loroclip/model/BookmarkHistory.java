@@ -100,4 +100,15 @@ public class BookmarkHistory extends SyncableModel<BookmarkHistory>{
             bookmark_uuid = bookmark.getUuid();
         }
     }
+
+    @Override
+    public void overwrite(BookmarkHistory bookmarkHistory) {
+        super.overwrite(bookmarkHistory);
+        this.start = bookmarkHistory.start;
+        this.end = bookmarkHistory.end;
+        this.record_uuid = bookmarkHistory.record_uuid;
+        this.bookmark_uuid = bookmarkHistory.bookmark_uuid;
+        this.record = bookmarkHistory.record;
+        this.bookmark = bookmarkHistory.bookmark;
+    }
 }

@@ -58,4 +58,12 @@ public class Record extends SyncableModel<Record> {
     public List<BookmarkHistory> getBookmarkHistories() {
         return BookmarkHistory.find(BookmarkHistory.class, "record = ?", getId().toString());
     }
+
+    @Override
+    public void overwrite(Record record) {
+        super.overwrite(record);
+        this.title = record.title;
+        this.note = record.note;
+        this.file = record.file;
+    }
 }

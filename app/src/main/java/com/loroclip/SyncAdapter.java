@@ -75,11 +75,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private <T, U extends SyncableModel>
     Set<U> syncIndependentEntities(LoroClipAPIClient client, Class<T> serviceType, Class<U> entityType)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
         Date oldestSyncedAt = U.getOldestSyncedAt(entityType);
         int oldestSyncedAtTimestamp = (int) (oldestSyncedAt.getTime() / 1000);
         T service = client.getService(serviceType);
         Set<U> syncedEntities = new HashSet<>();
-
 
         try {
             // Pull
@@ -93,6 +93,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         mappedEntity.delete(true);
                     } else if (mappedEntity.getUpdatedAt().before(entity.getUpdatedAt())) {
                         mappedEntity.overwrite(entity);
+                        mappedEntity.saveAsSynced();
                     }
                 } else if (!entity.isDeleted()) {
                     entity.saveAsSynced();

@@ -8,6 +8,7 @@ import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.model.SyncableModel;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit.RequestInterceptor;
@@ -27,15 +28,14 @@ import retrofit.mime.TypedString;
  */
 
 public class LoroClipAPIClient {
-    private static final String API_ENDPOINT = "http://parrot.172.16.101.103.xip.io/api/v1";
+    private static final String API_ENDPOINT = "http://parrot.172.16.101.81.xip.io/api/v1";
     private RestAdapter mRestAdapter;
     private String mAccessToken;
 
     public LoroClipAPIClient(String accessToken) {
         this.mAccessToken = accessToken;
 
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-
+        Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new GmtDateTypeAdapter()).create();
         RequestInterceptor requestInterceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
