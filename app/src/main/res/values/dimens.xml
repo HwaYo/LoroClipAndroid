@@ -2,4 +2,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- 수빈이 추가한것 -->
+    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="divider">0.3dp</dimen>
+    <dimen name="leftmargin">15dp</dimen>
+    <dimen name="rightmargin">15dp</dimen>
 </resources>

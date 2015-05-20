@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include android:id="@+id/toolbar_actionbar" layout="@layout/toolbar_default"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <!-- Placing Views here -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/record_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_action_record_new_white"
+            fab:fab_colorNormal="@color/myPrimaryColor"
+            fab:fab_colorPressed="@color/myPrimaryDarkColor"
+            fab:fab_colorRipple="@color/myTextPrimaryColor" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/actionbar_shadow" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

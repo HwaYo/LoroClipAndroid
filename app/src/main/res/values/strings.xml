@@ -170,4 +170,13 @@
 
     <string name="facebook_app_id">369921866546593</string>
 
+
+    <!-- 수빈이 작업한거 추가 -->
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_sync">Sync</string>
+    <string name="agree">agree</string>
+    <string name="disagree">disagree</string>
+    <string name="edit_record">Edit Record</string>
+
 </resources>
