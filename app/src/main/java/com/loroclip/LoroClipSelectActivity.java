@@ -16,25 +16,13 @@
 
 package com.loroclip;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.database.MergeCursor;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -44,19 +32,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loroclip.model.Record;
 import com.loroclip.record.RecordActivity;
 import com.loroclip.record.RecordListAdapter;
-import com.loroclip.soundfile.SoundFile;
 
-import org.w3c.dom.Text;
+import java.io.File;
 
 public class LoroClipSelectActivity extends ListActivity {
     private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
@@ -186,7 +168,8 @@ public class LoroClipSelectActivity extends ListActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         selectedFileName = getfileNameFromRowView(((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.findViewById(android.R.id.text1));
-        menu.add(0, CMD_RENAME, 0, R.string.context_menu_edit);
+        // TODO: RENAME
+//        menu.add(0, CMD_RENAME, 0, R.string.context_menu_edit);
         menu.add(0, CMD_DELETE, 0, R.string.context_menu_delete);
     }
 

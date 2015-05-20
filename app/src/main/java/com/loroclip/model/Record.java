@@ -17,12 +17,28 @@ public class Record extends SugarRecord<Record> {
     public Date createdAt;
     public Date updatedAt;
 
+
     public Record(){
     }
 
-    public void setTitle(String title) {this.title = title;}
-    public void setFile(String file) {this.file = file;}
+    public Record(String title, String file) {
+        this.title = title;
+        this.file = file;
+    }
 
-    public String getTitle() {return title;}
-    public String getFile() {return file;}
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

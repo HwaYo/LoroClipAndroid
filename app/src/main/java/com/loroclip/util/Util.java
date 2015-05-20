@@ -1,5 +1,7 @@
 package com.loroclip.util;
 
+import org.json.JSONArray;
+
 /**
  * Created by minhyeok on 5/13/15.
  */
@@ -18,5 +20,17 @@ public class Util {
 
     public static String milliSecondsToMinutesStr(int integerMilliSecs){
         return secondsToMinutesStr(integerMilliSecs / 1000);
+    }
+
+    public static int[] JSONArrayToIntArray(JSONArray array){
+        if (array == null) { /*...*/ }
+
+        int[] numbers = new int[array.length()];
+
+        for (int i = 0; i < array.length(); ++i) {
+            numbers[i] = array.optInt(i);
+        }
+
+        return numbers;
     }
 }

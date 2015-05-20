@@ -160,7 +160,7 @@ public class VorbisRecorder {
       if (isRecording() || isStopping() || isPaused()) {
         // 멈춤상태 등록
         currentState.set(RecorderState.STOPPED);
-        waveForm.clearWaveData();
+        waveForm.initWaveformView();
 
         // outputStream 닫기
         if (outputStream != null) {
@@ -231,7 +231,6 @@ public class VorbisRecorder {
     }
 
     this.waveForm = waveForm;
-    this.waveForm.setDrawData(BUFFER_LENGTH);
     this.encodeFeed = new FileEncodeFeed(fileToSaveTo);
   }
 
