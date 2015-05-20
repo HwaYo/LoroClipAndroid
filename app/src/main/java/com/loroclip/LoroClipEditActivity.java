@@ -160,7 +160,7 @@ public class LoroClipEditActivity extends Activity
         }
     }
 
-    /** Called when the activity is finally destroyed. */
+  /** Called when the activity is finally destroyed. */
     @Override
     protected void onDestroy() {
         Log.v("LoroClip", "EditActivity OnDestroy");
@@ -951,14 +951,20 @@ public class LoroClipEditActivity extends Activity
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
+                if (msg.obj != null){
+                    BookmarkHistory bookmarkHistory = (BookmarkHistory) msg.obj;
+
+                    deleteBookmarkHistory(bookmarkHistory);
+                    return;
+                }
+
                 int pos = mWaveformView.millisecsToPixels(msg.arg1);
 
-                if (mIsPlaying){
+                if (mIsPlaying) {
                     mPlayer.seekTo(msg.arg1);
                 } else {
                     onPlay(pos);
                 }
-
             }
         };
 
@@ -967,4 +973,17 @@ public class LoroClipEditActivity extends Activity
         SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mFilename, msg);
         savedBookmarkHistoryListDialog.show();
     }
+
+    private void deleteBookmarkHistory(BookmarkHistory bookmarkHistory) {
+        BookmarkHistory bh = BookmarkHistory.find(BookmarkHistory.class, "filename = ? AND name = ? AND start = ?",
+                bookmarkHistory.getFilename(),
+                bookmarkHistory.getName(),
+                String.valueOf(bookmarkHistory.getStart())).get(0);
+        bh.delete();
+
+        mWaveformView.refreshBookmarkHistroyList();
+        mWaveformView.invalidate();
+    }
+
+
 }
