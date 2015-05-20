@@ -16,13 +16,11 @@
 
 package com.loroclip;
 
-import java.nio.ShortBuffer;
-
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.loroclip.soundfile.SoundFile;
+import java.nio.ShortBuffer;
 
 class SamplePlayer {
     public interface OnCompletionListener {
@@ -83,9 +81,6 @@ class SamplePlayer {
         mListener = null;
     }
 
-    public SamplePlayer(SoundFile sf) {
-        this(sf.getSamples(), sf.getSampleRate(), sf.getChannels(), sf.getNumSamples());
-    }
 
     public void setOnCompletionListener(OnCompletionListener listener) {
         mListener = listener;
