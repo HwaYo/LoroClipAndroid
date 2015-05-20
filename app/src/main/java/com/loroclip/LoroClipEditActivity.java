@@ -22,6 +22,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -85,7 +86,6 @@ public class LoroClipEditActivity extends Activity
     private int mPlayStartMsec;
     private int mPlayEndMsec;
     private Handler mHandler;
-    private boolean mIsPlaying;
     private LoroClipPlayer mPlayer;
     private boolean mTouchDragging;
     private float mTouchStart;
@@ -107,8 +107,6 @@ public class LoroClipEditActivity extends Activity
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
-    private LoroClipPlayer mTestPlayer;
-
 
     /** Called when the activity is first created. */
     @Override
@@ -117,7 +115,7 @@ public class LoroClipEditActivity extends Activity
         super.onCreate(icicle);
 
         mPlayer = null;
-        mIsPlaying = false;
+//        mIsPlaying = false;
 
         mAlertDialog = null;
         mProgressDialog = null;
@@ -183,7 +181,6 @@ public class LoroClipEditActivity extends Activity
         }
 
         if (mPlayer != null) {
-//            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
             if (mPlayer.isPlaying()) {
                 mPlayer.stop();
             }
@@ -276,7 +273,7 @@ public class LoroClipEditActivity extends Activity
         mWidth = mWaveformView.getMeasuredWidth();
         if (mOffsetGoal != mOffset && !mKeyDown)
             updateDisplay();
-        else if (mIsPlaying) {
+        else if (mPlayer.isPlaying()) {
             updateDisplay();
         } else if (mFlingVelocity != 0) {
             updateDisplay();
@@ -302,7 +299,7 @@ public class LoroClipEditActivity extends Activity
 
         long elapsedMsec = getCurrentTime() - mWaveformTouchStartMsec;
         if (elapsedMsec < 300) {
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
 
@@ -359,8 +356,6 @@ public class LoroClipEditActivity extends Activity
         mRewindButton.setOnClickListener(mRewindListener);
         mFfwdButton = (ImageButton)findViewById(R.id.ffwd);
         mFfwdButton.setOnClickListener(mFfwdListener);
-
-        enableDisableButtons();
 
         mWaveformView = (WaveformView)findViewById(R.id.waveform);
         mWaveformView.setListener(this);
@@ -459,8 +454,24 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
                     mPlayer = new LoroClipPlayer(mFile.getAbsolutePath());
+                    mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+                            togglePlayButton();
+                            return;
+                        }
+                    });
+
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            mPlayer.stop();
+                            togglePlayButton();
+                            return;
+                        }
+                    });
+
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();
@@ -566,7 +577,6 @@ public class LoroClipEditActivity extends Activity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
                 } catch (final Exception e) {
                     mAlertDialog.dismiss();
                     e.printStackTrace();
@@ -629,7 +639,7 @@ public class LoroClipEditActivity extends Activity
     }
 
     private synchronized void updateDisplay() {
-        if (mIsPlaying) {
+        if (mPlayer != null && mPlayer.isPlaying()) {
             int now = mPlayer.getCurrentPosition();
             int frames = mWaveformView.millisecsToPixels(now);
             mWaveformView.setPlayback(frames);
@@ -704,11 +714,12 @@ public class LoroClipEditActivity extends Activity
         }
     };
 
-    private void enableDisableButtons() {
-        if (mIsPlaying) {
+    private void togglePlayButton() {
+        Log.d("testlog", String.valueOf(mPlayer.isPlaying()));
+        if (mPlayer.isPlaying()) {
             mPlayButton.setImageResource(android.R.drawable.ic_media_pause);
             mPlayButton.setContentDescription(getResources().getText(R.string.stop));
-        } else {
+        } else if(!mPlayer.isPlaying()) {
             mPlayButton.setImageResource(android.R.drawable.ic_media_play);
             mPlayButton.setContentDescription(getResources().getText(R.string.play));
         }
@@ -792,14 +803,12 @@ public class LoroClipEditActivity extends Activity
         }
 
         mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
-        mIsPlaying = false;
         mWaveformView.setIsBookmarking(false);
         resetSelection();
-        enableDisableButtons();
     }
 
     private synchronized void onPlay(int startPosition) {
-        if (mIsPlaying) {
+        if (mPlayer.isPlaying()) {
             handlePause();
             return;
         }
@@ -818,22 +827,10 @@ public class LoroClipEditActivity extends Activity
             } else {
                 mPlayEndMsec = mWaveformView.pixelsToMillisecs(mEndPos);
             }
-//            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion() {
-//                    handlePause();
-//                }
-//            });
-            mIsPlaying = true;
-
-            if (startPosition >= mEndPos){
-                mPlayStartMsec = 0;
+            if (startPosition < mEndPos){
+                mPlayer.start(mPlayStartMsec);
+                updateDisplay();
             }
-
-            mPlayer.seekTo(mPlayStartMsec);
-            mPlayer.start();
-            updateDisplay();
-            enableDisableButtons();
         } catch (Exception e) {
             showFinalAlert(e, R.string.play_error);
             return;
@@ -885,7 +882,7 @@ public class LoroClipEditActivity extends Activity
     private OnClickListener mRewindListener = new OnClickListener() {
         public void onClick(View sender) {
             mWaveformView.setIsBookmarking(false);
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 int newPos = mPlayer.getCurrentPosition() - 5000;
                 if (newPos < 0)
                     newPos = 0;
@@ -896,7 +893,7 @@ public class LoroClipEditActivity extends Activity
 
     private OnClickListener mFfwdListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 int newPos = 5000 + mPlayer.getCurrentPosition();
                 if (newPos > mPlayEndMsec)
                     newPos = mPlayEndMsec;
@@ -910,7 +907,7 @@ public class LoroClipEditActivity extends Activity
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             String  bookmarkName    = (String) bookmarkListView.getItemAtPosition(position);
 
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 if (mWaveformView.isBookmarking()) {
                     current_bookmark.setEnd(mPlayer.getCurrentPosition());
                     current_bookmark.save();
@@ -960,7 +957,7 @@ public class LoroClipEditActivity extends Activity
 
                 int pos = mWaveformView.millisecsToPixels(msg.arg1);
 
-                if (mIsPlaying) {
+                if (mPlayer.isPlaying()) {
                     mPlayer.seekTo(msg.arg1);
                 } else {
                     onPlay(pos);
