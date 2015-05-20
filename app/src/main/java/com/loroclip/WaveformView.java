@@ -368,9 +368,7 @@ public class WaveformView extends View {
     }
 
     public void refreshBookmarkHistroyList() {
-        if (hasBookmarkHistory()) {
-            bookmarkHistroyList = BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename);
-        }
+        bookmarkHistroyList = BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename);
     }
 
     public boolean isBookmarking() {
