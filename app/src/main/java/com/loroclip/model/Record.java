@@ -12,6 +12,12 @@ public class Record extends SyncableModel<Record> {
     private String file;
     private String localFile;
 
+    public Record() {}
+
+    public static List<Record> findByLocalFilePath(String path) {
+        return Record.find(Record.class, "local_file = ?", path);
+    }
+
     public String getTitle() {
         return title;
     }
@@ -46,9 +52,9 @@ public class Record extends SyncableModel<Record> {
 
     public File getLocalFile() {
         if (localFile == null) {
-            return null;
+            return new File("");
         }
-        return new File(localFile);
+        return new File(this.localFile);
     }
 
     public void setLocalFile(File file) {
@@ -59,11 +65,35 @@ public class Record extends SyncableModel<Record> {
         return BookmarkHistory.find(BookmarkHistory.class, "record = ?", getId().toString());
     }
 
+    public List<FrameGains> getFrameGains() {
+        return FrameGains.find(FrameGains.class, "record = ?", getId().toString());
+    }
+
     @Override
     public void overwrite(Record record) {
         super.overwrite(record);
         this.title = record.title;
         this.note = record.note;
         this.file = record.file;
+    }
+
+    @Override
+    public void delete() {
+        List<BookmarkHistory> histories = getBookmarkHistories();
+        for (BookmarkHistory history : histories) {
+            history.delete();
+        }
+
+        File file = getLocalFile();
+        if (file.exists()) {
+            file.delete();
+        }
+
+        List<FrameGains> frameGains = getFrameGains();
+        for (FrameGains gains : frameGains) {
+            gains.delete();
+        }
+
+        super.delete();
     }
 }

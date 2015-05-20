@@ -39,8 +39,8 @@ public abstract class SyncableModel<T extends SyncableModel> extends ModelSuppor
         return entities.get(0);
     }
 
-    public static <T extends SyncableModel> Date getOldestSyncedAt(Class<T> type) {
-        String query = String.format("SELECT * FROM %s ORDER BY synced_at ASC", getTableName(type));
+    public static <T extends SyncableModel> Date getRecentSyncedAt(Class<T> type) {
+        String query = String.format("SELECT * FROM %s ORDER BY synced_at DESC", getTableName(type));
         List<T> entities = T.findWithQuery(type, query);
         if (entities.isEmpty()) {
             return new Date(0);

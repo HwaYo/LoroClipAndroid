@@ -33,3 +33,9 @@ CREATE TABLE "bookmark_history" (
 "synced_at" datetime,
 "dirty" boolean DEFAULT 'f'
 );
+
+CREATE TABLE "frame_gains" (
+"id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"frames" varchar,
+"record" integer
+);

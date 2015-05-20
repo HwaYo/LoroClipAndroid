@@ -1,7 +1,9 @@
 package com.loroclip;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +40,38 @@ public class SavedBookmarkHistoryListDialog extends Dialog {
                 response.arg1 = bookmarkHistoryList.get(i).getStartMiiliseconds();
                 response.sendToTarget();
                 dismiss();
+            }
+        });
+
+        bookmarkHistoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+              final BookmarkHistory bookmarkHistory = bookmarkHistoryList.get(i);
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Delete Bookmark")
+                        .setMessage(R.string.confirm_delete_loroclip)
+                        .setPositiveButton(
+                                R.string.delete_ok_button,
+                                new DialogInterface.OnClickListener() {
+                                  public void onClick(DialogInterface dialog,
+                                                      int whichButton) {
+                                      response.obj = bookmarkHistory;
+                                      response.sendToTarget();
+                                      dismiss();
+//                                    onDelete(bookmarkHistory);
+                                  }
+                                })
+                        .setNegativeButton(
+                                R.string.delete_cancel_button,
+                                new DialogInterface.OnClickListener() {
+                                  public void onClick(DialogInterface dialog,
+                                                      int whichButton) {
+                                  }
+                                })
+                        .setCancelable(true)
+                        .show();
+                return true;
             }
         });
     }

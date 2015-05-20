@@ -67,12 +67,6 @@
             </intent-filter>
         </activity>
 
-        <!--
-         Activity for actually editing a particular audio file.
-             Controls viewing the waveform, setting the start and end
-             positions, playback, and triggering saving of the output
-             file.
-        -->
         <activity
             android:name=".LoroClipEditActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -84,12 +78,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Activity for choosing a contact to assign a ringtone to. -->
-        <activity
-            android:name=".ChooseContactActivity"
-            android:configChanges="orientation|keyboardHidden" >
-        </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
@@ -99,11 +87,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <activity
-            android:name=".record.RecordListActivity"
-            android:label="@string/title_activity_record_list" >
-        </activity>
 
         <activity
             android:name=".record.RecordActivity"
@@ -145,7 +128,7 @@
             android:value="database.db" />
         <meta-data
             android:name="VERSION"
-            android:value="0" />
+            android:value="10" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />

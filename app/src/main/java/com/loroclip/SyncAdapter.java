@@ -76,15 +76,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Set<U> syncIndependentEntities(LoroClipAPIClient client, Class<T> serviceType, Class<U> entityType)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        Date oldestSyncedAt = U.getOldestSyncedAt(entityType);
-        int oldestSyncedAtTimestamp = (int) (oldestSyncedAt.getTime() / 1000);
+        Date recentSyncedAt = U.getRecentSyncedAt(entityType);
+        int recentSyncedAtTimestamp = (int) (recentSyncedAt.getTime() / 1000);
         T service = client.getService(serviceType);
         Set<U> syncedEntities = new HashSet<>();
 
         try {
             // Pull
             Method pullMethod = serviceType.getDeclaredMethod("pullEntities", int.class);
-            List<U> entities = (List<U>) pullMethod.invoke(service, oldestSyncedAtTimestamp);
+            List<U> entities = (List<U>) pullMethod.invoke(service, recentSyncedAtTimestamp);
 
             for (U entity : entities) {
                 U mappedEntity = U.findByUuid(entityType, entity.getUuid());
@@ -124,7 +124,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void syncRecordFiles(LoroClipAPIClient client) {
-        List<Record> records = Record.listAll(Record.class);
+        List<Record> records = Record.listExists(Record.class);
         for (Record record : records) {
             File recordFile = record.getLocalFile();
 

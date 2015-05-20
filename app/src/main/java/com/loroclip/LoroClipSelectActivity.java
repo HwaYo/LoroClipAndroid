@@ -18,64 +18,50 @@ package com.loroclip;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.database.MergeCursor;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loroclip.model.Record;
 import com.loroclip.record.RecordActivity;
-import com.loroclip.record.RecordListActivity;
-import com.loroclip.soundfile.SoundFile;
+import com.loroclip.record.RecordListAdapter;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-public class LoroClipSelectActivity
-    extends ListActivity
-    implements LoaderManager.LoaderCallbacks<Cursor>
-{
-    private SearchView mFilter;
-    private SimpleCursorAdapter mAdapter;
-    private boolean mWasGetContentIntent;
-    private boolean mShowAll;
-    private Cursor mInternalCursor;
-    private Cursor mExternalCursor;
+public class LoroClipSelectActivity extends ListActivity {
+    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
+    private final String AUDIO_OGG_EXTENSION = ".ogg";
 
     // Result codes
+    private static final int REQUEST_CODE_NEW = 0;
     private static final int REQUEST_CODE_EDIT = 1;
-    private static final int REQUEST_CODE_CHOOSE_CONTACT = 2;
 
     // Context menu
-    private static final int CMD_EDIT = 4;
+    private static final int CMD_RENAME = 4;
     private static final int CMD_DELETE = 5;
-    private static final int CMD_SET_AS_DEFAULT = 6;
-    private static final int CMD_SET_AS_CONTACT = 7;
 
+    private List<Record> mRecords;
+    private RecordListAdapter mAdapter;
 
-    public LoroClipSelectActivity() {
-    }
+    private AlertDialog dialog;
+
+    public LoroClipSelectActivity() {}
 
     /**
      * Called when the activity is first created.
@@ -83,12 +69,6 @@ public class LoroClipSelectActivity
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-
-        initialize();
-    }
-
-    private void initialize() {
-        mShowAll = false;
 
         String status = Environment.getExternalStorageState();
         if (status.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
@@ -104,83 +84,19 @@ public class LoroClipSelectActivity
             return;
         }
 
-        Intent intent = getIntent();
-        mWasGetContentIntent = intent.getAction().equals(
-                Intent.ACTION_GET_CONTENT);
-
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.media_select);
 
-        try {
-            mAdapter = new SimpleCursorAdapter(
-                    this,
-                    // Use a template that displays a text view
-                    R.layout.media_select_row,
-                    null,
-                    // Map from database columns...
-                    new String[] {
-                            MediaStore.Audio.Media.ARTIST,
-                            MediaStore.Audio.Media.ALBUM,
-                            MediaStore.Audio.Media.TITLE,
-                            MediaStore.Audio.Media._ID,
-                            MediaStore.Audio.Media._ID},
-                    // To widget ids in the row layout...
-                    new int[] {
-                            R.id.row_artist,
-                            R.id.row_album,
-                            R.id.row_title,
-                            R.id.row_icon,
-                            R.id.row_options_button},
-                    0);
+        mRecords = Record.listExists(Record.class);
+        mAdapter = new RecordListAdapter(mRecords);
 
-            setListAdapter(mAdapter);
+        getListView().setAdapter(mAdapter);
+        getListView().setItemsCanFocus(true);
 
-            getListView().setItemsCanFocus(true);
-
-            // Normal click - open the editor
-            getListView().setOnItemClickListener(new OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent,
-                                        View view,
-                                        int position,
-                                        long id) {
-                    startLoroClipEditor();
-                }
-            });
-
-            mInternalCursor = null;
-            mExternalCursor = null;
-            getLoaderManager().initLoader(INTERNAL_CURSOR_ID,  null, this);
-            getLoaderManager().initLoader(EXTERNAL_CURSOR_ID,  null, this);
-
-        } catch (SecurityException e) {
-            // No permission to retrieve audio?
-            Log.e("LoroClip", e.toString());
-
-            // TODO error 1
-        } catch (IllegalArgumentException e) {
-            // No permission to retrieve audio?
-            Log.e("LoroClip", e.toString());
-
-            // TODO error 2
-        }
-
-        mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-                if (view.getId() == R.id.row_options_button){
-                    // Get the arrow ImageView and set the onClickListener to open the context menu.
-                    ImageView iv = (ImageView)view;
-                    iv.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            openContextMenu(v);
-                        }
-                    });
-                    return true;
-                } else if (view.getId() == R.id.row_icon) {
-                    setSoundIconFromCursor((ImageView) view, cursor);
-                    return true;
-                }
-
-                return false;
+        // Normal click - open the editor
+        getListView().setOnItemClickListener(new OnItemClickListener() {public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Record record = mRecords.get(position);
+                startLoroClipEditor(record);
             }
         });
 
@@ -188,48 +104,36 @@ public class LoroClipSelectActivity
         registerForContextMenu(getListView());
     }
 
-    private void setSoundIconFromCursor(ImageView view, Cursor cursor) {
-        if (0 != cursor.getInt(cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_RINGTONE))) {
-            view.setImageResource(R.drawable.type_ringtone);
-            ((View) view.getParent()).setBackgroundColor(
-                    getResources().getColor(R.drawable.type_bkgnd_ringtone));
-        } else if (0 != cursor.getInt(cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_ALARM))) {
-            view.setImageResource(R.drawable.type_alarm);
-            ((View) view.getParent()).setBackgroundColor(
-                    getResources().getColor(R.drawable.type_bkgnd_alarm));
-        } else if (0 != cursor.getInt(cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_NOTIFICATION))) {
-            view.setImageResource(R.drawable.type_notification);
-            ((View) view.getParent()).setBackgroundColor(
-                    getResources().getColor(R.drawable.type_bkgnd_notification));
-        } else if (0 != cursor.getInt(cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_MUSIC))) {
-            view.setImageResource(R.drawable.type_music);
-            ((View) view.getParent()).setBackgroundColor(
-                    getResources().getColor(R.drawable.type_bkgnd_music));
-        }
-
-        String filename = cursor.getString(cursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.DATA));
-        if (!SoundFile.isFilenameSupported(filename)) {
-            ((View) view.getParent()).setBackgroundColor(
-                    getResources().getColor(R.drawable.type_bkgnd_unsupported));
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
-    /** Called with an Activity we started with an Intent returns. */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-            Intent dataIntent) {
-        if (requestCode != REQUEST_CODE_EDIT) {
-            return;
-        }
+    private String getFilePathFromFileName(String fileName) {
+        return LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
+    }
 
+
+    private String getfileNameFromRowView(View view) {
+        TextView tv = (TextView)view.findViewById(android.R.id.text1);
+        return (String) tv.getText();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent dataIntent) {
         if (resultCode != RESULT_OK) {
             return;
         }
+
+        long recordId = dataIntent.getLongExtra("record_id", 0);
+        if (recordId != 0) {
+            Record record = Record.findById(Record.class, recordId);
+            if (record != null) {
+                mRecords.add(record);
+            }
+        }
+
+        mAdapter.notifyDataSetChanged();
 
         setResult(RESULT_OK, dataIntent);
         //finish();  // TODO(nfaralli): why would we want to quit the app here?
@@ -240,46 +144,23 @@ public class LoroClipSelectActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.select_options, menu);
 
-        mFilter = (SearchView) menu.findItem(R.id.action_search_filter).getActionView();
-        if (mFilter != null) {
-            mFilter.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                public boolean onQueryTextChange(String newText) {
-                    refreshListView();
-                    return true;
-                }
-                public boolean onQueryTextSubmit(String query) {
-                    refreshListView();
-                    return true;
-                }
-            });
-        }
-
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.action_about).setVisible(true);
+
         menu.findItem(R.id.action_record).setVisible(true);
-        // TODO(nfaralli): do we really need a "Show all audio" item now?
-        menu.findItem(R.id.action_show_all_audio).setVisible(true);
-        menu.findItem(R.id.action_show_all_audio).setEnabled(!mShowAll);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.action_about:
-            LoroClipEditActivity.onAbout(this);
-            return true;
         case R.id.action_record:
             onRecord();
-            return true;
-        case R.id.action_show_all_audio:
-            mShowAll = true;
-            refreshListView();
             return true;
         default:
             return false;
@@ -287,368 +168,145 @@ public class LoroClipSelectActivity
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu,
-            View v,
-            ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        Cursor c = mAdapter.getCursor();
-        String title = c.getString(c.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
-
-        menu.setHeaderTitle(title);
-
-        menu.add(0, CMD_EDIT, 0, R.string.context_menu_edit);
+//        selectedFileName = getfileNameFromRowView(((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.findViewById(android.R.id.text1));
+        menu.add(0, CMD_RENAME, 0, R.string.context_menu_edit);
         menu.add(0, CMD_DELETE, 0, R.string.context_menu_delete);
-
-        // Add items to the context menu item based on file type
-        if (0 != c.getInt(c.getColumnIndexOrThrow(MediaStore.Audio.Media.IS_RINGTONE))) {
-            menu.add(0, CMD_SET_AS_DEFAULT, 0, R.string.context_menu_default_ringtone);
-            menu.add(0, CMD_SET_AS_CONTACT, 0, R.string.context_menu_contact);
-        } else if (0 != c.getInt(c.getColumnIndexOrThrow(MediaStore.Audio.Media.IS_NOTIFICATION))) {
-            menu.add(0, CMD_SET_AS_DEFAULT, 0, R.string.context_menu_default_notification);
-        }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
         switch (item.getItemId()) {
-        case CMD_EDIT:
-            startLoroClipEditor();
-            return true;
-        case CMD_DELETE:
-            confirmDelete();
-            return true;
-        case CMD_SET_AS_DEFAULT:
-            setAsDefaultRingtoneOrNotification();
-            return true;
-        case CMD_SET_AS_CONTACT:
-            return chooseContactForRingtone(item);
-        default:
-            return super.onContextItemSelected(item);
+            case CMD_RENAME:
+                changeTitleDialog(info.position);
+                return true;
+            case CMD_DELETE:
+                confirmDelete(info.position);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
-    private void setAsDefaultRingtoneOrNotification(){
-        Cursor c = mAdapter.getCursor();
-
-        // If the item is a ringtone then set the default ringtone,
-        // otherwise it has to be a notification so set the default notification sound
-        if (0 != c.getInt(c.getColumnIndexOrThrow(MediaStore.Audio.Media.IS_RINGTONE))){
-            RingtoneManager.setActualDefaultRingtoneUri(
-                    LoroClipSelectActivity.this,
-                    RingtoneManager.TYPE_RINGTONE,
-                    getUri());
-            Toast.makeText(
-                    LoroClipSelectActivity.this,
-                    R.string.default_ringtone_success_message,
-                    Toast.LENGTH_SHORT)
-                    .show();
-        } else {
-            RingtoneManager.setActualDefaultRingtoneUri(
-                    LoroClipSelectActivity.this,
-                    RingtoneManager.TYPE_NOTIFICATION,
-                    getUri());
-            Toast.makeText(
-                    LoroClipSelectActivity.this,
-                    R.string.default_notification_success_message,
-                    Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
-
-    private int getUriIndex(Cursor c) {
-        int uriIndex;
-        String[] columnNames = {
-                MediaStore.Audio.Media.INTERNAL_CONTENT_URI.toString(),
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString()
-        };
-
-        for (String columnName : Arrays.asList(columnNames)) {
-            uriIndex = c.getColumnIndex(columnName);
-            if (uriIndex >= 0) {
-                return uriIndex;
-            }
-            // On some phones and/or Android versions, the column name includes the double quotes.
-            uriIndex = c.getColumnIndex("\"" + columnName + "\"");
-            if (uriIndex >= 0) {
-                return uriIndex;
-            }
-        }
-        return -1;
-    }
-
-    private Uri getUri(){
-        //Get the uri of the item that is in the row
-        Cursor c = mAdapter.getCursor();
-        int uriIndex = getUriIndex(c);
-        if (uriIndex == -1) {
-            return null;
-        }
-        String itemUri = c.getString(uriIndex) + "/" +
-        c.getString(c.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-        return (Uri.parse(itemUri));
-    }
-
-    private boolean chooseContactForRingtone(MenuItem item){
-        try {
-            //Go to the choose contact activity
-            Intent intent = new Intent(Intent.ACTION_EDIT, getUri());
-            intent.setClassName(
-                    "com.loroclip",
-            "com.loroclip.ChooseContactActivity");
-            startActivityForResult(intent, REQUEST_CODE_CHOOSE_CONTACT);
-        } catch (Exception e) {
-            Log.e("LoroClip", "Couldn't open Choose Contact window");
-        }
-        return true;
-    }
-
-    private void confirmDelete() {
-        Cursor c = mAdapter.getCursor();
-        String artist = c.getString(c.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.ARTIST));
-        CharSequence loroclipArtist =
-            getResources().getText(R.string.artist_name);
-
-        CharSequence message;
-        if (artist.equals(loroclipArtist)) {
-            message = getResources().getText(
-                    R.string.confirm_delete_loroclip);
-        } else {
-            message = getResources().getText(
-                    R.string.confirm_delete_non_loroclip);
-        }
-
-        CharSequence title;
-        if (0 != c.getInt(c.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_RINGTONE))) {
-            title = getResources().getText(R.string.delete_ringtone);
-        } else if (0 != c.getInt(c.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_ALARM))) {
-            title = getResources().getText(R.string.delete_alarm);
-        } else if (0 != c.getInt(c.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_NOTIFICATION))) {
-            title = getResources().getText(R.string.delete_notification);
-        } else if (0 != c.getInt(c.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.IS_MUSIC))) {
-            title = getResources().getText(R.string.delete_music);
-        } else {
-            title = getResources().getText(R.string.delete_audio);
-        }
+    private void confirmDelete(int position) {
+        final Record record = mRecords.get(position);
 
         new AlertDialog.Builder(LoroClipSelectActivity.this)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(
-                R.string.delete_ok_button,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                            int whichButton) {
-                        onDelete();
-                    }
-                })
-            .setNegativeButton(
-                R.string.delete_cancel_button,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                            int whichButton) {
-                    }
-                })
+            .setTitle(R.string.delete_music)
+            .setMessage(R.string.confirm_delete_loroclip)
+            .setPositiveButton(R.string.delete_ok_button,new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    onDelete(record);
+                    mAdapter.notifyDataSetChanged();
+                }
+            })
+            .setNegativeButton(R.string.delete_cancel_button, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog,int whichButton) {}
+            })
             .setCancelable(true)
             .show();
     }
 
-    private void onDelete() {
-        Cursor c = mAdapter.getCursor();
-        int dataIndex = c.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-        String filename = c.getString(dataIndex);
+    private void changeTitleDialog(int position) {
+        final Record record = mRecords.get(position);
 
-        int uriIndex = getUriIndex(c);
-        if (uriIndex == -1) {
-            showFinalAlert(getResources().getText(R.string.delete_failed));
+        final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
+        EditText saveFile = (EditText)view.findViewById(R.id.filenameEditText);
+
+        saveFile.setText(record.getTitle());
+        saveFile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0) {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                } else {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }
+            }
+
+            @Override // 입력이 끝났을 때
+            public void afterTextChanged(Editable s) {}
+
+            @Override // 입력하기 전에
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        });
+
+
+        dialog = new AlertDialog.Builder(this)
+            .setTitle("파일이름변경")
+            .setView(view)
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String title = ((EditText) view.findViewById(R.id.filenameEditText)).getText().toString();
+                    onChangeTitle(record, title);
+                    mAdapter.notifyDataSetChanged();
+                }
+            })
+            .setNegativeButton("CANCEL", null)
+            .create();;
+
+        dialog.show();
+        saveFile.setSelection(saveFile.getText().length());
+        saveFile.requestFocus();
+    }
+
+    private void onChangeTitle(Record record, String newTitle) {
+        if (record == null) {
             return;
         }
 
-        if (!new File(filename).delete()) {
-            showFinalAlert(getResources().getText(R.string.delete_failed));
-        }
+        record.setTitle(newTitle);
+        record.save();
 
-        String itemUri = c.getString(uriIndex) + "/" +
-        c.getString(c.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-        getContentResolver().delete(Uri.parse(itemUri), null, null);
+        final android.os.Handler handler = new android.os.Handler();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(LoroClipSelectActivity.this, "변경되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void onDelete(Record record) {
+        mRecords.remove(record);
+        record.delete();
     }
 
     private void showFinalAlert(CharSequence message) {
         new AlertDialog.Builder(LoroClipSelectActivity.this)
         .setTitle(getResources().getText(R.string.alert_title_failure))
         .setMessage(message)
-        .setPositiveButton(
-                R.string.alert_ok_button,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                            int whichButton) {
-                        finish();
-                    }
-                })
-                .setCancelable(false)
-                .show();
+        .setPositiveButton(R.string.alert_ok_button,new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                finish();
+            }
+        })
+        .setCancelable(false)
+        .show();
     }
 
     private void onRecord() {
         try {
             Intent i = new Intent(LoroClipSelectActivity.this, RecordActivity.class);
-            startActivity(i);
+            startActivityForResult(i, REQUEST_CODE_NEW);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
         }
     }
 
-    private void startLoroClipEditor() {
-        Cursor c = mAdapter.getCursor();
-        int dataIndex = c.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-        String filename = c.getString(dataIndex);
+    private void startLoroClipEditor(Record record) {
         try {
-            Intent intent = new Intent(Intent.ACTION_EDIT, Uri.parse(filename));
-            intent.putExtra("was_get_content_intent", mWasGetContentIntent);
-            intent.setClassName( "com.loroclip", "com.loroclip.LoroClipEditActivity");
-            startActivityForResult(intent, REQUEST_CODE_EDIT);
+            Intent intent = new Intent(this, LoroClipEditActivity.class);
+            intent.putExtra("record_id", record.getId());
+            startActivity(intent);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
         }
-    }
-
-    private void refreshListView() {
-//        mInternalCursor = null;
-//        mExternalCursor = null;
-//        Bundle args = new Bundle();
-//        args.putString("filter", mFilter.getQuery().toString());
-//        getLoaderManager().restartLoader(INTERNAL_CURSOR_ID,  args, this);
-//        getLoaderManager().restartLoader(EXTERNAL_CURSOR_ID,  args, this);
-        try {
-            Intent i = new Intent(LoroClipSelectActivity.this, RecordListActivity.class);
-            startActivity(i);
-        } catch (Exception e) {
-            Log.e("LoroClip", "Couldn't start editor");
-        }
-    }
-
-    private static final String[] INTERNAL_COLUMNS = new String[] {
-        MediaStore.Audio.Media._ID,
-        MediaStore.Audio.Media.DATA,
-        MediaStore.Audio.Media.TITLE,
-        MediaStore.Audio.Media.ARTIST,
-        MediaStore.Audio.Media.ALBUM,
-        MediaStore.Audio.Media.IS_RINGTONE,
-        MediaStore.Audio.Media.IS_ALARM,
-        MediaStore.Audio.Media.IS_NOTIFICATION,
-        MediaStore.Audio.Media.IS_MUSIC,
-        "\"" + MediaStore.Audio.Media.INTERNAL_CONTENT_URI + "\""
-    };
-
-    private static final String[] EXTERNAL_COLUMNS = new String[] {
-        MediaStore.Audio.Media._ID,
-        MediaStore.Audio.Media.DATA,
-        MediaStore.Audio.Media.TITLE,
-        MediaStore.Audio.Media.ARTIST,
-        MediaStore.Audio.Media.ALBUM,
-        MediaStore.Audio.Media.IS_RINGTONE,
-        MediaStore.Audio.Media.IS_ALARM,
-        MediaStore.Audio.Media.IS_NOTIFICATION,
-        MediaStore.Audio.Media.IS_MUSIC,
-        "\"" + MediaStore.Audio.Media.EXTERNAL_CONTENT_URI + "\""
-    };
-
-    private static final int INTERNAL_CURSOR_ID = 0;
-    private static final int EXTERNAL_CURSOR_ID = 1;
-
-    /* Implementation of LoaderCallbacks.onCreateLoader */
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        ArrayList<String> selectionArgsList = new ArrayList<String>();
-        String selection;
-        Uri baseUri;
-        String[] projection;
-
-        switch (id) {
-        case INTERNAL_CURSOR_ID:
-            baseUri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
-            projection = INTERNAL_COLUMNS;
-            break;
-        case EXTERNAL_CURSOR_ID:
-            baseUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            projection = EXTERNAL_COLUMNS;
-            break;
-        default:
-            return null;
-        }
-
-        if (mShowAll) {
-            selection = "(_DATA LIKE ?)";
-            selectionArgsList.add("%");
-        } else {
-            selection = "(";
-            for (String extension : SoundFile.getSupportedExtensions()) {
-                selectionArgsList.add("%." + extension);
-                if (selection.length() > 1) {
-                    selection += " OR ";
-                }
-                selection += "(_DATA LIKE ?)";
-            }
-            selection += ")";
-
-            selection = "(" + selection + ") AND (_DATA NOT LIKE ?)";
-            selectionArgsList.add("%espeak-data/scratch%");
-        }
-
-        String filter = args != null ? args.getString("filter") : null;
-        if (filter != null && filter.length() > 0) {
-            filter = "%" + filter + "%";
-            selection =
-                "(" + selection + " AND " +
-                "((TITLE LIKE ?) OR (ARTIST LIKE ?) OR (ALBUM LIKE ?)))";
-            selectionArgsList.add(filter);
-            selectionArgsList.add(filter);
-            selectionArgsList.add(filter);
-        }
-
-        String[] selectionArgs =
-                selectionArgsList.toArray(new String[selectionArgsList.size()]);
-        return new CursorLoader(
-                this,
-                baseUri,
-                projection,
-                selection,
-                selectionArgs,
-                MediaStore.Audio.Media.DEFAULT_SORT_ORDER
-                );
-    }
-
-    /* Implementation of LoaderCallbacks.onLoadFinished */
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        switch (loader.getId()) {
-        case INTERNAL_CURSOR_ID:
-            mInternalCursor = data;
-            break;
-        case EXTERNAL_CURSOR_ID:
-            mExternalCursor = data;
-            break;
-        default:
-            return;
-        }
-        // TODO: should I use a mutex/synchronized block here?
-        if (mInternalCursor != null && mExternalCursor != null) {
-            Cursor mergeCursor = new MergeCursor(new Cursor[] {mInternalCursor, mExternalCursor});
-            mAdapter.swapCursor(mergeCursor);
-        }
-    }
-
-    /* Implementation of LoaderCallbacks.onLoaderReset */
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // This is called when the last Cursor provided to onLoadFinished()
-        // above is about to be closed.  We need to make sure we are no
-        // longer using it.
-        mAdapter.swapCursor(null);
     }
 }

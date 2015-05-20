@@ -7,122 +7,211 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
-import java.util.Arrays;
+import com.loroclip.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
 
 
 public class RecodWaveformView extends View {
 
 	private final Handler handler;
 
-	byte[] data;
-	double[] drawData;
-	private int index;
 
 	private final Paint waveBaseLine = new Paint();
+
+	private JSONArray mJSONArray;
+
+	int measuredWidth;
+	int measuredHeight;
+
+
+	int numFrames;
+	int[] frameGains;
+	int[] mHeightsAtThisZoomLevel;
 
 	public RecodWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
-		waveBaseLine.setARGB(255, 128, 255, 128);
-		waveBaseLine.setStyle(Paint.Style.STROKE);
-		waveBaseLine.setStrokeWidth(1.0f);
-		waveBaseLine.setStrokeCap(Paint.Cap.ROUND);
+		waveBaseLine.setAntiAlias(false);
+		waveBaseLine.setColor(getResources().getColor(R.drawable.waveform_selected));
 
-		data = null;
-		index = 0;
+		initWaveformView();
+		mJSONArray = new JSONArray();
+	}
+
+	public  void startRecord() {
+		mJSONArray = new JSONArray();
+	}
+
+	public void initWaveformView() {
+		numFrames = 0;
+		fireInvalidate();
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		int width = this.getWidth();
-		int height = this.getHeight();
-
-
-		if(data == null) {
+		if(numFrames == 0) {
 			return;
 		}
 
-		double[] ds = convertWaveData(data);
-		setPartDrawData(16, ds);
+		measuredWidth = this.getWidth();
+		measuredHeight = this.getHeight();
 
-		double[][] plots = convertPlotData(drawData, width);
+		int width = mHeightsAtThisZoomLevel.length;
+		int ctr = measuredHeight / 2;
 
-		float middle = height / 2.0f;
-		boolean isLastPlus = true;
-		for (int x = 0; x < width; x++) {
-			if(plots != null && plots[x] != null)
-			{
-				boolean wValue = plots[x][0] > 0.0 && plots[x][1] < 0.0;
-				if (wValue) {
-					double[] values = isLastPlus ? new double[] { plots[x][1], plots[x][0] } : new double[] { plots[x][0], plots[x][1] };
-					for (double d : values) {
-						if(d > 0.0) {
-							drawWaveLine(canvas, d, x, middle, height);
-							drawWaveLine(canvas, -d, x, middle, height);
-						}
-					}
-				} else {
+//	Draw waveform
+		for (int i = 0; i < width; i++) {
+			Paint paint = waveBaseLine;
+			drawWaveformLine(canvas, i, ctr - mHeightsAtThisZoomLevel[i], ctr + 1 + mHeightsAtThisZoomLevel[i], paint);
+		}
+	}
 
-					if (plots[x][1] < 0.0) {
-						isLastPlus = false;
-					} else {
-						double value = 0.001 + plots[x][0];
-						isLastPlus = true;
-						drawWaveLine(canvas, value, x, middle, height);
-						drawWaveLine(canvas, -value, x, middle, height);
-					}
-				}
+	protected void drawWaveformLine(Canvas canvas, int x, int y0, int y1, Paint paint) {
+		canvas.drawLine(x, y0, x, y1, paint);
+	}
+
+	public void setDrawData() {
+		int start;
+		int makeSize;
+
+		start = numFrames < measuredWidth / 2 ? 0 : numFrames - measuredWidth / 2;
+		makeSize = numFrames < measuredWidth / 2? numFrames : measuredWidth / 2;
+
+		frameGains = new int[makeSize];
+		for(int i = start, j = 0 ; i < start + makeSize ; i++ , j++) {
+			try {
+				frameGains[j] = mJSONArray.getInt(i);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
-	}
-
-	public void setPartDrawData(int number, double[] ds) {
-		double[] waveDataPart;
-
-		if (index == drawData.length) {
-			for (int i = number; i < drawData.length ; i++) {
-				drawData[i - number] = drawData[i];
+		// 일단 복사
+		double[] smoothedGains = new double[makeSize];
+		if (makeSize == 1) {
+			smoothedGains[0] = frameGains[0];
+		} else if (makeSize == 2) {
+			smoothedGains[0] = frameGains[0];
+			smoothedGains[1] = frameGains[1];
+		} else if (makeSize > 2) {
+			smoothedGains[0] = (double)((frameGains[0] / 2.0) + (frameGains[1] / 2.0));
+			for (int i = 2; i < makeSize - 1; i++) {
+				smoothedGains[i] = (double)((frameGains[i - 1] / 3.0) + (frameGains[i] / 3.0) + (frameGains[i + 1] / 3.0));
 			}
-			index = index - number ;
+			smoothedGains[makeSize - 1] = (double)((frameGains[makeSize - 2] / 2.0) + (frameGains[makeSize - 1] / 2.0));
 		}
 
-		waveDataPart = Arrays.copyOfRange(ds, 0, ds.length / number * 1);
-		Arrays.sort(waveDataPart);
-		drawData[index++] = waveDataPart[waveDataPart.length - 1];
-
-		for(int i = 1 ; i < number ; i ++) {
-			waveDataPart = Arrays.copyOfRange(ds, ds.length / number * i, ds.length / number * (i + 1));
-			Arrays.sort(waveDataPart);
-			drawData[index++] = waveDataPart[waveDataPart.length - 1];
+		// 최대값 찾기
+		double maxGain = 1.0;
+		for (int i = 0; i < makeSize; i++) {
+			if (smoothedGains[i] > maxGain) {
+				maxGain = smoothedGains[i];
+			}
 		}
-	}
 
-	public void setDrawData(int size) {
-		drawData = new double[size];
-		for(int i = 0 ; i < drawData.length ; i++) {
-			drawData[i] = 0;
+		// 비율구하기
+		double scaleFactor = 1.0;
+		if (maxGain > 255.0) {
+			scaleFactor = 255 / maxGain;
 		}
-	}
 
-	public void clearWaveData() {
-		data = null;
-		index = 0;
-		drawData = new double[drawData.length];
+		// 비율구한것 가지고 곱해서 최대값 찾기 (최대높이?)
+		maxGain = 0;
+		int gainHist[] = new int[256];
+		for (int i = 0; i < makeSize; i++) {
+			int smoothedGain = (int)(smoothedGains[i] * scaleFactor);
+			if (smoothedGain < 0)
+				smoothedGain = 0;
+			if (smoothedGain > 255)
+				smoothedGain = 255;
+
+			if (smoothedGain > maxGain)
+				maxGain = smoothedGain;
+
+			gainHist[smoothedGain]++;
+		}
+
+		// Re-calibrate the min to be 5%
+		double minGain = 0;
+		int sum = 0;
+		while (minGain < 255 && sum < makeSize / 20) {
+			sum += gainHist[(int)minGain];
+			minGain++;
+		}
+
+		// Re-calibrate the max to be 99%
+		sum = 0;
+		while (maxGain > 2 && sum < makeSize / 100) {
+			sum += gainHist[(int)maxGain];
+			maxGain--;
+		}
+
+		// Compute the heights
+		double[] heights = new double[makeSize];
+		double range = maxGain - minGain;
+		for (int i = 0; i < makeSize; i++) {
+			double value = (smoothedGains[i] * scaleFactor - minGain) / range;
+			if (value < 0.0)
+				value = 0.0;
+			if (value > 1.0)
+				value = 1.0;
+			heights[i] = value * value;
+		}
+
+		int mLenByZoomLevel;
+		double[] mValuesByZoomLevel;
+
+		// Level 0 is doubled, with interpolated values
+		mLenByZoomLevel = makeSize * 2;
+		mValuesByZoomLevel = new double[mLenByZoomLevel];
+		if (makeSize > 0) {
+			mValuesByZoomLevel[0] = 0.5 * heights[0];
+			mValuesByZoomLevel[1] = heights[0];
+		}
+		for (int i = 1; i < makeSize; i++) {
+			mValuesByZoomLevel[2 * i] = 0.5 * (heights[i - 1] + heights[i]);
+			mValuesByZoomLevel[2 * i + 1] = heights[i];
+		}
+
+		int halfHeight = (getMeasuredHeight() / 2) - 1;
+		mHeightsAtThisZoomLevel = new int[mLenByZoomLevel];
+		for (int i = 0; i < mLenByZoomLevel; i++) {
+			mHeightsAtThisZoomLevel[i] = (int)(mValuesByZoomLevel[i] * halfHeight);
+		}
 		fireInvalidate();
-	}
-
-	private void drawWaveLine(Canvas canvas, double value, float x, float y, int height) {
-		float nextY = height * -1 * (float)(value - 1.0) / 2.0f;
-		canvas.drawLine(x, y, x, nextY, waveBaseLine);
 	}
 
 	public void addWaveData(byte[] data) {
-		this.data = data;
-		fireInvalidate();
+		ShortBuffer shortBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
+		int mNumSamples = shortBuffer.capacity();
+		int gain, value;
+		shortBuffer.rewind();
+
+		gain = -1;
+		for(int i = 0 ; i < mNumSamples; i++) {
+			value = java.lang.Math.abs(shortBuffer.get());
+			if (gain < value) {
+				gain = value;
+			}
+		}
+		mJSONArray.put((int) Math.sqrt(gain));
+		numFrames++;
+		setDrawData();
+	}
+
+	public JSONArray getJsonArray(){
+		return mJSONArray;
 	}
 
 	private void fireInvalidate() {
@@ -132,46 +221,5 @@ public class RecodWaveformView extends View {
 				RecodWaveformView.this.invalidate();
 			}
 		});
-	}
-
-	public static double[] convertWaveData(byte[] waveData) {
-		double[] result = new double[waveData.length / 2];
-		for (int index = 0; index < result.length; index++) {
-			double d = (short) ((waveData[index * 2 + 1] << 8) + (waveData[index * 2] & 0xff));
-			d /= Short.MAX_VALUE;
-			result[index] = d;
-		}
-		return result;
-	}
-
-	public static double[][] convertPlotData(double[] ds, int count) {
-		double[][] result = new double[count][];
-		int interval = ds.length / count;
-		int remainder = ds.length % count;
-
-		int resultIndex = 0;
-		for (int index = 0, counter = 0; index < ds.length; index++, counter++) {
-			if (counter >= interval) {
-				if (remainder > 0 && counter == interval) {
-					remainder--;
-				} else {
-					resultIndex++;
-					counter = 0;
-				}
-			}
-			double d = ds[index];
-			if (counter == 0) {
-				double[] work = new double[2];
-				work[d < 0 ? 1 : 0] = d;
-				result[resultIndex] = work;
-			} else {
-				if (d >= 0 && d > result[resultIndex][0]) {
-					result[resultIndex][0] = d;
-				} else if (d < 0 && d < result[resultIndex][1]) {
-					result[resultIndex][1] = d;
-				}
-			}
-		}
-		return result;
 	}
 }

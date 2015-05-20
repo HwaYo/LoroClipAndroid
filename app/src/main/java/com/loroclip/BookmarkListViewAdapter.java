@@ -19,7 +19,7 @@ public class BookmarkListViewAdapter extends BaseAdapter {
     private List<Bookmark> mBookmarks;
 
     public BookmarkListViewAdapter() {
-        mBookmarks = Bookmark.listAll(Bookmark.class);
+        mBookmarks = Bookmark.listExists(Bookmark.class);
     }
 
     @Override

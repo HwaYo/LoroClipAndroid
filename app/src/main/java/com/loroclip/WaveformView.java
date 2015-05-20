@@ -665,11 +665,11 @@ public class WaveformView extends View {
         }
     }
 
-
-
-    public void addBookmarkHistory(BookmarkHistory current_bookmark) {
-        bookmarkHistoryList.add(current_bookmark);
+    public void addBookmarkHistory(BookmarkHistory bookmark) {
+        bookmarkHistoryList.add(bookmark);
     }
 
-
+    public void removeBookmarkHistory(BookmarkHistory bookmark) {
+        bookmarkHistoryList.remove(bookmark);
+    }
 }

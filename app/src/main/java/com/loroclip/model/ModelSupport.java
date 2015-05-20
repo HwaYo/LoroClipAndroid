@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by angdev on 15. 5. 18..
@@ -14,6 +15,10 @@ public abstract class ModelSupport<T extends ModelSupport> extends SugarRecord<T
     private Date createdAt;
     @SerializedName("updated_at")
     private Date updatedAt;
+
+    public static <T extends SugarRecord> List<T> listExists(Class<T> type) {
+        return T.find(type, "deleted = ?", "0");
+    }
 
     public boolean isDeleted() {
         return deleted;
