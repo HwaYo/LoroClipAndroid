@@ -146,8 +146,6 @@ public class LoroClipEditActivity extends Activity
 
         if (!mFilename.equals("record")) {
             loadFromFile();
-        } else {
-            recordAudio();
         }
     }
 
@@ -390,8 +388,7 @@ public class LoroClipEditActivity extends Activity
     private void loadFromFile() {
         mFile = new File(mFilename);
 
-        SongMetadataReader metadataReader = new SongMetadataReader(
-            this, mFilename);
+        SongMetadataReader metadataReader = new SongMetadataReader(this, mFilename);
         mTitle = metadataReader.mTitle;
         mArtist = metadataReader.mArtist;
 
@@ -495,111 +492,6 @@ public class LoroClipEditActivity extends Activity
         mLoadSoundFileThread.start();
     }
 
-    private void recordAudio() {
-        mFile = null;
-        mTitle = null;
-        mArtist = null;
-
-        mRecordingLastUpdateTime = getCurrentTime();
-        mRecordingKeepGoing = true;
-        mFinishActivity = false;
-        AlertDialog.Builder adBuilder = new AlertDialog.Builder(LoroClipEditActivity.this);
-        adBuilder.setTitle(getResources().getText(R.string.progress_dialog_recording));
-        adBuilder.setCancelable(true);
-        adBuilder.setNegativeButton(
-            getResources().getText(R.string.progress_dialog_cancel),
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    mRecordingKeepGoing = false;
-                    mFinishActivity = true;
-                }
-            });
-        adBuilder.setPositiveButton(
-            getResources().getText(R.string.progress_dialog_stop),
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    mRecordingKeepGoing = false;
-                }
-            });
-        // TODO(nfaralli): try to use a FrameLayout and pass it to the following inflate call.
-        // Using null, android:layout_width etc. may not work (hence text is at the top of view).
-        // On the other hand, if the text is big enough, this is good enough.
-        adBuilder.setView(getLayoutInflater().inflate(R.layout.record_audio, null));
-        mAlertDialog = adBuilder.show();
-        mTimerTextView = (TextView)mAlertDialog.findViewById(R.id.record_audio_timer);
-
-        final SoundFile.ProgressListener listener =
-            new SoundFile.ProgressListener() {
-                public boolean reportProgress(double elapsedTime) {
-                    long now = getCurrentTime();
-                    if (now - mRecordingLastUpdateTime > 5) {
-                        mRecordingTime = elapsedTime;
-                        // Only UI thread can update Views such as TextViews.
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                int min = (int) (mRecordingTime / 60);
-                                float sec = (float) (mRecordingTime - 60 * min);
-                                mTimerTextView.setText(String.format("%d:%05.2f", min, sec));
-                            }
-                        });
-                        mRecordingLastUpdateTime = now;
-                    }
-                    return mRecordingKeepGoing;
-                }
-            };
-
-        // Record the audio stream in a background thread
-        mRecordAudioThread = new Thread() {
-            public void run() {
-                try {
-                    mSoundFile = SoundFile.record(listener);
-                    if (mSoundFile == null) {
-                        mAlertDialog.dismiss();
-                        Runnable runnable = new Runnable() {
-                            public void run() {
-                                showFinalAlert(
-                                    new Exception(),
-                                    getResources().getText(R.string.record_error)
-                                );
-                            }
-                        };
-                        mHandler.post(runnable);
-                        return;
-                    }
-//                    mPlayer = new SamplePlayer(mSoundFile);
-                } catch (final Exception e) {
-                    mAlertDialog.dismiss();
-                    e.printStackTrace();
-                    mInfoContent = e.toString();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mInfo.setText(mInfoContent);
-                        }
-                    });
-
-                    Runnable runnable = new Runnable() {
-                        public void run() {
-                            showFinalAlert(e, getResources().getText(R.string.record_error));
-                        }
-                    };
-                    mHandler.post(runnable);
-                    return;
-                }
-                mAlertDialog.dismiss();
-                if (mFinishActivity){
-                    LoroClipEditActivity.this.finish();
-                } else {
-                    Runnable runnable = new Runnable() {
-                        public void run() {
-                            finishOpeningSoundFile();
-                        }
-                    };
-                    mHandler.post(runnable);
-                }
-            }
-        };
-        mRecordAudioThread.start();
-    }
 
     private void finishOpeningSoundFile() {
         mWaveformView.setSoundFile(mSoundFile);
@@ -620,7 +512,6 @@ public class LoroClipEditActivity extends Activity
         mCaption =
             mSoundFile.getFiletype() + ", " +
                 mSoundFile.getSampleRate() + " Hz, " +
-                mSoundFile.getAvgBitrateKbps() + " kbps, " +
                 formatTime(mMaxPos) + " " +
                 getResources().getString(R.string.time_seconds);
         mInfo.setText(mCaption);
