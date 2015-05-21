@@ -27,12 +27,14 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 public class SoundFile {
     private ProgressListener mProgressListener = null;
     private File mInputFile = null;
 
     // Member variables representing frame data
+    private Record mRecord;
     private String mFileType;
     private int mFileSize;
     private int mSampleRate;
@@ -61,13 +63,13 @@ public class SoundFile {
     }
 
     // Create and return a SoundFile object using the file fileName.
-    public static SoundFile create(String fileName, ProgressListener progressListener)
+    public static SoundFile create(Record record, ProgressListener progressListener)
         throws java.io.FileNotFoundException,
         java.io.IOException, InvalidInputException {
         // First check that the file exists and that its extension is supported.
-        File f = new File(fileName);
+        File f = record.getLocalFile();
         if (!f.exists()) {
-            throw new java.io.FileNotFoundException(fileName);
+            throw new java.io.FileNotFoundException(f.getAbsolutePath());
         }
         String name = f.getName().toLowerCase();
         String[] components = name.split("\\.");
@@ -77,7 +79,7 @@ public class SoundFile {
         if (!Arrays.asList(getSupportedExtensions()).contains(components[components.length - 1])) {
             return null;
         }
-        SoundFile soundFile = new SoundFile();
+        SoundFile soundFile = new SoundFile(record);
         soundFile.setProgressListener(progressListener);
         soundFile.ReadFile(f);
         return soundFile;
@@ -114,7 +116,9 @@ public class SoundFile {
 
 
     // A SoundFile object should only be created using the static methods create() and record().
-    private SoundFile() {}
+    private SoundFile(Record record) {
+        this.mRecord = record;
+    }
 
     private void setProgressListener(ProgressListener progressListener) {
         mProgressListener = progressListener;
@@ -148,10 +152,13 @@ public class SoundFile {
         mSampleRate = format.getInteger(MediaFormat.KEY_SAMPLE_RATE);
 
         try {
-            Record r = Record.find(Record.class, "file = ?", mInputFile.getAbsolutePath()).get(0);
-            FrameGains fg = FrameGains.find(FrameGains.class, "record = ?", String.valueOf(r.getId())).get(0);
-            JSONArray testJSON = new JSONArray(fg.getFrames());
-            mFrameGains = Util.JSONArrayToIntArray(testJSON);
+            List<FrameGains> frameGainsArray = mRecord.getFrameGains();
+            if (frameGainsArray.isEmpty()) {
+                return;
+            }
+
+            JSONArray frameGainsJSON = new JSONArray(frameGainsArray.get(0).getFrames());
+            mFrameGains = Util.JSONArrayToIntArray(frameGainsJSON);
             mNumFrames = mFrameGains.length;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,23 +1,19 @@
 package com.loroclip.model;
 
-import com.orm.SugarRecord;
-
 /**
  * Created by minhyeok on 5/18/15.
  */
-public class FrameGains extends SugarRecord<FrameGains> {
-  String frames;
+public class FrameGains extends ModelSupport<FrameGains> {
+  private String frames;
+  private Record record;
 
-  Record record;
+  public FrameGains() {}
 
   public String getFrames() {
     return frames;
   }
 
-  public FrameGains() {
-  }
-
-  public FrameGains(String frames) {
+  public void setFrames(String frames) {
     this.frames = frames;
   }
 

@@ -20,7 +20,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -39,13 +38,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loroclip.model.BookmarkHistory;
-import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.RecordActivity;
 import com.loroclip.record.RecordListAdapter;
 
-import java.io.File;
 import java.util.List;
 
 public class LoroClipSelectActivity extends ListActivity {
@@ -53,13 +49,14 @@ public class LoroClipSelectActivity extends ListActivity {
     private final String AUDIO_OGG_EXTENSION = ".ogg";
 
     // Result codes
+    private static final int REQUEST_CODE_NEW = 0;
     private static final int REQUEST_CODE_EDIT = 1;
 
     // Context menu
     private static final int CMD_RENAME = 4;
     private static final int CMD_DELETE = 5;
-    private String selectedFileName;
 
+    private List<Record> mRecords;
     private RecordListAdapter mAdapter;
 
     private AlertDialog dialog;
@@ -90,16 +87,16 @@ public class LoroClipSelectActivity extends ListActivity {
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.media_select);
 
-        mAdapter = new RecordListAdapter();
+        mRecords = Record.listExists(Record.class);
+        mAdapter = new RecordListAdapter(mRecords);
 
         getListView().setAdapter(mAdapter);
         getListView().setItemsCanFocus(true);
 
         // Normal click - open the editor
         getListView().setOnItemClickListener(new OnItemClickListener() {public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String fileName = getfileNameFromRowView(view);
-                String filePath = getFilePathFromFileName(fileName);
-                startLoroClipEditor(filePath);
+            Record record = mRecords.get(position);
+                startLoroClipEditor(record);
             }
         });
 
@@ -110,7 +107,6 @@ public class LoroClipSelectActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mAdapter.notifyDataSetChanged();
     }
 
     private String getFilePathFromFileName(String fileName) {
@@ -125,13 +121,19 @@ public class LoroClipSelectActivity extends ListActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent dataIntent) {
-        if (requestCode != REQUEST_CODE_EDIT) {
-            return;
-        }
-
         if (resultCode != RESULT_OK) {
             return;
         }
+
+        long recordId = dataIntent.getLongExtra("record_id", 0);
+        if (recordId != 0) {
+            Record record = Record.findById(Record.class, recordId);
+            if (record != null) {
+                mRecords.add(record);
+            }
+        }
+
+        mAdapter.notifyDataSetChanged();
 
         setResult(RESULT_OK, dataIntent);
         //finish();  // TODO(nfaralli): why would we want to quit the app here?
@@ -169,32 +171,37 @@ public class LoroClipSelectActivity extends ListActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        selectedFileName = getfileNameFromRowView(((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.findViewById(android.R.id.text1));
+//        selectedFileName = getfileNameFromRowView(((AdapterView.AdapterContextMenuInfo) menuInfo).targetView.findViewById(android.R.id.text1));
         menu.add(0, CMD_RENAME, 0, R.string.context_menu_edit);
         menu.add(0, CMD_DELETE, 0, R.string.context_menu_delete);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
         switch (item.getItemId()) {
             case CMD_RENAME:
-                changeNameDialog();
+                changeTitleDialog(info.position);
                 return true;
             case CMD_DELETE:
-                confirmDelete();
+                confirmDelete(info.position);
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
-    private void confirmDelete() {
+    private void confirmDelete(int position) {
+        final Record record = mRecords.get(position);
+
         new AlertDialog.Builder(LoroClipSelectActivity.this)
             .setTitle(R.string.delete_music)
             .setMessage(R.string.confirm_delete_loroclip)
             .setPositiveButton(R.string.delete_ok_button,new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    onDelete();
+                    onDelete(record);
+                    mAdapter.notifyDataSetChanged();
                 }
             })
             .setNegativeButton(R.string.delete_cancel_button, new DialogInterface.OnClickListener() {
@@ -204,11 +211,13 @@ public class LoroClipSelectActivity extends ListActivity {
             .show();
     }
 
-    private void changeNameDialog() {
+    private void changeTitleDialog(int position) {
+        final Record record = mRecords.get(position);
+
         final View view = LayoutInflater.from(this).inflate(R.layout.save_dialog, null);
         EditText saveFile = (EditText)view.findViewById(R.id.filenameEditText);
 
-        saveFile.setText(selectedFileName);
+        saveFile.setText(record.getTitle());
         saveFile.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -233,8 +242,8 @@ public class LoroClipSelectActivity extends ListActivity {
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String filename = ((EditText) view.findViewById(R.id.filenameEditText)).getText().toString();
-                    onChangeFileName(filename);
+                    String title = ((EditText) view.findViewById(R.id.filenameEditText)).getText().toString();
+                    onChangeTitle(record, title);
                     mAdapter.notifyDataSetChanged();
                 }
             })
@@ -246,36 +255,13 @@ public class LoroClipSelectActivity extends ListActivity {
         saveFile.requestFocus();
     }
 
-    private void onChangeFileName(String newFileName) {
-
-        // 파일이름 변경
-        String fromFilePath = LOROCLIP_PATH + selectedFileName + AUDIO_OGG_EXTENSION;
-        String newFilePath = LOROCLIP_PATH + newFileName + AUDIO_OGG_EXTENSION;
-        File from = new File(fromFilePath);
-        File to = new File(newFilePath);
-        from.renameTo(to);
-
-
-        //** DB 변경 **//
-        // TODO 파일이름 변경 (파일 롱클릭 이름변경 승인 누를시 - FrameGain과 Bookmark도 변경해야 할듯)
-
-        // Record
-        Record r = Record.find(Record.class, "title = ?", selectedFileName).get(0);
-        r.setTitle(newFileName);
-        r.setFile(newFilePath);
-        r.save();
-
-        // FrameGain
-        FrameGains fg = FrameGains.find(FrameGains.class, "record = ?", String.valueOf(r.getId())).get(0);
-        fg.setRecord(r);
-        fg.save();
-
-        // BookMark
-        List<BookmarkHistory> h = BookmarkHistory.find(BookmarkHistory.class, "filename = ?", fromFilePath);
-        for(BookmarkHistory item : h) {
-            item.setFilename(newFilePath);
-            item.save();
+    private void onChangeTitle(Record record, String newTitle) {
+        if (record == null) {
+            return;
         }
+
+        record.setTitle(newTitle);
+        record.save();
 
         final android.os.Handler handler = new android.os.Handler();
 
@@ -287,16 +273,9 @@ public class LoroClipSelectActivity extends ListActivity {
         });
     }
 
-    private void onDelete() {
-        if (!selectedFileName.isEmpty()) {
-            if (new File(getFilePathFromFileName(selectedFileName)).delete()) {
-                // TODO 디비지우는것 (파일 롱클릭 삭제누를시 - FrameGain과 Bookmark도 지워야 할듯)
-                Record.deleteAll(Record.class, "title = ?", selectedFileName);
-                mAdapter.notifyDataSetChanged();
-            } else{
-                showFinalAlert(getResources().getText(R.string.delete_failed));
-            }
-        }
+    private void onDelete(Record record) {
+        mRecords.remove(record);
+        record.delete();
     }
 
     private void showFinalAlert(CharSequence message) {
@@ -315,17 +294,17 @@ public class LoroClipSelectActivity extends ListActivity {
     private void onRecord() {
         try {
             Intent i = new Intent(LoroClipSelectActivity.this, RecordActivity.class);
-            startActivity(i);
+            startActivityForResult(i, REQUEST_CODE_NEW);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
         }
     }
 
-    private void startLoroClipEditor(String filePath) {
+    private void startLoroClipEditor(Record record) {
         try {
-            Intent intent = new Intent(Intent.ACTION_EDIT, Uri.parse(filePath));
-            intent.setClassName( "com.loroclip", "com.loroclip.LoroClipEditActivity");
-            startActivityForResult(intent, REQUEST_CODE_EDIT);
+            Intent intent = new Intent(this, LoroClipEditActivity.class);
+            intent.putExtra("record_id", record.getId());
+            startActivity(intent);
         } catch (Exception e) {
             Log.e("LoroClip", "Couldn't start editor");
         }
