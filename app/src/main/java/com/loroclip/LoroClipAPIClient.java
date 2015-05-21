@@ -28,7 +28,7 @@ import retrofit.mime.TypedString;
  */
 
 public class LoroClipAPIClient {
-    private static final String API_ENDPOINT = "http://parrot.172.16.101.81.xip.io/api/v1";
+    private static final String API_ENDPOINT = "http://loroclip-staging.herokuapp.com/api/v1";
     private RestAdapter mRestAdapter;
     private String mAccessToken;
 
