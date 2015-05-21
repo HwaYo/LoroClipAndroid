@@ -4,6 +4,7 @@ package com.loroclip.record;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -49,7 +50,6 @@ public class RecordActivity extends Activity {
     recordStopButton = (Button) findViewById(R.id.recordStop);
     recordRestartButton = (Button) findViewById(R.id.recordRestart);
 
-
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayView);
     waveformView = new RecodWaveformView(getBaseContext());
     displayLayout.addView(waveformView);
@@ -57,7 +57,6 @@ public class RecordActivity extends Activity {
     this.recorderHandler = new RecorderHandler();
     this.timerHandler = new TimerHandler();
     addEventListener();
-
   }
 
   @Override
@@ -183,6 +182,16 @@ public class RecordActivity extends Activity {
 
       from.renameTo(to);
 
+      Record record = new Record();
+      record.setLocalFile(to);
+      record.setTitle(fileName);
+      record.save();
+
+      FrameGains fg = new FrameGains();
+      fg.setFrames(waveformView.getJsonArray().toString());
+      fg.setRecord(record);
+      fg.save();
+
       handler.post(new Runnable() {
         @Override
         public void run() {
@@ -190,14 +199,9 @@ public class RecordActivity extends Activity {
         }
       });
 
-      Record record = new Record();
-      record.setFile(newFilePath);
-      record.setTitle(fileName);
-      record.save();
-
-      FrameGains fg = new FrameGains(waveformView.getJsonArray().toString());
-      fg.setRecord(record);
-      fg.save();
+      Intent intent = new Intent();
+      intent.putExtra("record_id", record.getId());
+      setResult(Activity.RESULT_OK, intent);
       finish();
     }
 

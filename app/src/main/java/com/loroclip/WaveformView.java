@@ -27,7 +27,6 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.soundfile.SoundFile;
 import com.loroclip.util.Util;
@@ -101,7 +100,7 @@ public class WaveformView extends View {
     private Paint mBookmarkLinePaint;
     private int bmStart;
     private boolean isBookmarking;
-    private List<BookmarkHistory> bookmarkHistroyList;
+    private List<BookmarkHistory> bookmarkHistoryList;
     private String mFilename;
 
 
@@ -201,7 +200,7 @@ public class WaveformView extends View {
         currentBookmarkPaint = new Paint();
         currentBookmarkPaint.setAntiAlias(false);
 
-        bookmarkHistroyList = new ArrayList<BookmarkHistory>();
+        bookmarkHistoryList = new ArrayList<BookmarkHistory>();
     }
 
     @Override
@@ -270,7 +269,7 @@ public class WaveformView extends View {
             mOffset = offsetCenter - getMeasuredWidth() / 2;
             if (mOffset < 0)
                 mOffset = 0;
-            for (BookmarkHistory bh : bookmarkHistroyList) {
+            for (BookmarkHistory bh : bookmarkHistoryList) {
                 bh.setStart(bh.getStart() * 2);
                 bh.setEnd(bh.getEnd() * 2);
             }
@@ -294,7 +293,7 @@ public class WaveformView extends View {
             if (mOffset < 0)
                 mOffset = 0;
             mHeightsAtThisZoomLevel = null;
-            for (BookmarkHistory bh : bookmarkHistroyList) {
+            for (BookmarkHistory bh : bookmarkHistoryList) {
                 bh.setStart(bh.getStart() / 2);
                 bh.setEnd(bh.getEnd() / 2);
             }
@@ -367,10 +366,6 @@ public class WaveformView extends View {
         this.isBookmarking = isBookmarking;
     }
 
-    public void refreshBookmarkHistroyList() {
-        bookmarkHistroyList = BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename);
-    }
-
     public boolean isBookmarking() {
         return isBookmarking;
     }
@@ -391,24 +386,15 @@ public class WaveformView extends View {
     }
 
     public void drawBookmarkLine(Canvas canvas, int measuredHeight) {
-        for (BookmarkHistory bookmarkHistory : bookmarkHistroyList) {
+        for (BookmarkHistory bookmarkHistory : bookmarkHistoryList) {
             mBookmarkLinePaint.setColor(bookmarkHistory.getColor());
-            int start = millisecsToPixels(bookmarkHistory.getStart());
-            int end = millisecsToPixels(bookmarkHistory.getEnd());
+            int start = millisecsToPixels(bookmarkHistory.getStartMiiliseconds());
+            int end = millisecsToPixels(bookmarkHistory.getEndMiliseconds());
 
             for (int k = start; k <= end; k++) {
                 canvas.drawLine(k - mOffset + 0.5f, 0, k - mOffset + 0.5f, measuredHeight, mBookmarkLinePaint);
             }
         }
-    }
-
-    private boolean hasBookmarkHistory() {
-        if (BookmarkHistory.find(BookmarkHistory.class, "filename = ?", mFilename).size() >= 1){
-            return true;
-        } else {
-            return false;
-        }
-
     }
 
     protected void drawWaveformLine(Canvas canvas,
@@ -679,11 +665,11 @@ public class WaveformView extends View {
         }
     }
 
-
-
-    public void addBookmarkHistory(BookmarkHistory current_bookmark) {
-        bookmarkHistroyList.add(current_bookmark);
+    public void addBookmarkHistory(BookmarkHistory bookmark) {
+        bookmarkHistoryList.add(bookmark);
     }
 
-
+    public void removeBookmarkHistory(BookmarkHistory bookmark) {
+        bookmarkHistoryList.remove(bookmark);
+    }
 }

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.loroclip.model.BookmarkHistory;
@@ -28,7 +27,7 @@ public class SavedBookmarkHistoryListAdapter extends BaseAdapter {
 
             @Override
             public int compare(BookmarkHistory bh1, BookmarkHistory bh2) {
-                return bh1.getStart() - bh2.getStart();
+                return bh1.getStartMiiliseconds() - bh2.getStartMiiliseconds();
             }
         });
     }
@@ -64,7 +63,7 @@ public class SavedBookmarkHistoryListAdapter extends BaseAdapter {
             bookmarkColor.setBackgroundColor(bookmarkHistory.getColor());
 
             TextView bookmarkStartTime = (TextView)view.findViewById(R.id.bookmarkStartTime);
-            bookmarkStartTime.setText(Util.milliSecondsToMinutesStr(bookmarkHistory.getStart()));
+            bookmarkStartTime.setText(Util.milliSecondsToMinutesStr(bookmarkHistory.getStartMiiliseconds()));
         }
         return view;
     }

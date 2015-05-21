@@ -1,42 +1,65 @@
 package com.loroclip.model;
 
-import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 /**
  * Created by minhyeok on 5/12/15.
  */
-public class BookmarkHistory extends SugarRecord<BookmarkHistory>{
-    private int start;
-    private int end;
-    private String name;
-    private int color;
-    private String filename;
+public class BookmarkHistory extends SyncableModel<BookmarkHistory>{
+    private float start;
+    private float end;
 
+    @Ignore
+    public String record_uuid;
     private Record record;
+
+    @Ignore
+    public String bookmark_uuid;
+    private Bookmark bookmark;
 
     public BookmarkHistory() {
     }
 
-    public BookmarkHistory(int start, String filename, int color, String name) {
-        this.filename = filename;
-        this.color = color;
-        this.name = name;
-        this.start = start;
+    public BookmarkHistory(Record record, Bookmark bookmark) {
+        this.record = record;
+        this.bookmark = bookmark;
     }
 
-    public int getStart() {
+    public String getName() {
+        if (bookmark == null) {
+            return "undefined";
+        }
+        return bookmark.getName();
+    }
+
+    public int getColor() {
+        if (bookmark == null) {
+            return 0;
+        }
+        return bookmark.getColor();
+    }
+
+    public float getStart() {
         return start;
     }
 
-    public void setStart(int start) {
+    public int getStartMiiliseconds() {
+        return (int) (start * 1000);
+    }
+
+    public void setStart(float start) {
         this.start = start;
     }
 
-    public int getEnd() {
+    public float getEnd() {
         return end;
     }
 
-    public void setEnd(int end) {
+    public int getEndMiliseconds() {
+        return (int) (end * 1000);
+    }
+
+    public void setEnd(float end) {
         this.end = end;
     }
 
@@ -48,27 +71,44 @@ public class BookmarkHistory extends SugarRecord<BookmarkHistory>{
         this.record = record;
     }
 
-    public String getName() {
-        return name;
+    public Bookmark getBookmark() {
+        return bookmark;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBookmark(Bookmark bookmark) {
+        this.bookmark = bookmark;
     }
 
-    public int getColor() {
-        return color;
+    @Override
+    public void beforeSave() {
+        if (record_uuid != null) {
+            record = Record.findByUuid(Record.class, record_uuid);
+        }
+
+        if (bookmark_uuid != null) {
+            bookmark = Bookmark.findByUuid(Bookmark.class, bookmark_uuid);
+        }
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    @Override
+    public void decorate() {
+        super.decorate();
+        if (record != null) {
+            record_uuid = record.getUuid();
+        }
+        if (bookmark != null) {
+            bookmark_uuid = bookmark.getUuid();
+        }
     }
 
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
+    @Override
+    public void overwrite(BookmarkHistory bookmarkHistory) {
+        super.overwrite(bookmarkHistory);
+        this.start = bookmarkHistory.start;
+        this.end = bookmarkHistory.end;
+        this.record_uuid = bookmarkHistory.record_uuid;
+        this.bookmark_uuid = bookmarkHistory.bookmark_uuid;
+        this.record = bookmarkHistory.record;
+        this.bookmark = bookmarkHistory.bookmark;
     }
 }

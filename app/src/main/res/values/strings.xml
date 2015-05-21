@@ -161,10 +161,38 @@
     <!--
      About
      -->
+
+    <string name="about_title">About LoroClip</string>
+    <string name="about_text"><![CDATA[Use LoroClip to edit MP3, WAV, AAC, and AMR audio files and create ringtones, alarms, and notifications from them.\n\nTip: copy audio files to your SD card using a USB cable, or get MP3s using the Amazon MP3 application.\n\nTip: tap anywhere on the waveform to start playing at that position.\n\nTip: while playing, tap the word Start or End to quickly set the start and end markers to the current playback time.\n\nVersion 2.7\n\nDeveloper: Dominic Mazzoni, Nicolas Faralli\nGraphics: Joseph Wain\nSupport and evangelizing: Eugene Koh\nEnhancements: Dan Klufas\n\nLoroClip is free software, distributed under the Apache 2.0 license.\n]]></string>
+
+    <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_record">RecordActivity</string>
 
+    <string name="facebook_app_id">369921866546593</string>
+
+
+    <!-- Strings by DevSusu -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_record_list">RecordListActivity</string>
+    <string name="action_sync">Sync</string>
+    <string name="agree">agree</string>
+    <string name="disagree">disagree</string>
+    <string name="edit_record">Edit Record</string>
+
+    <!-- added by DevSusu on 5.21 -->
+    <string name="discard_record">Discard</string>
+    <string name="discard_confirm">Recording would not be saved!</string>
+
+    <string name="discard">Discard</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="save_record">Save Recording</string>
+    <string name="set_record_name">Edit your record name</string>
+    
+    <string name="edit_name">Edit Filename</string>
+    
+    <string name="delete_audio_confirm">Sure to delete?</string>
+    <string name="delete">delete</string>
+
 
 </resources>

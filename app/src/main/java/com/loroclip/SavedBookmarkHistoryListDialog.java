@@ -7,14 +7,10 @@ import android.content.DialogInterface;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.loroclip.model.BookmarkHistory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by minhyeok on 5/13/15.
@@ -41,7 +37,7 @@ public class SavedBookmarkHistoryListDialog extends Dialog {
         bookmarkHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                response.arg1 = bookmarkHistoryList.get(i).getStart();
+                response.arg1 = bookmarkHistoryList.get(i).getStartMiiliseconds();
                 response.sendToTarget();
                 dismiss();
             }
