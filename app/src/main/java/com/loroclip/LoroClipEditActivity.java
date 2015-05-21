@@ -794,6 +794,11 @@ public class LoroClipEditActivity extends Activity
             if (mPlayer.isPlaying()) {
                 if (mWaveformView.isBookmarking()) {
                     saveEndBookmarkHistory();
+
+                    if (!current_bookmark.getName().equals(bookmark.getName())){
+                        saveStartBookmarkHistory(view, bookmark);
+                    }
+
                 } else {
                     saveStartBookmarkHistory(view, bookmark);
                 }
