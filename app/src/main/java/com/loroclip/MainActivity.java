@@ -44,15 +44,19 @@ public class MainActivity extends ActionBarActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(OrientationHelper.VERTICAL);
 
+//        Paint border = new Paint();
+//        border.setStrokeWidth(0.1f);
+//        border.setColor(Color.GRAY);
+
         recordList.setLayoutManager(manager);
         recordList.setAdapter(recordListAdapter);
         recordList.addItemDecoration(
-                                        new HorizontalDividerItemDecoration
-                                                .Builder(this)
-                                            .sizeResId(R.dimen.divider)
-                                            .color(Color.GRAY)
-                                            .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                                            .build());
+                new HorizontalDividerItemDecoration
+                        .Builder(this)
+                        .sizeResId(R.dimen.divider)
+                        .color(Color.GRAY)
+                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                        .build());
 
         // Floating Button on Bottom Right Corner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

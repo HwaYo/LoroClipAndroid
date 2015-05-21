@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.loroclip.model.Record;
 
@@ -138,37 +140,30 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     }
 
     private void showChangeTitleDialog(int position) {
-        final AlertDialog dialog;
         final Record record = mRecords.get(position);
 
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.save_dialog, null);
-        EditText saveFile = (EditText) view.findViewById(R.id.filenameEditText);
+        // show a dialog to set filename
+        final MaterialDialog dialog = new MaterialDialog.Builder(mContext)
+                .title(R.string.edit_name)
+                .content(R.string.set_record_name)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input(record.getTitle(), record.getTitle(), new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        String title = dialog.getInputEditText().getText().toString();
+                        Log.i("Edit filename","title : " + title);
+                        changeTitle(record, title);
+                        notifyDataSetChanged();
+                    }
+                }).show();
 
-        saveFile.setText(record.getTitle());
-
-        DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String title = ((EditText) view.findViewById(R.id.filenameEditText)).getText().toString();
-                changeTitle(record, title);
-                notifyDataSetChanged();
-            }
-        };
-
-        dialog = new AlertDialog.Builder(mContext)
-            .setTitle("파일이름변경")
-            .setView(view)
-            .setPositiveButton("OK", okButtonListener)
-            .setNegativeButton("CANCEL", null)
-            .create();;
-
-        saveFile.addTextChangedListener(new TextWatcher() {
+        dialog.getInputEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 0) {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
                 } else {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
                 }
             }
 
@@ -179,9 +174,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         });
 
-        dialog.show();
-        saveFile.setSelection(saveFile.getText().length());
-        saveFile.requestFocus();
+        dialog.getInputEditText().setSelection(dialog.getInputEditText().length());
     }
 
     private void changeTitle(Record record, String newTitle) {
@@ -196,24 +189,19 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     private void showDeleteDialog(int position) {
         final Record record = mRecords.get(position);
 
-        DialogInterface.OnClickListener okButtonListener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                deleteRecord(record);
-                notifyDataSetChanged();
-            }
-        };
-
-        DialogInterface.OnClickListener cancelButtonListener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int whichButton) {}
-        };
-
-        new AlertDialog.Builder(mContext)
-            .setTitle(R.string.delete_music)
-            .setMessage(R.string.confirm_delete_loroclip)
-            .setPositiveButton(R.string.delete_ok_button, okButtonListener)
-            .setNegativeButton(R.string.delete_cancel_button, cancelButtonListener)
-            .setCancelable(true)
-            .show();
+        new MaterialDialog.Builder(mContext)
+                .title(R.string.delete_audio)
+                .content(R.string.delete_audio_confirm)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        deleteRecord(record);
+                        notifyDataSetChanged();
+                    }
+                })
+                .positiveText(R.string.delete)
+                .negativeText(R.string.cancel)
+                .show();
     }
 
     private void deleteRecord(Record record) {

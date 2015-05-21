@@ -42,6 +42,7 @@
   <color name="myAccentColor">#FF4081</color>
   <color name="myDrawerBackground">#DADFF7</color>
   <color name="myWindowBackground">#FFFFFF</color>
+  <color name="myGrayTextColor">#4f000000</color>
   <color name="myTextPrimaryColor">#232C33</color>
   <color name="myNavigationColor">#000</color>
 
