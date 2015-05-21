@@ -9,30 +9,44 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.loroclip.BookmarkListAdapter;
 import com.loroclip.R;
 import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecodWaveformView;
 import com.loroclip.record.recorder.VorbisRecorder;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
-public class RecordActivity extends Activity {
+public class RecordActivity extends ActionBarActivity {
 
-  private Button recordStartButton;
+  private ImageView recordStartButton;
   private Button recordPauseButton;
-  private Button recordStopButton;
+  private ImageView recordStopButton;
   private Button recordRestartButton;
   private RecodWaveformView waveformView;
   private AlertDialog saveDialog;
@@ -40,22 +54,48 @@ public class RecordActivity extends Activity {
   private RecorderHandler recorderHandler;
   private TimerHandler timerHandler;
 
+  private Toolbar mToolbar;
+
+  private BookmarkListAdapter bookmarkListAdapter;
+  private RecyclerView bookmarkRecycler;
+  private LinearLayoutManager manager;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_record);
+    setContentView(R.layout.activity_record_new);
 
-    recordStartButton = (Button) findViewById(R.id.recordStart);
-    recordPauseButton = (Button) findViewById(R.id.recordPause);
-    recordStopButton = (Button) findViewById(R.id.recordStop);
-    recordRestartButton = (Button) findViewById(R.id.recordRestart);
+    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+    setSupportActionBar(mToolbar);
 
-    LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayView);
+    recordStartButton = (ImageView) findViewById(R.id.record_action_img);
+    recordPauseButton = (Button) findViewById(R.id.tmpBtn);
+    recordStopButton = (ImageView) findViewById(R.id.record_done_img);
+    recordRestartButton = (Button) findViewById(R.id.tmpBtn);
+
+    bookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
+    bookmarkListAdapter = new BookmarkListAdapter(this, bookmarkRecycler);
+    manager = new LinearLayoutManager(this);
+    manager.setOrientation(OrientationHelper.VERTICAL);
+
+    bookmarkRecycler.setLayoutManager(manager);
+    bookmarkRecycler.setAdapter(bookmarkListAdapter);
+    bookmarkRecycler.addItemDecoration(
+            new HorizontalDividerItemDecoration
+                    .Builder(this)
+                    .sizeResId(R.dimen.divider)
+                    .color(R.color.myGrayColor)
+                    .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                    .build());
+
+    LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayViewTmp);
     waveformView = new RecodWaveformView(getBaseContext());
+
     displayLayout.addView(waveformView);
 
     this.recorderHandler = new RecorderHandler();
     this.timerHandler = new TimerHandler();
+
     addEventListener();
   }
 
@@ -73,9 +113,9 @@ public class RecordActivity extends Activity {
         recorderHandler.start();
         timerHandler.start();
 
-        recordStartButton.setVisibility(View.GONE);
-        recordPauseButton.setVisibility(View.VISIBLE);
-        recordStopButton.setVisibility(View.VISIBLE);
+//        recordStartButton.setVisibility(View.GONE);
+//        recordPauseButton.setVisibility(View.VISIBLE);
+//        recordStopButton.setVisibility(View.VISIBLE);
       }
     });
 
@@ -85,8 +125,8 @@ public class RecordActivity extends Activity {
         recorderHandler.pause();
         timerHandler.pause();
 
-        recordPauseButton.setVisibility(View.GONE);
-        recordRestartButton.setVisibility(View.VISIBLE);
+//        recordPauseButton.setVisibility(View.GONE);
+//        recordRestartButton.setVisibility(View.VISIBLE);
       }
     });
 
@@ -96,12 +136,12 @@ public class RecordActivity extends Activity {
         recorderHandler.restart();
         timerHandler.restart();
 
-        recordRestartButton.setVisibility(View.GONE);
-        recordPauseButton.setVisibility(View.VISIBLE);
+//        recordRestartButton.setVisibility(View.GONE);
+//        recordPauseButton.setVisibility(View.VISIBLE);
       }
     });
 
-    saveDialog = createSaveDialog();
+//    saveDialog = createSaveDialog();
 
     recordStopButton.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -109,14 +149,13 @@ public class RecordActivity extends Activity {
         recorderHandler.stop();
         timerHandler.stop();
 
-        saveDialog.show();
-        saveDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        saveDialog.setCanceledOnTouchOutside(false);
+//        saveDialog.show();
+        showSaveDialog();
 
-        recordStopButton.setVisibility(View.GONE);
-        recordPauseButton.setVisibility(View.GONE);
-        recordRestartButton.setVisibility(View.GONE);
-        recordStartButton.setVisibility(View.VISIBLE);
+//        recordStopButton.setVisibility(View.GONE);
+//        recordPauseButton.setVisibility(View.GONE);
+//        recordRestartButton.setVisibility(View.GONE);
+//        recordStartButton.setVisibility(View.VISIBLE);
       }
     });
 
@@ -284,5 +323,39 @@ public class RecordActivity extends Activity {
           }
         })
         .create();
+  }
+
+  private void showSaveDialog() {
+    DateFormat format = new SimpleDateFormat("HH:mm, yyyy-MM-dd");
+    String dateString = "Record at " + format.format(Calendar.getInstance().getTime());
+
+    // show a dialog to set filename
+    final MaterialDialog dialog = new MaterialDialog.Builder(this)
+            .title(R.string.edit_name)
+            .content(R.string.set_record_name)
+            .inputType(InputType.TYPE_CLASS_TEXT)
+            .input(dateString, dateString, new MaterialDialog.InputCallback() {
+              @Override
+              public void onInput(MaterialDialog dialog, CharSequence input) {
+                recorderHandler.recordFileSave(input.toString());
+              }
+            }).show();
+
+    dialog.getInputEditText().addTextChangedListener(new TextWatcher() {
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() == 0) {
+          dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+        } else {
+          dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+        }
+      }
+
+      @Override // 입력이 끝났을 때
+      public void afterTextChanged(Editable s) {}
+
+      @Override // 입력하기 전에
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    });
   }
 }

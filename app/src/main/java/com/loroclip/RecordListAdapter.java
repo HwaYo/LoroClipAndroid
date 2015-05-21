@@ -150,9 +150,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
                 .input(record.getTitle(), record.getTitle(), new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        String title = dialog.getInputEditText().getText().toString();
-                        Log.i("Edit filename","title : " + title);
-                        changeTitle(record, title);
+                        changeTitle(record, input.toString());
                         notifyDataSetChanged();
                     }
                 }).show();
