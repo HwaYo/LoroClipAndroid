@@ -468,6 +468,7 @@ public class LoroClipEditActivity extends Activity
                         public void onCompletion(MediaPlayer mediaPlayer) {
                             mPlayer.stop();
                             togglePlayButton();
+                            resetSelection();
                             return;
                         }
                     });
@@ -644,9 +645,6 @@ public class LoroClipEditActivity extends Activity
             int frames = mWaveformView.millisecsToPixels(now);
             mWaveformView.setPlayback(frames);
             setOffsetGoalNoUpdate(frames - mWidth / 2);
-            if (now >= mPlayEndMsec) {
-                handlePause();
-            }
         }
 
         if (!mTouchDragging) {
