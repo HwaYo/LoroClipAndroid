@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/toolbar_actionbar" layout="@layout/toolbar_default"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_elevation"
+            android:background="@drawable/actionbar_shadow" />
+
+    </FrameLayout>
+
+    <!-- Leave as Blank. This is where the waveform comes in -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/record_time_text"
+            android:text="00:00:10"
+            android:gravity="center"
+            android:textSize="25sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:background="@color/myPrimaryDarkColor">
+
+            <ImageView
+                android:id="@+id/record_trash_img"
+                android:src="@drawable/trash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:layout_weight="1"
+                android:clickable="true" />
+
+            <ImageView
+                android:id="@+id/record_action_img"
+                android:src="@drawable/pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:layout_weight="1"
+                android:clickable="true" />
+
+            <ImageView
+                android:id="@+id/record_done_img"
+                android:src="@drawable/done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:layout_weight="1"
+                android:clickable="true" />
+
+        </LinearLayout>
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bookmark_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_elevation"
+                android:background="@drawable/actionbar_shadow" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
