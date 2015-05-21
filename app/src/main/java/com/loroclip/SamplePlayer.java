@@ -126,12 +126,12 @@ class SamplePlayer {
         mPlayThread.start();
     }
 
-    public void pause() {
-        if (isPlaying()) {
-            mAudioTrack.pause();
-            // mAudioTrack.write() should block if it cannot write.
-        }
-    }
+//    public void pause() {
+//        if (isPlaying()) {
+//            mAudioTrack.pause();
+//            // mAudioTrack.write() should block if it cannot write.
+//        }
+//    }
 
     public void stop() {
         if (isPlaying() || isPaused()) {
@@ -149,26 +149,26 @@ class SamplePlayer {
         }
     }
 
-    public void release() {
-        stop();
-        mAudioTrack.release();
-    }
-
-    public void seekTo(int msec) {
-        boolean wasPlaying = isPlaying();
-        stop();
-        mPlaybackStart = (int)(msec * (mSampleRate / 1000.0));
-        if (mPlaybackStart > mNumSamples) {
-            mPlaybackStart = mNumSamples;  // Nothing to play...
-        }
-        mAudioTrack.setNotificationMarkerPosition(mNumSamples - 1 - mPlaybackStart);
-        if (wasPlaying) {
-            start();
-        }
-    }
-
-    public int getCurrentPosition() {
-        return (int)((mPlaybackStart + mAudioTrack.getPlaybackHeadPosition()) *
-                (1000.0 / mSampleRate));
-    }
+//    public void release() {
+//        stop();
+//        mAudioTrack.release();
+//    }
+//
+//    public void seekTo(int msec) {
+//        boolean wasPlaying = isPlaying();
+//        stop();
+//        mPlaybackStart = (int)(msec * (mSampleRate / 1000.0));
+//        if (mPlaybackStart > mNumSamples) {
+//            mPlaybackStart = mNumSamples;  // Nothing to play...
+//        }
+//        mAudioTrack.setNotificationMarkerPosition(mNumSamples - 1 - mPlaybackStart);
+//        if (wasPlaying) {
+//            start();
+//        }
+//    }
+//
+//    public int getCurrentPosition() {
+//        return (int)((mPlaybackStart + mAudioTrack.getPlaybackHeadPosition()) *
+//                (1000.0 / mSampleRate));
+//    }
 }

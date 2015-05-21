@@ -45,6 +45,7 @@ import com.loroclip.soundfile.SoundFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -456,6 +457,7 @@ public class LoroClipEditActivity extends Activity
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
+                            saveEndBookmarkHistory();
                             mPlayer.stop();
                             togglePlayButton();
                             resetSelection();
@@ -683,8 +685,6 @@ public class LoroClipEditActivity extends Activity
             mPlayer.pause();
         }
 
-        mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
-        mWaveformView.setIsBookmarking(false);
         resetSelection();
     }
 
@@ -793,21 +793,31 @@ public class LoroClipEditActivity extends Activity
 
             if (mPlayer.isPlaying()) {
                 if (mWaveformView.isBookmarking()) {
-                    current_bookmark.setEnd((float)mPlayer.getCurrentPosition() / 1000);
-                    current_bookmark.save();
-                    view.setSelected(false);
-                    mWaveformView.setIsBookmarking(false);
-                    mWaveformView.addBookmarkHistory(current_bookmark);
+                    saveEndBookmarkHistory();
                 } else {
-                    current_bookmark = new BookmarkHistory(mRecord, bookmark);
-                    current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
-                    view.setSelected(true);
-                    mWaveformView.setIsBookmarking(true);
-                    mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
+                    saveStartBookmarkHistory(view, bookmark);
                 }
             }
         }
     };
+
+    private void saveEndBookmarkHistory() {
+        if (current_bookmark != null) {
+            current_bookmark.setEnd((float) mPlayer.getCurrentPosition() / 1000);
+            current_bookmark.save();
+            mWaveformView.setIsBookmarking(false);
+            mWaveformView.addBookmarkHistory(current_bookmark);
+            resetSelection();
+        }
+    }
+
+    private void saveStartBookmarkHistory(View view, Bookmark bookmark) {
+        current_bookmark = new BookmarkHistory(mRecord, bookmark);
+        current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
+        view.setSelected(true);
+        mWaveformView.setIsBookmarking(true);
+        mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
+    }
 
     public void resetSelection(){
         for (int i=0;i<bookmarkListView.getChildCount();i++){
@@ -839,12 +849,11 @@ public class LoroClipEditActivity extends Activity
                     return;
                 }
 
-                int pos = mWaveformView.millisecsToPixels(msg.arg1);
-
                 if (mPlayer.isPlaying()) {
                     mPlayer.seekTo(msg.arg1);
                 } else {
-                    onPlay(pos);
+                    mPlayer.start(msg.arg1);
+                    mWaveformView.invalidate();
                 }
             }
         };
