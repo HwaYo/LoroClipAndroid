@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loroclip.model.BookmarkHistory;
+import com.loroclip.model.Record;
 import com.loroclip.util.Util;
 
 import java.util.Collections;
@@ -21,8 +22,8 @@ import java.util.List;
 public class SavedBookmarkHistoryListAdapter extends BaseAdapter {
     private List<BookmarkHistory> savedBookmarkHistory;
 
-    public SavedBookmarkHistoryListAdapter(String fileName) {
-        savedBookmarkHistory = new BookmarkHistory().find(BookmarkHistory.class, "filename = ?", fileName);
+    public SavedBookmarkHistoryListAdapter(Record record) {
+        savedBookmarkHistory = new BookmarkHistory().find(BookmarkHistory.class, "record_uuid = ?", record.getUuid());
         Collections.sort(savedBookmarkHistory, new Comparator<BookmarkHistory>(){
 
             @Override

@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -97,6 +98,11 @@ public class RecordActivity extends ActionBarActivity {
     this.timerHandler = new TimerHandler();
 
     addEventListener();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    return super.onCreateOptionsMenu(menu);
   }
 
   @Override
@@ -352,10 +358,12 @@ public class RecordActivity extends ActionBarActivity {
       }
 
       @Override // 입력이 끝났을 때
-      public void afterTextChanged(Editable s) {}
+      public void afterTextChanged(Editable s) {
+      }
 
       @Override // 입력하기 전에
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
     });
   }
 }

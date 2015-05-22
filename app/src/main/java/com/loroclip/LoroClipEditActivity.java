@@ -18,6 +18,7 @@ package com.loroclip;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -47,7 +50,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class LoroClipEditActivity extends Activity
+public class LoroClipEditActivity extends ActionBarActivity
     implements WaveformView.WaveformListener
 {
     private long mLoadingLastUpdateTime;
@@ -103,6 +106,8 @@ public class LoroClipEditActivity extends Activity
 
     private BookmarkListView bookmarkListView;
     private BookmarkHistory current_bookmark;
+
+    private Toolbar mToolbar;
 
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
@@ -229,14 +234,6 @@ public class LoroClipEditActivity extends Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.edit_options, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.action_show_all_bookmarks).setVisible(true);
         return true;
     }
 
@@ -380,6 +377,10 @@ public class LoroClipEditActivity extends Activity
         for (BookmarkHistory history : histories) {
             mWaveformView.addBookmarkHistory(history);
         }
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(mToolbar);
+
         updateDisplay();
     }
 
@@ -855,7 +856,7 @@ public class LoroClipEditActivity extends Activity
 
         Message msg = Message.obtain(handler);
 
-        SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mFilename, msg);
+        SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mRecord, msg);
         savedBookmarkHistoryListDialog.show();
     }
 
