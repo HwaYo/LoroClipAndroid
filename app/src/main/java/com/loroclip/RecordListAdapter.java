@@ -1,8 +1,6 @@
 package com.loroclip;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -12,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +55,6 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         TextView title = (TextView) holder.viewHolder.findViewById(R.id.list_item_title);
         title.setText(mRecords.get(position).getTitle());
 

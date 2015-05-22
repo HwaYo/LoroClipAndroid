@@ -168,9 +168,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_record">RecordActivity</string>
 
-    <string name="facebook_app_id">372085676330212</string>
-
-
     <!-- Strings by DevSusu -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
