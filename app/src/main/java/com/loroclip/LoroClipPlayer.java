@@ -2,6 +2,8 @@ package com.loroclip;
 
 import android.media.MediaPlayer;
 
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -9,9 +11,11 @@ import java.io.IOException;
  */
 public class LoroClipPlayer extends MediaPlayer {
     public LoroClipPlayer(String filepath) {
-    try {
-        setDataSource(filepath);
-        prepare();
+        try {
+            FileInputStream fis = new FileInputStream(filepath);
+            FileDescriptor fd = fis.getFD();
+            setDataSource(fd);
+            prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
