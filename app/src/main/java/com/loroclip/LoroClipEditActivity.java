@@ -751,7 +751,7 @@ public class LoroClipEditActivity extends Activity
 
     private OnClickListener mPlayListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mStartPos == 0) {
+            if (mPlayer.getDuration() <= mPlayer.getCurrentPosition()) {
                 onPlay(mStartPos);
             }
             else {
