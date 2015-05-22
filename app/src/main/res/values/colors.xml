@@ -39,10 +39,11 @@
   <!--// 수빈이 디자인-->
   <color name="myPrimaryColor">#31A493</color>
   <color name="myPrimaryDarkColor">#65B891</color>
+  <color name="myPrimaryLightColor">#93E5AB</color>
   <color name="myAccentColor">#FF4081</color>
   <color name="myDrawerBackground">#DADFF7</color>
   <color name="myWindowBackground">#FFFFFF</color>
-  <color name="myGrayTextColor">#4f000000</color>
+  <color name="myGrayTextColor">#D7D9D7</color>
   <color name="myTextPrimaryColor">#232C33</color>
   <color name="myNavigationColor">#000</color>
 
@@ -51,4 +52,7 @@
 
   <drawable name="pressed_gray">#0c000000</drawable>
   <drawable name="selected_gray">#2c000000</drawable>
+
+  <color name="transparent">#00000000</color>
+
 </resources>
