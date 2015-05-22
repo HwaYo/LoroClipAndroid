@@ -114,14 +114,12 @@ public class RecordActivity extends ActionBarActivity {
       @Override
       public void onAnimationStart(Animation animation) {
       }
-
       @Override
       public void onAnimationEnd(Animation animation) {
         changeRecordingButton();
         // fade in animation
         recordActionButton.startAnimation(fadeIn);
       }
-
       @Override
       public void onAnimationRepeat(Animation animation) {
       }
