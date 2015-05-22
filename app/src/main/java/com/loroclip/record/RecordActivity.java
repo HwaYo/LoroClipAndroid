@@ -16,6 +16,8 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +66,9 @@ public class RecordActivity extends ActionBarActivity {
 
   private File mRecordFile;
 
+  private Animation fadeIn;
+  private Animation fadeOut;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -78,7 +83,6 @@ public class RecordActivity extends ActionBarActivity {
     recordDoneButton = (ImageView) findViewById(R.id.record_done_img);
     recordDoneButton.setEnabled(false);
     recordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
-
 
     bookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
     bookmarkListAdapter = new BookmarkListAdapter(this, bookmarkRecycler);
@@ -103,7 +107,35 @@ public class RecordActivity extends ActionBarActivity {
     this.recorderHandler = new RecorderHandler();
     this.timerHandler = new TimerHandler();
 
+    fadeOut = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_out);
+    fadeIn = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_in);
+
+    fadeOut.setAnimationListener(new Animation.AnimationListener() {
+      @Override
+      public void onAnimationStart(Animation animation) {
+      }
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        changeRecordingButton();
+        // fade in animation
+        recordActionButton.startAnimation(fadeIn);
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {
+      }
+    });
+
     addEventListener();
+  }
+
+  private void changeRecordingButton() {
+    if ( recordStatus == RECORDING_STATE ) {
+      recordActionButton.setImageResource(R.drawable.record);
+    } else {
+      recordActionButton.setImageResource(R.drawable.pause);
+    }
   }
 
   @Override
@@ -148,20 +180,20 @@ public class RecordActivity extends ActionBarActivity {
   }
 
   private void startRecord() {
-    //TODO 여기 일시정지 버튼으로 바뀌어야함
+    changeRecordingButton();
     recorderHandler.start();
     timerHandler.start();
     recordStatus = RECORDING_STATE;
     recordDoneButton.setEnabled(true);
   }
   private void pauseRecord() {
-    //TODO 여기 일시정지 버튼으로 바뀌어야함
+    changeRecordingButton();
     recorderHandler.pause();
     timerHandler.pause();
     recordStatus = PAUSE_STATE;
   }
   private void restartRecord() {
-    //TODO 여기 PLAY 버튼으로 바뀌어야함
+    changeRecordingButton();
     recorderHandler.restart();
     timerHandler.restart();
     recordStatus = RECORDING_STATE;
