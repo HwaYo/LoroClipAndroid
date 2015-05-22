@@ -457,7 +457,7 @@ public class LoroClipEditActivity extends Activity
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
-                            saveEndBookmarkHistory();
+                            mWaveformView.setIsBookmarking(false);
                             mPlayer.stop();
                             togglePlayButton();
                             resetSelection();
@@ -751,7 +751,7 @@ public class LoroClipEditActivity extends Activity
 
     private OnClickListener mPlayListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mPlayStartMsec == 0) {
+            if (mPlayer.getDuration() <= mPlayer.getCurrentPosition()) {
                 onPlay(mStartPos);
             }
             else {
