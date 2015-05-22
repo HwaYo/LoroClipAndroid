@@ -35,6 +35,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.UUID;
 
 
 public class RecordActivity extends ActionBarActivity {
@@ -60,6 +61,8 @@ public class RecordActivity extends ActionBarActivity {
   private LinearLayoutManager manager;
 
   private int recordStatus;
+
+  private File mRecordFile;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -189,11 +192,12 @@ public class RecordActivity extends ActionBarActivity {
       }
 
       if (loroclipRecorder == null || loroclipRecorder.isStopped()) {
-        File fileToSaveTo = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
+        String filename = UUID.randomUUID().toString();
+        mRecordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
 
         //Create our recorder if necessary
         if (loroclipRecorder == null) {
-          loroclipRecorder = new VorbisRecorder(fileToSaveTo, waveformView);
+          loroclipRecorder = new VorbisRecorder(mRecordFile, waveformView);
         }
         loroclipRecorder.start(LOROCLIP_AUDIO_SAMPLE_RATE, LOROCLIP_AUDIO_CHANNELS, LOROCLIP_AUDIO_QUALITY);
       }
@@ -213,25 +217,11 @@ public class RecordActivity extends ActionBarActivity {
       }
     }
 
-    public void saveRecord(String fileName) {
+    public void saveRecord(String title) {
       final Handler handler = new Handler();
-      String fromFilePath = LOROCLIP_PATH + LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION;
-      String newFilePath =  LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
-
-      File from = new File(fromFilePath);
-      File to = new File(newFilePath);
-
-      while (to.exists()){
-        fileName = fileName.concat("_dup");
-        newFilePath =  LOROCLIP_PATH + fileName + AUDIO_OGG_EXTENSION;
-        to = new File(newFilePath);
-      }
-
-      from.renameTo(to);
-
       Record record = new Record();
-      record.setLocalFile(to);
-      record.setTitle(fileName);
+      record.setLocalFile(mRecordFile);
+      record.setTitle(title);
       record.save();
 
       FrameGains fg = new FrameGains();
