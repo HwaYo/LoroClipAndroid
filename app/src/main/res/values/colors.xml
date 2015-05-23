@@ -55,7 +55,6 @@
 
   <color name="transparent">#00000000</color>
 
-  <color name="icon_disabled">#FF63727B</color>
-  <color name="accent">#40C4FF</color>
+  <color name="accent">#93E5AB</color>
 
 </resources>

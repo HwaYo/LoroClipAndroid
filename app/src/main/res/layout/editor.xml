@@ -62,58 +62,38 @@
         android:layout_height="60dp"
         android:background="@color/myPrimaryDarkColor">
 
-      <ImageView
-          android:id="@+id/rew"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_margin="18dp"
-          android:layout_weight="1"
-          android:src="@drawable/skip_backward"
-          android:contentDescription="@string/rewind" />
+        <ImageView
+            android:id="@+id/rew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:src="@drawable/skip_backward"
+            android:contentDescription="@string/rewind" />
 
-      <ImageView
-          android:id="@+id/play"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_margin="18dp"
-          android:layout_weight="1"
-          android:contentDescription="@string/play"
-          android:src="@drawable/play"
-          />
+        <ImageView
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/play"
+            android:src="@drawable/play" />
 
-      <ImageView
-          android:id="@+id/ffwd"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_margin="18dp"
-          android:layout_weight="1"
-          android:contentDescription="@string/ffwd"
-          android:src="@drawable/skip_forward" />
+        <ImageView
+            android:id="@+id/ffwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/ffwd"
+            android:src="@drawable/skip_forward" />
 
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/tab"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/transparent"
-        />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-
-        <com.loroclip.BookmarkListView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/bookmarkListView"
-            android:smoothScrollbar="true" />
+        android:layout_height="wrap_content">
 
         <View
             android:layout_width="match_parent"
@@ -121,10 +101,16 @@
             android:background="@drawable/actionbar_shadow" />
     </FrameLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
+        android:id="@+id/tab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-     </LinearLayout>
+        android:layout_height="20dp"
+        android:background="@color/transparent"
+        />
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </LinearLayout>
