@@ -52,19 +52,18 @@ public class SavedBookmarkHistoryListAdapter extends BaseAdapter {
         Context context = viewGroup.getContext();
         BookmarkHistory bookmarkHistory = savedBookmarkHistory.get(i);
 
-        if (view == null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.saved_bookmark_history_listview_item, viewGroup, false);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.saved_bookmark_history_listview_item, viewGroup, false);
 
-            TextView bookmarkName = (TextView)view.findViewById(R.id.bookmarkHistoryName);
-            bookmarkName.setText(bookmarkHistory.getName());
+        TextView bookmarkName = (TextView)view.findViewById(R.id.bookmarkHistoryName);
+        bookmarkName.setText(bookmarkHistory.getName());
 
-            ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkHistoryColor);
-            bookmarkColor.setBackgroundColor(bookmarkHistory.getColor());
+        ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkHistoryColor);
+        bookmarkColor.setBackgroundColor(bookmarkHistory.getColor());
 
-            TextView bookmarkStartTime = (TextView)view.findViewById(R.id.bookmarkStartTime);
-            bookmarkStartTime.setText(Util.milliSecondsToMinutesStr(bookmarkHistory.getStartMiiliseconds()));
-        }
+        TextView bookmarkStartTime = (TextView)view.findViewById(R.id.bookmarkStartTime);
+        bookmarkStartTime.setText(Util.milliSecondsToMinutesStr(bookmarkHistory.getStartMiiliseconds()));
+
         return view;
     }
 
