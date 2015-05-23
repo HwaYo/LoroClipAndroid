@@ -25,17 +25,39 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
 
     private final static String TAG = "BookmarkListAdapter";
 
-    List<Bookmark> bookmarkList;
+    private List<Bookmark> bookmarkList;
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private RecyclerView mRecyclerView;
+    private View.OnClickListener customOnClickListener;
+    private View.OnLongClickListener customOnLongClickListener;
 
     public BookmarkListAdapter(Context mContext, RecyclerView mRecyclerView) {
         this.bookmarkList = getDataForListView();
         this.mContext = mContext;
         this.mLayoutInflater = LayoutInflater.from(mContext);
         this.mRecyclerView = mRecyclerView;
+        this.customOnClickListener = new BookmarkOnClickListener();
+        this.customOnLongClickListener = null;
+    }
+
+    public BookmarkListAdapter(Context mContext, RecyclerView mRecyclerView, View.OnClickListener customOnClickListener) {
+        this.bookmarkList = getDataForListView();
+        this.mContext = mContext;
+        this.mLayoutInflater = LayoutInflater.from(mContext);
+        this.mRecyclerView = mRecyclerView;
+        this.customOnClickListener = customOnClickListener;
+        this.customOnLongClickListener = null;
+    }
+
+    public BookmarkListAdapter(Context mContext, View.OnLongClickListener customOnLongClickListener, View.OnClickListener customOnClickListener, RecyclerView mRecyclerView) {
+        this.customOnLongClickListener = customOnLongClickListener;
+        this.customOnClickListener = customOnClickListener;
+        this.mRecyclerView = mRecyclerView;
+        this.mLayoutInflater = LayoutInflater.from(mContext);
+        this.mContext = mContext;
+        this.bookmarkList = getDataForListView();
     }
 
     private List<Bookmark> getDataForListView() {
@@ -47,7 +69,7 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
         bookmarks.add( new Bookmark("Can't Hear", String.format("#%06X",0xFFFFFF & Color.YELLOW))); // Bookmark Can't Hear
         bookmarks.add( new Bookmark("Bookmark 4", String.format("#%06X",0xFFFFFF & Color.GRAY))); // Bookmark Can't Hear
         bookmarks.add( new Bookmark("Bookmark 5", String.format("#%06X",0xFFFFFF & Color.BLACK))); // Bookmark Can't Hear
-        bookmarks.add( new Bookmark("Bookmark 6", String.format("#%06X",0xFFFFFF & Color.GREEN))); // Bookmark Can't Hear
+        bookmarks.add(new Bookmark("Bookmark 6", String.format("#%06X", 0xFFFFFF & Color.GREEN))); // Bookmark Can't Hear
 
         return bookmarks;
 
@@ -69,7 +91,16 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
 
         // Inflate view and Attach Click Listeners
         View view = mLayoutInflater.inflate(R.layout.bookmark_list_item, parent, false);
-        view.setOnClickListener(new BookmarkOnClickListener());
+
+        if ( customOnClickListener != null ) {
+            view.setOnClickListener(customOnClickListener);
+        }
+
+        // Guessing this might be deleting for editing bookmarks
+        if ( customOnLongClickListener != null ) {
+            view.setOnLongClickListener(customOnLongClickListener);
+        }
+
 //        view.setOnLongClickListener(new RecyclerOnLongClickListener());
 
         return new ViewHolder(view);
@@ -117,5 +148,13 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
 
     public void showToast( String msg ) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public Bookmark findBookmark ( View v ) {
+        return bookmarkList.get( findPosition(v) );
+    }
+
+    public void setCustomOnClickListener(View.OnClickListener customOnClickListener) {
+        this.customOnClickListener = customOnClickListener;
     }
 }

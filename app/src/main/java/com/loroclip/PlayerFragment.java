@@ -1,6 +1,7 @@
 package com.loroclip;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.loroclip.adapter.BookmarkHistoryAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 /**
  * Created by susu on 5/23/15.
@@ -34,15 +37,29 @@ public class PlayerFragment extends Fragment {
         RecyclerView playRecycler = (RecyclerView) view.findViewById(R.id.recycler_play);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        BookmarkListAdapter listAdapter = new BookmarkListAdapter(getActivity(),playRecycler);
+        playRecycler.setLayoutManager(manager);
+        playRecycler.addItemDecoration(
+                new HorizontalDividerItemDecoration
+                        .Builder(getActivity())
+                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                        .build()
+        );
 
         if ( position == 0 ) {
             // Bookmark History View
-            playRecycler.setLayoutManager(manager);
-            playRecycler.setAdapter(listAdapter);
+            BookmarkHistoryAdapter historyAdapter;
+
+            historyAdapter = new BookmarkHistoryAdapter(getActivity(),playRecycler);
+            historyAdapter.setCustomOnClickListener(new BookmarkHistoryOnClickListener(historyAdapter));
+
+            playRecycler.setAdapter(historyAdapter);
         } else {
             // Bookmark List
+            BookmarkListAdapter listAdapter;
+            listAdapter = new BookmarkListAdapter(getActivity(),playRecycler);
+            playRecycler.setAdapter(listAdapter);
         }
+
     }
 
 }
