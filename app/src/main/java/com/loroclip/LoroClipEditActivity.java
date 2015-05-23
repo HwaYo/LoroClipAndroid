@@ -23,6 +23,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -117,6 +118,8 @@ public class LoroClipEditActivity extends ActionBarActivity
 
     private Toolbar mToolbar;
 
+    private Resources resources;
+
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
@@ -128,6 +131,8 @@ public class LoroClipEditActivity extends ActionBarActivity
     public void onCreate(Bundle icicle) {
         Log.v("LoroClip", "EditActivity OnCreate");
         super.onCreate(icicle);
+
+        resources = getResources();
 
         mPlayer = null;
         mIsPlaying = false;
@@ -617,10 +622,10 @@ public class LoroClipEditActivity extends ActionBarActivity
 
     private void enableDisableButtons() {
         if (mIsPlaying) {
-            mPlayButton.setImageResource(android.R.drawable.ic_media_pause);
+            mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.pause));
             mPlayButton.setContentDescription(getResources().getText(R.string.stop));
         } else {
-            mPlayButton.setImageResource(android.R.drawable.ic_media_play);
+            mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.play));
             mPlayButton.setContentDescription(getResources().getText(R.string.play));
         }
     }
