@@ -83,9 +83,6 @@ public class RecordActivity extends ActionBarActivity {
 
     mRecordStatus = READY_STATE;
 
-    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-    setSupportActionBar(mToolbar);
-
     mRecordDoneButton = (ImageView) findViewById(R.id.record_done_img);
     mRecordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
     mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
@@ -424,6 +421,8 @@ private void showDeleteDialog() {
     @Override
     public void onClick(View v) {
       Bookmark selectedBookmark = mBookmarkList.get(findPosition(v));
+
+      v.setSelected(true);
 
       if(mRecord == null) { return; }
 
