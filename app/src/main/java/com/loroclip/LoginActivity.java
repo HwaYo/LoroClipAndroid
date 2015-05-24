@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -31,6 +32,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     private CallbackManager mCallbackManager;
     private AccessTokenTracker mAccessTokenTracker;
 
+    private ImageView logoImg;
+
     public static final String ARG_ADD_NEW_ACCOUNT = "addNewAccount";
     public static final String ARG_ACCOUNT_TYPE = "accountType";
 
@@ -38,6 +41,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        // TODO Skip this Activity if user has already Logged in.
 
         AccessToken token = AccessToken.getCurrentAccessToken();
 
@@ -92,6 +97,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         setContentView(R.layout.login);
 
         final Activity activity = this;
+
+        logoImg = (ImageView)findViewById(R.id.logo);
+        logoImg.setAlpha(0.2f);
 
         mCallbackManager = CallbackManager.Factory.create();
         mLoginButton = (Button)findViewById(R.id.login_button);
