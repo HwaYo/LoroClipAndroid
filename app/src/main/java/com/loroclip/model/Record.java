@@ -43,7 +43,7 @@ public class Record extends SyncableModel<Record> {
     }
 
     public String getLocalFilePath() {
-        return localFile;
+        return this.localFile;
     }
 
     public void setLocalFilePath(String localFile) {
@@ -54,7 +54,7 @@ public class Record extends SyncableModel<Record> {
         if (localFile == null) {
             return new File("");
         }
-        return new File(this.localFile);
+        return new File(getLocalFilePath());
     }
 
     public void setLocalFile(File file) {
