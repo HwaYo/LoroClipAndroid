@@ -32,66 +32,35 @@ import java.util.UUID;
  * Created by susu on 5/19/15.
  */
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> {
-    private final static String TAG = "RecordListAdpater";
+    public final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        private final int CMD_RENAME = 0;
+        private final int CMD_DELETE = 1;
 
-    private final int CMD_RENAME = 0;
-    private final int CMD_DELETE = 1;
+        RecordListAdapter mAdapter;
+        Record mRecord;
+        TextView mTitle;
+        TextView mDuration;
 
-    List<Record> mRecords;
-
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    private RecyclerView mRecyclerView;
-
-
-    public RecordListAdapter( Context context, RecyclerView recyclerView ) {
-        super();
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(context);
-        mRecords = Record.listExists(Record.class);
-        mRecyclerView = recyclerView;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Inflate view and Attach Click Listeners
-        View view = mLayoutInflater.inflate(R.layout.list_item, parent, false);
-        view.setOnClickListener(new RecyclerOnClickListener());
-        view.setOnLongClickListener(new RecyclerOnLongClickListener());
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        TextView title = (TextView) holder.viewHolder.findViewById(R.id.list_item_title);
-        title.setText(mRecords.get(position).getTitle());
-
-        // TODO 시간을 넣어야 한다.
-        TextView length = (TextView) holder.viewHolder.findViewById(R.id.list_item_time);
-        length.setText(mRecords.get(position).getTitle());
-    }
-
-    @Override
-    public int getItemCount() {
-        return mRecords.size();
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View viewHolder;
-
-        public ViewHolder(View view) {
+        public ViewHolder(RecordListAdapter adapter, View view) {
             super(view);
-            viewHolder = view;
+            this.mAdapter = adapter;
+            this.mTitle = (TextView) view.findViewById(R.id.list_item_title);
+            this.mDuration = (TextView) view.findViewById(R.id.list_item_time);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
-    }
-
-    public class RecyclerOnClickListener implements View.OnClickListener {
+        public void bind(Record record) {
+            mRecord = record;
+            mTitle.setText(mRecord.getTitle());
+            mDuration.setText("-");
+        }
 
         @Override
         public void onClick(View v) {
-            final Record record = mRecords.get(findPosition(v));
+            final Record record = mRecord;
+            final Context context = v.getContext();
+
             if (record.getLocalFilePath() == null) {
                 String filename = UUID.randomUUID().toString();
                 final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
@@ -99,19 +68,19 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
                 final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
 
-                new AlertDialog.Builder(mContext)
+                new AlertDialog.Builder(context)
                         .setTitle("Record file not found")
                         .setMessage("File Download Required :")
                         .setPositiveButton("Download", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                final ProgressDialog progressDialog = new ProgressDialog(mContext);
+                                final ProgressDialog progressDialog = new ProgressDialog(context);
                                 progressDialog.setMessage("Downloading..");
                                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                                 progressDialog.setMax(100);
                                 progressDialog.show();
 
-                                Ion.with(mContext)
+                                Ion.with(context)
                                         .load(record.getRemoteFilePath())
                                         .progressDialog(progressDialog)
                                         .progress(new ProgressCallback() {
@@ -129,9 +98,9 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
                                                 record.setLocalFile(result);
                                                 record.save();
 
-                                                Intent intent = new Intent(mContext, LoroClipEditActivity.class);
+                                                Intent intent = new Intent(context, LoroClipEditActivity.class);
                                                 intent.putExtra("record_id", record.getId());
-                                                mContext.startActivity(intent);
+                                                context.startActivity(intent);
                                             }
                                         });
                             }
@@ -140,130 +109,138 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
                         .show();
             } else {
                 try {
-                    Intent intent = new Intent(mContext, LoroClipEditActivity.class);
+                    Intent intent = new Intent(context, LoroClipEditActivity.class);
                     intent.putExtra("record_id", record.getId());
-                    mContext.startActivity(intent);
+                    context.startActivity(intent);
                 } catch (Exception e) {
                     Log.e(TAG, "Couldn't start editor activity");
                 }
             }
         }
-    }
-
-    public class RecyclerOnLongClickListener implements View.OnLongClickListener {
 
         @Override
         public boolean onLongClick(View v) {
-            showListDialog(findPosition(v));
-            return true; // Need to return true to block OnClick
+            final Context context = v.getContext();
+
+            new MaterialDialog.Builder(context)
+                    .title(R.string.edit_record)
+                    .items(R.array.record_options)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                            switch (which) {
+                                case CMD_RENAME:
+                                    showChangeTitleDialog(context, mRecord);
+                                    break;
+                                case CMD_DELETE:
+                                    showDeleteDialog(context, mRecord);
+                                    break;
+                                default:
+                            }
+                        }
+                    })
+                    .show();
+
+            return true;
         }
-    }
 
-    // Simple List Dialog Popup
-    public boolean showListDialog(int position){
-        new MaterialDialog.Builder(mContext)
-            .title(R.string.edit_record)
-            .items(R.array.record_options)
-            .itemsCallback(new MaterialDialogCallback(position))
-            .show();
-        return false;
-    }
+        private void showChangeTitleDialog(final Context context, final Record record) {
+            // show a dialog to set filename
+            final MaterialDialog dialog = new MaterialDialog.Builder(context)
+                    .title(R.string.edit_name)
+                    .content(R.string.set_record_name)
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input(record.getTitle(), record.getTitle(), new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(MaterialDialog dialog, CharSequence input) {
+                            changeTitle(context, record, input.toString());
+                        }
+                    }).show();
 
-    public class MaterialDialogCallback implements MaterialDialog.ListCallback {
-        private int itemPosition;
-
-        public MaterialDialogCallback(int itemPosition) { this.itemPosition = itemPosition;}
-
-        @Override
-        public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence text) {
-            switch (which) {
-                case CMD_RENAME:
-                    showChangeTitleDialog(itemPosition);
-                    break;
-                case CMD_DELETE:
-                    showDeleteDialog(itemPosition);
-                    break;
-                default:
-            }
-        }
-    }
-
-    private int findPosition ( View v ) {
-        return mRecyclerView.getChildLayoutPosition(v);
-    }
-
-    private void showChangeTitleDialog(int position) {
-        final Record record = mRecords.get(position);
-
-        // show a dialog to set filename
-        final MaterialDialog dialog = new MaterialDialog.Builder(mContext)
-                .title(R.string.edit_name)
-                .content(R.string.set_record_name)
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                .input(record.getTitle(), record.getTitle(), new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                        changeTitle(record, input.toString());
-                        notifyDataSetChanged();
+            dialog.getInputEditText().addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.length() == 0) {
+                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                    } else {
+                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
                     }
-                }).show();
-
-        dialog.getInputEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 0) {
-                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                } else {
-                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
                 }
-            }
 
-            @Override // 입력이 끝났을 때
-            public void afterTextChanged(Editable s) {}
+                @Override // 입력이 끝났을 때
+                public void afterTextChanged(Editable s) {}
 
-            @Override // 입력하기 전에
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-        });
+                @Override // 입력하기 전에
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            });
 
-        dialog.getInputEditText().setSelection(dialog.getInputEditText().length());
+            dialog.getInputEditText().setSelection(dialog.getInputEditText().length());
+        }
+
+        private void changeTitle(Context context, Record record, String newTitle) {
+            if (record == null) { return; }
+
+            record.setTitle(newTitle);
+            record.save();
+
+            mAdapter.notifyItemChanged(getLayoutPosition());
+
+            showToast(context, "변경되었습니다.");
+        }
+
+        private void showDeleteDialog(final Context context, final Record record) {
+
+            new MaterialDialog.Builder(context)
+                    .title(R.string.delete_audio)
+                    .content(R.string.delete_audio_confirm)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            deleteRecord(context, record);
+                        }
+                    })
+                    .positiveText(R.string.delete)
+                    .negativeText(R.string.cancel)
+                    .show();
+        }
+
+        private void deleteRecord(Context context, Record record) {
+            record.delete();
+            mAdapter.notifyItemRemoved(getLayoutPosition());
+            showToast(context, "삭제되었습니다.");
+        }
+
+        private void showToast(Context context, String msg) {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    private void changeTitle(Record record, String newTitle) {
-        if (record == null) { return; }
+    private final static String TAG = "RecordListAdapter";
 
-        record.setTitle(newTitle);
-        record.save();
 
-        showToast("변경되었습니다.");
+    List<Record> mRecords;
+
+    public RecordListAdapter(List<Record> recordList) {
+        super();
+        mRecords = recordList;
     }
 
-    private void showDeleteDialog(int position) {
-        final Record record = mRecords.get(position);
-
-        new MaterialDialog.Builder(mContext)
-                .title(R.string.delete_audio)
-                .content(R.string.delete_audio_confirm)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        deleteRecord(record);
-                        notifyDataSetChanged();
-                    }
-                })
-                .positiveText(R.string.delete)
-                .negativeText(R.string.cancel)
-                .show();
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // Inflate view and Attach Click Listeners
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new ViewHolder(this, view);
     }
 
-    private void deleteRecord(Record record) {
-        mRecords.remove(record);
-        record.delete();
-
-        showToast("삭제되었습니다.");
+    @Override
+    public void onBindViewHolder(RecordListAdapter.ViewHolder holder, int position) {
+        holder.bind(mRecords.get(position));
     }
 
-    private void showToast( String msg ) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    @Override
+    public int getItemCount() {
+        return mRecords.size();
     }
 
     public void addRecord(Record record) {

@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +20,8 @@ import com.loroclip.record.RecordActivity;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import java.util.List;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -28,8 +29,9 @@ public class MainActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE_NEW = 0;
 
+    private List<Record> mRecords;
     private Toolbar mToolbar;
-    RecordListAdapter recordListAdapter;
+    RecordListAdapter mRecordListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,14 @@ public class MainActivity extends ActionBarActivity {
                                 if (ContentResolver.isSyncActive(account, LoroClipAccount.CONTENT_AUTHORITY)) {
                                     // Nothing to do
                                 } else {
-                                    recordListAdapter.notifyDataSetChanged();
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mRecords.clear();
+                                            mRecords.addAll(Record.listExists(Record.class));
+                                            mRecordListAdapter.notifyDataSetChanged();
+                                        }
+                                    });
                                 }
                             }
                         }
@@ -57,36 +66,26 @@ public class MainActivity extends ActionBarActivity {
             );
         }
 
+        mRecords = Record.listExists(Record.class);
+
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
-        RecyclerView recordList = (RecyclerView)findViewById(R.id.record_list);
+        mRecordListAdapter = new RecordListAdapter(mRecords);
 
-        // Change this Adapter to fit LoroClip
-        recordListAdapter = new RecordListAdapter(this, recordList);
+        RecyclerView recordListView = (RecyclerView)findViewById(R.id.record_list);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(OrientationHelper.VERTICAL);
-
-//        Paint border = new Paint();
-//        border.setStrokeWidth(0.1f);
-//        border.setColor(Color.GRAY);
-
-        recordList.setLayoutManager(manager);
-        recordList.setAdapter(recordListAdapter);
-        recordList.addItemDecoration(
+        recordListView.setLayoutManager(manager);
+        recordListView.setAdapter(mRecordListAdapter);
+        recordListView.addItemDecoration(
                 new HorizontalDividerItemDecoration
                         .Builder(this)
                         .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
                         .build()
         );
-//        recordList.addItemDecoration(
-//                new HorizontalDividerItemDecoration
-//                        .Builder(this)
-//                        .sizeResId(R.dimen.divider)
-//                        .color(Color.GRAY)
-//                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-//                        .build());
+
 
         // Floating Button on Bottom Right Corner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -120,11 +119,11 @@ public class MainActivity extends ActionBarActivity {
         if (recordId != 0) {
             Record record = Record.findById(Record.class, recordId);
             if (record != null) {
-                recordListAdapter.addRecord(record);
+                mRecordListAdapter.addRecord(record);
             }
         }
 
-        recordListAdapter.notifyDataSetChanged();
+        mRecordListAdapter.notifyDataSetChanged();
 
         setResult(RESULT_OK, dataIntent);
     }
