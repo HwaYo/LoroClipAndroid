@@ -47,6 +47,12 @@ public class PlayerFragment extends Fragment {
         );
 
         if ( position == 0 ) {
+            // Bookmark List
+            BookmarkListAdapter listAdapter;
+            List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class);
+            listAdapter = new BookmarkListAdapter(getActivity(), bookmarkList, null);
+            playRecycler.setAdapter(listAdapter);
+        } else {
             // Bookmark History View
             BookmarkHistoryAdapter historyAdapter;
 
@@ -54,12 +60,6 @@ public class PlayerFragment extends Fragment {
             historyAdapter.setCustomOnClickListener(new BookmarkHistoryOnClickListener(historyAdapter));
 
             playRecycler.setAdapter(historyAdapter);
-        } else {
-            // Bookmark List
-            BookmarkListAdapter listAdapter;
-            List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class);
-            listAdapter = new BookmarkListAdapter(getActivity(), bookmarkList, null);
-            playRecycler.setAdapter(listAdapter);
         }
 
     }
