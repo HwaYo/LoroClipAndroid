@@ -77,10 +77,16 @@ public class MainActivity extends ActionBarActivity {
         recordList.addItemDecoration(
                 new HorizontalDividerItemDecoration
                         .Builder(this)
-                        .sizeResId(R.dimen.divider)
-                        .color(Color.GRAY)
                         .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                        .build());
+                        .build()
+        );
+//        recordList.addItemDecoration(
+//                new HorizontalDividerItemDecoration
+//                        .Builder(this)
+//                        .sizeResId(R.dimen.divider)
+//                        .color(Color.GRAY)
+//                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+//                        .build());
 
         // Floating Button on Bottom Right Corner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -16,7 +16,10 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +44,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-
 public class RecordActivity extends ActionBarActivity {
 
   private final int READY_STATE = 0;
@@ -63,16 +65,21 @@ public class RecordActivity extends ActionBarActivity {
   private LinearLayoutManager mLayoutManager;
   private BookmarkListAdapter mBookmarkListAdapter;
 
+  private List<Bookmark> mBookmarkList;
   private Record mRecord;
   private File mRecordFile;
 
   private int mRecordStatus;
   private boolean isSaved;
+  private Animation fadeIn;
+  private Animation fadeOut;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_record_new);
+
+    mBookmarkList = Bookmark.listExists(Bookmark.class);
 
     mRecordStatus = READY_STATE;
 
@@ -85,33 +92,67 @@ public class RecordActivity extends ActionBarActivity {
 
     mRecordDoneButton.setEnabled(false);
 
+    mTimerHandler = new TimerHandler();
+    mBookmarkHandler = new BookmarkHandler(mBookmarkList);
+    mRecorderHandler = new RecorderHandler();
+
     mLayoutManager = new LinearLayoutManager(this);
     mLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+
+    mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
+    mBookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkList, mBookmarkHandler);
+    mBookmarkRecycler.setLayoutManager(mLayoutManager);
+    mBookmarkRecycler.setAdapter(mBookmarkListAdapter);
+    mBookmarkRecycler.addItemDecoration(
+            new HorizontalDividerItemDecoration
+                    .Builder(this)
+                    .sizeResId(R.dimen.divider)
+                    .color(R.color.myGrayColor)
+                    .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                    .build());
+
 
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayViewTmp);
     mWaveformView = new RecodWaveformView(getBaseContext());
     displayLayout.addView(mWaveformView);
 
 
+    fadeOut = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_out);
+    fadeIn = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_in);
+
+    fadeOut.setAnimationListener(new Animation.AnimationListener() {
+      @Override
+      public void onAnimationStart(Animation animation) {
+      }
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        changeRecordingButton();
+        // fade in animation
+        mRecordActionButton.startAnimation(fadeIn);
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {
+      }
+    });
+
     addEventListener();
-    mTimerHandler = new TimerHandler();
-    mBookmarkHandler = new BookmarkHandler();
-    mRecorderHandler = new RecorderHandler();
-
-    mBookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkHandler);
-
-    mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
-    mBookmarkRecycler.setLayoutManager(mLayoutManager);
-    mBookmarkRecycler.setAdapter(mBookmarkListAdapter);
-    mBookmarkRecycler.addItemDecoration(
-      new HorizontalDividerItemDecoration
-        .Builder(this)
-        .sizeResId(R.dimen.divider)
-        .color(R.color.myGrayColor)
-        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-        .build());
 
     isSaved = false;
+  }
+
+  private void changeRecordingButton() {
+    if ( mRecordStatus == RECORDING_STATE ) {
+      mRecordActionButton.setImageResource(R.drawable.record);
+    } else {
+      mRecordActionButton.setImageResource(R.drawable.pause);
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    return super.onCreateOptionsMenu(menu);
   }
 
   @Override
@@ -223,20 +264,20 @@ private void showDeleteDialog() {
   }
 
   private void startRecord() {
-    //TODO 여기 일시정지 버튼으로 바뀌어야함
+    changeRecordingButton();
     mRecorderHandler.start();
     mTimerHandler.start();
     mRecordStatus = RECORDING_STATE;
     mRecordDoneButton.setEnabled(true);
   }
   private void pauseRecord() {
-    //TODO 여기 일시정지 버튼으로 바뀌어야함
+    changeRecordingButton();
     mRecorderHandler.pause();
     mTimerHandler.pause();
     mRecordStatus = PAUSE_STATE;
   }
   private void restartRecord() {
-    //TODO 여기 PLAY 버튼으로 바뀌어야함
+    changeRecordingButton();
     mRecorderHandler.restart();
     mTimerHandler.restart();
     mRecordStatus = RECORDING_STATE;
@@ -373,17 +414,16 @@ private void showDeleteDialog() {
   }
 
   public class BookmarkHandler implements View.OnClickListener {
-
-    private List<Bookmark> bookmarkList;
     private BookmarkHistory currentSelectedBookmarkHistory;
+    private List<Bookmark> mBookmarkList;
 
-    public BookmarkHandler() {
+    public BookmarkHandler(List<Bookmark> bookmarkList) {
       this.currentSelectedBookmarkHistory = null;
-      this.bookmarkList = Bookmark.listExists(Bookmark.class);
+      this.mBookmarkList = bookmarkList;
     }
     @Override
     public void onClick(View v) {
-      Bookmark selectedBookmark = bookmarkList.get(findPosition(v));
+      Bookmark selectedBookmark = mBookmarkList.get(findPosition(v));
 
       if(mRecord == null) { return; }
 
@@ -399,10 +439,6 @@ private void showDeleteDialog() {
 
     private int findPosition ( View v ) {
       return mBookmarkRecycler.getChildLayoutPosition(v);
-    }
-
-    public List<Bookmark> getBookmarkList() {
-      return bookmarkList;
     }
 
     private void saveStartBookmarkHistory(Bookmark selectedBookmark) {

@@ -16,39 +16,48 @@
 
 package com.loroclip;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.soundfile.SoundFile;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class LoroClipEditActivity extends Activity
+public class LoroClipEditActivity extends ActionBarActivity
     implements WaveformView.WaveformListener
 {
     private long mLoadingLastUpdateTime;
@@ -70,9 +79,9 @@ public class LoroClipEditActivity extends Activity
     private WaveformView mWaveformView;
     private TextView mInfo;
     private String mInfoContent;
-    private ImageButton mPlayButton;
-    private ImageButton mRewindButton;
-    private ImageButton mFfwdButton;
+    private ImageView mPlayButton;
+    private ImageView mRewindButton;
+    private ImageView mFfwdButton;
     private boolean mKeyDown;
     private String mCaption = "";
     private int mWidth;
@@ -104,6 +113,10 @@ public class LoroClipEditActivity extends Activity
     private BookmarkListView bookmarkListView;
     private BookmarkHistory current_bookmark;
 
+    private Toolbar mToolbar;
+
+    private Resources resources;
+
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
@@ -113,6 +126,8 @@ public class LoroClipEditActivity extends Activity
     public void onCreate(Bundle icicle) {
         Log.v("LoroClip", "EditActivity OnCreate");
         super.onCreate(icicle);
+
+        resources = getResources();
 
         mPlayer = null;
 //        mIsPlaying = false;
@@ -226,14 +241,6 @@ public class LoroClipEditActivity extends Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.edit_options, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.action_show_all_bookmarks).setVisible(true);
         return true;
     }
 
@@ -343,11 +350,11 @@ public class LoroClipEditActivity extends Activity
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDensity = metrics.density;
 
-        mPlayButton = (ImageButton)findViewById(R.id.play);
+        mPlayButton = (ImageView)findViewById(R.id.play);
         mPlayButton.setOnClickListener(mPlayListener);
-        mRewindButton = (ImageButton)findViewById(R.id.rew);
+        mRewindButton = (ImageView)findViewById(R.id.rew);
         mRewindButton.setOnClickListener(mRewindListener);
-        mFfwdButton = (ImageButton)findViewById(R.id.ffwd);
+        mFfwdButton = (ImageView)findViewById(R.id.ffwd);
         mFfwdButton.setOnClickListener(mFfwdListener);
 
         mWaveformView = (WaveformView)findViewById(R.id.waveform);
@@ -367,14 +374,37 @@ public class LoroClipEditActivity extends Activity
             mMaxPos = mWaveformView.maxPos();
         }
 
-        bookmarkListView = (BookmarkListView) findViewById(R.id.bookmarkListView);
-        bookmarkListView.setAdapter(new BookmarkListViewAdapter());
-        bookmarkListView.setOnItemClickListener(bookmarkListListener);
+//        bookmarkListView = (BookmarkListView) findViewById(R.id.bookmarkListView);
+//        bookmarkListView.setAdapter(new BookmarkListViewAdapter());
+//        bookmarkListView.setOnItemClickListener(bookmarkListListener);
 
         List<BookmarkHistory> histories = mRecord.getBookmarkHistories();
         for (BookmarkHistory history : histories) {
             mWaveformView.addBookmarkHistory(history);
         }
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(mToolbar);
+
+        // Logic about ViewPagers
+        ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
+        tab.addView(LayoutInflater.from(this).inflate(R.layout.play_indicator, tab, false));
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+
+        FragmentPagerItems pages = new FragmentPagerItems(this);
+
+        Bundle bookmarkListBundle = new Bundle();
+        pages.add(FragmentPagerItem.of("BookmarkHistoryView",PlayerFragment.class));
+        pages.add(FragmentPagerItem.of("BookmarkListView",PlayerFragment.class));
+
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(), pages);
+
+        viewPager.setAdapter(adapter);
+        viewPagerTab.setViewPager(viewPager);
+
         updateDisplay();
     }
 
@@ -864,7 +894,7 @@ public class LoroClipEditActivity extends Activity
 
         Message msg = Message.obtain(handler);
 
-        SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mFilename, msg);
+        SavedBookmarkHistoryListDialog savedBookmarkHistoryListDialog = new SavedBookmarkHistoryListDialog(this, mRecord, msg);
         savedBookmarkHistoryListDialog.show();
     }
 

@@ -11,7 +11,7 @@
 
     <dimen name="list_item_height">80dp</dimen>
 
-    <dimen name="circleradius">50dp</dimen>
+    <dimen name="circleradius">40dp</dimen>
     <dimen name="circlemargin">10dp</dimen>
     <dimen name="bookmarkradius">40dp</dimen>
     <dimen name="bookmarkmargin">15dp</dimen>
@@ -19,4 +19,6 @@
     <dimen name="textsizebig">20sp</dimen>
     <dimen name="textsizenormal">16sp</dimen>
     <dimen name="textsizesmall">12sp</dimen>
+
+    <dimen name="tab_height">36dp</dimen>
 </resources>

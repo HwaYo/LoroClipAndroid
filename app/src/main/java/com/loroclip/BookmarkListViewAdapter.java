@@ -43,16 +43,14 @@ public class BookmarkListViewAdapter extends BaseAdapter {
         String currentBookmarkName = bookmark.getName();
         int currentBookmarkColor = bookmark.getColor();
 
-        if (view == null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.bookmark_listview_item, parent, false);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.bookmark_listview_item, parent, false);
 
-            TextView bookmarkName = (TextView) view.findViewById(R.id.bookmarkName);
-            bookmarkName.setText(currentBookmarkName);
+        TextView bookmarkName = (TextView) view.findViewById(R.id.bookmarkName);
+        bookmarkName.setText(currentBookmarkName);
 
-            ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkColor);
-            bookmarkColor.setBackgroundColor(currentBookmarkColor);
-        }
+        ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkColor);
+        bookmarkColor.setBackgroundColor(currentBookmarkColor);
 
         return view;
     }

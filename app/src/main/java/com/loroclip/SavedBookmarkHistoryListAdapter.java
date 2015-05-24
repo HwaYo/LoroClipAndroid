@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loroclip.model.BookmarkHistory;
+import com.loroclip.model.Record;
 import com.loroclip.util.Util;
 
 import java.util.Collections;
@@ -21,8 +22,8 @@ import java.util.List;
 public class SavedBookmarkHistoryListAdapter extends BaseAdapter {
     private List<BookmarkHistory> savedBookmarkHistory;
 
-    public SavedBookmarkHistoryListAdapter(String fileName) {
-        savedBookmarkHistory = new BookmarkHistory().find(BookmarkHistory.class, "filename = ?", fileName);
+    public SavedBookmarkHistoryListAdapter(Record record) {
+        savedBookmarkHistory = new BookmarkHistory().find(BookmarkHistory.class, "record_uuid = ?", record.getUuid());
         Collections.sort(savedBookmarkHistory, new Comparator<BookmarkHistory>(){
 
             @Override
@@ -52,19 +53,18 @@ public class SavedBookmarkHistoryListAdapter extends BaseAdapter {
         Context context = viewGroup.getContext();
         BookmarkHistory bookmarkHistory = savedBookmarkHistory.get(i);
 
-        if (view == null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.saved_bookmark_history_listview_item, viewGroup, false);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.saved_bookmark_history_listview_item, viewGroup, false);
 
-            TextView bookmarkName = (TextView)view.findViewById(R.id.bookmarkHistoryName);
-            bookmarkName.setText(bookmarkHistory.getName());
+        TextView bookmarkName = (TextView)view.findViewById(R.id.bookmarkHistoryName);
+        bookmarkName.setText(bookmarkHistory.getName());
 
-            ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkHistoryColor);
-            bookmarkColor.setBackgroundColor(bookmarkHistory.getColor());
+        ImageView bookmarkColor = (ImageView)view.findViewById(R.id.bookmarkHistoryColor);
+        bookmarkColor.setBackgroundColor(bookmarkHistory.getColor());
 
-            TextView bookmarkStartTime = (TextView)view.findViewById(R.id.bookmarkStartTime);
-            bookmarkStartTime.setText(Util.milliSecondsToMinutesStr(bookmarkHistory.getStartMiiliseconds()));
-        }
+        TextView bookmarkStartTime = (TextView)view.findViewById(R.id.bookmarkStartTime);
+        bookmarkStartTime.setText(Util.milliSecondsToMinutesStr(bookmarkHistory.getStartMiiliseconds()));
+
         return view;
     }
 

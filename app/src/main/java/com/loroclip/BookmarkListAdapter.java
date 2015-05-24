@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loroclip.model.Bookmark;
-import com.loroclip.record.RecordActivity;
+
+import java.util.List;
 
 /**
  * Created by susu on 5/20/15.
@@ -20,18 +21,19 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
 
     private final static String TAG = "BookmarkListAdapter";
 
+    private List<Bookmark> mBookmarkList;
     private Context mContext;
+    private View.OnClickListener mBookmarkClickListener;
     private LayoutInflater mLayoutInflater;
 
-    RecordActivity.BookmarkHandler bookmarkHandler;
-
-    public BookmarkListAdapter(Context mContext, RecordActivity.BookmarkHandler bookmarkHandler) {
+    public BookmarkListAdapter(Context mContext, List<Bookmark> bookmarkList, View.OnClickListener bookmarkClickListener) {
         this.mContext = mContext;
         this.mLayoutInflater = LayoutInflater.from(mContext);
-        this.bookmarkHandler = bookmarkHandler;
+        this.mBookmarkList = bookmarkList;
+        this.mBookmarkClickListener = bookmarkClickListener;
     }
 
-static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         View viewHolder;
 
         public ViewHolder(View view) {
@@ -43,14 +45,13 @@ static class ViewHolder extends RecyclerView.ViewHolder {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.bookmark_list_item, parent, false);
-        view.setOnClickListener(bookmarkHandler);
+        view.setOnClickListener(mBookmarkClickListener);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        Bookmark bookmark = bookmarkHandler.getBookmarkList().get(position);
+        Bookmark bookmark = mBookmarkList.get(position);
         View view = holder.viewHolder;
 
         Drawable circle = mContext.getResources().getDrawable(R.drawable.circle);
@@ -61,11 +62,10 @@ static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name = (TextView) view.findViewById(R.id.bookmark_name);
         name.setText(bookmark.getName());
-
     }
 
     @Override
     public int getItemCount() {
-        return bookmarkHandler.getBookmarkList().size();
+        return mBookmarkList.size();
     }
 }
