@@ -112,7 +112,6 @@ public class LoroClipEditActivity extends ActionBarActivity
     private BookmarkHistory current_bookmark;
 
     private Toolbar mToolbar;
-
     private Resources resources;
 
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;

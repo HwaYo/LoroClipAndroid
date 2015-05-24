@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -29,23 +28,21 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
     private Button mLoginButton;
     private CallbackManager mCallbackManager;
-    private AccessTokenTracker mAccessTokenTracker;
 
-    public static final String ARG_ADD_NEW_ACCOUNT = "addNewAccount";
-    public static final String ARG_ACCOUNT_TYPE = "accountType";
+    public static final String ARG_FROM_AUTHENTICATOR = "fromAuthenticator";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
 
-        AccessToken token = AccessToken.getCurrentAccessToken();
-
-        if (token != null) {
-            retrieveAuthTokenWithFacebookToken(token);
+        Account account = LoroClipAccount.getInstance().getPrimaryAccount(this);
+        if (account != null) {
+            startMainActivity();
+            finish();
             return;
         }
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
         bindUI();
     }
 
@@ -73,19 +70,23 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
     private void finishLogin(String uid, LoroClipAuthClient.AccessToken accessToken) {
         final Intent intent = getIntent();
-        final Account account = new Account(uid, intent.getStringExtra(ARG_ACCOUNT_TYPE));
+        final Account account = new Account(uid, LoroClipAccount.ACCOUNT_TYPE);
         final AccountManager accountManager = AccountManager.get(getApplicationContext());
 
-        if (intent.getBooleanExtra(ARG_ADD_NEW_ACCOUNT, false)) {
-            accountManager.addAccountExplicitly(account, null, null);
-        }
+        accountManager.addAccountExplicitly(account, null, null);
         accountManager.setUserData(account, LoroClipAccount.KEY_TOKEN_CREATED_AT, String.valueOf(accessToken.getCreatedAt()));
         accountManager.setUserData(account, LoroClipAccount.KEY_TOKEN_EXPIRES_IN, String.valueOf(accessToken.getExpiresIn()));
         accountManager.setAuthToken(account, LoroClipAccount.AUTHTOKEN_TYPE, accessToken.getAccessToken());
 
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
-        finish();
+
+        if (intent.getBooleanExtra(ARG_FROM_AUTHENTICATOR, false)) {
+            finish();
+            return;
+        }
+
+        startMainActivity();
     }
 
     private void bindUI() {
@@ -131,5 +132,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

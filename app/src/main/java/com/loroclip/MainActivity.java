@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,7 +48,12 @@ public class MainActivity extends ActionBarActivity {
                                 if (ContentResolver.isSyncActive(account, LoroClipAccount.CONTENT_AUTHORITY)) {
                                     // Nothing to do
                                 } else {
-                                    recordListAdapter.notifyDataSetChanged();
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            recordListAdapter.notifyDataSetChanged();
+                                        }
+                                    });
                                 }
                             }
                         }
@@ -68,10 +72,6 @@ public class MainActivity extends ActionBarActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(OrientationHelper.VERTICAL);
 
-//        Paint border = new Paint();
-//        border.setStrokeWidth(0.1f);
-//        border.setColor(Color.GRAY);
-
         recordList.setLayoutManager(manager);
         recordList.setAdapter(recordListAdapter);
         recordList.addItemDecoration(
@@ -80,13 +80,6 @@ public class MainActivity extends ActionBarActivity {
                         .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
                         .build()
         );
-//        recordList.addItemDecoration(
-//                new HorizontalDividerItemDecoration
-//                        .Builder(this)
-//                        .sizeResId(R.dimen.divider)
-//                        .color(Color.GRAY)
-//                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-//                        .build());
 
         // Floating Button on Bottom Right Corner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
