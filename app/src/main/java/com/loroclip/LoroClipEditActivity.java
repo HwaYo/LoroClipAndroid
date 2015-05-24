@@ -305,7 +305,7 @@ public class LoroClipEditActivity extends ActionBarActivity
 
                 if (seekMsec <= mPlayer.getCurrentPosition()){
                     mWaveformView.setIsBookmarking(false);
-                    resetSelection();
+//                    resetSelection();
                 }
 
                 mPlayer.seekTo(seekMsec);
@@ -489,7 +489,7 @@ public class LoroClipEditActivity extends ActionBarActivity
                             mWaveformView.setIsBookmarking(false);
                             mPlayer.stop();
                             togglePlayButton();
-                            resetSelection();
+//                            resetSelection();
                             return;
                         }
                     });
@@ -714,7 +714,7 @@ public class LoroClipEditActivity extends ActionBarActivity
             mPlayer.pause();
         }
 
-        resetSelection();
+//        resetSelection();
     }
 
     private synchronized void onPlay(int startPosition) {
@@ -841,7 +841,7 @@ public class LoroClipEditActivity extends ActionBarActivity
             current_bookmark.save();
             mWaveformView.setIsBookmarking(false);
             mWaveformView.addBookmarkHistory(current_bookmark);
-            resetSelection();
+//            resetSelection();
         }
     }
 
@@ -853,12 +853,12 @@ public class LoroClipEditActivity extends ActionBarActivity
         mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
     }
 
-    public void resetSelection(){
-        for (int i=0;i<bookmarkListView.getChildCount();i++){
-            View v = bookmarkListView.getChildAt(i);
-            v.setSelected(false);
-        }
-    }
+//    public void resetSelection(){
+//        for (int i=0;i<bookmarkListView.getChildCount();i++){
+//            View v = bookmarkListView.getChildAt(i);
+//            v.setSelected(false);
+//        }
+//    }
 
     private long getCurrentTime() {
         return System.nanoTime() / 1000000;
