@@ -126,12 +126,12 @@ public class RecordActivity extends ActionBarActivity {
     mBookmarkRecycler.setLayoutManager(layoutManager);
     mBookmarkRecycler.setAdapter(bookmarkListAdapter);
     mBookmarkRecycler.addItemDecoration(
-       new HorizontalDividerItemDecoration
-               .Builder(this)
-           .sizeResId(R.dimen.divider)
-           .color(R.color.myGrayColor)
-           .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-           .build());
+                                           new HorizontalDividerItemDecoration
+                                                   .Builder(this)
+                                               .sizeResId(R.dimen.divider)
+                                               .color(R.color.myGrayColor)
+                                               .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                                               .build());
   }
 
   private void animationSetting() {
@@ -216,7 +216,9 @@ public class RecordActivity extends ActionBarActivity {
     if(mRecordStatus != READY_STATE) {
       stopRecord();
     }
-    mRecorderHandler.deleteTempAudioRecordInformation();
+    if(mRecordFile != null && mRecordFile.exists()){
+      mRecordFile.deleteOnExit();
+    }
   }
 
   private void showSaveDialog() {
@@ -374,13 +376,6 @@ private void showDeleteDialog() {
       finish();
     }
 
-    public void deleteTempAudioRecordInformation() {
-      mRecord.delete();
-
-      if(mRecordFile.exists()){
-        mRecordFile.deleteOnExit();
-      }
-    }
   }
 
 
