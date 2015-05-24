@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
@@ -28,6 +29,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.loroclip.BookmarkListAdapter;
 import com.loroclip.R;
+import com.loroclip.model.Bookmark;
+import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecodWaveformView;
@@ -38,8 +41,8 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
-
 
 public class RecordActivity extends ActionBarActivity {
 
@@ -47,26 +50,27 @@ public class RecordActivity extends ActionBarActivity {
   private final int RECORDING_STATE = 1;
   private final int PAUSE_STATE = 2;
 
-
-  private ImageView recordActionButton;
-  private ImageView recordDoneButton;
-  private ImageView recordTrashButton;
-
-  private RecodWaveformView waveformView;
-
-  private RecorderHandler recorderHandler;
-  private TimerHandler timerHandler;
-
   private Toolbar mToolbar;
+  private RecodWaveformView mWaveformView;
 
-  private BookmarkListAdapter bookmarkListAdapter;
-  private RecyclerView bookmarkRecycler;
-  private LinearLayoutManager manager;
+  private RecyclerView mBookmarkRecycler;
+  private ImageView mRecordActionButton;
+  private ImageView mRecordDoneButton;
+  private ImageView mRecordTrashButton;
 
-  private int recordStatus;
+  private TimerHandler mTimerHandler;
+  private RecorderHandler mRecorderHandler;
+  private BookmarkHandler mBookmarkHandler;
 
+  private LinearLayoutManager mLayoutManager;
+  private BookmarkListAdapter mBookmarkListAdapter;
+
+  private List<Bookmark> mBookmarkList;
+  private Record mRecord;
   private File mRecordFile;
 
+  private int mRecordStatus;
+  private boolean isSaved;
   private Animation fadeIn;
   private Animation fadeOut;
 
@@ -75,24 +79,31 @@ public class RecordActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_record_new);
 
-    recordStatus = READY_STATE;
+    mBookmarkList = Bookmark.listExists(Bookmark.class);
+
+    mRecordStatus = READY_STATE;
 
     mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
     setSupportActionBar(mToolbar);
 
-    recordActionButton = (ImageView) findViewById(R.id.record_action_img);
-    recordDoneButton = (ImageView) findViewById(R.id.record_done_img);
-    recordDoneButton.setEnabled(false);
-    recordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
+    mRecordDoneButton = (ImageView) findViewById(R.id.record_done_img);
+    mRecordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
+    mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
 
-    bookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
-    bookmarkListAdapter = new BookmarkListAdapter(this, bookmarkRecycler);
-    manager = new LinearLayoutManager(this);
-    manager.setOrientation(OrientationHelper.VERTICAL);
+    mRecordDoneButton.setEnabled(false);
 
-    bookmarkRecycler.setLayoutManager(manager);
-    bookmarkRecycler.setAdapter(bookmarkListAdapter);
-    bookmarkRecycler.addItemDecoration(
+    mTimerHandler = new TimerHandler();
+    mBookmarkHandler = new BookmarkHandler(mBookmarkList);
+    mRecorderHandler = new RecorderHandler();
+
+    mLayoutManager = new LinearLayoutManager(this);
+    mLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+
+    mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
+    mBookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkList, mBookmarkHandler);
+    mBookmarkRecycler.setLayoutManager(mLayoutManager);
+    mBookmarkRecycler.setAdapter(mBookmarkListAdapter);
+    mBookmarkRecycler.addItemDecoration(
             new HorizontalDividerItemDecoration
                     .Builder(this)
                     .sizeResId(R.dimen.divider)
@@ -100,13 +111,11 @@ public class RecordActivity extends ActionBarActivity {
                     .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
                     .build());
 
+
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayViewTmp);
-    waveformView = new RecodWaveformView(getBaseContext());
+    mWaveformView = new RecodWaveformView(getBaseContext());
+    displayLayout.addView(mWaveformView);
 
-    displayLayout.addView(waveformView);
-
-    this.recorderHandler = new RecorderHandler();
-    this.timerHandler = new TimerHandler();
 
     fadeOut = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_out);
     fadeIn = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_in);
@@ -115,25 +124,29 @@ public class RecordActivity extends ActionBarActivity {
       @Override
       public void onAnimationStart(Animation animation) {
       }
+
       @Override
       public void onAnimationEnd(Animation animation) {
         changeRecordingButton();
         // fade in animation
-        recordActionButton.startAnimation(fadeIn);
+        mRecordActionButton.startAnimation(fadeIn);
       }
+
       @Override
       public void onAnimationRepeat(Animation animation) {
       }
     });
 
     addEventListener();
+
+    isSaved = false;
   }
 
   private void changeRecordingButton() {
-    if ( recordStatus == RECORDING_STATE ) {
-      recordActionButton.setImageResource(R.drawable.record);
+    if ( mRecordStatus == RECORDING_STATE ) {
+      mRecordActionButton.setImageResource(R.drawable.record);
     } else {
-      recordActionButton.setImageResource(R.drawable.pause);
+      mRecordActionButton.setImageResource(R.drawable.pause);
     }
   }
 
@@ -145,15 +158,17 @@ public class RecordActivity extends ActionBarActivity {
   @Override
   public void onDestroy() {
     super.onDestroy();
-    stopRecord();
-    recorderHandler.deleteTempAudioRecordFile();
+
+    if(!isSaved) {
+      notSaveFinish();
+    }
   }
 
   private void addEventListener() {
-    recordActionButton.setOnClickListener(new View.OnClickListener() {
+    mRecordActionButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        switch (recordStatus) {
+        switch (mRecordStatus) {
           case READY_STATE:
             startRecord();
             break;
@@ -167,7 +182,7 @@ public class RecordActivity extends ActionBarActivity {
       }
     });
 
-    recordDoneButton.setOnClickListener(new View.OnClickListener() {
+    mRecordDoneButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         pauseRecord();
@@ -175,7 +190,7 @@ public class RecordActivity extends ActionBarActivity {
       }
     });
 
-    recordTrashButton.setOnClickListener(new View.OnClickListener() {
+    mRecordTrashButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         showDeleteDialog();
@@ -183,37 +198,102 @@ public class RecordActivity extends ActionBarActivity {
     });
   }
 
+  private void notSaveFinish() {
+    if(mRecordStatus != READY_STATE) {
+      stopRecord();
+    }
+    mBookmarkHandler.destroyBookmarAllkHistory();
+    mRecorderHandler.deleteTempAudioRecordInformation();
+  }
+
+  private void showSaveDialog() {
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    String dateString = format.format(Calendar.getInstance().getTime());
+
+    // show a dialog to set filename
+    final MaterialDialog dialog = new MaterialDialog.Builder(this)
+      .title(R.string.edit_name)
+      .content(R.string.set_record_name)
+      .inputType(InputType.TYPE_CLASS_TEXT)
+      .negativeText(R.string.cancel)
+      .input(dateString, dateString, new MaterialDialog.InputCallback() {
+        @Override
+        public void onInput(MaterialDialog dialog, CharSequence input) {
+          mRecorderHandler.save(input.toString());
+          stopRecord();
+        }
+      })
+      .show();
+
+    dialog.getInputEditText().addTextChangedListener(new TextWatcher() {
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() == 0) {
+          dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+        } else {
+          dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+        }
+      }
+
+      @Override // 입력이 끝났을 때
+      public void afterTextChanged(Editable s) {
+      }
+
+      @Override // 입력하기 전에
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
+    });
+
+    dialog.setCanceledOnTouchOutside(false);
+  }
+
+private void showDeleteDialog() {
+    new MaterialDialog.Builder(this)
+        .title(R.string.delete_audio)
+        .content(R.string.delete_audio_confirm)
+        .callback(new MaterialDialog.ButtonCallback() {
+          @Override
+          public void onPositive(MaterialDialog dialog) {
+          finish();
+        }
+        })
+        .positiveText(R.string.delete)
+      .negativeText(R.string.cancel)
+      .show()
+      .setCanceledOnTouchOutside(false);
+  }
+
   private void startRecord() {
     changeRecordingButton();
-    recorderHandler.start();
-    timerHandler.start();
-    recordStatus = RECORDING_STATE;
-    recordDoneButton.setEnabled(true);
+    mRecorderHandler.start();
+    mTimerHandler.start();
+    mRecordStatus = RECORDING_STATE;
+    mRecordDoneButton.setEnabled(true);
   }
   private void pauseRecord() {
     changeRecordingButton();
-    recorderHandler.pause();
-    timerHandler.pause();
-    recordStatus = PAUSE_STATE;
+    mRecorderHandler.pause();
+    mTimerHandler.pause();
+    mRecordStatus = PAUSE_STATE;
   }
   private void restartRecord() {
     changeRecordingButton();
-    recorderHandler.restart();
-    timerHandler.restart();
-    recordStatus = RECORDING_STATE;
+    mRecorderHandler.restart();
+    mTimerHandler.restart();
+    mRecordStatus = RECORDING_STATE;
   }
   private void stopRecord() {
-    recorderHandler.stop();
-    timerHandler.stop();
-    recordStatus = READY_STATE;
+    mRecorderHandler.stop();
+    mTimerHandler.stop();
+    mRecordStatus = READY_STATE;
   }
 
 
   private class RecorderHandler {
     private VorbisRecorder loroclipRecorder;
 
-    private final int LOROCLIP_AUDIO_CHANNELS = 2;
     private final float LOROCLIP_AUDIO_QUALITY = 0.7f;
+    private final int LOROCLIP_AUDIO_CHANNELS = 2;
     private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
     private final String AUDIO_OGG_EXTENSION = ".ogg";
@@ -222,18 +302,22 @@ public class RecordActivity extends ActionBarActivity {
 
     public void start() {
       File loroclipPath = new File(LOROCLIP_PATH);
-      waveformView.startRecord();
+
       if(!loroclipPath.exists()) {
         loroclipPath.mkdirs();
       }
 
-      if (loroclipRecorder == null || loroclipRecorder.isStopped()) {
-        String filename = UUID.randomUUID().toString();
-        mRecordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
+      mWaveformView.prepare();
 
-        //Create our recorder if necessary
+      if (loroclipRecorder == null || loroclipRecorder.isStopped()) {
+        mRecordFile = new File(LOROCLIP_PATH, UUID.randomUUID().toString() + AUDIO_OGG_EXTENSION);
+
+        mRecord = new Record();
+        mRecord.setLocalFile(mRecordFile);
+        mRecord.save();
+
         if (loroclipRecorder == null) {
-          loroclipRecorder = new VorbisRecorder(mRecordFile, waveformView);
+          loroclipRecorder = new VorbisRecorder(mRecordFile, mWaveformView);
         }
         loroclipRecorder.start(LOROCLIP_AUDIO_SAMPLE_RATE, LOROCLIP_AUDIO_CHANNELS, LOROCLIP_AUDIO_QUALITY);
       }
@@ -253,17 +337,23 @@ public class RecordActivity extends ActionBarActivity {
       }
     }
 
-    public void saveRecord(String title) {
+    public void save(String title) {
+
+      Log.e("aa", "save");
+      if(mBookmarkHandler.getCurrentSelectedBookmarkHistory() != null) {
+        mBookmarkHandler.finish();
+      }
+
       final Handler handler = new Handler();
-      Record record = new Record();
-      record.setLocalFile(mRecordFile);
-      record.setTitle(title);
-      record.save();
+      mRecord.setTitle(title);
+      mRecord.save();
 
       FrameGains fg = new FrameGains();
-      fg.setFrames(waveformView.getJsonArray().toString());
-      fg.setRecord(record);
+      fg.setFrames(mWaveformView.getJsonArray().toString());
+      fg.setRecord(mRecord);
       fg.save();
+
+
 
       handler.post(new Runnable() {
         @Override
@@ -273,15 +363,18 @@ public class RecordActivity extends ActionBarActivity {
       });
 
       Intent intent = new Intent();
-      intent.putExtra("record_id", record.getId());
+      intent.putExtra("record_id", mRecord.getId());
       setResult(Activity.RESULT_OK, intent);
+      isSaved = true;
+      Log.e("aa", "save finish");
       finish();
     }
 
-      public void deleteTempAudioRecordFile() {
-      File tempAudioRecordFile = new File(LOROCLIP_PATH, LOROCLIP_TEMP_RECORDING_FILE_NAME + AUDIO_OGG_EXTENSION);
-      if(tempAudioRecordFile.exists()){
-        tempAudioRecordFile.deleteOnExit();
+    public void deleteTempAudioRecordInformation() {
+      mRecord.delete();
+
+      if(mRecordFile.exists()){
+        mRecordFile.deleteOnExit();
       }
     }
   }
@@ -314,64 +407,68 @@ public class RecordActivity extends ActionBarActivity {
       stoppedTime = 0;
       chronometer.stop();
     }
+
+    public float getTime() {
+      return (float)(SystemClock.elapsedRealtime() - chronometer.getBase()) / 1000;
+    }
   }
 
-  private void showDeleteDialog() {
-    new MaterialDialog.Builder(this)
-        .title(R.string.delete_audio)
-        .content(R.string.delete_audio_confirm)
-        .callback(new MaterialDialog.ButtonCallback() {
-          @Override
-          public void onPositive(MaterialDialog dialog) {
-            finish();
-          }
-        })
-        .positiveText(R.string.delete)
-        .negativeText(R.string.cancel)
-        .show()
-        .setCanceledOnTouchOutside(false);
-  }
+  public class BookmarkHandler implements View.OnClickListener {
+    private BookmarkHistory currentSelectedBookmarkHistory;
+    private List<Bookmark> mBookmarkList;
 
+    public BookmarkHandler(List<Bookmark> bookmarkList) {
+      this.currentSelectedBookmarkHistory = null;
+      this.mBookmarkList = bookmarkList;
+    }
+    @Override
+    public void onClick(View v) {
+      Bookmark selectedBookmark = mBookmarkList.get(findPosition(v));
 
+      if(mRecord == null) { return; }
 
-  private void showSaveDialog() {
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    String dateString = format.format(Calendar.getInstance().getTime());
-
-    // show a dialog to set filename
-    final MaterialDialog dialog = new MaterialDialog.Builder(this)
-                                      .title(R.string.edit_name)
-                                      .content(R.string.set_record_name)
-                                      .inputType(InputType.TYPE_CLASS_TEXT)
-                                      .negativeText(R.string.cancel)
-                                      .input(dateString, dateString, new MaterialDialog.InputCallback() {
-                                        @Override
-                                        public void onInput(MaterialDialog dialog, CharSequence input) {
-                                          stopRecord();
-                                          recorderHandler.saveRecord(input.toString());
-                                        }
-            })
-            .show();
-
-    dialog.getInputEditText().addTextChangedListener(new TextWatcher() {
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() == 0) {
-          dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-        } else {
-          dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-        }
+      if(currentSelectedBookmarkHistory == null) {
+        saveStartBookmarkHistory(selectedBookmark);
+      } else if(currentSelectedBookmarkHistory.getBookmark().getId() == selectedBookmark.getId()) {
+        saveEndBookmarkHistory();
+      } else {
+        saveEndBookmarkHistory();
+        saveStartBookmarkHistory(selectedBookmark);
       }
+    }
 
-      @Override // 입력이 끝났을 때
-      public void afterTextChanged(Editable s) {
+    private int findPosition ( View v ) {
+      return mBookmarkRecycler.getChildLayoutPosition(v);
+    }
+
+    private void saveStartBookmarkHistory(Bookmark selectedBookmark) {
+      currentSelectedBookmarkHistory = new BookmarkHistory(mRecord, selectedBookmark);
+      currentSelectedBookmarkHistory.setStart(mTimerHandler.getTime());
+      mWaveformView.setCurrentSelectedBookmark(selectedBookmark);
+    }
+
+    private void saveEndBookmarkHistory() {
+      currentSelectedBookmarkHistory.setEnd(mTimerHandler.getTime());
+      currentSelectedBookmarkHistory.save();
+      currentSelectedBookmarkHistory = null;
+      mWaveformView.setCurrentRelaseBookmark();
+    }
+
+    public void finish() {
+      Log.e("aa", "finish");
+      currentSelectedBookmarkHistory.setEnd(mTimerHandler.getTime());
+      currentSelectedBookmarkHistory.save();
+    }
+
+    public BookmarkHistory getCurrentSelectedBookmarkHistory() {
+      return currentSelectedBookmarkHistory;
+    }
+
+    public void destroyBookmarAllkHistory() {
+      List<BookmarkHistory> histories = mRecord.getBookmarkHistories();
+      for (BookmarkHistory history : histories) {
+        history.delete();
       }
-
-      @Override // 입력하기 전에
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-      }
-    });
-
-    dialog.setCanceledOnTouchOutside(false);
+    }
   }
 }

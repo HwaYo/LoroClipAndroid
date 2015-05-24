@@ -395,6 +395,7 @@ public class LoroClipEditActivity extends ActionBarActivity
 
         FragmentPagerItems pages = new FragmentPagerItems(this);
 
+        Bundle bookmarkListBundle = new Bundle();
         pages.add(FragmentPagerItem.of("BookmarkHistoryView",PlayerFragment.class));
         pages.add(FragmentPagerItem.of("BookmarkListView",PlayerFragment.class));
 
