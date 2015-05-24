@@ -19,4 +19,6 @@
     <dimen name="textsizebig">20sp</dimen>
     <dimen name="textsizenormal">16sp</dimen>
     <dimen name="textsizesmall">12sp</dimen>
+
+    <dimen name="tab_height">36dp</dimen>
 </resources>

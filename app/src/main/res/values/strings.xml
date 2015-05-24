@@ -190,6 +190,7 @@
     
     <string name="delete_audio_confirm">Sure to delete?</string>
     <string name="delete">delete</string>
+    <string name="title_activity_play">PlayActivity</string>
 
 
 </resources>

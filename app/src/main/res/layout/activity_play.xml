@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <include android:id="@+id/toolbar_actionbar" layout="@layout/toolbar_default"
-            android:layout_width="match_parent" android:layout_height="wrap_content" />
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/displayViewTmp">
+        android:id="@+id/displayView">
     </LinearLayout>
 
     <LinearLayout
@@ -45,17 +45,6 @@
                 android:gravity="center"/>
 
         </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_elevation"
-                android:background="@drawable/shadow_top" />
-
-        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +80,15 @@
                 android:clickable="true" />
 
         </LinearLayout>
-        
+
+        <!-- SmartTabLayout -->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/myPrimaryColor"></LinearLayout>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent">
@@ -115,6 +112,5 @@
         </FrameLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>
