@@ -269,10 +269,6 @@ public class WaveformView extends View {
             mOffset = offsetCenter - getMeasuredWidth() / 2;
             if (mOffset < 0)
                 mOffset = 0;
-            for (BookmarkHistory bh : bookmarkHistoryList) {
-                bh.setStart(bh.getStart() * 2);
-                bh.setEnd(bh.getEnd() * 2);
-            }
             invalidate();
         }
     }
@@ -293,10 +289,6 @@ public class WaveformView extends View {
             if (mOffset < 0)
                 mOffset = 0;
             mHeightsAtThisZoomLevel = null;
-            for (BookmarkHistory bh : bookmarkHistoryList) {
-                bh.setStart(bh.getStart() / 2);
-                bh.setEnd(bh.getEnd() / 2);
-            }
             invalidate();
         }
     }

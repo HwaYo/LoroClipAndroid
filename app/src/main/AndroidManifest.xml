@@ -41,6 +41,8 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -115,7 +117,7 @@
 
         <provider
             android:name=".LoroClipContentProvider"
-            android:authorities="com.loroclip.content"
+            android:authorities="@string/content_authority"
             android:enabled="true"
             android:exported="true"
             android:syncable="true" >

@@ -1,6 +1,9 @@
 package com.loroclip;
 
+import android.accounts.Account;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SyncStatusObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,6 +35,27 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_list);
+
+        final Account account = LoroClipAccount.getInstance().getPrimaryAccount(this);
+        if (account != null) {
+            ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
+            ContentResolver.setSyncAutomatically(account, LoroClipAccount.CONTENT_AUTHORITY, true);
+            ContentResolver.addStatusChangeListener(
+                    ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE | ContentResolver.SYNC_OBSERVER_TYPE_PENDING,
+                    new SyncStatusObserver() {
+                        @Override
+                        public void onStatusChanged(int which) {
+                            if (which == ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE) {
+                                if (ContentResolver.isSyncActive(account, LoroClipAccount.CONTENT_AUTHORITY)) {
+                                    // Nothing to do
+                                } else {
+                                    recordListAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    }
+            );
+        }
 
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -115,10 +139,21 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_settings :
                 break;
             case R.id.action_sync :
-                // TODO
-                // Sync with Server
+                requestSync();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestSync() {
+        Account primaryAccount = LoroClipAccount.getInstance().getPrimaryAccount(this);
+        if (primaryAccount == null) {
+            return;
+        }
+
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        ContentResolver.requestSync(primaryAccount, LoroClipAccount.CONTENT_AUTHORITY, settingsBundle);
     }
 }

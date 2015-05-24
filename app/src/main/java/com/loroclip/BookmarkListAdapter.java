@@ -113,9 +113,7 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
         View view = holder.viewHolder;
 
         Drawable circle = mContext.getResources().getDrawable(R.drawable.circle);
-        circle.setColorFilter(
-                new PorterDuffColorFilter(bookmark.getColor(),PorterDuff.Mode.OVERLAY)
-        );
+        circle.setColorFilter(bookmark.getColor(), PorterDuff.Mode.MULTIPLY);
 
         ImageView img = (ImageView) view.findViewById(R.id.bookmark_image);
         img.setBackground(circle);

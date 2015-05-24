@@ -16,14 +16,13 @@
 
 package com.loroclip;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,7 +40,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -98,7 +96,6 @@ public class LoroClipEditActivity extends ActionBarActivity
     private int mPlayStartMsec;
     private int mPlayEndMsec;
     private Handler mHandler;
-    private boolean mIsPlaying;
     private LoroClipPlayer mPlayer;
     private boolean mTouchDragging;
     private float mTouchStart;
@@ -123,8 +120,6 @@ public class LoroClipEditActivity extends ActionBarActivity
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
-    private LoroClipPlayer mTestPlayer;
-
 
     /** Called when the activity is first created. */
     @Override
@@ -135,7 +130,7 @@ public class LoroClipEditActivity extends ActionBarActivity
         resources = getResources();
 
         mPlayer = null;
-        mIsPlaying = false;
+//        mIsPlaying = false;
 
         mAlertDialog = null;
         mProgressDialog = null;
@@ -194,7 +189,6 @@ public class LoroClipEditActivity extends ActionBarActivity
         }
 
         if (mPlayer != null) {
-//            if (mPlayer.isPlaying() || mPlayer.isPaused()) {
             if (mPlayer.isPlaying()) {
                 mPlayer.stop();
             }
@@ -279,7 +273,7 @@ public class LoroClipEditActivity extends ActionBarActivity
         mWidth = mWaveformView.getMeasuredWidth();
         if (mOffsetGoal != mOffset && !mKeyDown)
             updateDisplay();
-        else if (mIsPlaying) {
+        else if (mPlayer.isPlaying()) {
             updateDisplay();
         } else if (mFlingVelocity != 0) {
             updateDisplay();
@@ -305,7 +299,7 @@ public class LoroClipEditActivity extends ActionBarActivity
 
         long elapsedMsec = getCurrentTime() - mWaveformTouchStartMsec;
         if (elapsedMsec < 300) {
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
 
@@ -362,8 +356,6 @@ public class LoroClipEditActivity extends ActionBarActivity
         mRewindButton.setOnClickListener(mRewindListener);
         mFfwdButton = (ImageView)findViewById(R.id.ffwd);
         mFfwdButton.setOnClickListener(mFfwdListener);
-
-        enableDisableButtons();
 
         mWaveformView = (WaveformView)findViewById(R.id.waveform);
         mWaveformView.setListener(this);
@@ -481,8 +473,26 @@ public class LoroClipEditActivity extends ActionBarActivity
                         mHandler.post(runnable);
                         return;
                     }
-//                    mPlayer = new SamplePlayer(mSoundFile);
                     mPlayer = new LoroClipPlayer(mFile.getAbsolutePath());
+                    mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+                            togglePlayButton();
+                            return;
+                        }
+                    });
+
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            mWaveformView.setIsBookmarking(false);
+                            mPlayer.stop();
+                            togglePlayButton();
+                            resetSelection();
+                            return;
+                        }
+                    });
+
                 } catch (final Exception e) {
                     mProgressDialog.dismiss();
                     e.printStackTrace();
@@ -517,7 +527,6 @@ public class LoroClipEditActivity extends ActionBarActivity
         mLoadSoundFileThread.start();
     }
 
-
     private void finishOpeningSoundFile() {
         mWaveformView.setSoundFile(mSoundFile);
         mWaveformView.recomputeHeights(mDensity);
@@ -545,14 +554,11 @@ public class LoroClipEditActivity extends ActionBarActivity
     }
 
     private synchronized void updateDisplay() {
-        if (mIsPlaying) {
+        if (mPlayer != null && mPlayer.isPlaying()) {
             int now = mPlayer.getCurrentPosition();
             int frames = mWaveformView.millisecsToPixels(now);
             mWaveformView.setPlayback(frames);
             setOffsetGoalNoUpdate(frames - mWidth / 2);
-            if (now >= mPlayEndMsec) {
-                handlePause();
-            }
         }
 
         if (!mTouchDragging) {
@@ -620,12 +626,12 @@ public class LoroClipEditActivity extends ActionBarActivity
         }
     };
 
-    private void enableDisableButtons() {
-        if (mIsPlaying) {
-            mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.pause));
+    private void togglePlayButton() {
+        if (mPlayer.isPlaying()) {
+            mPlayButton.setImageResource(android.R.drawable.ic_media_pause);
             mPlayButton.setContentDescription(getResources().getText(R.string.stop));
-        } else {
-            mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.play));
+        } else if(!mPlayer.isPlaying()) {
+            mPlayButton.setImageResource(android.R.drawable.ic_media_play);
             mPlayButton.setContentDescription(getResources().getText(R.string.play));
         }
     }
@@ -707,15 +713,11 @@ public class LoroClipEditActivity extends ActionBarActivity
             mPlayer.pause();
         }
 
-        mPlayStartMsec = mWaveformView.pixelsToMillisecs(mWaveformView.getmPlaybackPos());
-        mIsPlaying = false;
-        mWaveformView.setIsBookmarking(false);
         resetSelection();
-        enableDisableButtons();
     }
 
     private synchronized void onPlay(int startPosition) {
-        if (mIsPlaying) {
+        if (mPlayer.isPlaying()) {
             handlePause();
             return;
         }
@@ -734,22 +736,10 @@ public class LoroClipEditActivity extends ActionBarActivity
             } else {
                 mPlayEndMsec = mWaveformView.pixelsToMillisecs(mEndPos);
             }
-//            mPlayer.setOnCompletionListener(new SamplePlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion() {
-//                    handlePause();
-//                }
-//            });
-            mIsPlaying = true;
-
-            if (startPosition >= mEndPos){
-                mPlayStartMsec = 0;
+            if (startPosition < mEndPos){
+                mPlayer.start(mPlayStartMsec);
+                updateDisplay();
             }
-
-            mPlayer.seekTo(mPlayStartMsec);
-            mPlayer.start();
-            updateDisplay();
-            enableDisableButtons();
         } catch (Exception e) {
             showFinalAlert(e, R.string.play_error);
             return;
@@ -789,19 +779,21 @@ public class LoroClipEditActivity extends ActionBarActivity
 
     private OnClickListener mPlayListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mPlayStartMsec == 0) {
+            if (mPlayer.getDuration() <= mPlayer.getCurrentPosition()) {
                 onPlay(mStartPos);
             }
             else {
                 onPlay(mWaveformView.getmPlaybackPos());
             }
+
+            togglePlayButton();
         }
     };
 
     private OnClickListener mRewindListener = new OnClickListener() {
         public void onClick(View sender) {
             mWaveformView.setIsBookmarking(false);
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 int newPos = mPlayer.getCurrentPosition() - 5000;
                 if (newPos < 0)
                     newPos = 0;
@@ -812,7 +804,7 @@ public class LoroClipEditActivity extends ActionBarActivity
 
     private OnClickListener mFfwdListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 int newPos = 5000 + mPlayer.getCurrentPosition();
                 if (newPos > mPlayEndMsec)
                     newPos = mPlayEndMsec;
@@ -827,23 +819,38 @@ public class LoroClipEditActivity extends ActionBarActivity
             BookmarkListViewAdapter adapter = (BookmarkListViewAdapter) adapterView.getAdapter();
             Bookmark bookmark = (Bookmark) adapter.getItem(position);
 
-            if (mIsPlaying) {
+            if (mPlayer.isPlaying()) {
                 if (mWaveformView.isBookmarking()) {
-                    current_bookmark.setEnd((float)mPlayer.getCurrentPosition() / 1000);
-                    current_bookmark.save();
-                    view.setSelected(false);
-                    mWaveformView.setIsBookmarking(false);
-                    mWaveformView.addBookmarkHistory(current_bookmark);
+                    saveEndBookmarkHistory();
+
+                    if (!current_bookmark.getName().equals(bookmark.getName())){
+                        saveStartBookmarkHistory(view, bookmark);
+                    }
+
                 } else {
-                    current_bookmark = new BookmarkHistory(mRecord, bookmark);
-                    current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
-                    view.setSelected(true);
-                    mWaveformView.setIsBookmarking(true);
-                    mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
+                    saveStartBookmarkHistory(view, bookmark);
                 }
             }
         }
     };
+
+    private void saveEndBookmarkHistory() {
+        if (current_bookmark != null) {
+            current_bookmark.setEnd((float) mPlayer.getCurrentPosition() / 1000);
+            current_bookmark.save();
+            mWaveformView.setIsBookmarking(false);
+            mWaveformView.addBookmarkHistory(current_bookmark);
+            resetSelection();
+        }
+    }
+
+    private void saveStartBookmarkHistory(View view, Bookmark bookmark) {
+        current_bookmark = new BookmarkHistory(mRecord, bookmark);
+        current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
+        view.setSelected(true);
+        mWaveformView.setIsBookmarking(true);
+        mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
+    }
 
     public void resetSelection(){
         for (int i=0;i<bookmarkListView.getChildCount();i++){
@@ -875,12 +882,11 @@ public class LoroClipEditActivity extends ActionBarActivity
                     return;
                 }
 
-                int pos = mWaveformView.millisecsToPixels(msg.arg1);
-
-                if (mIsPlaying) {
+                if (mPlayer.isPlaying()) {
                     mPlayer.seekTo(msg.arg1);
                 } else {
-                    onPlay(pos);
+                    mPlayer.start(msg.arg1);
+                    mWaveformView.invalidate();
                 }
             }
         };
