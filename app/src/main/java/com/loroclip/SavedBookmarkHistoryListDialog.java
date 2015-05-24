@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.loroclip.model.BookmarkHistory;
+import com.loroclip.model.Record;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class SavedBookmarkHistoryListDialog extends Dialog {
     private BookmarkListView bookmarkHistoryListView;
     private Message response;
 
-    public SavedBookmarkHistoryListDialog(Context context, String fileName, Message msg) {
+    public SavedBookmarkHistoryListDialog(Context context, Record record, Message msg) {
         super(context);
 
         setContentView(R.layout.saved_bookmark_history_list_dialog);
@@ -28,7 +29,7 @@ public class SavedBookmarkHistoryListDialog extends Dialog {
         setTitle("북마크 선택");
 
         bookmarkHistoryListView = (BookmarkListView) findViewById(R.id.bookmark_dialog_listview);
-        SavedBookmarkHistoryListAdapter adapter = new SavedBookmarkHistoryListAdapter(fileName);
+        SavedBookmarkHistoryListAdapter adapter = new SavedBookmarkHistoryListAdapter(record);
         bookmarkHistoryListView.setAdapter(adapter);
         bookmarkHistoryList = (ArrayList<BookmarkHistory>) adapter.getSavedBookmarkHistory();
 

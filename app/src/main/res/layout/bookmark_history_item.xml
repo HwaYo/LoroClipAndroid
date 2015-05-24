@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height">
+
+    <ImageView
+        android:id="@+id/bookmark_history_image"
+        android:src="@drawable/bookmark"
+        android:background="@drawable/circle"
+        android:layout_width="@dimen/bookmarkradius"
+        android:layout_height="@dimen/bookmarkradius"
+        android:layout_marginLeft="@dimen/bookmarkmargin"
+        android:layout_marginRight="@dimen/bookmarkmargin"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/bookmark_history_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="StartTime - EndTime"
+        android:layout_marginLeft="@dimen/circlemargin"
+        android:layout_marginRight="@dimen/circlemargin"/>
+
+    <TextView
+        android:id="@+id/bookmark_history_item_name"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="top|right"
+        android:padding="10dp"
+        android:text="Bookmark Name"/>
+
+</LinearLayout>
