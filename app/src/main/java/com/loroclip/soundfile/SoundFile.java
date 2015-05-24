@@ -18,6 +18,7 @@ package com.loroclip.soundfile;
 
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
+import android.media.MediaMetadataRetriever;
 
 import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
@@ -154,6 +155,11 @@ public class SoundFile {
         try {
             List<FrameGains> frameGainsArray = mRecord.getFrameGains();
             if (frameGainsArray.isEmpty()) {
+                mNumFrames = (int)(getSampleRate() * getRecordDurationMillisecs() / 1000) / getSamplesPerFrame();
+                mFrameGains = new int[mNumFrames];
+                if (mFrameGains.length > 1) {
+                    mFrameGains[0] = 255;
+                }
                 return;
             }
 
@@ -163,5 +169,12 @@ public class SoundFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private long getRecordDurationMillisecs() {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+
+        mmr.setDataSource(mInputFile.getPath());
+        return Long.valueOf(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
     }
 }

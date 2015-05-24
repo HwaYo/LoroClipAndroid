@@ -7,11 +7,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.loroclip.R;
+import com.loroclip.model.Bookmark;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +18,9 @@ import org.json.JSONException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
 
 public class RecodWaveformView extends View {
@@ -26,7 +28,8 @@ public class RecodWaveformView extends View {
 	private final Handler handler;
 
 
-	private final Paint waveBaseLine = new Paint();
+	private final Paint waveBaseLine;
+	private Paint currentBookmarkPaint;
 
 	private JSONArray mJSONArray;
 
@@ -38,22 +41,39 @@ public class RecodWaveformView extends View {
 	int[] frameGains;
 	int[] mHeightsAtThisZoomLevel;
 
+	private List<WaveformBookmarkInfomation> waveformBookmarkInfomationList;
+	int makeSize;
+
+	private final Semaphore jsonArraySemaphore;
+
 	public RecodWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
+		waveBaseLine = new Paint();
 		waveBaseLine.setAntiAlias(false);
 		waveBaseLine.setColor(getResources().getColor(R.drawable.waveform_selected));
 
+		currentBookmarkPaint = new Paint();
+		waveBaseLine.setAntiAlias(false);
+
 		initWaveformView();
-		mJSONArray = new JSONArray();
+
+		jsonArraySemaphore = new Semaphore(1);
 	}
 
-	public  void startRecord() {
-		mJSONArray = new JSONArray();
+	public  void prepare() {
+		try {
+			jsonArraySemaphore.acquire();
+			mJSONArray = new JSONArray();
+			jsonArraySemaphore.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void initWaveformView() {
 		numFrames = 0;
+		waveformBookmarkInfomationList = new ArrayList<WaveformBookmarkInfomation>();
 		fireInvalidate();
 	}
 
@@ -71,23 +91,59 @@ public class RecodWaveformView extends View {
 		int width = mHeightsAtThisZoomLevel.length;
 		int ctr = measuredHeight / 2;
 
+
+
+
 //	Draw waveform
 		for (int i = 0; i < width; i++) {
-			Paint paint = waveBaseLine;
-			drawWaveformLine(canvas, i, ctr - mHeightsAtThisZoomLevel[i], ctr + 1 + mHeightsAtThisZoomLevel[i], paint);
+
+			drawWaveformLine(canvas, i, ctr - mHeightsAtThisZoomLevel[i], ctr + 1 + mHeightsAtThisZoomLevel[i], waveBaseLine);
+
+			for (int j = 0 ; j < waveformBookmarkInfomationList.size() ; j++) {
+				WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(j);
+				if (
+						waveformBookmarkInfomation.getStartViewIndex() <= i &&
+						(waveformBookmarkInfomation.getEndViewIndex() >= i ||
+						 waveformBookmarkInfomation.getEndViewIndex() < 0)) {
+					currentBookmarkPaint.setColor(waveformBookmarkInfomation.getColor());
+					currentBookmarkPaint.setAlpha(50);
+					canvas.drawLine(i, 0, i, measuredHeight, currentBookmarkPaint);
+					break;
+				}
+			}
 		}
 	}
+
 
 	protected void drawWaveformLine(Canvas canvas, int x, int y0, int y1, Paint paint) {
 		canvas.drawLine(x, y0, x, y1, paint);
 	}
 
 	public void setDrawData() {
+		try {
+			jsonArraySemaphore.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		int start;
-		int makeSize;
 
-		start = numFrames < measuredWidth / 2 ? 0 : numFrames - measuredWidth / 2;
-		makeSize = numFrames < measuredWidth / 2? numFrames : measuredWidth / 2;
+		if(numFrames < measuredWidth / 2) {
+			start = 0;
+			makeSize = numFrames;
+		} else {
+			start = numFrames - measuredWidth / 2;
+			makeSize = measuredWidth / 2;
+			for(int i = 0; i < waveformBookmarkInfomationList.size(); i++) {
+				WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(i);
+				waveformBookmarkInfomation.moveViewIndex();
+				if(waveformBookmarkInfomation.getStartViewIndex() < 0 && waveformBookmarkInfomation.getEndViewIndex() < 0
+						&& waveformBookmarkInfomationList.size() - 1 != i ) {
+					waveformBookmarkInfomationList.remove(i);
+				}
+			}
+		}
+
+
 
 		frameGains = new int[makeSize];
 		for(int i = start, j = 0 ; i < start + makeSize ; i++ , j++) {
@@ -207,11 +263,22 @@ public class RecodWaveformView extends View {
 		}
 		mJSONArray.put((int) Math.sqrt(gain));
 		numFrames++;
+
 		setDrawData();
+		jsonArraySemaphore.release();
 	}
 
+	// TODO 여기 무슨 작업은 해야할듯 세마포어사용???
 	public JSONArray getJsonArray(){
-		return mJSONArray;
+		JSONArray result = null;
+		try {
+			jsonArraySemaphore.acquire();
+			result = mJSONArray;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		jsonArraySemaphore.release();
+		return result;
 	}
 
 	private void fireInvalidate() {
@@ -221,5 +288,51 @@ public class RecodWaveformView extends View {
 				RecodWaveformView.this.invalidate();
 			}
 		});
+	}
+
+	public void setCurrentSelectedBookmark(Bookmark selectedBookmark) {
+		waveformBookmarkInfomationList.add(new WaveformBookmarkInfomation(selectedBookmark));
+	}
+
+	public void setCurrentRelaseBookmark() {
+		WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(waveformBookmarkInfomationList.size() - 1);
+		waveformBookmarkInfomation.setEndViewIndex();
+	}
+
+	private class WaveformBookmarkInfomation{
+
+		Bookmark bookmark;
+		int startIndex;
+		int endIndex;
+		public WaveformBookmarkInfomation(Bookmark bookmark) {
+			this.bookmark = bookmark;
+			this.startIndex = makeSize * 2;
+			this.endIndex = -1;
+		}
+
+		public Bookmark getBookmark() {
+			return bookmark;
+		}
+
+		public void moveViewIndex() {
+			startIndex -= 2;
+			endIndex -= 2;
+		}
+
+		public void setEndViewIndex() {
+			endIndex = makeSize * 2;
+		}
+
+		public int getStartViewIndex() {
+			return startIndex;
+		}
+
+		public int getEndViewIndex() {
+			return endIndex;
+		}
+
+		public int getColor() {
+			return bookmark.getColor();
+		}
 	}
 }

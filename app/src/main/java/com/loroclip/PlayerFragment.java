@@ -1,7 +1,6 @@
 package com.loroclip;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.loroclip.adapter.BookmarkHistoryAdapter;
+import com.loroclip.model.Bookmark;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import java.util.List;
 
 /**
  * Created by susu on 5/23/15.
@@ -56,7 +57,8 @@ public class PlayerFragment extends Fragment {
         } else {
             // Bookmark List
             BookmarkListAdapter listAdapter;
-            listAdapter = new BookmarkListAdapter(getActivity(),playRecycler);
+            List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class);
+            listAdapter = new BookmarkListAdapter(getActivity(), bookmarkList, null);
             playRecycler.setAdapter(listAdapter);
         }
 

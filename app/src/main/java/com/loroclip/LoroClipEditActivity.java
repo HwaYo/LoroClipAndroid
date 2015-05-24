@@ -16,9 +16,7 @@
 
 package com.loroclip;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +40,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,7 +54,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -399,6 +395,7 @@ public class LoroClipEditActivity extends ActionBarActivity
 
         FragmentPagerItems pages = new FragmentPagerItems(this);
 
+        Bundle bookmarkListBundle = new Bundle();
         pages.add(FragmentPagerItem.of("BookmarkHistoryView",PlayerFragment.class));
         pages.add(FragmentPagerItem.of("BookmarkListView",PlayerFragment.class));
 
