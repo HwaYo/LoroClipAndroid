@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
@@ -40,6 +39,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -62,15 +62,13 @@ public class RecordActivity extends ActionBarActivity {
   private RecorderHandler mRecorderHandler;
   private BookmarkHandler mBookmarkHandler;
 
-  private LinearLayoutManager mLayoutManager;
-  private BookmarkListAdapter mBookmarkListAdapter;
-
-  private List<Bookmark> mBookmarkList;
   private Record mRecord;
+  private List<Bookmark> mBookmarkList;
   private File mRecordFile;
 
   private int mRecordStatus;
   private boolean isSaved;
+
   private Animation fadeIn;
   private Animation fadeOut;
 
@@ -79,44 +77,64 @@ public class RecordActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_record_new);
 
-    mBookmarkList = Bookmark.listExists(Bookmark.class);
+    uiSetting();
+    initializeSetting();
+    handlerSetting();
+    waveformViewSetting();
+    bookmarkListAdapterSetting();
+    animationSetting();
+    addEventListener();
 
-    mRecordStatus = READY_STATE;
-
+  }
+  private void uiSetting() {
     mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
     setSupportActionBar(mToolbar);
-
     mRecordDoneButton = (ImageView) findViewById(R.id.record_done_img);
     mRecordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
     mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
+  }
 
+  private void initializeSetting() {
+    mBookmarkList = Bookmark.listExists(Bookmark.class);
+    mRecordStatus = READY_STATE;
+    isSaved = false;
     mRecordDoneButton.setEnabled(false);
+  }
 
+  private void handlerSetting() {
     mTimerHandler = new TimerHandler();
     mBookmarkHandler = new BookmarkHandler(mBookmarkList);
     mRecorderHandler = new RecorderHandler();
+  }
 
-    mLayoutManager = new LinearLayoutManager(this);
-    mLayoutManager.setOrientation(OrientationHelper.VERTICAL);
-
-    mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
-    mBookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkList, mBookmarkHandler);
-    mBookmarkRecycler.setLayoutManager(mLayoutManager);
-    mBookmarkRecycler.setAdapter(mBookmarkListAdapter);
-    mBookmarkRecycler.addItemDecoration(
-            new HorizontalDividerItemDecoration
-                    .Builder(this)
-                    .sizeResId(R.dimen.divider)
-                    .color(R.color.myGrayColor)
-                    .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                    .build());
-
-
+  private void waveformViewSetting() {
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayViewTmp);
     mWaveformView = new RecodWaveformView(getBaseContext());
     displayLayout.addView(mWaveformView);
+  }
 
+  private void bookmarkListAdapterSetting() {
+    LinearLayoutManager layoutManager;
+    BookmarkListAdapter bookmarkListAdapter;
 
+    layoutManager = new LinearLayoutManager(this);
+    layoutManager.setOrientation(OrientationHelper.VERTICAL);
+
+    bookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkList, mBookmarkHandler);
+
+    mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
+    mBookmarkRecycler.setLayoutManager(layoutManager);
+    mBookmarkRecycler.setAdapter(bookmarkListAdapter);
+    mBookmarkRecycler.addItemDecoration(
+       new HorizontalDividerItemDecoration
+               .Builder(this)
+           .sizeResId(R.dimen.divider)
+           .color(R.color.myGrayColor)
+           .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+           .build());
+  }
+
+  private void animationSetting() {
     fadeOut = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_out);
     fadeIn = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.fade_in);
 
@@ -128,7 +146,6 @@ public class RecordActivity extends ActionBarActivity {
       @Override
       public void onAnimationEnd(Animation animation) {
         changeRecordingButton();
-        // fade in animation
         mRecordActionButton.startAnimation(fadeIn);
       }
 
@@ -136,11 +153,8 @@ public class RecordActivity extends ActionBarActivity {
       public void onAnimationRepeat(Animation animation) {
       }
     });
-
-    addEventListener();
-
-    isSaved = false;
   }
+
 
   private void changeRecordingButton() {
     if ( mRecordStatus == RECORDING_STATE ) {
@@ -202,7 +216,6 @@ public class RecordActivity extends ActionBarActivity {
     if(mRecordStatus != READY_STATE) {
       stopRecord();
     }
-    mBookmarkHandler.destroyBookmarAllkHistory();
     mRecorderHandler.deleteTempAudioRecordInformation();
   }
 
@@ -220,6 +233,7 @@ public class RecordActivity extends ActionBarActivity {
         @Override
         public void onInput(MaterialDialog dialog, CharSequence input) {
           mRecorderHandler.save(input.toString());
+          mBookmarkHandler.save();
           stopRecord();
         }
       })
@@ -311,11 +325,6 @@ private void showDeleteDialog() {
 
       if (loroclipRecorder == null || loroclipRecorder.isStopped()) {
         mRecordFile = new File(LOROCLIP_PATH, UUID.randomUUID().toString() + AUDIO_OGG_EXTENSION);
-
-        mRecord = new Record();
-        mRecord.setLocalFile(mRecordFile);
-        mRecord.save();
-
         if (loroclipRecorder == null) {
           loroclipRecorder = new VorbisRecorder(mRecordFile, mWaveformView);
         }
@@ -339,12 +348,10 @@ private void showDeleteDialog() {
 
     public void save(String title) {
 
-      Log.e("aa", "save");
-      if(mBookmarkHandler.getCurrentSelectedBookmarkHistory() != null) {
-        mBookmarkHandler.finish();
-      }
-
       final Handler handler = new Handler();
+
+      mRecord = new Record();
+      mRecord.setLocalFile(mRecordFile);
       mRecord.setTitle(title);
       mRecord.save();
 
@@ -352,8 +359,6 @@ private void showDeleteDialog() {
       fg.setFrames(mWaveformView.getJsonArray().toString());
       fg.setRecord(mRecord);
       fg.save();
-
-
 
       handler.post(new Runnable() {
         @Override
@@ -366,7 +371,6 @@ private void showDeleteDialog() {
       intent.putExtra("record_id", mRecord.getId());
       setResult(Activity.RESULT_OK, intent);
       isSaved = true;
-      Log.e("aa", "save finish");
       finish();
     }
 
@@ -414,22 +418,26 @@ private void showDeleteDialog() {
   }
 
   public class BookmarkHandler implements View.OnClickListener {
-    private BookmarkHistory currentSelectedBookmarkHistory;
+
     private List<Bookmark> mBookmarkList;
 
+    private List<BookmarkHistoryInformation> mBookmarkHistoryInformationList;
+    private BookmarkHistoryInformation mBookmarkHistoryInformation;
+
     public BookmarkHandler(List<Bookmark> bookmarkList) {
-      this.currentSelectedBookmarkHistory = null;
+      this.mBookmarkHistoryInformation = null;
       this.mBookmarkList = bookmarkList;
+      this.mBookmarkHistoryInformationList = new ArrayList<BookmarkHistoryInformation>();
     }
     @Override
     public void onClick(View v) {
       Bookmark selectedBookmark = mBookmarkList.get(findPosition(v));
 
-      if(mRecord == null) { return; }
+      if(mRecordStatus == READY_STATE) { return; }
 
-      if(currentSelectedBookmarkHistory == null) {
+      if(mBookmarkHistoryInformation == null) {
         saveStartBookmarkHistory(selectedBookmark);
-      } else if(currentSelectedBookmarkHistory.getBookmark().getId() == selectedBookmark.getId()) {
+      } else if(mBookmarkHistoryInformation.getBookmark().getId() == selectedBookmark.getId()) {
         saveEndBookmarkHistory();
       } else {
         saveEndBookmarkHistory();
@@ -442,32 +450,56 @@ private void showDeleteDialog() {
     }
 
     private void saveStartBookmarkHistory(Bookmark selectedBookmark) {
-      currentSelectedBookmarkHistory = new BookmarkHistory(mRecord, selectedBookmark);
-      currentSelectedBookmarkHistory.setStart(mTimerHandler.getTime());
+      mBookmarkHistoryInformation = new BookmarkHistoryInformation(selectedBookmark, mTimerHandler.getTime());
       mWaveformView.setCurrentSelectedBookmark(selectedBookmark);
     }
 
     private void saveEndBookmarkHistory() {
-      currentSelectedBookmarkHistory.setEnd(mTimerHandler.getTime());
-      currentSelectedBookmarkHistory.save();
-      currentSelectedBookmarkHistory = null;
+      mBookmarkHistoryInformation.setEndTime(mTimerHandler.getTime());
+      mBookmarkHistoryInformationList.add(mBookmarkHistoryInformation);
+      mBookmarkHistoryInformation = null;
       mWaveformView.setCurrentRelaseBookmark();
     }
 
-    public void finish() {
-      Log.e("aa", "finish");
-      currentSelectedBookmarkHistory.setEnd(mTimerHandler.getTime());
-      currentSelectedBookmarkHistory.save();
+    public void save() {
+      if(mBookmarkHistoryInformation != null) {
+        mBookmarkHistoryInformation.setEndTime(mTimerHandler.getTime());
+        mBookmarkHistoryInformationList.add(mBookmarkHistoryInformation);
+      }
+
+      for(BookmarkHistoryInformation item : mBookmarkHistoryInformationList) {
+        BookmarkHistory bookmarkHistory = new BookmarkHistory();
+        bookmarkHistory.setRecord(mRecord);
+        bookmarkHistory.setBookmark(item.getBookmark());
+        bookmarkHistory.setStart(item.getStartTime());
+        bookmarkHistory.setEnd(item.getEndTime());
+        bookmarkHistory.save();
+      }
     }
 
-    public BookmarkHistory getCurrentSelectedBookmarkHistory() {
-      return currentSelectedBookmarkHistory;
-    }
+    private class BookmarkHistoryInformation {
+      float startTime, endTime;
+      Bookmark bookmark;
 
-    public void destroyBookmarAllkHistory() {
-      List<BookmarkHistory> histories = mRecord.getBookmarkHistories();
-      for (BookmarkHistory history : histories) {
-        history.delete();
+      public BookmarkHistoryInformation(Bookmark bookmark, float startTime) {
+        this.startTime = startTime;
+        this.bookmark = bookmark;
+      }
+
+      public void setEndTime(float endTime) {
+        this.endTime = endTime;
+      }
+
+      public float getStartTime() {
+        return startTime;
+      }
+
+      public float getEndTime() {
+        return endTime;
+      }
+
+      public Bookmark getBookmark() {
+        return bookmark;
       }
     }
   }
