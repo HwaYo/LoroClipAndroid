@@ -1,7 +1,11 @@
 package com.loroclip;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
@@ -15,9 +19,14 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 import com.loroclip.model.Record;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by susu on 5/19/15.
@@ -82,13 +91,61 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            Record record = mRecords.get(findPosition(v));
-            try {
-                Intent intent = new Intent(mContext, LoroClipEditActivity.class);
-                intent.putExtra("record_id", record.getId());
-                mContext.startActivity(intent);
-            } catch (Exception e) {
-                Log.e(TAG, "Couldn't start editor activity");
+            final Record record = mRecords.get(findPosition(v));
+            if (record.getLocalFilePath() == null) {
+                String filename = UUID.randomUUID().toString();
+                final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
+                final String AUDIO_OGG_EXTENSION = ".ogg";
+
+                final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
+
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Record file not found")
+                        .setMessage("File Download Required :")
+                        .setPositiveButton("Download", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final ProgressDialog progressDialog = new ProgressDialog(mContext);
+                                progressDialog.setMessage("Downloading..");
+                                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                progressDialog.setMax(100);
+                                progressDialog.show();
+
+                                Ion.with(mContext)
+                                        .load(record.getRemoteFilePath())
+                                        .progressDialog(progressDialog)
+                                        .progress(new ProgressCallback() {
+                                            @Override
+                                            public void onProgress(long downloaded, long total) {
+                                                progressDialog.setProgress((int)(downloaded * 100 / total));
+                                            }
+                                        })
+                                        .write(recordFile)
+                                        .setCallback(new FutureCallback<File>() {
+                                            @Override
+                                            public void onCompleted(Exception e, File result) {
+                                                progressDialog.dismiss();
+
+                                                record.setLocalFile(result);
+                                                record.save();
+
+                                                Intent intent = new Intent(mContext, LoroClipEditActivity.class);
+                                                intent.putExtra("record_id", record.getId());
+                                                mContext.startActivity(intent);
+                                            }
+                                        });
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            } else {
+                try {
+                    Intent intent = new Intent(mContext, LoroClipEditActivity.class);
+                    intent.putExtra("record_id", record.getId());
+                    mContext.startActivity(intent);
+                } catch (Exception e) {
+                    Log.e(TAG, "Couldn't start editor activity");
+                }
             }
         }
     }
