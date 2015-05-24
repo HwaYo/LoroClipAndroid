@@ -77,13 +77,11 @@ public class LoroClipEditActivity extends ActionBarActivity
     private int mNewFileKind;
     private boolean mWasGetContentIntent;
     private WaveformView mWaveformView;
-    private TextView mInfo;
     private String mInfoContent;
     private ImageView mPlayButton;
     private ImageView mRewindButton;
     private ImageView mFfwdButton;
     private boolean mKeyDown;
-    private String mCaption = "";
     private int mWidth;
     private int mMaxPos;
     private int mStartPos;
@@ -237,38 +235,7 @@ public class LoroClipEditActivity extends ActionBarActivity
         }, 500);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.edit_options, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_show_all_bookmarks:
-                onSelectBookmark();
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_SPACE) {
-            onPlay(mStartPos);
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * Every time we get a message that our waveform drew, see if we need to
-     * animate and trigger another redraw.
-     */
     public void waveformDraw() {
         mWidth = mWaveformView.getMeasuredWidth();
         if (mOffsetGoal != mOffset && !mKeyDown)
@@ -305,7 +272,7 @@ public class LoroClipEditActivity extends ActionBarActivity
 
                 if (seekMsec <= mPlayer.getCurrentPosition()){
                     mWaveformView.setIsBookmarking(false);
-                    resetSelection();
+//                    resetSelection();
                 }
 
                 mPlayer.seekTo(seekMsec);
@@ -361,9 +328,6 @@ public class LoroClipEditActivity extends ActionBarActivity
         mWaveformView.setListener(this);
         mWaveformView.setmFilename(mFilename);
 
-        mInfo = (TextView)findViewById(R.id.info);
-        mInfo.setText(mCaption);
-
         mMaxPos = 0;
         mLastDisplayedStartPos = -1;
         mLastDisplayedEndPos = -1;
@@ -383,8 +347,8 @@ public class LoroClipEditActivity extends ActionBarActivity
             mWaveformView.addBookmarkHistory(history);
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+//        setSupportActionBar(mToolbar);
 
         // Logic about ViewPagers
         ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
@@ -396,8 +360,8 @@ public class LoroClipEditActivity extends ActionBarActivity
         FragmentPagerItems pages = new FragmentPagerItems(this);
 
         Bundle bookmarkListBundle = new Bundle();
-        pages.add(FragmentPagerItem.of("BookmarkHistoryView",PlayerFragment.class));
         pages.add(FragmentPagerItem.of("BookmarkListView",PlayerFragment.class));
+        pages.add(FragmentPagerItem.of("BookmarkHistoryView",PlayerFragment.class));
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), pages);
@@ -489,7 +453,7 @@ public class LoroClipEditActivity extends ActionBarActivity
                             mWaveformView.setIsBookmarking(false);
                             mPlayer.stop();
                             togglePlayButton();
-                            resetSelection();
+//                            resetSelection();
                             return;
                         }
                     });
@@ -498,11 +462,6 @@ public class LoroClipEditActivity extends ActionBarActivity
                     mProgressDialog.dismiss();
                     e.printStackTrace();
                     mInfoContent = e.toString();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mInfo.setText(mInfoContent);
-                        }
-                    });
 
                     Runnable runnable = new Runnable() {
                         public void run() {
@@ -543,13 +502,6 @@ public class LoroClipEditActivity extends ActionBarActivity
         mFlingVelocity = 0;
         resetPositions();
         mEndPos = mMaxPos;
-
-        mCaption =
-            mSoundFile.getFiletype() + ", " +
-                mSoundFile.getSampleRate() + " Hz, " +
-                formatTime(mMaxPos) + " " +
-                getResources().getString(R.string.time_seconds);
-        mInfo.setText(mCaption);
 
         updateDisplay();
     }
@@ -714,7 +666,7 @@ public class LoroClipEditActivity extends ActionBarActivity
             mPlayer.pause();
         }
 
-        resetSelection();
+//        resetSelection();
     }
 
     private synchronized void onPlay(int startPosition) {
@@ -841,7 +793,7 @@ public class LoroClipEditActivity extends ActionBarActivity
             current_bookmark.save();
             mWaveformView.setIsBookmarking(false);
             mWaveformView.addBookmarkHistory(current_bookmark);
-            resetSelection();
+//            resetSelection();
         }
     }
 
@@ -853,12 +805,12 @@ public class LoroClipEditActivity extends ActionBarActivity
         mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
     }
 
-    public void resetSelection(){
-        for (int i=0;i<bookmarkListView.getChildCount();i++){
-            View v = bookmarkListView.getChildAt(i);
-            v.setSelected(false);
-        }
-    }
+//    public void resetSelection(){
+//        for (int i=0;i<bookmarkListView.getChildCount();i++){
+//            View v = bookmarkListView.getChildAt(i);
+//            v.setSelected(false);
+//        }
+//    }
 
     private long getCurrentTime() {
         return System.nanoTime() / 1000000;

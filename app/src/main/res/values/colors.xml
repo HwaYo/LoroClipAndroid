@@ -22,7 +22,7 @@
   <drawable name="waveform_selected">#29A593</drawable>
   <drawable name="waveform_unselected_bkgnd_overlay">#0a242d</drawable>
   <drawable name="selection_border">#ffffff</drawable>
-  <drawable name="playback_indicator">#ffff66</drawable>
+  <drawable name="playback_indicator">#ff000000</drawable>
   <drawable name="grid_line">#66ffffff</drawable>
   <drawable name="timecode">#ddffffdd</drawable>
   <drawable name="timecode_shadow">#aa000000</drawable>
