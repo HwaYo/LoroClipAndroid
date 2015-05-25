@@ -24,7 +24,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -39,6 +38,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.loroclip.adapter.BookmarkHistoryAdapter;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
@@ -54,8 +55,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class LoroClipEditActivity extends ActionBarActivity implements
-        PlayerBookmarkFragment.OnBookmarkSelectedListener,
-        PlayerRecordHistoryFragment.OnBookmarkHistorySelectedListener,
+        BookmarkListAdapter.OnBookmarkSelectedListener,
+        BookmarkHistoryAdapter.OnBookmarkHistorySelectedListener,
         WaveformView.WaveformListener
 {
     private long mLoadingLastUpdateTime;
@@ -117,6 +118,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     public static final String EDIT = "com.loroclip.action.EDIT";
     private View currentBookmarkView;
+
+    private static final int CMD_DELETE_HISTORY = 0;
 
     /** Called when the activity is first created. */
     @Override
@@ -793,8 +796,11 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     private void deleteBookmarkHistory(BookmarkHistory bookmarkHistory) {
         mWaveformView.removeBookmarkHistory(bookmarkHistory);
-        bookmarkHistory.delete();
         mWaveformView.invalidate();
+        bookmarkHistory.delete();
+
+        PlayerRecordHistoryFragment historyFragment = (PlayerRecordHistoryFragment) mFragmentPagerAdapter.getPage(1);
+        historyFragment.notifyBookmarkHistoriesUpdate();
     }
 
 
@@ -818,13 +824,30 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onBookmarkHistorySelected(BookmarkHistory history, View v) {
+    public void onBookmarkHistorySelected(BookmarkHistory history, View v, int position) {
         if (mPlayer.isPlaying()) {
             mPlayer.seekTo(history.getStartMiiliseconds());
         } else {
             mPlayer.start(history.getStartMiiliseconds());
             mWaveformView.invalidate();
         }
+    }
 
+    @Override
+    public void onBookmarkHistoryLongSelected(final BookmarkHistory history, View v, int position) {
+        new MaterialDialog.Builder(this)
+                .title(R.string.edit_history)
+                .items(R.array.edit_history_options)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                        switch (which) {
+                            case CMD_DELETE_HISTORY:
+                                deleteBookmarkHistory(history);
+                            break;
+                        }
+                    }
+                })
+                .show();
     }
 }

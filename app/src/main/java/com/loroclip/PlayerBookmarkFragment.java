@@ -22,12 +22,7 @@ import java.util.List;
  */
 public class PlayerBookmarkFragment extends Fragment {
     private RecyclerView playRecycler;
-
-    public interface OnBookmarkSelectedListener {
-        void onBookmarkSelected(Bookmark bookmark, View v);
-    }
-
-    private OnBookmarkSelectedListener mSelectedCallback;
+    private BookmarkListAdapter.OnBookmarkSelectedListener mSelectedCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -53,12 +48,7 @@ public class PlayerBookmarkFragment extends Fragment {
         BookmarkListAdapter listAdapter;
         final List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class, "created_at ASC");
         listAdapter = new BookmarkListAdapter(bookmarkList);
-        listAdapter.setOnBookmarkSelectedListener(new BookmarkListAdapter.OnBookmarkSelectedListener() {
-            @Override
-            public void onBookmarkSelected(Bookmark bookmark, View v) {
-                mSelectedCallback.onBookmarkSelected(bookmark, v);
-            }
-        });
+        listAdapter.setOnBookmarkSelectedListener(mSelectedCallback);
         playRecycler.setAdapter(listAdapter);
 
     }
@@ -66,6 +56,6 @@ public class PlayerBookmarkFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mSelectedCallback = (OnBookmarkSelectedListener) activity;
+        mSelectedCallback = (BookmarkListAdapter.OnBookmarkSelectedListener) activity;
     }
 }
