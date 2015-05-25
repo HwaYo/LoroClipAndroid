@@ -10,7 +10,7 @@ import android.media.MediaRecorder;
 import android.os.Process;
 import android.util.Log;
 
-import com.loroclip.record.View.RecodWaveformView;
+import com.loroclip.record.View.RecordWaveformView;
 import com.loroclip.record.encoder.EncodeFeed;
 import com.loroclip.record.encoder.VorbisEncoder;
 
@@ -74,7 +74,7 @@ public class VorbisRecorder {
    */
   private final EncodeFeed encodeFeed;
 
-  private RecodWaveformView waveForm;
+  private RecordWaveformView waveForm;
 
   /**
    * recorder의 현재 상태를 나타냄
@@ -220,7 +220,7 @@ public class VorbisRecorder {
    * @param fileToSaveTo 저장할 파일
    * @param waveForm waveform을 보여주는 view
    */
-  public VorbisRecorder(File fileToSaveTo, RecodWaveformView waveForm) {
+  public VorbisRecorder(File fileToSaveTo, RecordWaveformView waveForm) {
     if (fileToSaveTo == null) {
       throw new IllegalArgumentException("File to play must not be null.");
     }

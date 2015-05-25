@@ -114,27 +114,28 @@ public class WaveformView extends View {
         mGridPaint = new Paint();
         mGridPaint.setAntiAlias(false);
         mGridPaint.setColor(
-                getResources().getColor(R.drawable.grid_line));
+                               getResources().getColor(R.drawable.grid_line));
         mSelectedLinePaint = new Paint();
         mSelectedLinePaint.setAntiAlias(false);
         mSelectedLinePaint.setColor(
-                getResources().getColor(R.drawable.waveform_selected));
+                                       getResources().getColor(R.drawable.waveform_selected));
         mUnselectedBkgndLinePaint = new Paint();
         mUnselectedBkgndLinePaint.setAntiAlias(false);
         mUnselectedBkgndLinePaint.setColor(
-                getResources().getColor(
-                        R.drawable.waveform_unselected_bkgnd_overlay));
+                                              getResources().getColor(
+                                                                         R.drawable.waveform_unselected_bkgnd_overlay));
         mBorderLinePaint = new Paint();
         mBorderLinePaint.setAntiAlias(true);
         mBorderLinePaint.setStrokeWidth(1.5f);
         mBorderLinePaint.setPathEffect(
-                new DashPathEffect(new float[]{3.0f, 2.0f}, 0.0f));
+                                          new DashPathEffect(new float[]{3.0f, 2.0f}, 0.0f));
         mBorderLinePaint.setColor(
-                getResources().getColor(R.drawable.selection_border));
+                                     getResources().getColor(R.drawable.selection_border));
         mPlaybackLinePaint = new Paint();
         mPlaybackLinePaint.setAntiAlias(false);
         mPlaybackLinePaint.setColor(
-                getResources().getColor(R.drawable.playback_indicator));
+                                       getResources().getColor(R.drawable.playback_indicator));
+        mPlaybackLinePaint.setStrokeWidth(5);
         mTimecodePaint = new Paint();
         mTimecodePaint.setTextSize(12);
         mTimecodePaint.setAntiAlias(true);
@@ -380,6 +381,7 @@ public class WaveformView extends View {
     public void drawBookmarkLine(Canvas canvas, int measuredHeight) {
         for (BookmarkHistory bookmarkHistory : bookmarkHistoryList) {
             mBookmarkLinePaint.setColor(bookmarkHistory.getColor());
+            mBookmarkLinePaint.setAlpha(80);
             int start = millisecsToPixels(bookmarkHistory.getStartMiiliseconds());
             int end = millisecsToPixels(bookmarkHistory.getEndMiliseconds());
 
@@ -446,6 +448,7 @@ public class WaveformView extends View {
 
             // real-time paint bookmark
             if (isBookmarking && (i + start) >= bmStart && (i+start) <= mPlaybackPos){
+                currentBookmarkPaint.setAlpha(80);
                 canvas.drawLine(i, 0, i, measuredHeight, currentBookmarkPaint);
             }
 

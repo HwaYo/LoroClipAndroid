@@ -17,7 +17,15 @@ public abstract class ModelSupport<T extends ModelSupport> extends SugarRecord<T
     private Date updatedAt;
 
     public static <T extends SugarRecord> List<T> listExists(Class<T> type) {
-        return T.find(type, "deleted = ?", "0");
+        return listExists(type, null, null, null);
+    }
+
+    public static <T extends SugarRecord> List<T> listExists(Class<T> type, String orderBy) {
+        return listExists(type, null, orderBy, null);
+    }
+
+    public static <T extends SugarRecord> List<T> listExists(Class<T> type, String groupBy, String orderBy, String limit) {
+        return T.find(type, "deleted = ?", new String[]{"0"}, groupBy, orderBy, limit);
     }
 
     public boolean isDeleted() {

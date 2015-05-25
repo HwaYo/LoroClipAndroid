@@ -3,6 +3,7 @@ package com.loroclip.record;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -11,7 +12,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -32,7 +32,7 @@ import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
-import com.loroclip.record.View.RecodWaveformView;
+import com.loroclip.record.View.RecordWaveformView;
 import com.loroclip.record.recorder.VorbisRecorder;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -50,8 +50,8 @@ public class RecordActivity extends ActionBarActivity {
   private final int RECORDING_STATE = 1;
   private final int PAUSE_STATE = 2;
 
-  private Toolbar mToolbar;
-  private RecodWaveformView mWaveformView;
+
+  private RecordWaveformView mWaveformView;
 
   private RecyclerView mBookmarkRecycler;
   private ImageView mRecordActionButton;
@@ -94,7 +94,7 @@ public class RecordActivity extends ActionBarActivity {
   }
 
   private void initializeSetting() {
-    mBookmarkList = Bookmark.listExists(Bookmark.class);
+    mBookmarkList = Bookmark.listExists(Bookmark.class, "created_at ASC");
     mRecordStatus = READY_STATE;
     isSaved = false;
     mRecordDoneButton.setEnabled(false);
@@ -102,13 +102,13 @@ public class RecordActivity extends ActionBarActivity {
 
   private void handlerSetting() {
     mTimerHandler = new TimerHandler();
-    mBookmarkHandler = new BookmarkHandler(mBookmarkList);
+    mBookmarkHandler = new BookmarkHandler();
     mRecorderHandler = new RecorderHandler();
   }
 
   private void waveformViewSetting() {
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayViewTmp);
-    mWaveformView = new RecodWaveformView(getBaseContext());
+    mWaveformView = new RecordWaveformView(getBaseContext());
     displayLayout.addView(mWaveformView);
   }
 
@@ -119,7 +119,8 @@ public class RecordActivity extends ActionBarActivity {
     layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(OrientationHelper.VERTICAL);
 
-    bookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkList, mBookmarkHandler);
+    bookmarkListAdapter = new BookmarkListAdapter(mBookmarkList);
+    bookmarkListAdapter.setOnBookmarkSelectedListener(mBookmarkHandler);
 
     mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
     mBookmarkRecycler.setLayoutManager(layoutManager);
@@ -411,41 +412,35 @@ private void showDeleteDialog() {
     }
   }
 
-  public class BookmarkHandler implements View.OnClickListener {
-
-    private List<Bookmark> mBookmarkList;
-
+  public class BookmarkHandler implements BookmarkListAdapter.OnBookmarkSelectedListener {
     private List<BookmarkHistoryInformation> mBookmarkHistoryInformationList;
     private BookmarkHistoryInformation mBookmarkHistoryInformation;
+    private View currentBookmarkView;
 
-    public BookmarkHandler(List<Bookmark> bookmarkList) {
+    public BookmarkHandler() {
       this.mBookmarkHistoryInformation = null;
-      this.mBookmarkList = bookmarkList;
-      this.mBookmarkHistoryInformationList = new ArrayList<BookmarkHistoryInformation>();
+      this.mBookmarkHistoryInformationList = new ArrayList<>();
     }
-    @Override
-    public void onClick(View v) {
-      Bookmark selectedBookmark = mBookmarkList.get(findPosition(v));
 
+    @Override
+    public void onBookmarkSelected(Bookmark bookmark, View v) {
       if(mRecordStatus != RECORDING_STATE) { return; }
 
       if(mBookmarkHistoryInformation == null) {
-        saveStartBookmarkHistory(selectedBookmark);
-      } else if(mBookmarkHistoryInformation.getBookmark().getId() == selectedBookmark.getId()) {
+        saveStartBookmarkHistory(bookmark, v);
+      } else if(mBookmarkHistoryInformation.getBookmark().getId() == bookmark.getId()) {
         saveEndBookmarkHistory();
       } else {
         saveEndBookmarkHistory();
-        saveStartBookmarkHistory(selectedBookmark);
+        saveStartBookmarkHistory(bookmark, v);
       }
     }
 
-    private int findPosition ( View v ) {
-      return mBookmarkRecycler.getChildLayoutPosition(v);
-    }
-
-    private void saveStartBookmarkHistory(Bookmark selectedBookmark) {
+    private void saveStartBookmarkHistory(Bookmark selectedBookmark, View v) {
       mBookmarkHistoryInformation = new BookmarkHistoryInformation(selectedBookmark, mTimerHandler.getTime());
       mWaveformView.setCurrentSelectedBookmark(selectedBookmark);
+      currentBookmarkView = v;
+      currentBookmarkView.setBackgroundColor(selectedBookmark.getColor());
     }
 
     private void saveEndBookmarkHistory() {
@@ -453,6 +448,8 @@ private void showDeleteDialog() {
       mBookmarkHistoryInformationList.add(mBookmarkHistoryInformation);
       mBookmarkHistoryInformation = null;
       mWaveformView.setCurrentRelaseBookmark();
+      currentBookmarkView.setBackgroundColor(Color.WHITE);
+
     }
 
     public void save() {
