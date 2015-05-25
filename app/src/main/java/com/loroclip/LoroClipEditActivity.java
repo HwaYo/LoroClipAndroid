@@ -343,8 +343,9 @@ public class LoroClipEditActivity extends ActionBarActivity implements
             mWaveformView.addBookmarkHistory(history);
         }
 
-//        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-//        setSupportActionBar(mToolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(mRecord.getTitle());
 
         // Logic about ViewPagers
         ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
