@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private void setSyncAutomatic() {
         final Account account = LoroClipAccount.getInstance().getPrimaryAccount(this);
         if (account != null) {
-            ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
+            // ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
             ContentResolver.setSyncAutomatically(account, LoroClipAccount.CONTENT_AUTHORITY, true);
             ContentResolver.addStatusChangeListener(
                     ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE | ContentResolver.SYNC_OBSERVER_TYPE_PENDING,
