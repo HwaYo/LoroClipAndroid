@@ -734,9 +734,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
             mWaveformView.setIsBookmarking(false);
             if (mPlayer.isPlaying()) {
                 int newPos = mPlayer.getCurrentPosition() - 5000;
-                if (newPos < 0)
-                    newPos = 0;
-                mPlayer.seekTo(newPos);
+                
+                mPlayer.start(newPos);
             }
         }
     };
@@ -745,9 +744,10 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         public void onClick(View sender) {
             if (mPlayer.isPlaying()) {
                 int newPos = 5000 + mPlayer.getCurrentPosition();
-                if (newPos > mPlayEndMsec)
-                    newPos = mPlayEndMsec;
-                mPlayer.seekTo(newPos);
+
+                if (newPos < mPlayer.getDuration()) {
+                    mPlayer.start(newPos);
+                }
             }
         }
     };
