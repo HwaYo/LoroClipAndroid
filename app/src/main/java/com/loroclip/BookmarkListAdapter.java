@@ -18,50 +18,65 @@ import java.util.List;
  * Created by susu on 5/20/15.
  */
 public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapter.ViewHolder> {
+    public interface OnBookmarkSelectedListener {
+        void onBookmarkSelected(Bookmark bookmark, View v);
+    }
 
     private final static String TAG = "BookmarkListAdapter";
 
     private List<Bookmark> mBookmarkList;
-    private Context mContext;
-    private View.OnClickListener mBookmarkClickListener;
-    private LayoutInflater mLayoutInflater;
+    private OnBookmarkSelectedListener mOnBookmarkSelectedListener;
 
-    public BookmarkListAdapter(Context mContext, List<Bookmark> bookmarkList, View.OnClickListener bookmarkClickListener) {
-        this.mContext = mContext;
-        this.mLayoutInflater = LayoutInflater.from(mContext);
+    public BookmarkListAdapter(List<Bookmark> bookmarkList) {
         this.mBookmarkList = bookmarkList;
-        this.mBookmarkClickListener = bookmarkClickListener;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        View viewHolder;
+    public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener listener) {
+        this.mOnBookmarkSelectedListener = listener;
+    }
 
-        public ViewHolder(View view) {
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        Bookmark mBookmark;
+        Drawable mCircle;
+        ImageView mImage;
+        TextView mName;
+        OnBookmarkSelectedListener mListener;
+
+        public ViewHolder(View view, Drawable circle, OnBookmarkSelectedListener listener) {
             super(view);
-            viewHolder = view;
+
+            view.setOnClickListener(this);
+            this.mCircle = circle;
+            this.mImage = (ImageView) view.findViewById(R.id.bookmark_image);
+            this.mName = (TextView) view.findViewById(R.id.bookmark_name);
+            this.mListener = listener;
+        }
+
+        public void bind(Bookmark bookmark) {
+            mBookmark = bookmark;
+            mCircle.setColorFilter(bookmark.getColor(), PorterDuff.Mode.MULTIPLY);
+            mImage.setBackground(mCircle);
+            mName.setText(bookmark.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.mListener.onBookmarkSelected(mBookmark, v);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.bookmark_list_item, parent, false);
-        view.setOnClickListener(mBookmarkClickListener);
-        return new ViewHolder(view);
+        Context context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.bookmark_list_item, parent, false);
+        Drawable circle = context.getResources().getDrawable(R.drawable.circle);
+        return new ViewHolder(view, circle, this.mOnBookmarkSelectedListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Bookmark bookmark = mBookmarkList.get(position);
-        View view = holder.viewHolder;
-
-        Drawable circle = mContext.getResources().getDrawable(R.drawable.circle);
-        circle.setColorFilter(bookmark.getColor(), PorterDuff.Mode.MULTIPLY);
-
-        ImageView img = (ImageView) view.findViewById(R.id.bookmark_image);
-        img.setBackground(circle);
-
-        TextView name = (TextView) view.findViewById(R.id.bookmark_name);
-        name.setText(bookmark.getName());
+        holder.bind(bookmark);
     }
 
     @Override
