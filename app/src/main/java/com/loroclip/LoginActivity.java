@@ -4,11 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -30,16 +32,21 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     private Button mLoginButton;
     private CallbackManager mCallbackManager;
 
-
     public static final String ARG_FROM_AUTHENTICATOR = "fromAuthenticator";
     private ImageView logoImg;
 
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Signing in..");
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setIndeterminate(true);
 
         // TODO Skip this Activity if user has already Logged in.
 
@@ -61,16 +68,21 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         final String uid = token.getUserId();
 
+        mProgressDialog.show();
+
         LoroClipAuthClient client = new LoroClipAuthClient();
         LoroClipAuthClient.LoroClipAuthService service = client.getService();
         service.getAccessToken(token.getToken(), new Callback<LoroClipAuthClient.AccessToken>() {
             @Override
             public void success(LoroClipAuthClient.AccessToken accessToken, Response response) {
                 finishLogin(uid, accessToken);
+                mProgressDialog.dismiss();
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
+                mProgressDialog.dismiss();
                 return;
             }
         });
@@ -130,12 +142,12 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
                     @Override
                     public void onCancel() {
-
+                        
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-
+                        Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

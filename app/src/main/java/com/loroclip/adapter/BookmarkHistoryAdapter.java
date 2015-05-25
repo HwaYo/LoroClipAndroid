@@ -77,7 +77,7 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
             result += String.valueOf(((sec % 3600)/60) ) + "m";
         }
         result += String.valueOf(sec % 60) + "s";
-        
+
         return result;
     }
 
