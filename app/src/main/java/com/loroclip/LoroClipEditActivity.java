@@ -774,6 +774,9 @@ public class LoroClipEditActivity extends ActionBarActivity implements
             currentBookmarkView.setBackgroundColor(Color.WHITE);
 
             current_bookmark = null;
+
+            PlayerRecordHistoryFragment historyFragment = (PlayerRecordHistoryFragment) mFragmentPagerAdapter.getPage(1);
+            historyFragment.notifyBookmarkHistoriesUpdate();
         }
     }
 
