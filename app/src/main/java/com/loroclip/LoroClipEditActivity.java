@@ -382,6 +382,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setTitle(R.string.progress_dialog_loading);
         mProgressDialog.setCancelable(true);
+        mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.setOnCancelListener(
             new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {

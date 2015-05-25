@@ -199,6 +199,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                             progressDialog.setMessage("Downloading..");
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                             progressDialog.setMax(100);
+                            progressDialog.setCanceledOnTouchOutside(false);
                             progressDialog.show();
 
                             Ion.with(context)
