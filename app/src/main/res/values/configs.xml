@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">369921866546593</string>
+    <string name="facebook_app_id">358224821049631</string>
     <string name="content_authority">com.loroclip.content</string>
     <string name="account_type">com.loroclip</string>
 </resources>

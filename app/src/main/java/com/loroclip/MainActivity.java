@@ -394,11 +394,10 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
 
     private void checkForCrashes() {
-        CrashManager.register(this, "7ec211e5fb8fc473d359cdbf6d7428df");
+        CrashManager.register(this, "f584704a2fe6025c315ace5dee6d7b9f");
     }
 
     private void checkForUpdates() {
-        // Remove this for store / production builds!
-        UpdateManager.register(this, "7ec211e5fb8fc473d359cdbf6d7428df");
+        
     }
 }

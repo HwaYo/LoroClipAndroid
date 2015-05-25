@@ -9,7 +9,7 @@ import retrofit.http.Query;
  * Created by angdev on 15. 5. 12..
  */
 public class LoroClipAuthClient {
-    private static final String API_ENDPOINT = "http://loroclip-staging.herokuapp.com";
+    private static final String API_ENDPOINT = "http://www.loroclip.com";
     private RestAdapter mRestAdapter;
     private LoroClipAuthService mService;
 
