@@ -21,6 +21,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -114,6 +116,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
+    private View currentBookmarkView;
 
     /** Called when the activity is first created. */
     @Override
@@ -441,7 +444,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
-                            mWaveformView.setIsBookmarking(false);
+                            saveEndBookmarkHistory();
                             mPlayer.stop();
                             enableDisableButtons();
                             return;
@@ -733,12 +736,12 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     private OnClickListener mRewindListener = new OnClickListener() {
         public void onClick(View sender) {
-            mWaveformView.setIsBookmarking(false);
             if (mPlayer.isPlaying()) {
+                saveEndBookmarkHistory();
+
                 int newPos = mPlayer.getCurrentPosition() - 5000;
-                if (newPos < 0)
-                    newPos = 0;
-                mPlayer.seekTo(newPos);
+
+                mPlayer.start(newPos);
             }
         }
     };
@@ -747,9 +750,11 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         public void onClick(View sender) {
             if (mPlayer.isPlaying()) {
                 int newPos = 5000 + mPlayer.getCurrentPosition();
-                if (newPos > mPlayEndMsec)
-                    newPos = mPlayEndMsec;
-                mPlayer.seekTo(newPos);
+
+                if (newPos < mPlayer.getDuration()) {
+                    mPlayer.start(newPos);
+                    saveEndBookmarkHistory();
+                }
             }
         }
     };
@@ -760,12 +765,17 @@ public class LoroClipEditActivity extends ActionBarActivity implements
             current_bookmark.save();
             mWaveformView.setIsBookmarking(false);
             mWaveformView.addBookmarkHistory(current_bookmark);
+            currentBookmarkView.setBackgroundColor(Color.WHITE);
+
+            current_bookmark = null;
         }
     }
 
-    private void saveStartBookmarkHistory(Bookmark bookmark) {
+    private void saveStartBookmarkHistory(Bookmark bookmark, View v) {
         current_bookmark = new BookmarkHistory(mRecord, bookmark);
         current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
+        currentBookmarkView = v;
+        currentBookmarkView.setBackgroundColor(bookmark.getColor());
         mWaveformView.setIsBookmarking(true);
         mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
     }
@@ -798,11 +808,11 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                 historyFragment.notifyBookmarkHistoriesUpdate();
 
                 if (!current_bookmark.getName().equals(bookmark.getName())){
-                    saveStartBookmarkHistory(bookmark);
+                    saveStartBookmarkHistory(bookmark, v);
                 }
 
             } else {
-                saveStartBookmarkHistory(bookmark);
+                saveStartBookmarkHistory(bookmark, v);
             }
         }
     }
