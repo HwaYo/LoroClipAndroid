@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -51,7 +50,7 @@ public class RecordActivity extends ActionBarActivity {
   private final int RECORDING_STATE = 1;
   private final int PAUSE_STATE = 2;
 
-  private Toolbar mToolbar;
+
   private RecordWaveformView mWaveformView;
 
   private RecyclerView mBookmarkRecycler;
@@ -95,7 +94,7 @@ public class RecordActivity extends ActionBarActivity {
   }
 
   private void initializeSetting() {
-    mBookmarkList = Bookmark.listExists(Bookmark.class);
+    mBookmarkList = Bookmark.listExists(Bookmark.class, "created_at ASC");
     mRecordStatus = READY_STATE;
     isSaved = false;
     mRecordDoneButton.setEnabled(false);
@@ -103,7 +102,7 @@ public class RecordActivity extends ActionBarActivity {
 
   private void handlerSetting() {
     mTimerHandler = new TimerHandler();
-    mBookmarkHandler = new BookmarkHandler(mBookmarkList);
+    mBookmarkHandler = new BookmarkHandler();
     mRecorderHandler = new RecorderHandler();
   }
 
@@ -414,17 +413,13 @@ private void showDeleteDialog() {
   }
 
   public class BookmarkHandler implements BookmarkListAdapter.OnBookmarkSelectedListener {
-
-    private List<Bookmark> mBookmarkList;
-
     private List<BookmarkHistoryInformation> mBookmarkHistoryInformationList;
     private BookmarkHistoryInformation mBookmarkHistoryInformation;
     private View currentBookmarkView;
 
-    public BookmarkHandler(List<Bookmark> bookmarkList) {
+    public BookmarkHandler() {
       this.mBookmarkHistoryInformation = null;
-      this.mBookmarkList = bookmarkList;
-      this.mBookmarkHistoryInformationList = new ArrayList<BookmarkHistoryInformation>();
+      this.mBookmarkHistoryInformationList = new ArrayList<>();
     }
 
     @Override

@@ -29,6 +29,8 @@ public class PlayerRecordHistoryFragment extends Fragment {
 
     public static final String ARG_RECORD_ID = "recordId";
     private Record mRecord;
+    private List<BookmarkHistory> mBookmarkHistories;
+    private BookmarkHistoryAdapter mBookmarkHistoryAdapter;
     private OnBookmarkHistorySelectedListener mCallback;
 
     @Override
@@ -55,21 +57,27 @@ public class PlayerRecordHistoryFragment extends Fragment {
                         .build()
         );
 
-        List<BookmarkHistory> historyList = mRecord.getBookmarkHistories();
-        BookmarkHistoryAdapter historyAdapter = new BookmarkHistoryAdapter(historyList);
-        historyAdapter.setOnBookmarkHistorySelectedListener(new BookmarkHistoryAdapter.OnBookmarkHistorySelectedListener() {
+        mBookmarkHistories = mRecord.getBookmarkHistories();
+        mBookmarkHistoryAdapter = new BookmarkHistoryAdapter(mBookmarkHistories);
+        mBookmarkHistoryAdapter.setOnBookmarkHistorySelectedListener(new BookmarkHistoryAdapter.OnBookmarkHistorySelectedListener() {
             @Override
             public void onBookmarkHistorySelected(BookmarkHistory history, View v) {
                 mCallback.onBookmarkHistorySelected(history, v);
             }
         });
 
-        playRecycler.setAdapter(historyAdapter);
+        playRecycler.setAdapter(mBookmarkHistoryAdapter);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mCallback = (OnBookmarkHistorySelectedListener) activity;
+    }
+
+    public void notifyBookmarkHistoriesUpdate() {
+        mBookmarkHistories.clear();
+        mBookmarkHistories.addAll(mRecord.getBookmarkHistories());
+        mBookmarkHistoryAdapter.notifyDataSetChanged();
     }
 }

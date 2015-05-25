@@ -51,7 +51,7 @@ public class PlayerBookmarkFragment extends Fragment {
         );
 
         BookmarkListAdapter listAdapter;
-        final List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class);
+        final List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class, "created_at ASC");
         listAdapter = new BookmarkListAdapter(bookmarkList);
         listAdapter.setOnBookmarkSelectedListener(new BookmarkListAdapter.OnBookmarkSelectedListener() {
             @Override

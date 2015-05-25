@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         setContentView(R.layout.activity_material_list);
         setSyncAutomatic();
 
-        mRecords = Record.listExists(Record.class);
+        mRecords = Record.listExists(Record.class, "created_at DESC");
 
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -155,6 +155,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
+                                            Toast.makeText(getApplicationContext(), "동기화를 완료하였습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
