@@ -62,7 +62,7 @@ public class Record extends SyncableModel<Record> {
     }
 
     public List<BookmarkHistory> getBookmarkHistories() {
-        return BookmarkHistory.find(BookmarkHistory.class, "record = ?", getId().toString());
+        return BookmarkHistory.find(BookmarkHistory.class, "record = ? AND deleted = 0 ORDER BY start ASC", getId().toString());
     }
 
     public List<FrameGains> getFrameGains() {

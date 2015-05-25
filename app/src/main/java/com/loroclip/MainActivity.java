@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         setContentView(R.layout.activity_material_list);
         setSyncAutomatic();
 
-        mRecords = Record.listExists(Record.class);
+        mRecords = Record.listExists(Record.class, "created_at DESC");
 
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
