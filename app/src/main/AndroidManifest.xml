@@ -96,10 +96,8 @@
             android:name=".record.RecordActivity"
             android:label="@string/title_activity_record" >
         </activity>
-        <activity
-            android:name=".PlayActivity"
-            android:label="@string/title_activity_play" >
-        </activity>
+
+        <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
         <service android:name=".AuthenticatorService" >
             <intent-filter>

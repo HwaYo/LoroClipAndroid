@@ -18,6 +18,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.util.Arrays;
 
 import retrofit.Callback;
@@ -52,6 +55,13 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         bindUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
+        checkForUpdates();
     }
 
     private void retrieveAuthTokenWithFacebookToken(AccessToken token) {
@@ -150,4 +160,14 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "7ec211e5fb8fc473d359cdbf6d7428df");
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store / production builds!
+        UpdateManager.register(this, "7ec211e5fb8fc473d359cdbf6d7428df");
+    }
+
 }
