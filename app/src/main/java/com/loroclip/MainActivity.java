@@ -265,7 +265,6 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                         }
                                     });
 
-                            Ion.getDefault(context).cancelAll();
                         }
                     })
                     .setNegativeButton("Cancel", null)
