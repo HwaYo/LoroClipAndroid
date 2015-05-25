@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -72,6 +73,8 @@ public class RecordActivity extends ActionBarActivity {
   private Animation fadeIn;
   private Animation fadeOut;
 
+  private Toolbar mToolbar;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -88,6 +91,12 @@ public class RecordActivity extends ActionBarActivity {
 
   }
   private void uiSetting() {
+
+    // Android L Style Title Bar
+    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+    setSupportActionBar(mToolbar);
+    getSupportActionBar().setTitle(R.string.new_record);
+
     mRecordDoneButton = (ImageView) findViewById(R.id.record_done_img);
     mRecordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
     mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
