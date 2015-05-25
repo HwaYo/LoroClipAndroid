@@ -36,7 +36,6 @@ public class RecodWaveformView extends View {
 	int measuredWidth;
 	int measuredHeight;
 
-
 	int numFrames;
 	int[] frameGains;
 	int[] mHeightsAtThisZoomLevel;
@@ -45,6 +44,7 @@ public class RecodWaveformView extends View {
 	int makeSize;
 
 	private final Semaphore jsonArraySemaphore;
+	private boolean mIsBookmarkSelected;
 
 	public RecodWaveformView(Context context) {
 		super(context);
@@ -55,6 +55,7 @@ public class RecodWaveformView extends View {
 
 		currentBookmarkPaint = new Paint();
 		waveBaseLine.setAntiAlias(false);
+		mIsBookmarkSelected = false;
 
 		initWaveformView();
 
@@ -91,9 +92,6 @@ public class RecodWaveformView extends View {
 		int width = mHeightsAtThisZoomLevel.length;
 		int ctr = measuredHeight / 2;
 
-
-
-
 //	Draw waveform
 		for (int i = 0; i < width; i++) {
 
@@ -113,7 +111,6 @@ public class RecodWaveformView extends View {
 			}
 		}
 	}
-
 
 	protected void drawWaveformLine(Canvas canvas, int x, int y0, int y1, Paint paint) {
 		canvas.drawLine(x, y0, x, y1, paint);
@@ -136,14 +133,14 @@ public class RecodWaveformView extends View {
 			for(int i = 0; i < waveformBookmarkInfomationList.size(); i++) {
 				WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(i);
 				waveformBookmarkInfomation.moveViewIndex();
-				if(waveformBookmarkInfomation.getStartViewIndex() < 0 && waveformBookmarkInfomation.getEndViewIndex() < 0
-						&& waveformBookmarkInfomationList.size() - 1 != i ) {
+				if(waveformBookmarkInfomation.getStartViewIndex() < 0 && waveformBookmarkInfomation.getEndViewIndex() < 0) {
+					if(waveformBookmarkInfomationList.size() - 1 == i && mIsBookmarkSelected) {
+						break;
+					}
 					waveformBookmarkInfomationList.remove(i);
 				}
 			}
 		}
-
-
 
 		frameGains = new int[makeSize];
 		for(int i = start, j = 0 ; i < start + makeSize ; i++ , j++) {
@@ -268,7 +265,6 @@ public class RecodWaveformView extends View {
 		jsonArraySemaphore.release();
 	}
 
-	// TODO 여기 무슨 작업은 해야할듯 세마포어사용???
 	public JSONArray getJsonArray(){
 		JSONArray result = null;
 		try {
@@ -292,11 +288,13 @@ public class RecodWaveformView extends View {
 
 	public void setCurrentSelectedBookmark(Bookmark selectedBookmark) {
 		waveformBookmarkInfomationList.add(new WaveformBookmarkInfomation(selectedBookmark));
+		mIsBookmarkSelected = true;
 	}
 
 	public void setCurrentRelaseBookmark() {
 		WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(waveformBookmarkInfomationList.size() - 1);
 		waveformBookmarkInfomation.setEndViewIndex();
+		mIsBookmarkSelected = false;
 	}
 
 	private class WaveformBookmarkInfomation{

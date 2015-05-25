@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -50,7 +49,6 @@ public class RecordActivity extends ActionBarActivity {
   private final int RECORDING_STATE = 1;
   private final int PAUSE_STATE = 2;
 
-  private Toolbar mToolbar;
   private RecodWaveformView mWaveformView;
 
   private RecyclerView mBookmarkRecycler;
