@@ -21,6 +21,8 @@ import java.util.List;
  * Fragment that contains BookmarkHistory and Bookmarks
  */
 public class PlayerBookmarkFragment extends Fragment {
+    private RecyclerView playRecycler;
+
     public interface OnBookmarkSelectedListener {
         void onBookmarkSelected(Bookmark bookmark, View v);
     }
@@ -37,7 +39,7 @@ public class PlayerBookmarkFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView playRecycler = (RecyclerView) view.findViewById(R.id.recycler_play);
+        playRecycler = (RecyclerView) view.findViewById(R.id.recycler_play);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         playRecycler.setLayoutManager(manager);
@@ -58,6 +60,7 @@ public class PlayerBookmarkFragment extends Fragment {
             }
         });
         playRecycler.setAdapter(listAdapter);
+
     }
 
     @Override

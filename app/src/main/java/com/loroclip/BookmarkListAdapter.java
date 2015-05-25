@@ -63,6 +63,7 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
         public void onClick(View v) {
             this.mListener.onBookmarkSelected(mBookmark, v);
         }
+
     }
 
     @Override
@@ -83,4 +84,6 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
     public int getItemCount() {
         return mBookmarkList.size();
     }
+
+
 }
