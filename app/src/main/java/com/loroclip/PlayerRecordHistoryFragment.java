@@ -23,15 +23,12 @@ import java.util.List;
  * Fragment that contains BookmarkHistory and Bookmarks
  */
 public class PlayerRecordHistoryFragment extends Fragment {
-    public interface OnBookmarkHistorySelectedListener {
-        void onBookmarkHistorySelected(BookmarkHistory history, View v);
-    }
 
     public static final String ARG_RECORD_ID = "recordId";
     private Record mRecord;
     private List<BookmarkHistory> mBookmarkHistories;
     private BookmarkHistoryAdapter mBookmarkHistoryAdapter;
-    private OnBookmarkHistorySelectedListener mCallback;
+    private BookmarkHistoryAdapter.OnBookmarkHistorySelectedListener mCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -59,20 +56,14 @@ public class PlayerRecordHistoryFragment extends Fragment {
 
         mBookmarkHistories = mRecord.getBookmarkHistories();
         mBookmarkHistoryAdapter = new BookmarkHistoryAdapter(mBookmarkHistories);
-        mBookmarkHistoryAdapter.setOnBookmarkHistorySelectedListener(new BookmarkHistoryAdapter.OnBookmarkHistorySelectedListener() {
-            @Override
-            public void onBookmarkHistorySelected(BookmarkHistory history, View v) {
-                mCallback.onBookmarkHistorySelected(history, v);
-            }
-        });
-
+        mBookmarkHistoryAdapter.setOnBookmarkHistorySelectedListener(mCallback);
         playRecycler.setAdapter(mBookmarkHistoryAdapter);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mCallback = (OnBookmarkHistorySelectedListener) activity;
+        mCallback = (BookmarkHistoryAdapter.OnBookmarkHistorySelectedListener) activity;
     }
 
     public void notifyBookmarkHistoriesUpdate() {
