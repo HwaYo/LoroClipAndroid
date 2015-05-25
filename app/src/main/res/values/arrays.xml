@@ -3,7 +3,6 @@
     <string-array name="record_options">
         <item>Edit Title</item>
         <item>Delete</item>
-        <item>Share</item>
     </string-array>
 
     <string-array name="edit_history_options">

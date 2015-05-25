@@ -198,4 +198,6 @@
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
 
     <string name="edit_history">Edit History</string>
+    <string name="new_record">New Record</string>
+    <string name="login_error">Failed to sign in. Please retry.</string>
 </resources>

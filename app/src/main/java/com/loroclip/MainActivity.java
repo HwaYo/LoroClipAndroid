@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -52,13 +54,15 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private Toolbar mToolbar;
     RecordListAdapter mRecordListAdapter;
 
+    private boolean mSyncing = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_list);
         setSyncAutomatic();
 
-        mRecords = Record.listExists(Record.class, "created_at DESC");
+        mRecords = Record.listExists(Record.class);
 
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -111,7 +115,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         if (recordId != 0) {
             Record record = Record.findById(Record.class, recordId);
             if (record != null) {
-                mRecordListAdapter.addRecord(record);
+                mRecords.add(0, record);
             }
         }
 
@@ -130,7 +134,15 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             case R.id.action_settings :
                 break;
             case R.id.action_sync :
-                requestSync();
+                ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo wiki = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+                if (wiki.isConnected()){
+                    requestSync();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please turn on WiFi to Sync", Toast.LENGTH_SHORT).show();
+                }
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -139,7 +151,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private void setSyncAutomatic() {
         final Account account = LoroClipAccount.getInstance().getPrimaryAccount(this);
         if (account != null) {
-            ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
+
+//          ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
             ContentResolver.setSyncAutomatically(account, LoroClipAccount.CONTENT_AUTHORITY, true);
             ContentResolver.addStatusChangeListener(
                     ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE | ContentResolver.SYNC_OBSERVER_TYPE_PENDING,
@@ -153,6 +166,11 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            if (!mSyncing) {
+                                                return;
+                                            }
+
+                                            mSyncing = false;
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
@@ -168,6 +186,10 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     }
 
     private void requestSync() {
+        if (mSyncing) {
+            return;
+        }
+
         Account primaryAccount = LoroClipAccount.getInstance().getPrimaryAccount(this);
         if (primaryAccount == null) {
             return;
@@ -177,6 +199,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(primaryAccount, LoroClipAccount.CONTENT_AUTHORITY, settingsBundle);
+
+        mSyncing = true;
     }
 
     @Override
@@ -210,6 +234,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                     return true;
                                 }
                             });
+                            progressDialog.setCanceledOnTouchOutside(false);
                             progressDialog.show();
 
                             Ion.with(context)
@@ -239,6 +264,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             }
                                         }
                                     });
+
+                            Ion.getDefault(context).cancelAll();
                         }
                     })
                     .setNegativeButton("Cancel", null)
