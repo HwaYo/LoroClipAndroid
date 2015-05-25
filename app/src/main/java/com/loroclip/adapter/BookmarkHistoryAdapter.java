@@ -50,7 +50,7 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
             Bookmark bookmark = mHistory.getBookmark();
             mCircle.setColorFilter(bookmark.getColor(), PorterDuff.Mode.MULTIPLY);
             mImage.setBackground(mCircle);
-            mDurationText.setText(String.format("%.1f - %.1f", mHistory.getStart(), mHistory.getEnd()));
+            mDurationText.setText(formatSecond(mHistory.getStart()) + " - " + formatSecond(mHistory.getEnd()) );
             mBookmarkNameText.setText(bookmark.getName());
         }
 
@@ -64,6 +64,21 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
             mListener.onBookmarkHistoryLongSelected(mHistory, v, getLayoutPosition());
             return true;
         }
+    }
+
+    private String formatSecond(float fsec) {
+        int sec = (int) fsec;
+        String result = "";
+
+        if ( sec >= 3600 ) {
+            result += String.valueOf((sec / 3600)) + "h";
+        }
+        if ( sec >= 60 ) {
+            result += String.valueOf(((sec % 3600)/60) ) + "m";
+        }
+        result += String.valueOf(sec % 60) + "s";
+        
+        return result;
     }
 
     private List<BookmarkHistory> mBookmarkHistoryList;
