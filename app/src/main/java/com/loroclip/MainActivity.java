@@ -37,6 +37,9 @@ import com.loroclip.record.RecordActivity;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -59,6 +62,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_material_list);
         setSyncAutomatic();
 
@@ -96,6 +100,20 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 }
             }
         });
+
+        checkForUpdates();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UpdateManager.unregister();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
     }
 
     @Override
@@ -227,7 +245,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                             progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
                                 @Override
                                 public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                                    if (keyCode == KeyEvent.KEYCODE_BACK){
+                                    if (keyCode == KeyEvent.KEYCODE_BACK) {
 //                                        dialog.dismiss();
                                         Ion.getDefault(context).cancelAll();
                                     }
@@ -254,7 +272,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                         public void onCompleted(Exception e, File result) {
                                             progressDialog.dismiss();
 
-                                            if (result != null){
+                                            if (result != null) {
                                                 record.setLocalFile(result);
                                                 record.save();
 
@@ -372,5 +390,15 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
     private void showToast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "7ec211e5fb8fc473d359cdbf6d7428df");
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store / production builds!
+        UpdateManager.register(this, "7ec211e5fb8fc473d359cdbf6d7428df");
     }
 }
