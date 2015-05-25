@@ -17,7 +17,7 @@ public abstract class ModelSupport<T extends ModelSupport> extends SugarRecord<T
     private Date updatedAt;
 
     public static <T extends SugarRecord> List<T> listExists(Class<T> type) {
-        return listExists(type, null, null, null);
+        return listExists(type, "created_at DESC");
     }
 
     public static <T extends SugarRecord> List<T> listExists(Class<T> type, String orderBy) {
