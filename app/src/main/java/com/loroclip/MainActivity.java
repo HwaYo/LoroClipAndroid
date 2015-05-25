@@ -51,13 +51,15 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private Toolbar mToolbar;
     RecordListAdapter mRecordListAdapter;
 
+    private boolean mSyncing = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_list);
         setSyncAutomatic();
 
-        mRecords = Record.listExists(Record.class, "created_at DESC");
+        mRecords = Record.listExists(Record.class);
 
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
@@ -138,7 +140,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private void setSyncAutomatic() {
         final Account account = LoroClipAccount.getInstance().getPrimaryAccount(this);
         if (account != null) {
-            // ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
+
+//          ContentResolver.setIsSyncable(account, LoroClipAccount.CONTENT_AUTHORITY, 1);
             ContentResolver.setSyncAutomatically(account, LoroClipAccount.CONTENT_AUTHORITY, true);
             ContentResolver.addStatusChangeListener(
                     ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE | ContentResolver.SYNC_OBSERVER_TYPE_PENDING,
@@ -152,6 +155,11 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            if (!mSyncing) {
+                                                return;
+                                            }
+
+                                            mSyncing = false;
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
@@ -167,6 +175,10 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     }
 
     private void requestSync() {
+        if (mSyncing) {
+            return;
+        }
+
         Account primaryAccount = LoroClipAccount.getInstance().getPrimaryAccount(this);
         if (primaryAccount == null) {
             return;
@@ -176,6 +188,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(primaryAccount, LoroClipAccount.CONTENT_AUTHORITY, settingsBundle);
+
+        mSyncing = true;
     }
 
     @Override
@@ -199,6 +213,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                             progressDialog.setMessage("Downloading..");
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                             progressDialog.setMax(100);
+                            progressDialog.setCanceledOnTouchOutside(false);
                             progressDialog.show();
 
                             Ion.with(context)
