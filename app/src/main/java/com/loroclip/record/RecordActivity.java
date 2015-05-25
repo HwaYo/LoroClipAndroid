@@ -94,7 +94,7 @@ public class RecordActivity extends ActionBarActivity {
   }
 
   private void initializeSetting() {
-    mBookmarkList = Bookmark.listExists(Bookmark.class);
+    mBookmarkList = Bookmark.listExists(Bookmark.class, "created_at ASC");
     mRecordStatus = READY_STATE;
     isSaved = false;
     mRecordDoneButton.setEnabled(false);
@@ -102,7 +102,7 @@ public class RecordActivity extends ActionBarActivity {
 
   private void handlerSetting() {
     mTimerHandler = new TimerHandler();
-    mBookmarkHandler = new BookmarkHandler(mBookmarkList);
+    mBookmarkHandler = new BookmarkHandler();
     mRecorderHandler = new RecorderHandler();
   }
 
@@ -413,16 +413,12 @@ private void showDeleteDialog() {
   }
 
   public class BookmarkHandler implements BookmarkListAdapter.OnBookmarkSelectedListener {
-
-    private List<Bookmark> mBookmarkList;
-
     private List<BookmarkHistoryInformation> mBookmarkHistoryInformationList;
     private BookmarkHistoryInformation mBookmarkHistoryInformation;
 
-    public BookmarkHandler(List<Bookmark> bookmarkList) {
+    public BookmarkHandler() {
       this.mBookmarkHistoryInformation = null;
-      this.mBookmarkList = bookmarkList;
-      this.mBookmarkHistoryInformationList = new ArrayList<BookmarkHistoryInformation>();
+      this.mBookmarkHistoryInformationList = new ArrayList<>();
     }
 
     @Override
