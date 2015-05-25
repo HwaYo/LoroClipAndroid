@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -199,6 +200,16 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                             progressDialog.setMessage("Downloading..");
                             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                             progressDialog.setMax(100);
+                            progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                                @Override
+                                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                                    if (keyCode == KeyEvent.KEYCODE_BACK){
+//                                        dialog.dismiss();
+                                        Ion.getDefault(context).cancelAll();
+                                    }
+                                    return true;
+                                }
+                            });
                             progressDialog.show();
 
                             Ion.with(context)
@@ -209,6 +220,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                         public void onProgress(long downloaded, long total) {
                                             progressDialog.setProgress((int)(downloaded * 100 / total));
                                         }
+
+
                                     })
                                     .write(recordFile)
                                     .setCallback(new FutureCallback<File>() {
@@ -216,12 +229,14 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                         public void onCompleted(Exception e, File result) {
                                             progressDialog.dismiss();
 
-                                            record.setLocalFile(result);
-                                            record.save();
+                                            if (result != null){
+                                                record.setLocalFile(result);
+                                                record.save();
 
-                                            Intent intent = new Intent(context, LoroClipEditActivity.class);
-                                            intent.putExtra("record_id", record.getId());
-                                            context.startActivity(intent);
+                                                Intent intent = new Intent(context, LoroClipEditActivity.class);
+                                                intent.putExtra("record_id", record.getId());
+                                                context.startActivity(intent);
+                                            }
                                         }
                                     });
                         }
