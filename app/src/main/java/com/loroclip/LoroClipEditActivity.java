@@ -265,7 +265,7 @@ public class LoroClipEditActivity extends ActionBarActivity
         mOffsetGoal = mOffset;
 
         long elapsedMsec = getCurrentTime() - mWaveformTouchStartMsec;
-        if (elapsedMsec < 300) {
+        if (mWaveformView.getEnd() >= mTouchStart && elapsedMsec < 300) {
             if (mPlayer.isPlaying()) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
@@ -732,8 +732,8 @@ public class LoroClipEditActivity extends ActionBarActivity
 
     private OnClickListener mPlayListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mPlayer.getDuration() <= mPlayer.getCurrentPosition()) {
-                onPlay(mStartPos);
+            if (mWaveformView.millisecsToPixels(mPlayer.getDuration()) - 1 <= mWaveformView.millisecsToPixels(mPlayer.getCurrentPosition())) {
+                onPlay(-1);
             }
             else {
                 onPlay(mWaveformView.getmPlaybackPos());
