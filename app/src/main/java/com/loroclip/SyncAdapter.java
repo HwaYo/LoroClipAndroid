@@ -8,6 +8,8 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.loroclip.model.Bookmark;
@@ -56,7 +58,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             syncIndependentEntities(client, LoroClipAPIClient.BookmarkAPIService.class, Bookmark.class);
             syncIndependentEntities(client, LoroClipAPIClient.BookmarkHistoryAPIService.class, BookmarkHistory.class);
 
-            syncRecordFiles(client);
+            ConnectivityManager connManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo wiki = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (wiki.isConnected()) {
+                syncRecordFiles(client);
+            }
+
         } catch (OperationCanceledException e) {
             e.printStackTrace();
         } catch (IOException e) {
