@@ -78,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                         .build()
         );
 
-
         // Floating Button on Bottom Right Corner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
