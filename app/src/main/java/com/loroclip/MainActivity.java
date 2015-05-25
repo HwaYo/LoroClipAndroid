@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -131,7 +133,15 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             case R.id.action_settings :
                 break;
             case R.id.action_sync :
-                requestSync();
+                ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo wiki = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+                if (wiki.isConnected()){
+                    requestSync();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please turn on WiFi to Sync", Toast.LENGTH_SHORT).show();
+                }
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
