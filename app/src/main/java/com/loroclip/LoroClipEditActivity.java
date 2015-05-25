@@ -735,8 +735,9 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     private OnClickListener mRewindListener = new OnClickListener() {
         public void onClick(View sender) {
-            mWaveformView.setIsBookmarking(false);
             if (mPlayer.isPlaying()) {
+                saveEndBookmarkHistory();
+
                 int newPos = mPlayer.getCurrentPosition() - 5000;
 
                 mPlayer.start(newPos);
@@ -746,12 +747,12 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     private OnClickListener mFfwdListener = new OnClickListener() {
         public void onClick(View sender) {
-            mWaveformView.setIsBookmarking(false);
             if (mPlayer.isPlaying()) {
                 int newPos = 5000 + mPlayer.getCurrentPosition();
 
                 if (newPos < mPlayer.getDuration()) {
                     mPlayer.start(newPos);
+                    saveEndBookmarkHistory();
                 }
             }
         }
@@ -764,6 +765,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
             mWaveformView.setIsBookmarking(false);
             mWaveformView.addBookmarkHistory(current_bookmark);
             currentBookmarkView.setBackgroundColor(Color.WHITE);
+
+            current_bookmark = null;
         }
     }
 
