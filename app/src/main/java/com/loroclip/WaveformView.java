@@ -32,6 +32,7 @@ import com.loroclip.soundfile.SoundFile;
 import com.loroclip.util.Util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,9 +49,6 @@ import java.util.List;
  * the selected part of the waveform in a different color.
  */
 public class WaveformView extends View {
-
-
-
 
     public interface WaveformListener {
         public void waveformTouchStart(float x);
@@ -100,7 +98,7 @@ public class WaveformView extends View {
     private Paint mBookmarkLinePaint;
     private int bmStart;
     private boolean isBookmarking;
-    private List<BookmarkHistory> bookmarkHistoryList;
+    private List<BookmarkHistory> mBookmarkHistoryList;
     private String mFilename;
 
 
@@ -201,7 +199,7 @@ public class WaveformView extends View {
         currentBookmarkPaint = new Paint();
         currentBookmarkPaint.setAntiAlias(false);
 
-        bookmarkHistoryList = new ArrayList<BookmarkHistory>();
+        mBookmarkHistoryList = new ArrayList<BookmarkHistory>();
     }
 
     @Override
@@ -379,7 +377,7 @@ public class WaveformView extends View {
     }
 
     public void drawBookmarkLine(Canvas canvas, int measuredHeight) {
-        for (BookmarkHistory bookmarkHistory : bookmarkHistoryList) {
+        for (BookmarkHistory bookmarkHistory : mBookmarkHistoryList) {
             mBookmarkLinePaint.setColor(bookmarkHistory.getColor());
             mBookmarkLinePaint.setAlpha(80);
             int start = millisecsToPixels(bookmarkHistory.getStartMiiliseconds());
@@ -660,11 +658,17 @@ public class WaveformView extends View {
         }
     }
 
-    public void addBookmarkHistory(BookmarkHistory bookmark) {
-        bookmarkHistoryList.add(bookmark);
+    public void addBookmarkHistory(BookmarkHistory history) {
+        mBookmarkHistoryList.add(history);
     }
 
-    public void removeBookmarkHistory(BookmarkHistory bookmark) {
-        bookmarkHistoryList.remove(bookmark);
+    public void removeBookmarkHistory(BookmarkHistory history) {
+        Iterator<BookmarkHistory> it = mBookmarkHistoryList.iterator();
+        while (it.hasNext()) {
+            if (it.next().getId() == history.getId()) {
+                it.remove();
+                return;
+            }
+        }
     }
 }

@@ -21,10 +21,11 @@ import java.util.List;
  */
 public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistoryAdapter.ViewHolder> {
     public interface OnBookmarkHistorySelectedListener {
-        void onBookmarkHistorySelected(BookmarkHistory history, View v);
+        void onBookmarkHistorySelected(BookmarkHistory history, View v, int position);
+        void onBookmarkHistoryLongSelected(BookmarkHistory history, View v, int position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         BookmarkHistory mHistory;
         ImageView mImage;
         Drawable mCircle;
@@ -36,6 +37,7 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
             super(view);
 
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
             this.mCircle = circle;
             this.mImage = (ImageView)view.findViewById(R.id.bookmark_history_image);
             this.mDurationText = (TextView)view.findViewById(R.id.bookmark_history_item_time);
@@ -54,7 +56,13 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
 
         @Override
         public void onClick(View v) {
-            mListener.onBookmarkHistorySelected(mHistory, v);
+            mListener.onBookmarkHistorySelected(mHistory, v, getLayoutPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mListener.onBookmarkHistoryLongSelected(mHistory, v, getLayoutPosition());
+            return true;
         }
     }
 
