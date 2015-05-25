@@ -109,6 +109,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     private Toolbar mToolbar;
     private Resources resources;
 
+    private FragmentPagerItemAdapter mFragmentPagerAdapter;
+
     private static final int REQUEST_CODE_CHOOSE_CONTACT = 1;
 
     public static final String EDIT = "com.loroclip.action.EDIT";
@@ -352,10 +354,10 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         pages.add(FragmentPagerItem.of("BookmarkListView", PlayerBookmarkFragment.class));
         pages.add(FragmentPagerItem.of("BookmarkHistoryView", PlayerRecordHistoryFragment.class, fragmentBundle));
 
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+        mFragmentPagerAdapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), pages);
 
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(mFragmentPagerAdapter);
         viewPagerTab.setViewPager(viewPager);
 
         updateDisplay();
@@ -791,6 +793,9 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         if (mPlayer.isPlaying()) {
             if (mWaveformView.isBookmarking()) {
                 saveEndBookmarkHistory();
+
+                PlayerRecordHistoryFragment historyFragment = (PlayerRecordHistoryFragment) mFragmentPagerAdapter.getPage(1);
+                historyFragment.notifyBookmarkHistoriesUpdate();
 
                 if (!current_bookmark.getName().equals(bookmark.getName())){
                     saveStartBookmarkHistory(bookmark);
