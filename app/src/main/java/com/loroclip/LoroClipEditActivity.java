@@ -30,11 +30,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -77,13 +73,11 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     private int mNewFileKind;
     private boolean mWasGetContentIntent;
     private WaveformView mWaveformView;
-    private TextView mInfo;
     private String mInfoContent;
     private ImageView mPlayButton;
     private ImageView mRewindButton;
     private ImageView mFfwdButton;
     private boolean mKeyDown;
-    private String mCaption = "";
     private int mWidth;
     private int mMaxPos;
     private int mStartPos;
@@ -236,37 +230,6 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         }, 500);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.edit_options, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_show_all_bookmarks:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_SPACE) {
-            onPlay(mStartPos);
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * Every time we get a message that our waveform drew, see if we need to
-     * animate and trigger another redraw.
-     */
     public void waveformDraw() {
         mWidth = mWaveformView.getMeasuredWidth();
         if (mOffsetGoal != mOffset && !mKeyDown)
@@ -358,9 +321,6 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mWaveformView.setListener(this);
         mWaveformView.setmFilename(mFilename);
 
-        mInfo = (TextView)findViewById(R.id.info);
-        mInfo.setText(mCaption);
-
         mMaxPos = 0;
         mLastDisplayedStartPos = -1;
         mLastDisplayedEndPos = -1;
@@ -376,8 +336,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
             mWaveformView.addBookmarkHistory(history);
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+//        setSupportActionBar(mToolbar);
 
         // Logic about ViewPagers
         ViewGroup tab = (ViewGroup) findViewById(R.id.tab);
@@ -491,11 +451,6 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                     mProgressDialog.dismiss();
                     e.printStackTrace();
                     mInfoContent = e.toString();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mInfo.setText(mInfoContent);
-                        }
-                    });
 
                     Runnable runnable = new Runnable() {
                         public void run() {
@@ -536,13 +491,6 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mFlingVelocity = 0;
         resetPositions();
         mEndPos = mMaxPos;
-
-        mCaption =
-            mSoundFile.getFiletype() + ", " +
-                mSoundFile.getSampleRate() + " Hz, " +
-                formatTime(mMaxPos) + " " +
-                getResources().getString(R.string.time_seconds);
-        mInfo.setText(mCaption);
 
         updateDisplay();
     }
