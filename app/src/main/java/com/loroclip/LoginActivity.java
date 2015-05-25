@@ -87,6 +87,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         }
 
         startMainActivity();
+        finish();
     }
 
     private void bindUI() {
