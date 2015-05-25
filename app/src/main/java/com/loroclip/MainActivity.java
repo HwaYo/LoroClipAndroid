@@ -112,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         if (recordId != 0) {
             Record record = Record.findById(Record.class, recordId);
             if (record != null) {
-                mRecordListAdapter.addRecord(record);
+                mRecords.add(0, record);
             }
         }
 
