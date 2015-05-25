@@ -21,8 +21,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.media.MediaPlayer;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -433,7 +433,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                     mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
                         public void onPrepared(MediaPlayer mediaPlayer) {
-                            togglePlayButton();
+                            enableDisableButtons();
                             return;
                         }
                     });
@@ -443,7 +443,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                         public void onCompletion(MediaPlayer mediaPlayer) {
                             mWaveformView.setIsBookmarking(false);
                             mPlayer.stop();
-                            togglePlayButton();
+                            enableDisableButtons();
                             return;
                         }
                     });
@@ -569,11 +569,11 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         }
     };
 
-    private void togglePlayButton() {
+    private void enableDisableButtons() {
         if (mPlayer.isPlaying()) {
             mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.pause));
             mPlayButton.setContentDescription(getResources().getText(R.string.stop));
-        } else if(!mPlayer.isPlaying()) {
+        } else {
             mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.play));
             mPlayButton.setContentDescription(getResources().getText(R.string.play));
         }
@@ -727,7 +727,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                 onPlay(mWaveformView.getmPlaybackPos());
             }
 
-            togglePlayButton();
+            enableDisableButtons();
         }
     };
 

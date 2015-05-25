@@ -192,5 +192,10 @@
     <string name="delete">delete</string>
     <string name="title_activity_play">PlayActivity</string>
 
+    <!--<string name="app_description">The most efficient, complete way to manage your recordings</string>-->
+    <string name="app_description">Record with Efficiency. Anywhere, Anytime.</string>
+    
+    <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
+
 
 </resources>

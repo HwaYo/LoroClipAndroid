@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -29,11 +30,18 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     private Button mLoginButton;
     private CallbackManager mCallbackManager;
 
+
     public static final String ARG_FROM_AUTHENTICATOR = "fromAuthenticator";
+    private ImageView logoImg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+        // TODO Skip this Activity if user has already Logged in.
 
         Account account = LoroClipAccount.getInstance().getPrimaryAccount(this);
         if (account != null) {
@@ -94,6 +102,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         setContentView(R.layout.login);
 
         final Activity activity = this;
+
+        logoImg = (ImageView)findViewById(R.id.logo);
+        logoImg.setAlpha(0.2f);
 
         mCallbackManager = CallbackManager.Factory.create();
         mLoginButton = (Button)findViewById(R.id.login_button);
