@@ -258,7 +258,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mOffsetGoal = mOffset;
 
         long elapsedMsec = getCurrentTime() - mWaveformTouchStartMsec;
-        if (elapsedMsec < 300) {
+        if (mWaveformView.getEnd() >= mTouchStart && elapsedMsec < 300) {
             if (mPlayer.isPlaying()) {
                 int seekMsec = mWaveformView.pixelsToMillisecs(
                     (int)(mTouchStart + mOffset));
@@ -569,10 +569,10 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     private void togglePlayButton() {
         if (mPlayer.isPlaying()) {
-            mPlayButton.setImageResource(android.R.drawable.ic_media_pause);
+            mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.pause));
             mPlayButton.setContentDescription(getResources().getText(R.string.stop));
         } else if(!mPlayer.isPlaying()) {
-            mPlayButton.setImageResource(android.R.drawable.ic_media_play);
+            mPlayButton.setImageDrawable(resources.getDrawable(R.drawable.play));
             mPlayButton.setContentDescription(getResources().getText(R.string.play));
         }
     }
@@ -718,8 +718,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
     private OnClickListener mPlayListener = new OnClickListener() {
         public void onClick(View sender) {
-            if (mPlayer.getDuration() <= mPlayer.getCurrentPosition()) {
-                onPlay(mStartPos);
+            if (mWaveformView.millisecsToPixels(mPlayer.getDuration()) - 1 <= mWaveformView.millisecsToPixels(mPlayer.getCurrentPosition())) {
+                onPlay(-1);
             }
             else {
                 onPlay(mWaveformView.getmPlaybackPos());
