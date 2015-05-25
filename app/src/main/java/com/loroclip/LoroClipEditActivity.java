@@ -273,6 +273,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
 
                 if (seekMsec <= mPlayer.getCurrentPosition()){
                     mWaveformView.setIsBookmarking(false);
+                    currentBookmarkView.setBackgroundColor(Color.WHITE);
                 }
 
                 mPlayer.seekTo(seekMsec);
