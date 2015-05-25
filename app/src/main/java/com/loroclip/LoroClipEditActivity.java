@@ -807,7 +807,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
                 PlayerRecordHistoryFragment historyFragment = (PlayerRecordHistoryFragment) mFragmentPagerAdapter.getPage(1);
                 historyFragment.notifyBookmarkHistoriesUpdate();
 
-                if (!current_bookmark.getName().equals(bookmark.getName())){
+                if (current_bookmark != null && !current_bookmark.getName().equals(bookmark.getName())){
                     saveStartBookmarkHistory(bookmark, v);
                 }
 
