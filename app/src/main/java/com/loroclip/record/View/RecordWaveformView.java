@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 
-public class RecodWaveformView extends View {
+public class RecordWaveformView extends View {
 
 	private final Handler handler;
 
@@ -46,7 +46,7 @@ public class RecodWaveformView extends View {
 
 	private final Semaphore jsonArraySemaphore;
 
-	public RecodWaveformView(Context context) {
+	public RecordWaveformView(Context context) {
 		super(context);
 		handler = new Handler();
 		waveBaseLine = new Paint();
@@ -285,7 +285,7 @@ public class RecodWaveformView extends View {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				RecodWaveformView.this.invalidate();
+				RecordWaveformView.this.invalidate();
 			}
 		});
 	}
