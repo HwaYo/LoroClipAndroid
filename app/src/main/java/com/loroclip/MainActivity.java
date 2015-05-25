@@ -155,6 +155,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
+                                            Toast.makeText(getApplicationContext(), "동기화를 완료하였습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
