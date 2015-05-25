@@ -106,7 +106,7 @@ public class RecodWaveformView extends View {
 						(waveformBookmarkInfomation.getEndViewIndex() >= i ||
 						 waveformBookmarkInfomation.getEndViewIndex() < 0)) {
 					currentBookmarkPaint.setColor(waveformBookmarkInfomation.getColor());
-					currentBookmarkPaint.setAlpha(50);
+					currentBookmarkPaint.setAlpha(80);
 					canvas.drawLine(i, 0, i, measuredHeight, currentBookmarkPaint);
 					break;
 				}
