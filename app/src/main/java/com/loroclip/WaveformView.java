@@ -135,6 +135,7 @@ public class WaveformView extends View {
         mPlaybackLinePaint.setAntiAlias(false);
         mPlaybackLinePaint.setColor(
                 getResources().getColor(R.drawable.playback_indicator));
+        mPlaybackLinePaint.setStrokeWidth(5);
         mTimecodePaint = new Paint();
         mTimecodePaint.setTextSize(12);
         mTimecodePaint.setAntiAlias(true);
