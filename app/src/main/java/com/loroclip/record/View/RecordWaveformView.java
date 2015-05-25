@@ -19,6 +19,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -26,7 +27,6 @@ import java.util.concurrent.Semaphore;
 public class RecordWaveformView extends View {
 
 	private final Handler handler;
-
 
 	private final Paint waveBaseLine;
 	private Paint currentBookmarkPaint;
@@ -39,6 +39,8 @@ public class RecordWaveformView extends View {
 	int numFrames;
 	int[] frameGains;
 	int[] mHeightsAtThisZoomLevel;
+	int[] mHeightsAtThisZoomLevelDrawable;
+	Object mDrawLockObject = new Object();
 
 	private List<WaveformBookmarkInfomation> waveformBookmarkInfomationList;
 	int makeSize;
@@ -75,7 +77,6 @@ public class RecordWaveformView extends View {
 	public void initWaveformView() {
 		numFrames = 0;
 		waveformBookmarkInfomationList = new ArrayList<WaveformBookmarkInfomation>();
-		fireInvalidate();
 	}
 
 	@Override
@@ -86,27 +87,29 @@ public class RecordWaveformView extends View {
 			return;
 		}
 
-		measuredWidth = this.getWidth();
-		measuredHeight = this.getHeight();
+		synchronized (mDrawLockObject) {
 
-		int width = mHeightsAtThisZoomLevel.length;
-		int ctr = measuredHeight / 2;
+			measuredWidth = this.getWidth();
+			measuredHeight = this.getHeight();
 
-//	Draw waveform
-		for (int i = 0; i < width; i++) {
+			int width = mHeightsAtThisZoomLevelDrawable.length;
+			int ctr = measuredHeight / 2;
 
-			drawWaveformLine(canvas, i, ctr - mHeightsAtThisZoomLevel[i], ctr + 1 + mHeightsAtThisZoomLevel[i], waveBaseLine);
+			for (int i = 0; i < width; i++) {
 
-			for (int j = 0 ; j < waveformBookmarkInfomationList.size() ; j++) {
-				WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(j);
-				if (
-						waveformBookmarkInfomation.getStartViewIndex() <= i &&
-						(waveformBookmarkInfomation.getEndViewIndex() >= i ||
-						 waveformBookmarkInfomation.getEndViewIndex() < 0)) {
-					currentBookmarkPaint.setColor(waveformBookmarkInfomation.getColor());
-					currentBookmarkPaint.setAlpha(80);
-					canvas.drawLine(i, 0, i, measuredHeight, currentBookmarkPaint);
-					break;
+				drawWaveformLine(canvas, i, ctr - mHeightsAtThisZoomLevelDrawable[i], ctr + 1 + mHeightsAtThisZoomLevelDrawable[i], waveBaseLine);
+
+				for (int j = 0; j < waveformBookmarkInfomationList.size(); j++) {
+					WaveformBookmarkInfomation waveformBookmarkInfomation = waveformBookmarkInfomationList.get(j);
+					if (
+							waveformBookmarkInfomation.getStartViewIndex() <= i &&
+									(waveformBookmarkInfomation.getEndViewIndex() >= i ||
+											waveformBookmarkInfomation.getEndViewIndex() < 0)) {
+						currentBookmarkPaint.setColor(waveformBookmarkInfomation.getColor());
+						currentBookmarkPaint.setAlpha(80);
+						canvas.drawLine(i, 0, i, measuredHeight, currentBookmarkPaint);
+						break;
+					}
 				}
 			}
 		}
@@ -278,12 +281,10 @@ public class RecordWaveformView extends View {
 	}
 
 	private void fireInvalidate() {
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				RecordWaveformView.this.invalidate();
-			}
-		});
+		synchronized (mDrawLockObject) {
+			mHeightsAtThisZoomLevelDrawable = Arrays.copyOfRange(mHeightsAtThisZoomLevel, 0, mHeightsAtThisZoomLevel.length);
+			postInvalidate();
+		}
 	}
 
 	public void setCurrentSelectedBookmark(Bookmark selectedBookmark) {
