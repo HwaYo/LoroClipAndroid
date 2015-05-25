@@ -119,7 +119,8 @@ public class RecordActivity extends ActionBarActivity {
     layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(OrientationHelper.VERTICAL);
 
-    bookmarkListAdapter = new BookmarkListAdapter(this, mBookmarkList, mBookmarkHandler);
+    bookmarkListAdapter = new BookmarkListAdapter(mBookmarkList);
+    bookmarkListAdapter.setOnBookmarkSelectedListener(mBookmarkHandler);
 
     mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
     mBookmarkRecycler.setLayoutManager(layoutManager);
@@ -411,7 +412,7 @@ private void showDeleteDialog() {
     }
   }
 
-  public class BookmarkHandler implements View.OnClickListener {
+  public class BookmarkHandler implements BookmarkListAdapter.OnBookmarkSelectedListener {
 
     private List<Bookmark> mBookmarkList;
 
@@ -423,24 +424,19 @@ private void showDeleteDialog() {
       this.mBookmarkList = bookmarkList;
       this.mBookmarkHistoryInformationList = new ArrayList<BookmarkHistoryInformation>();
     }
-    @Override
-    public void onClick(View v) {
-      Bookmark selectedBookmark = mBookmarkList.get(findPosition(v));
 
+    @Override
+    public void onBookmarkSelected(Bookmark bookmark, View v) {
       if(mRecordStatus != RECORDING_STATE) { return; }
 
       if(mBookmarkHistoryInformation == null) {
-        saveStartBookmarkHistory(selectedBookmark);
-      } else if(mBookmarkHistoryInformation.getBookmark().getId() == selectedBookmark.getId()) {
+        saveStartBookmarkHistory(bookmark);
+      } else if(mBookmarkHistoryInformation.getBookmark().getId() == bookmark.getId()) {
         saveEndBookmarkHistory();
       } else {
         saveEndBookmarkHistory();
-        saveStartBookmarkHistory(selectedBookmark);
+        saveStartBookmarkHistory(bookmark);
       }
-    }
-
-    private int findPosition ( View v ) {
-      return mBookmarkRecycler.getChildLayoutPosition(v);
     }
 
     private void saveStartBookmarkHistory(Bookmark selectedBookmark) {
