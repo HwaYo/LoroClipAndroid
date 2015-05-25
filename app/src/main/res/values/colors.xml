@@ -56,5 +56,6 @@
   <color name="transparent">#00000000</color>
 
   <color name="accent">#93E5AB</color>
+  <color name="myTextWhiteColor">#EFEFEF</color>
 
 </resources>
