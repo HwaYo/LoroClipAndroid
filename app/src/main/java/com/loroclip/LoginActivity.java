@@ -115,7 +115,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         final Activity activity = this;
 
-        logoImg = (ImageView)findViewById(R.id.logo);
+        logoImg = (ImageView)findViewById(R.id.login_background);
         logoImg.setAlpha(0.2f);
 
         mCallbackManager = CallbackManager.Factory.create();

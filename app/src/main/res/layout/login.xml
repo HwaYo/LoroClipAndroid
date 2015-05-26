@@ -5,7 +5,7 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/login_background"
         android:src="@drawable/login_background"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
@@ -24,27 +24,38 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/lorocliplogo"
+                android:src="@drawable/lorocliplogo_2"
                 android:layout_width="match_parent"
-                android:layout_height="120dp" />
+                android:layout_height="150dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center"
+            android:orientation="vertical"
+            android:gravity="top|center"
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:typeface="sans"
-                android:layout_margin="22dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                android:text="@string/app_description" />
+                android:text="@string/app_description_1" />
+
+            <TextView
+                android:typeface="sans"
+                android:layout_marginBottom="22dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:text="@string/app_description_2" />
 
         </LinearLayout>
 

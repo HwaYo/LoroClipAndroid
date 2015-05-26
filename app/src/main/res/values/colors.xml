@@ -58,4 +58,6 @@
   <color name="accent">#93E5AB</color>
   <color name="myTextWhiteColor">#EFEFEF</color>
 
+  <color name="button_background">#0FFFFFFF</color>
+
 </resources>
