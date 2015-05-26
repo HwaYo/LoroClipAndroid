@@ -202,4 +202,9 @@
     <string name="edit_history">Edit History</string>
     <string name="new_record">New Record</string>
     <string name="login_error">Failed to sign in. Please retry.</string>
+
+    <string name="record_not_found">Record file not found</string>
+    <string name="file_download_required">File Download Required</string>
+
+    <string name="Download">Download</string>
 </resources>

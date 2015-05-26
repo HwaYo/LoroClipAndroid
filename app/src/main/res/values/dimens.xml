@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Edited by DevSusu on 5.21-->
-    <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="toolbar_elevation">2dp</dimen>
     <dimen name="divider">0.1dp</dimen>
     <dimen name="leftmargin">60dp</dimen>
     <dimen name="rightmargin">15dp</dimen>
