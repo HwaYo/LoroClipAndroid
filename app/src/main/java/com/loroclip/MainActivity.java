@@ -233,9 +233,9 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
 
             new AlertDialog.Builder(context)
-                    .setTitle("Record file not found")
-                    .setMessage("File Download Required :")
-                    .setPositiveButton("Download", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.record_not_found)
+                    .setMessage(R.string.file_download_required)
+                    .setPositiveButton(R.string.Download, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             final ProgressDialog progressDialog = new ProgressDialog(context);

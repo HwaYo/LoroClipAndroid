@@ -25,9 +25,8 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:src="@drawable/ic_action_record_new_white"
-            fab:fab_colorNormal="@color/myPrimaryColor"
-            fab:fab_colorPressed="@color/myPrimaryDarkColor"
-            fab:fab_colorRipple="@color/myTextPrimaryColor" />
+            fab:fab_colorNormal="@color/myAccentColor"
+            fab:fab_colorPressed="@color/mySubColor" />
 
         <View
             android:layout_width="match_parent"
