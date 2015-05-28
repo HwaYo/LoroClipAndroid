@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
-        mRecordListAdapter = new RecordListAdapter(mRecords);
+        mRecordListAdapter = new RecordListAdapter(this, mRecords);
         mRecordListAdapter.setOnRecordSelectedListener(this);
 
         RecyclerView recordListView = (RecyclerView)findViewById(R.id.record_list);
@@ -113,6 +113,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     @Override
     protected void onResume() {
         super.onResume();
+        mRecordListAdapter.notifyDataAndRefreshList();
         checkForCrashes();
     }
 
@@ -137,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             }
         }
 
-        mRecordListAdapter.notifyDataSetChanged();
+        mRecordListAdapter.notifyDataAndRefreshList();
 
         setResult(RESULT_OK, dataIntent);
     }
@@ -191,7 +192,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mSyncing = false;
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
-                                            mRecordListAdapter.notifyDataSetChanged();
+                                            mRecordListAdapter.notifyDataAndRefreshList();
                                             Toast.makeText(getApplicationContext(), "동기화를 완료하였습니다.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -361,7 +362,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         record.setTitle(newTitle);
         record.save();
 
-        mRecordListAdapter.notifyDataSetChanged();
+        mRecordListAdapter.notifyDataAndRefreshList();
         showToast(context, "변경되었습니다.");
     }
 
@@ -384,7 +385,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private void deleteRecord(Context context, Record record) {
         mRecords.remove(record);
         record.delete();
-        mRecordListAdapter.notifyDataSetChanged();
+        mRecordListAdapter.notifyDataAndRefreshList();
         showToast(context, "삭제되었습니다.");
     }
 
