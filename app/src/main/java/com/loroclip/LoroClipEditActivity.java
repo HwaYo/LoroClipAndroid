@@ -814,12 +814,13 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     public void onBookmarkSelected(Bookmark bookmark, View v) {
         if (mPlayer.isPlaying()) {
             if (mWaveformView.isBookmarking()) {
+                String prevName = current_bookmark.getName();
                 saveEndBookmarkHistory();
 
                 PlayerRecordHistoryFragment historyFragment = (PlayerRecordHistoryFragment) mFragmentPagerAdapter.getPage(1);
                 historyFragment.notifyBookmarkHistoriesUpdate();
 
-                if (current_bookmark != null && !current_bookmark.getName().equals(bookmark.getName())){
+                if (!prevName.equals(bookmark.getName())){
                     saveStartBookmarkHistory(bookmark, v);
                 }
 
