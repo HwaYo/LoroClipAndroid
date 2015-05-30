@@ -1,5 +1,7 @@
 package com.loroclip;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,9 @@ import java.util.List;
  * Created by susu on 5/19/15.
  */
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> {
+
+    private final Activity activity;
+
     public interface OnRecordSelectedListener {
         void onRecordSelected(Record record, View v);
         void onRecordLongSelected(Record record, View v);
@@ -50,6 +55,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
             mListener.onRecordLongSelected(mRecord, v);
             return true;
         }
+
     }
 
     private final static String TAG = "RecordListAdapter";
@@ -58,8 +64,9 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     List<Record> mRecords;
     OnRecordSelectedListener mOnRecordSelectedListener;
 
-    public RecordListAdapter(List<Record> recordList) {
+    public RecordListAdapter(Activity activity, List<Record> recordList) {
         super();
+        this.activity = activity;
         mRecords = recordList;
     }
 
@@ -86,5 +93,16 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
     public void addRecord(Record record) {
         mRecords.add(record);
+    }
+
+    public void notifyDataAndRefreshList(){
+        TextView text = (TextView)activity.findViewById(R.id.emptyListText);
+        if (mRecords.isEmpty()){
+            text.setVisibility(View.VISIBLE);
+        } else {
+            text.setVisibility(View.INVISIBLE);
+        }
+
+        this.notifyDataSetChanged();
     }
 }
