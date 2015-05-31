@@ -320,8 +320,7 @@ private void showDeleteDialog() {
     private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
     private final String AUDIO_OGG_EXTENSION = ".ogg";
-    private final String LOROCLIP_TEMP_RECORDING_FILE_NAME = "loroclip_temp_recording_file";
-    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
+    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
 
     public void start() {
       File loroclipPath = new File(LOROCLIP_PATH);
