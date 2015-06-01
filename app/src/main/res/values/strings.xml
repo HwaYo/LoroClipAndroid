@@ -183,7 +183,7 @@
 
     <string name="discard">Discard</string>
     <string name="cancel">Cancel</string>
-    <string name="not_synced">This file not synced</string>
+    <string name="not_synced">This file is not synced</string>
 
     <string name="save_record">Save Recording</string>
     <string name="set_record_name">Edit your record name</string>
