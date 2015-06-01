@@ -51,7 +51,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
     private static final int REQUEST_CODE_NEW = 0;
     private final int CMD_RENAME = 0;
-    private final int CMD_DELETE = 1;
+    private final int CMD_DELETE_RECORD = 1;
+    private final int CMD_DELETE_FILE = 2;
 
     private List<Record> mRecords;
     private Toolbar mToolbar;
@@ -228,7 +229,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
         if (record.getLocalFilePath() == null) {
             String filename = UUID.randomUUID().toString();
-            final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
+            final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
             final String AUDIO_OGG_EXTENSION = ".ogg";
 
             final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
@@ -313,8 +314,11 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                             case CMD_RENAME:
                                 showChangeTitleDialog(context, record);
                                 break;
-                            case CMD_DELETE:
-                                showDeleteDialog(context, record);
+                            case CMD_DELETE_RECORD:
+                                showDeleteRrecordDialog(context, record);
+                                break;
+                            case CMD_DELETE_FILE:
+                                showDeleteFileDialog(context, record);
                                 break;
                             default:
                         }
@@ -347,10 +351,12 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             }
 
             @Override // 입력이 끝났을 때
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override // 입력하기 전에
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
         });
 
         dialog.getInputEditText().setSelection(dialog.getInputEditText().length());
@@ -366,11 +372,11 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         showToast(context, "변경되었습니다.");
     }
 
-    private void showDeleteDialog(final Context context, final Record record) {
+    private void showDeleteRrecordDialog(final Context context, final Record record) {
 
         new MaterialDialog.Builder(context)
-                .title(R.string.delete_audio)
-                .content(R.string.delete_audio_confirm)
+                .title(R.string.delete_record)
+                .content(R.string.delete_record_confirm)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
@@ -380,6 +386,34 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 .positiveText(R.string.delete)
                 .negativeText(R.string.cancel)
                 .show();
+    }
+
+    private void showDeleteFileDialog(final Context context, final Record record) {
+
+        new MaterialDialog.Builder(context)
+            .title(R.string.delete_file)
+            .content(R.string.delete_file_confirm)
+            .callback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog dialog) {
+                    deleteFile(context, record);
+                }
+            })
+            .positiveText(R.string.delete)
+            .negativeText(R.string.cancel)
+            .show();
+    }
+
+    private void deleteFile(Context context, Record record) {
+        File file = record.getLocalFile();
+        record.setLocalFilePath(null);
+        if (file.exists()) {
+            file.delete();
+            showToast(context, "삭제되었습니다.");
+        } else {
+            showToast(context, "파일이 존재하지 않습니다.");
+        }
+
     }
 
     private void deleteRecord(Context context, Record record) {

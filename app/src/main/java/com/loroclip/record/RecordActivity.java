@@ -272,8 +272,8 @@ public class RecordActivity extends ActionBarActivity {
 
 private void showDeleteDialog() {
     new MaterialDialog.Builder(this)
-        .title(R.string.delete_audio)
-        .content(R.string.delete_audio_confirm)
+        .title(R.string.delete_record)
+        .content(R.string.delete_record_confirm)
         .callback(new MaterialDialog.ButtonCallback() {
           @Override
           public void onPositive(MaterialDialog dialog) {
@@ -320,8 +320,7 @@ private void showDeleteDialog() {
     private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
     private final String AUDIO_OGG_EXTENSION = ".ogg";
-    private final String LOROCLIP_TEMP_RECORDING_FILE_NAME = "loroclip_temp_recording_file";
-    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
+    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
 
     public void start() {
       File loroclipPath = new File(LOROCLIP_PATH);

@@ -117,7 +117,8 @@
      -->
 
     <string name="delete_music">Delete Music</string>
-    <string name="delete_audio">Delete Audio</string>
+    <string name="delete_record">Delete Record</string>
+    <string name="delete_file">Delete File</string>
 
     <string name="confirm_delete_loroclip">Are you sure?</string>
 
@@ -188,7 +189,9 @@
     
     <string name="edit_name">Edit Filename</string>
     
-    <string name="delete_audio_confirm">Sure to delete?</string>
+    <string name="delete_record_confirm">Sure to delete record?</string>
+    <string name="delete_file_confirm">Sure to delete file?</string>
+    <string name="deleted">Deleted</string>
     <string name="delete">delete</string>
     <string name="title_activity_play">PlayActivity</string>
 
