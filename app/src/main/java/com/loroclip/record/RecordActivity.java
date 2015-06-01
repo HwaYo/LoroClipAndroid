@@ -224,7 +224,7 @@ public class RecordActivity extends ActionBarActivity {
       stopRecord();
     }
     if(mRecordFile != null && mRecordFile.exists()){
-      mRecordFile.deleteOnExit();
+      mRecordFile.delete();
     }
   }
 
