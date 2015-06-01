@@ -371,7 +371,7 @@ private void showDeleteDialog() {
       handler.post(new Runnable() {
         @Override
         public void run() {
-          Toast.makeText(RecordActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(RecordActivity.this, R.string.saved, Toast.LENGTH_SHORT).show();
         }
       });
 

@@ -183,6 +183,7 @@
 
     <string name="discard">Discard</string>
     <string name="cancel">Cancel</string>
+    <string name="not_synced">This file not synced</string>
 
     <string name="save_record">Save Recording</string>
     <string name="set_record_name">Edit your record name</string>
@@ -191,7 +192,12 @@
     
     <string name="delete_record_confirm">Sure to delete record?</string>
     <string name="delete_file_confirm">Sure to delete file?</string>
-    <string name="deleted">Deleted</string>
+    <string name="deleted">Deleted successfully</string>
+    <string name="changed">Changed successfully</string>
+    <string name="saved">Saved successfully</string>
+    <string name="Synced">Synced successfully</string>
+    <string name="file_not_exist">File dose not exist</string>
+
     <string name="delete">delete</string>
     <string name="title_activity_play">PlayActivity</string>
 
@@ -200,7 +206,7 @@
     <string name="app_description_1">Record with Efficiency.</string>
     <string name="app_description_2">Anywhere, Anytime.</string>
     
-    <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
+    <string name="login_with_facebook">Login with FaceBook</string>
 
     <string name="edit_history">Edit History</string>
     <string name="new_record">New Record</string>
