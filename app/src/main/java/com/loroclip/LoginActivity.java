@@ -41,6 +41,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        EventPublisher publisher = EventPublisher.getInstance();
+        publisher.initialize(this);
+        publisher.publishEvent("app_opened");
+
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         mProgressDialog = new ProgressDialog(this);
@@ -100,6 +104,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+
+        EventPublisher.getInstance().publishEvent("logged_in");
 
         if (intent.getBooleanExtra(ARG_FROM_AUTHENTICATOR, false)) {
             finish();
