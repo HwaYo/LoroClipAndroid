@@ -224,7 +224,7 @@ public class RecordActivity extends ActionBarActivity {
       stopRecord();
     }
     if(mRecordFile != null && mRecordFile.exists()){
-      mRecordFile.deleteOnExit();
+      mRecordFile.delete();
     }
   }
 
@@ -272,8 +272,8 @@ public class RecordActivity extends ActionBarActivity {
 
 private void showDeleteDialog() {
     new MaterialDialog.Builder(this)
-        .title(R.string.delete_audio)
-        .content(R.string.delete_audio_confirm)
+        .title(R.string.delete_record)
+        .content(R.string.delete_record_confirm)
         .callback(new MaterialDialog.ButtonCallback() {
           @Override
           public void onPositive(MaterialDialog dialog) {
@@ -371,7 +371,7 @@ private void showDeleteDialog() {
       handler.post(new Runnable() {
         @Override
         public void run() {
-          Toast.makeText(RecordActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(RecordActivity.this, R.string.saved, Toast.LENGTH_SHORT).show();
         }
       });
 
