@@ -35,6 +35,7 @@ import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecordWaveformView;
 import com.loroclip.record.recorder.VorbisRecorder;
+import com.loroclip.util.Util;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -446,7 +447,7 @@ private void showDeleteDialog() {
       mBookmarkHistoryInformation = new BookmarkHistoryInformation(selectedBookmark, mTimerHandler.getTime());
       mWaveformView.setCurrentSelectedBookmark(selectedBookmark);
       currentBookmarkView = v;
-      currentBookmarkView.setBackgroundColor(selectedBookmark.getColor());
+      currentBookmarkView.setBackgroundColor(Util.adjustAlpha(selectedBookmark.getColor(), 0.3f));
     }
 
     private void saveEndBookmarkHistory() {
