@@ -40,7 +40,7 @@
          android:layout_width="wrap_content"
          android:layout_height="160dp">
 
-          <com.loroclip.WaveformView
+          <com.loroclip.view.WaveformView
            android:id="@+id/waveform"
            android:layout_width="fill_parent"
            android:layout_height="fill_parent" />

@@ -53,7 +53,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/main_activity_label" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
@@ -65,11 +65,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlayActivity"
+            android:name=".view.PlayActivity"
             android:label="@string/title_activity_play" >
         </activity>
         <activity
-            android:name=".LoroClipEditActivity"
+            android:name=".view.LoroClipEditActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize" >
@@ -80,7 +80,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.LoginActivity"
             android:label="@string/main_activity_label" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -94,7 +94,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".record.RecordActivity"
+            android:name=".view.RecordActivity"
             android:label="@string/title_activity_record" >
         </activity>
 

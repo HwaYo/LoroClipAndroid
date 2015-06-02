@@ -7,6 +7,7 @@ import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.model.SyncableModel;
+import com.loroclip.util.GmtDateTypeAdapter;
 
 import java.util.Date;
 import java.util.List;
