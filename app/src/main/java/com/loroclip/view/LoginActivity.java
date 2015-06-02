@@ -19,7 +19,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.loroclip.EventPublisher;
 import com.loroclip.LoroClipAccount;
 import com.loroclip.LoroClipAuthClient;
 import com.loroclip.R;

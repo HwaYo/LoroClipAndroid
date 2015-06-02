@@ -39,15 +39,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.loroclip.EventPublisher;
 import com.loroclip.LoroClipPlayer;
 import com.loroclip.R;
-import com.loroclip.util.SongMetadataReader;
 import com.loroclip.adapter.BookmarkHistoryAdapter;
 import com.loroclip.adapter.BookmarkListAdapter;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
+import com.loroclip.util.SongMetadataReader;
 import com.loroclip.util.soundfile.SoundFile;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
