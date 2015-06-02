@@ -228,7 +228,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
         if (record.getLocalFilePath() == null) {
             String filename = UUID.randomUUID().toString();
-            final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
+            final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
             final String AUDIO_OGG_EXTENSION = ".ogg";
 
             final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
