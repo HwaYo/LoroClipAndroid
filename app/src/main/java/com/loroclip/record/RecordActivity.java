@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.loroclip.BookmarkListAdapter;
+import com.loroclip.EventPublisher;
 import com.loroclip.R;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
@@ -243,6 +245,14 @@ public class RecordActivity extends ActionBarActivity {
         public void onInput(MaterialDialog dialog, CharSequence input) {
           mRecorderHandler.save(input.toString());
           mBookmarkHandler.save();
+
+          EventPublisher.getInstance().publishEvent(
+                  "recorded",
+                  new Pair<String, Object>("record", mRecord),
+                  new Pair<String, Object>("duration", mTimerHandler.getTime()),
+                  new Pair<String, Object>("history_count", mBookmarkHandler.getBookmarkHistoryInformationList().size())
+          );
+
           stopRecord();
         }
       })
@@ -473,6 +483,10 @@ private void showDeleteDialog() {
         bookmarkHistory.setEnd(item.getEndTime());
         bookmarkHistory.save();
       }
+    }
+
+    public List<BookmarkHistoryInformation> getBookmarkHistoryInformationList() {
+      return mBookmarkHistoryInformationList;
     }
 
     private class BookmarkHistoryInformation {

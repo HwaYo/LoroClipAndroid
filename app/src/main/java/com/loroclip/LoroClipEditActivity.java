@@ -31,6 +31,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -155,6 +156,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mHandler.postDelayed(mTimerRunnable, 100);
 
         loadFromRecord(mRecord);
+
+        EventPublisher.getInstance().publishEvent("played", new Pair<String, Object>("record", mRecord));
     }
 
     private void closeThread(Thread thread) {
