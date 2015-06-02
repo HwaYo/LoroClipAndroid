@@ -261,7 +261,6 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 @Override
                 public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                   if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                                        dialog.dismiss();
                     Ion.getDefault(context).cancelAll();
                   }
                   return true;
