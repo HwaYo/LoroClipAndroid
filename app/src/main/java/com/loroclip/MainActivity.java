@@ -228,7 +228,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         final Context context = this;
 
         if (record.getLocalFilePath() == null) {
-          showDownloadRrecordDialog(context, record);
+          showDownloadRecordDialog(context, record);
         } else {
             try {
                 Intent intent = new Intent(context, LoroClipEditActivity.class);
@@ -240,7 +240,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         }
     }
 
-    private void showDownloadRrecordDialog(final Context context, final Record record) {
+    private void showDownloadRecordDialog(final Context context, final Record record) {
       String filename = UUID.randomUUID().toString();
       final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
       final String AUDIO_OGG_EXTENSION = ".ogg";
@@ -319,7 +319,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                         showChangeTitleDialog(context, record);
                         break;
                       case CMD_DELETE_RECORD:
-                        showDeleteRrecordDialog(context, record);
+                        showDeleteRecordDialog(context, record);
                         break;
                       case CMD_DELETE_FILE:
                         if (record.getSyncedAt().equals(new Date(0))) {
@@ -380,7 +380,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         showToast(context, R.string.changed);
     }
 
-    private void showDeleteRrecordDialog(final Context context, final Record record) {
+    private void showDeleteRecordDialog(final Context context, final Record record) {
 
         new MaterialDialog.Builder(context)
                 .title(R.string.delete_record)
