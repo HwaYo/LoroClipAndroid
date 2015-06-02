@@ -32,6 +32,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -159,6 +160,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mHandler.postDelayed(mTimerRunnable, 100);
 
         loadFromRecord(mRecord);
+
+        EventPublisher.getInstance().publishEvent("played", new Pair<String, Object>("record", mRecord));
     }
 
     private void closeThread(Thread thread) {
@@ -392,8 +395,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mLoadingKeepGoing = true;
         mFinishActivity = false;
         mProgressDialog = new ProgressDialog(LoroClipEditActivity.this);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setTitle(R.string.progress_dialog_loading);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage(getString(R.string.progress_dialog_loading));
         mProgressDialog.setCancelable(true);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.setOnCancelListener(
@@ -792,7 +795,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         current_bookmark = new BookmarkHistory(mRecord, bookmark);
         current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
         currentBookmarkView = v;
-        currentBookmarkView.setBackgroundColor(bookmark.getColor());
+        currentBookmarkView.setBackgroundColor(Util.adjustAlpha(bookmark.getColor(), 0.3f));
         mWaveformView.setIsBookmarking(true);
         mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
     }
@@ -822,12 +825,13 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     public void onBookmarkSelected(Bookmark bookmark, View v) {
         if (mPlayer.isPlaying()) {
             if (mWaveformView.isBookmarking()) {
+                String prevName = current_bookmark.getName();
                 saveEndBookmarkHistory();
 
                 PlayerRecordHistoryFragment historyFragment = (PlayerRecordHistoryFragment) mFragmentPagerAdapter.getPage(1);
                 historyFragment.notifyBookmarkHistoriesUpdate();
 
-                if (current_bookmark != null && !current_bookmark.getName().equals(bookmark.getName())){
+                if (!prevName.equals(bookmark.getName())){
                     saveStartBookmarkHistory(bookmark, v);
                 }
 

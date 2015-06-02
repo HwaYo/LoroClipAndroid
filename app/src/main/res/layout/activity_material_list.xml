@@ -12,12 +12,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/record_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
@@ -33,6 +33,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_elevation"
             android:background="@drawable/actionbar_shadow" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/nudge_user"
+            android:id="@+id/emptyListText"
+            android:layout_gravity="center"
+            android:gravity="center" />
 
     </FrameLayout>
 

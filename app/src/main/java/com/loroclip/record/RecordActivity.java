@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.loroclip.BookmarkListAdapter;
+import com.loroclip.EventPublisher;
 import com.loroclip.R;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
@@ -244,7 +246,7 @@ public class RecordActivity extends ActionBarActivity {
       stopRecord();
     }
     if(mRecordFile != null && mRecordFile.exists()){
-      mRecordFile.deleteOnExit();
+      mRecordFile.delete();
     }
   }
 
@@ -263,6 +265,14 @@ public class RecordActivity extends ActionBarActivity {
         public void onInput(MaterialDialog dialog, CharSequence input) {
           mRecorderHandler.save(input.toString());
           mBookmarkHandler.save();
+
+          EventPublisher.getInstance().publishEvent(
+                  "recorded",
+                  new Pair<String, Object>("record", mRecord),
+                  new Pair<String, Object>("duration", mTimerHandler.getTime()),
+                  new Pair<String, Object>("history_count", mBookmarkHandler.getBookmarkHistoryInformationList().size())
+          );
+
           stopRecord();
         }
       })
@@ -292,8 +302,8 @@ public class RecordActivity extends ActionBarActivity {
 
 private void showDeleteDialog() {
     new MaterialDialog.Builder(this)
-        .title(R.string.delete_audio)
-        .content(R.string.delete_audio_confirm)
+        .title(R.string.delete_record)
+        .content(R.string.delete_record_confirm)
         .callback(new MaterialDialog.ButtonCallback() {
           @Override
           public void onPositive(MaterialDialog dialog) {
@@ -340,8 +350,7 @@ private void showDeleteDialog() {
     private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
     private final String AUDIO_OGG_EXTENSION = ".ogg";
-    private final String LOROCLIP_TEMP_RECORDING_FILE_NAME = "loroclip_temp_recording_file";
-    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
+    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
 
     public void start() {
       File loroclipPath = new File(LOROCLIP_PATH);
@@ -392,7 +401,7 @@ private void showDeleteDialog() {
       handler.post(new Runnable() {
         @Override
         public void run() {
-          Toast.makeText(RecordActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(RecordActivity.this, R.string.saved, Toast.LENGTH_SHORT).show();
         }
       });
 
@@ -467,7 +476,7 @@ private void showDeleteDialog() {
       mBookmarkHistoryInformation = new BookmarkHistoryInformation(selectedBookmark, mTimerHandler.getTime());
       mWaveformView.setCurrentSelectedBookmark(selectedBookmark);
       currentBookmarkView = v;
-      currentBookmarkView.setBackgroundColor(selectedBookmark.getColor());
+      currentBookmarkView.setBackgroundColor(Util.adjustAlpha(selectedBookmark.getColor(), 0.3f));
     }
 
     private void saveEndBookmarkHistory() {
@@ -493,6 +502,10 @@ private void showDeleteDialog() {
         bookmarkHistory.setEnd(item.getEndTime());
         bookmarkHistory.save();
       }
+    }
+
+    public List<BookmarkHistoryInformation> getBookmarkHistoryInformationList() {
+      return mBookmarkHistoryInformationList;
     }
 
     private class BookmarkHistoryInformation {

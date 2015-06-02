@@ -4,7 +4,7 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.graphics.Color;
 import org.json.JSONArray;
 
 /**
@@ -43,9 +43,17 @@ public class Util {
         for (int i = 0; i < root.getChildCount(); i++) {
             View child = root.getChildAt(i);
             if (child instanceof TextView)
-                ((TextView)child).setTypeface(mTypeface);
+                ((TextView) child).setTypeface(mTypeface);
             else if (child instanceof ViewGroup)
-                setGlobalFont((ViewGroup)child, mTypeface);
+                setGlobalFont((ViewGroup) child, mTypeface);
         }
+    }
+
+    public static int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 }

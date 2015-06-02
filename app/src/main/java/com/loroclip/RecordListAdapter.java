@@ -2,6 +2,7 @@ package com.loroclip;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
             mListener.onRecordLongSelected(mRecord, v);
             return true;
         }
+
     }
 
     private final static String TAG = "RecordListAdapter";
@@ -62,11 +64,13 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
     List<Record> mRecords;
     OnRecordSelectedListener mOnRecordSelectedListener;
+    private TextView notify;
 
-    public RecordListAdapter(List<Record> recordList, Context mContext) {
+    public RecordListAdapter(List<Record> recordList, Context mContext, TextView notify) {
         super();
         mRecords = recordList;
         this.mContext = mContext;
+        this.notify = notify;
     }
 
     @Override
@@ -91,10 +95,14 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
     @Override
     public int getItemCount() {
+        if( mRecords.isEmpty() ) notify.setVisibility(View.VISIBLE);
+        else notify.setVisibility(View.INVISIBLE);
+
         return mRecords.size();
     }
 
     public void addRecord(Record record) {
         mRecords.add(record);
     }
+
 }
