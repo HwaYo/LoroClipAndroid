@@ -19,6 +19,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.loroclip.EventPublisher;
 import com.loroclip.LoroClipAccount;
 import com.loroclip.LoroClipAuthClient;
 import com.loroclip.R;
@@ -43,6 +44,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventPublisher publisher = EventPublisher.getInstance();
+        publisher.initialize(this);
+        publisher.publishEvent("app_opened");
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -103,6 +108,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+
+        EventPublisher.getInstance().publishEvent("logged_in");
 
         if (intent.getBooleanExtra(ARG_FROM_AUTHENTICATOR, false)) {
             finish();

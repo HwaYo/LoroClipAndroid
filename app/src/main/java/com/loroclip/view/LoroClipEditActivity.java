@@ -31,6 +31,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.loroclip.EventPublisher;
 import com.loroclip.LoroClipPlayer;
 import com.loroclip.R;
 import com.loroclip.adapter.BookmarkHistoryAdapter;
@@ -47,6 +49,7 @@ import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.util.SongMetadataReader;
+import com.loroclip.util.Util;
 import com.loroclip.util.soundfile.SoundFile;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
@@ -159,6 +162,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mHandler.postDelayed(mTimerRunnable, 100);
 
         loadFromRecord(mRecord);
+
+        EventPublisher.getInstance().publishEvent("played", new Pair<String, Object>("record", mRecord));
     }
 
     private void closeThread(Thread thread) {
@@ -388,8 +393,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         mLoadingKeepGoing = true;
         mFinishActivity = false;
         mProgressDialog = new ProgressDialog(LoroClipEditActivity.this);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setTitle(R.string.progress_dialog_loading);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage(getString(R.string.progress_dialog_loading));
         mProgressDialog.setCancelable(true);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.setOnCancelListener(
@@ -788,7 +793,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         current_bookmark = new BookmarkHistory(mRecord, bookmark);
         current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
         currentBookmarkView = v;
-        currentBookmarkView.setBackgroundColor(bookmark.getColor());
+        currentBookmarkView.setBackgroundColor(Util.adjustAlpha(bookmark.getColor(), 0.3f));
         mWaveformView.setIsBookmarking(true);
         mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
     }
