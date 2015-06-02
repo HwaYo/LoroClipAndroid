@@ -44,6 +44,7 @@ import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.soundfile.SoundFile;
+import com.loroclip.util.Util;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
@@ -784,7 +785,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         current_bookmark = new BookmarkHistory(mRecord, bookmark);
         current_bookmark.setStart((float)mPlayer.getCurrentPosition() / 1000);
         currentBookmarkView = v;
-        currentBookmarkView.setBackgroundColor(bookmark.getColor());
+        currentBookmarkView.setBackgroundColor(Util.adjustAlpha(bookmark.getColor(), 0.3f));
         mWaveformView.setIsBookmarking(true);
         mWaveformView.setCurrentBookmarkPaintColor(bookmark.getColor());
     }
