@@ -6,10 +6,11 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -29,11 +30,14 @@ import retrofit.client.Response;
 
 public class LoginActivity extends AccountAuthenticatorActivity {
 
-    private Button mLoginButton;
+    private ImageView mLoginButton;
     private CallbackManager mCallbackManager;
 
     public static final String ARG_FROM_AUTHENTICATOR = "fromAuthenticator";
     private ImageView logoImg;
+
+    private TextView loginText1;
+    private TextView loginText2;
 
     private ProgressDialog mProgressDialog;
 
@@ -115,11 +119,18 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         final Activity activity = this;
 
+        loginText1 = (TextView) findViewById(R.id.login_text_1);
+        loginText2 = (TextView) findViewById(R.id.login_text_2);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
+        loginText1.setTypeface(typeface);
+        loginText2.setTypeface(typeface);
+
         logoImg = (ImageView)findViewById(R.id.login_background);
-        logoImg.setAlpha(0.2f);
+//        logoImg.setAlpha(0.2f);
 
         mCallbackManager = CallbackManager.Factory.create();
-        mLoginButton = (Button)findViewById(R.id.login_button);
+        mLoginButton = (ImageView)findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

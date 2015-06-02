@@ -2,6 +2,7 @@ package com.loroclip;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loroclip.model.Bookmark;
+import com.loroclip.util.Util;
 
 import java.util.List;
 
@@ -26,9 +28,11 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
 
     private List<Bookmark> mBookmarkList;
     private OnBookmarkSelectedListener mOnBookmarkSelectedListener;
+    private Context mContext;
 
-    public BookmarkListAdapter(List<Bookmark> bookmarkList) {
+    public BookmarkListAdapter(List<Bookmark> bookmarkList, Context mContext) {
         this.mBookmarkList = bookmarkList;
+        this.mContext = mContext;
     }
 
     public void setOnBookmarkSelectedListener(OnBookmarkSelectedListener listener) {
@@ -71,6 +75,10 @@ public class BookmarkListAdapter extends RecyclerView.Adapter<BookmarkListAdapte
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.bookmark_list_item, parent, false);
         Drawable circle = context.getResources().getDrawable(R.drawable.circle);
+
+        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Raleway-Regular.ttf");
+        Util.setGlobalFont((ViewGroup)view,typeface);
+
         return new ViewHolder(view, circle, this.mOnBookmarkSelectedListener);
     }
 

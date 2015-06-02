@@ -4,6 +4,7 @@ package com.loroclip.record;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,11 +19,13 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -35,6 +38,7 @@ import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecordWaveformView;
 import com.loroclip.record.recorder.VorbisRecorder;
+import com.loroclip.util.Util;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -88,8 +92,10 @@ public class RecordActivity extends ActionBarActivity {
     animationSetting();
     addEventListener();
 
-
   }
+
+  private static Typeface mTypeface;
+
   private void uiSetting() {
 
     // Android L Style Title Bar
@@ -100,6 +106,10 @@ public class RecordActivity extends ActionBarActivity {
     mRecordDoneButton = (ImageView) findViewById(R.id.record_done_img);
     mRecordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
     mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
+
+    mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
+    ViewGroup root = (ViewGroup) findViewById(R.id.root);
+    Util.setGlobalFont(root, mTypeface);
   }
 
   private void initializeSetting() {
@@ -107,6 +117,16 @@ public class RecordActivity extends ActionBarActivity {
     mRecordStatus = READY_STATE;
     isSaved = false;
     mRecordDoneButton.setEnabled(false);
+  }
+
+  private void setGlobalFont(ViewGroup root) {
+    for (int i = 0; i < root.getChildCount(); i++) {
+      View child = root.getChildAt(i);
+      if (child instanceof TextView)
+        ((TextView)child).setTypeface(mTypeface);
+      else if (child instanceof ViewGroup)
+        setGlobalFont((ViewGroup)child);
+    }
   }
 
   private void handlerSetting() {
@@ -128,7 +148,7 @@ public class RecordActivity extends ActionBarActivity {
     layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(OrientationHelper.VERTICAL);
 
-    bookmarkListAdapter = new BookmarkListAdapter(mBookmarkList);
+    bookmarkListAdapter = new BookmarkListAdapter(mBookmarkList, this);
     bookmarkListAdapter.setOnBookmarkSelectedListener(mBookmarkHandler);
 
     mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
