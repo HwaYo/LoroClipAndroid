@@ -259,7 +259,7 @@ public class RecordActivity extends ActionBarActivity {
       .title(R.string.edit_name)
       .content(R.string.set_record_name)
       .inputType(InputType.TYPE_CLASS_TEXT)
-      .negativeText(R.string.cancel)
+      .negativeText(R.string.cancel).positiveText(R.string.save_button)
       .input(dateString, dateString, new MaterialDialog.InputCallback() {
         @Override
         public void onInput(MaterialDialog dialog, CharSequence input) {
