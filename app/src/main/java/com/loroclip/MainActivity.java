@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -18,12 +21,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -33,6 +43,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 import com.loroclip.model.Record;
 import com.loroclip.record.RecordActivity;
+import com.loroclip.util.Util;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -60,6 +71,8 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
     private boolean mSyncing = false;
 
+    private static Typeface mTypeface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +86,11 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
-        mRecordListAdapter = new RecordListAdapter(this, mRecords);
+        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
+        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+        Util.setGlobalFont(root, mTypeface);
+
+        mRecordListAdapter = new RecordListAdapter(mRecords, this, (TextView)findViewById(R.id.emptyListText)  );
         mRecordListAdapter.setOnRecordSelectedListener(this);
 
         RecyclerView recordListView = (RecyclerView)findViewById(R.id.record_list);
@@ -114,7 +131,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        mRecordListAdapter.notifyDataAndRefreshList();
+        mRecordListAdapter.notifyDataSetChanged();
         checkForCrashes();
     }
 
@@ -122,7 +139,14 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_material_list, menu);
+
         return true;
+    }
+
+    private CharSequence wrapInSpan(CharSequence value) {
+        SpannableStringBuilder sb = new SpannableStringBuilder(value);
+        sb.setSpan(mTypeface, 0, value.length(), 0);
+        return sb;
     }
 
     @Override
@@ -138,14 +162,14 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 mRecords.add(0, record);
             }
         }
-
-        mRecordListAdapter.notifyDataAndRefreshList();
+        mRecordListAdapter.notifyDataSetChanged();
 
         setResult(RESULT_OK, dataIntent);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -193,7 +217,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mSyncing = false;
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
-                                            mRecordListAdapter.notifyDataAndRefreshList();
+                                            mRecordListAdapter.notifyDataSetChanged();
                                             Toast.makeText(getApplicationContext(), R.string.Synced, Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -375,7 +399,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         record.setTitle(newTitle);
         record.save();
 
-        mRecordListAdapter.notifyDataAndRefreshList();
+        mRecordListAdapter.notifyDataSetChanged();
         showToast(context, R.string.changed);
     }
 
@@ -427,7 +451,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private void deleteRecord(Context context, Record record) {
         mRecords.remove(record);
         record.delete();
-        mRecordListAdapter.notifyDataAndRefreshList();
+        mRecordListAdapter.notifyDataSetChanged();
         showToast(context, R.string.deleted);
     }
 

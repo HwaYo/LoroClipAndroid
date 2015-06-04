@@ -47,7 +47,7 @@ public class PlayerBookmarkFragment extends Fragment {
 
         BookmarkListAdapter listAdapter;
         final List<Bookmark> bookmarkList = Bookmark.listExists(Bookmark.class, "created_at ASC");
-        listAdapter = new BookmarkListAdapter(bookmarkList);
+        listAdapter = new BookmarkListAdapter(bookmarkList, getActivity());
         listAdapter.setOnBookmarkSelectedListener(mSelectedCallback);
         playRecycler.setAdapter(listAdapter);
 

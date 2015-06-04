@@ -85,6 +85,9 @@
     <item name="android:navigationBarColor">@color/myNavigationColor</item>
     <item name="android:windowBackground">@color/myWindowBackground</item>
     <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+    <item name="md_medium_font">Raleway-Regular.ttf</item>
+    <item name="md_regular_font">Raleway-Regular.ttf</item>
   </style>
 
   <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

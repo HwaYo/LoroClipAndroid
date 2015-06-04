@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/root">
 
     <include android:id="@+id/toolbar_actionbar" layout="@layout/toolbar_default"
         android:layout_width="match_parent" android:layout_height="wrap_content" />
@@ -11,12 +12,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/record_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
@@ -34,10 +35,10 @@
             android:background="@drawable/actionbar_shadow" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="녹음 버튼을 눌러\n새로운 녹음을 만들어보세요"
+            android:text="@string/nudge_user"
             android:id="@+id/emptyListText"
             android:layout_gravity="center"
             android:gravity="center" />

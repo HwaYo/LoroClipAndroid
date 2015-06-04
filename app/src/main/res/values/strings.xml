@@ -216,4 +216,6 @@
     <string name="file_download_required">File Download Required</string>
 
     <string name="Download">Download</string>
+
+    <string name="nudge_user">Record with Button below after Syncing</string>
 </resources>

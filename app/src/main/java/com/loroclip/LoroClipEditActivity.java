@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -110,6 +111,8 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     private Thread mSaveSoundFileThread;
 
     private BookmarkHistory current_bookmark;
+
+    private static Typeface mTypeface;
 
     private Toolbar mToolbar;
     private Resources resources;
@@ -317,6 +320,10 @@ public class LoroClipEditActivity extends ActionBarActivity implements
     private void loadGui() {
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.editor);
+
+        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
+        ViewGroup root = (ViewGroup) findViewById(R.id.root);
+        Util.setGlobalFont(root, mTypeface);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
