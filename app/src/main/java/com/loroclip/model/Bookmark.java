@@ -1,5 +1,7 @@
 package com.loroclip.model;
 
+import java.util.List;
+
 /**
  * Created by angdev on 15. 5. 11..
  */
@@ -33,10 +35,24 @@ public class Bookmark extends SyncableModel<Bookmark> {
         this.name = name;
     }
 
+    public List<BookmarkHistory> getBookmarkHistories() {
+        return BookmarkHistory.find(BookmarkHistory.class, "bookmark = ? AND deleted = 0 ORDER BY start ASC", getId().toString());
+    }
+
     @Override
     public void overwrite(Bookmark bookmark) {
         super.overwrite(bookmark);
         this.name = bookmark.name;
         this.color = bookmark.color;
+    }
+
+    @Override
+    public void delete(boolean force) {
+        List<BookmarkHistory> histories = getBookmarkHistories();
+        for (BookmarkHistory history : histories) {
+            history.delete(force);
+        }
+
+        super.delete(force);
     }
 }

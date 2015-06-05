@@ -1,17 +1,16 @@
 package com.loroclip;
 
 import android.accounts.Account;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -19,12 +18,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -34,6 +36,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 import com.loroclip.model.Record;
 import com.loroclip.record.RecordActivity;
+import com.loroclip.util.Util;
 import com.melnykov.fab.FloatingActionButton;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -41,6 +44,7 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,13 +55,16 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
     private static final int REQUEST_CODE_NEW = 0;
     private final int CMD_RENAME = 0;
-    private final int CMD_DELETE = 1;
+    private final int CMD_DELETE_RECORD = 1;
+    private final int CMD_DELETE_FILE = 2;
 
     private List<Record> mRecords;
     private Toolbar mToolbar;
     RecordListAdapter mRecordListAdapter;
 
     private boolean mSyncing = false;
+
+    private static Typeface mTypeface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +79,11 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
-        mRecordListAdapter = new RecordListAdapter(mRecords);
+        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
+        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+        Util.setGlobalFont(root, mTypeface);
+
+        mRecordListAdapter = new RecordListAdapter(mRecords, this, (TextView)findViewById(R.id.emptyListText)  );
         mRecordListAdapter.setOnRecordSelectedListener(this);
 
         RecyclerView recordListView = (RecyclerView)findViewById(R.id.record_list);
@@ -113,6 +124,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     @Override
     protected void onResume() {
         super.onResume();
+        mRecordListAdapter.notifyDataSetChanged();
         checkForCrashes();
     }
 
@@ -120,7 +132,14 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_material_list, menu);
+
         return true;
+    }
+
+    private CharSequence wrapInSpan(CharSequence value) {
+        SpannableStringBuilder sb = new SpannableStringBuilder(value);
+        sb.setSpan(mTypeface, 0, value.length(), 0);
+        return sb;
     }
 
     @Override
@@ -136,7 +155,6 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 mRecords.add(0, record);
             }
         }
-
         mRecordListAdapter.notifyDataSetChanged();
 
         setResult(RESULT_OK, dataIntent);
@@ -144,6 +162,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -192,7 +211,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getApplicationContext(), "동기화를 완료하였습니다.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), R.string.Synced, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -226,67 +245,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         final Context context = this;
 
         if (record.getLocalFilePath() == null) {
-            String filename = UUID.randomUUID().toString();
-            final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";
-            final String AUDIO_OGG_EXTENSION = ".ogg";
-
-            final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
-
-            new AlertDialog.Builder(context)
-                    .setTitle("Record file not found")
-                    .setMessage("File Download Required :")
-                    .setPositiveButton("Download", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final ProgressDialog progressDialog = new ProgressDialog(context);
-                            progressDialog.setMessage("Downloading..");
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressDialog.setMax(100);
-                            progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                                @Override
-                                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                                        dialog.dismiss();
-                                        Ion.getDefault(context).cancelAll();
-                                    }
-                                    return true;
-                                }
-                            });
-                            progressDialog.setCanceledOnTouchOutside(false);
-                            progressDialog.show();
-
-                            Ion.with(context)
-                                    .load(record.getRemoteFilePath())
-                                    .progressDialog(progressDialog)
-                                    .progress(new ProgressCallback() {
-                                        @Override
-                                        public void onProgress(long downloaded, long total) {
-                                            progressDialog.setProgress((int)(downloaded * 100 / total));
-                                        }
-
-
-                                    })
-                                    .write(recordFile)
-                                    .setCallback(new FutureCallback<File>() {
-                                        @Override
-                                        public void onCompleted(Exception e, File result) {
-                                            progressDialog.dismiss();
-
-                                            if (result != null) {
-                                                record.setLocalFile(result);
-                                                record.save();
-
-                                                Intent intent = new Intent(context, LoroClipEditActivity.class);
-                                                intent.putExtra("record_id", record.getId());
-                                                context.startActivity(intent);
-                                            }
-                                        }
-                                    });
-
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+          showDownloadRecordDialog(context, record);
         } else {
             try {
                 Intent intent = new Intent(context, LoroClipEditActivity.class);
@@ -298,6 +257,66 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         }
     }
 
+    private void showDownloadRecordDialog(final Context context, final Record record) {
+        final File LOROCLIP_PATH = getExternalFilesDir(null);
+        String filename = UUID.randomUUID().toString();
+        final String AUDIO_OGG_EXTENSION = ".ogg";
+
+        final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
+
+        new MaterialDialog.Builder(context)
+            .title(R.string.record_not_found)
+            .content(R.string.file_download_required)
+            .callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                final ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setMessage("Downloading..");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setMax(100);
+                progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            Ion.getDefault(context).cancelAll();
+                        }
+                        return true;
+                    }
+                });
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+
+                Ion.with(context)
+                    .load(record.getRemoteFilePath())
+                    .progressDialog(progressDialog)
+                    .progress(new ProgressCallback() {
+                    @Override
+                    public void onProgress(long downloaded, long total) {
+                        progressDialog.setProgress((int) (downloaded * 100 / total));
+                    }
+                })
+                .write(recordFile)
+                .setCallback(new FutureCallback<File>() {
+                    @Override
+                    public void onCompleted(Exception e, File result) {
+                        progressDialog.dismiss();
+                        if (result != null) {
+                            record.setLocalFile(result);
+                            record.save();
+
+                            Intent intent = new Intent(context, LoroClipEditActivity.class);
+                            intent.putExtra("record_id", record.getId());
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+            }
+        })
+        .positiveText(R.string.Download)
+        .negativeText(R.string.cancel)
+        .show();
+    }
+
     @Override
     public void onRecordLongSelected(final Record record, View v) {
         final Context context = this;
@@ -306,18 +325,25 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 .title(R.string.edit_record)
                 .items(R.array.record_options)
                 .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
-                        switch (which) {
-                            case CMD_RENAME:
-                                showChangeTitleDialog(context, record);
-                                break;
-                            case CMD_DELETE:
-                                showDeleteDialog(context, record);
-                                break;
-                            default:
+                  @Override
+                  public void onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                    switch (which) {
+                      case CMD_RENAME:
+                        showChangeTitleDialog(context, record);
+                        break;
+                      case CMD_DELETE_RECORD:
+                        showDeleteRecordDialog(context, record);
+                        break;
+                      case CMD_DELETE_FILE:
+                        if (record.getSyncedAt().equals(new Date(0))) {
+                          showToast(context, R.string.not_synced);
+                        } else {
+                          showDeleteFileDialog(context, record);
                         }
+                        break;
+                      default:
                     }
+                  }
                 })
                 .show();
     }
@@ -346,10 +372,12 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             }
 
             @Override // 입력이 끝났을 때
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override // 입력하기 전에
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
         });
 
         dialog.getInputEditText().setSelection(dialog.getInputEditText().length());
@@ -362,14 +390,14 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         record.save();
 
         mRecordListAdapter.notifyDataSetChanged();
-        showToast(context, "변경되었습니다.");
+        showToast(context, R.string.changed);
     }
 
-    private void showDeleteDialog(final Context context, final Record record) {
+    private void showDeleteRecordDialog(final Context context, final Record record) {
 
         new MaterialDialog.Builder(context)
-                .title(R.string.delete_audio)
-                .content(R.string.delete_audio_confirm)
+                .title(R.string.delete_record)
+                .content(R.string.delete_record_confirm)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
@@ -381,14 +409,43 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 .show();
     }
 
+    private void showDeleteFileDialog(final Context context, final Record record) {
+
+        new MaterialDialog.Builder(context)
+            .title(R.string.delete_file)
+            .content(R.string.delete_file_confirm)
+            .callback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog dialog) {
+                    deleteFile(context, record);
+                }
+            })
+            .positiveText(R.string.delete)
+            .negativeText(R.string.cancel)
+            .show();
+    }
+
+    private void deleteFile(Context context, Record record) {
+        File file = record.getLocalFile();
+        record.setLocalFilePath(null);
+        record.save();
+        if (file.exists()) {
+            file.delete();
+            showToast(context, R.string.deleted);
+        } else {
+            showToast(context, R.string.file_not_exist);
+        }
+
+    }
+
     private void deleteRecord(Context context, Record record) {
         mRecords.remove(record);
         record.delete();
         mRecordListAdapter.notifyDataSetChanged();
-        showToast(context, "삭제되었습니다.");
+        showToast(context, R.string.deleted);
     }
 
-    private void showToast(Context context, String msg) {
+    private void showToast(Context context, int msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 

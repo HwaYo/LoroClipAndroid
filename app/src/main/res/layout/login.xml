@@ -5,7 +5,7 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/login_background"
         android:src="@drawable/login_background"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
@@ -15,58 +15,45 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-        <LinearLayout
-            android:gravity="bottom"
-            android:layout_weight="3"
+        <ImageView
+            android:src="@drawable/lorocliplogo_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="200dp" />
 
-            <ImageView
-                android:src="@drawable/lorocliplogo"
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/login_text_1"
+            android:typeface="sans"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:layout_weight="2"
+            android:textSize="30sp"
+            android:textColor="@color/myPrimaryColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="@string/app_description_1" />
 
-            <TextView
-                android:typeface="sans"
-                android:layout_margin="22dp"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:text="@string/app_description" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:gravity="top|center_horizontal"
-            android:layout_weight="4"
+        <TextView
+            android:id="@+id/login_text_2"
+            android:typeface="sans"
+            android:layout_marginBottom="22dp"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/myPrimaryColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="@string/app_description_2" />
 
-            <Button
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layout_margin="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_with_facebook"
-                android:background="@drawable/fb_button"
-                android:textColor="@color/com_facebook_blue"
-                android:textStyle="bold"
-                android:id="@+id/login_button" />
-
-        </LinearLayout>
+        <ImageView
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:src="@drawable/fb_login_background"
+            android:id="@+id/login_button" />
 
     </LinearLayout>
 

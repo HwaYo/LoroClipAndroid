@@ -3,4 +3,7 @@
     <string name="facebook_app_id">358224821049631</string>
     <string name="content_authority">com.loroclip.content</string>
     <string name="account_type">com.loroclip</string>
+    <string name="keen_project_id">556a8ca896773d455650bb0f</string>
+    <string name="keen_write_key">75d8305e59f24638baaec4b5fc34b42811a6a2d3503576a5b00bbce476d75ae529cffc0723929d13d7c357891419001dc6c6f74a2f1ea057362a23c9de61acdbdb7ad52cdaf72fb7b9dedffefc1ab3ed32cabfd1e5d3e8368ea8f79c1fba0ffdedb469a2a81348c74627c341c0af3ed6</string>
+    <string name="keen_read_key">515c5083c4bb1be16e32ea6b6c24d999d0f7e1750e05439a22bfc879e020516037e50900431e44c574e54b7bea5edb8d133ac526e4c2e51d3d4664a7d5c419325bc31179ee2ca02b366222167abf71679eafcd434265a30e7bc0fb4a9c83cdde4b767f9a34b2dd569f2c2f8994b30d36</string>
 </resources>

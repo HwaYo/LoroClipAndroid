@@ -1,6 +1,7 @@
 package com.loroclip.record;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import java.util.List;
  */
 public class RecordListAdapter extends BaseAdapter{
     private List<Record> mRecords;
+    private Context mContext;
 
-    public RecordListAdapter(List<Record> records) {
+    public RecordListAdapter(List<Record> records, Context mContext) {
         this.mRecords = records;
+        this.mContext = mContext;
     }
 
     @Override
@@ -45,6 +48,9 @@ public class RecordListAdapter extends BaseAdapter{
 
         TextView titleTextView = (TextView) view.findViewById(android.R.id.text1);
         titleTextView.setText(getItem(i));
+
+        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Raleway-Regular.ttf");
+        titleTextView.setTypeface(typeface);
 
         return view;
 

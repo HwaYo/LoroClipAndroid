@@ -78,10 +78,10 @@ public class Record extends SyncableModel<Record> {
     }
 
     @Override
-    public void delete() {
+    public void delete(boolean force) {
         List<BookmarkHistory> histories = getBookmarkHistories();
         for (BookmarkHistory history : histories) {
-            history.delete();
+            history.delete(force);
         }
 
         File file = getLocalFile();
@@ -91,9 +91,10 @@ public class Record extends SyncableModel<Record> {
 
         List<FrameGains> frameGains = getFrameGains();
         for (FrameGains gains : frameGains) {
-            gains.delete();
+            // No sync
+            gains.delete(true);
         }
 
-        super.delete();
+        super.delete(force);
     }
 }

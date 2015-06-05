@@ -2,6 +2,7 @@ package com.loroclip.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.loroclip.R;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
+import com.loroclip.util.Util;
 
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
         public void bind(BookmarkHistory history) {
             mHistory = history;
             Bookmark bookmark = mHistory.getBookmark();
+
             mCircle.setColorFilter(bookmark.getColor(), PorterDuff.Mode.MULTIPLY);
             mImage.setBackground(mCircle);
             mDurationText.setText(formatSecond(mHistory.getStart()) + " - " + formatSecond(mHistory.getEnd()) );
@@ -83,9 +86,11 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
 
     private List<BookmarkHistory> mBookmarkHistoryList;
     private OnBookmarkHistorySelectedListener mOnBookmarkHistorySelectedListener;
+    private Context mContext;
 
-    public BookmarkHistoryAdapter(List<BookmarkHistory> bookmarkHistoryList) {
+    public BookmarkHistoryAdapter(List<BookmarkHistory> bookmarkHistoryList, Context mContext) {
         mBookmarkHistoryList = bookmarkHistoryList;
+        this.mContext = mContext;
     }
 
     @Override
@@ -93,6 +98,9 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.bookmark_history_item, parent, false);
         Drawable circle = context.getResources().getDrawable(R.drawable.circle);
+
+        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Raleway-Regular.ttf");
+        Util.setGlobalFont((ViewGroup) view, typeface);
 
         return new ViewHolder(view, circle, mOnBookmarkHistorySelectedListener);
     }

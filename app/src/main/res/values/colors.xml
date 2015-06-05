@@ -19,7 +19,7 @@
 
 <resources>
 
-  <drawable name="waveform_selected">#29A593</drawable>
+  <drawable name="waveform_selected">#71C7DB</drawable>
   <drawable name="waveform_unselected_bkgnd_overlay">#ffeeeeee</drawable>
   <drawable name="selection_border">#ffffff</drawable>
   <drawable name="playback_indicator">#ff000000</drawable>
@@ -37,14 +37,14 @@
 
 
   <!--// 수빈이 디자인-->
-  <color name="myPrimaryColor">#31A493</color>
-  <color name="myPrimaryDarkColor">#65B891</color>
-  <color name="myPrimaryLightColor">#93E5AB</color>
-  <color name="myAccentColor">#FF4081</color>
+  <color name="myPrimaryColor">#3BA7C4</color>
+  <color name="myPrimaryLightColor">#71C7DB</color>
+  <color name="mySubColor">#71C7DB</color>
+  <color name="myAccentColor">#466DAA</color>
   <color name="myDrawerBackground">#DADFF7</color>
   <color name="myWindowBackground">#FFFFFF</color>
   <color name="myGrayTextColor">#D7D9D7</color>
-  <color name="myTextPrimaryColor">#232C33</color>
+  <color name="myTextPrimaryColor">#5b5b5b</color>
   <color name="myNavigationColor">#000</color>
 
   <color name="gradient_start">#232C33</color>
@@ -57,5 +57,7 @@
 
   <color name="accent">#93E5AB</color>
   <color name="myTextWhiteColor">#EFEFEF</color>
+
+  <color name="button_background">#0FFFFFFF</color>
 
 </resources>

@@ -4,14 +4,17 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/myPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/myPrimaryDarkColor</item>
-        <item name="colorAccent">@color/myAccentColor</item>
+        <item name="colorPrimaryDark">@color/myPrimaryColor</item>
+        <item name="colorAccent">@color/mySubColor</item>
         <item name="android:textColorPrimary">@color/myTextPrimaryColor</item>
         <item name="android:navigationBarColor">@color/myNavigationColor</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <item name="android:windowBackground">@color/myWindowBackground</item>
         <item name="android:windowContentTransitions">true</item>
+
+        <item name="md_medium_font">Raleway-Regular.ttf</item>
+        <item name="md_regular_font">Raleway-Regular.ttf</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

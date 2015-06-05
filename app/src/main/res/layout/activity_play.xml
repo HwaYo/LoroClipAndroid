@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="@color/myPrimaryDarkColor">
+            android:background="@color/myPrimaryLightColor">
 
             <ImageView
                 android:id="@+id/record_trash_img"

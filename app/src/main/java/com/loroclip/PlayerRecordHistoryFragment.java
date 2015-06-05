@@ -55,7 +55,7 @@ public class PlayerRecordHistoryFragment extends Fragment {
         );
 
         mBookmarkHistories = mRecord.getBookmarkHistories();
-        mBookmarkHistoryAdapter = new BookmarkHistoryAdapter(mBookmarkHistories);
+        mBookmarkHistoryAdapter = new BookmarkHistoryAdapter(mBookmarkHistories, getActivity());
         mBookmarkHistoryAdapter.setOnBookmarkHistorySelectedListener(mCallback);
         playRecycler.setAdapter(mBookmarkHistoryAdapter);
     }

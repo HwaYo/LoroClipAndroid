@@ -4,6 +4,7 @@ package com.loroclip.record;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -16,18 +17,22 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.loroclip.BookmarkListAdapter;
+import com.loroclip.EventPublisher;
 import com.loroclip.R;
 import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
@@ -35,6 +40,7 @@ import com.loroclip.model.FrameGains;
 import com.loroclip.model.Record;
 import com.loroclip.record.View.RecordWaveformView;
 import com.loroclip.record.recorder.VorbisRecorder;
+import com.loroclip.util.Util;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -88,8 +94,10 @@ public class RecordActivity extends ActionBarActivity {
     animationSetting();
     addEventListener();
 
-
   }
+
+  private static Typeface mTypeface;
+
   private void uiSetting() {
 
     // Android L Style Title Bar
@@ -100,6 +108,10 @@ public class RecordActivity extends ActionBarActivity {
     mRecordDoneButton = (ImageView) findViewById(R.id.record_done_img);
     mRecordTrashButton = (ImageView) findViewById(R.id.record_trash_img);
     mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
+
+    mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
+    ViewGroup root = (ViewGroup) findViewById(R.id.root);
+    Util.setGlobalFont(root, mTypeface);
   }
 
   private void initializeSetting() {
@@ -107,6 +119,16 @@ public class RecordActivity extends ActionBarActivity {
     mRecordStatus = READY_STATE;
     isSaved = false;
     mRecordDoneButton.setEnabled(false);
+  }
+
+  private void setGlobalFont(ViewGroup root) {
+    for (int i = 0; i < root.getChildCount(); i++) {
+      View child = root.getChildAt(i);
+      if (child instanceof TextView)
+        ((TextView)child).setTypeface(mTypeface);
+      else if (child instanceof ViewGroup)
+        setGlobalFont((ViewGroup)child);
+    }
   }
 
   private void handlerSetting() {
@@ -128,19 +150,17 @@ public class RecordActivity extends ActionBarActivity {
     layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(OrientationHelper.VERTICAL);
 
-    bookmarkListAdapter = new BookmarkListAdapter(mBookmarkList);
+    bookmarkListAdapter = new BookmarkListAdapter(mBookmarkList, this);
     bookmarkListAdapter.setOnBookmarkSelectedListener(mBookmarkHandler);
 
     mBookmarkRecycler = (RecyclerView) findViewById(R.id.bookmark_list);
     mBookmarkRecycler.setLayoutManager(layoutManager);
     mBookmarkRecycler.setAdapter(bookmarkListAdapter);
     mBookmarkRecycler.addItemDecoration(
-                                           new HorizontalDividerItemDecoration
-                                                   .Builder(this)
-                                               .sizeResId(R.dimen.divider)
-                                               .color(R.color.myGrayColor)
-                                               .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                                               .build());
+            new HorizontalDividerItemDecoration
+                    .Builder(this)
+                    .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                    .build());
   }
 
   private void animationSetting() {
@@ -226,7 +246,7 @@ public class RecordActivity extends ActionBarActivity {
       stopRecord();
     }
     if(mRecordFile != null && mRecordFile.exists()){
-      mRecordFile.deleteOnExit();
+      mRecordFile.delete();
     }
   }
 
@@ -239,12 +259,20 @@ public class RecordActivity extends ActionBarActivity {
       .title(R.string.edit_name)
       .content(R.string.set_record_name)
       .inputType(InputType.TYPE_CLASS_TEXT)
-      .negativeText(R.string.cancel)
+      .negativeText(R.string.cancel).positiveText(R.string.save_button)
       .input(dateString, dateString, new MaterialDialog.InputCallback() {
         @Override
         public void onInput(MaterialDialog dialog, CharSequence input) {
           mRecorderHandler.save(input.toString());
           mBookmarkHandler.save();
+
+          EventPublisher.getInstance().publishEvent(
+                  "recorded",
+                  new Pair<String, Object>("record", mRecord),
+                  new Pair<String, Object>("duration", mTimerHandler.getTime()),
+                  new Pair<String, Object>("history_count", mBookmarkHandler.getBookmarkHistoryInformationList().size())
+          );
+
           stopRecord();
         }
       })
@@ -274,8 +302,8 @@ public class RecordActivity extends ActionBarActivity {
 
 private void showDeleteDialog() {
     new MaterialDialog.Builder(this)
-        .title(R.string.delete_audio)
-        .content(R.string.delete_audio_confirm)
+        .title(R.string.delete_record)
+        .content(R.string.delete_record_confirm)
         .callback(new MaterialDialog.ButtonCallback() {
           @Override
           public void onPositive(MaterialDialog dialog) {
@@ -322,8 +350,7 @@ private void showDeleteDialog() {
     private final int LOROCLIP_AUDIO_SAMPLE_RATE = 44100;
 
     private final String AUDIO_OGG_EXTENSION = ".ogg";
-    private final String LOROCLIP_TEMP_RECORDING_FILE_NAME = "loroclip_temp_recording_file";
-    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Loroclip/";;
+    private final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
 
     public void start() {
       File loroclipPath = new File(LOROCLIP_PATH);
@@ -374,7 +401,7 @@ private void showDeleteDialog() {
       handler.post(new Runnable() {
         @Override
         public void run() {
-          Toast.makeText(RecordActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(RecordActivity.this, R.string.saved, Toast.LENGTH_SHORT).show();
         }
       });
 
@@ -449,7 +476,7 @@ private void showDeleteDialog() {
       mBookmarkHistoryInformation = new BookmarkHistoryInformation(selectedBookmark, mTimerHandler.getTime());
       mWaveformView.setCurrentSelectedBookmark(selectedBookmark);
       currentBookmarkView = v;
-      currentBookmarkView.setBackgroundColor(selectedBookmark.getColor());
+      currentBookmarkView.setBackgroundColor(Util.adjustAlpha(selectedBookmark.getColor(), 0.3f));
     }
 
     private void saveEndBookmarkHistory() {
@@ -475,6 +502,10 @@ private void showDeleteDialog() {
         bookmarkHistory.setEnd(item.getEndTime());
         bookmarkHistory.save();
       }
+    }
+
+    public List<BookmarkHistoryInformation> getBookmarkHistoryInformationList() {
+      return mBookmarkHistoryInformationList;
     }
 
     private class BookmarkHistoryInformation {
