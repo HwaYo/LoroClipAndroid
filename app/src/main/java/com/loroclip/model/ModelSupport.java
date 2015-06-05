@@ -63,11 +63,15 @@ public abstract class ModelSupport<T extends ModelSupport> extends SugarRecord<T
     }
 
     @Override
-    public void delete() {
+    public final void delete() {
         delete(false);
     }
 
     public void delete(boolean force) {
+        deleteImpl(force);
+    }
+
+    private final void deleteImpl(boolean force) {
         if (force) {
             super.delete();
         } else {
