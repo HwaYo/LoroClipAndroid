@@ -42,5 +42,5 @@ dependencies {
     compile 'com.koushikdutta.ion:ion:2.1.4'
     compile 'net.hockeyapp.android:HockeySDK:3.5.0-b.4'
     compile 'io.keen:keen-client-api-android:2.1.1'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
 }
