@@ -50,6 +50,7 @@ public class BookmarkHistoryAdapter extends RecyclerView.Adapter<BookmarkHistory
         public void bind(BookmarkHistory history) {
             mHistory = history;
             Bookmark bookmark = mHistory.getBookmark();
+
             mCircle.setColorFilter(bookmark.getColor(), PorterDuff.Mode.MULTIPLY);
             mImage.setBackground(mCircle);
             mDurationText.setText(formatSecond(mHistory.getStart()) + " - " + formatSecond(mHistory.getEnd()) );
