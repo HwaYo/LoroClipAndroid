@@ -7,13 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -23,13 +20,9 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -265,66 +258,63 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     }
 
     private void showDownloadRecordDialog(final Context context, final Record record) {
-      String filename = UUID.randomUUID().toString();
-      final String LOROCLIP_PATH = Environment.getExternalStorageDirectory().toString() + "/Android/data/com.loroclip/files/";
-      final String AUDIO_OGG_EXTENSION = ".ogg";
+        final File LOROCLIP_PATH = getExternalFilesDir(null);
+        String filename = UUID.randomUUID().toString();
+        final String AUDIO_OGG_EXTENSION = ".ogg";
 
-      final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
+        final File recordFile = new File(LOROCLIP_PATH, filename + AUDIO_OGG_EXTENSION);
 
-      new MaterialDialog.Builder(context)
-          .title(R.string.record_not_found)
-          .content(R.string.file_download_required)
-          .callback(new MaterialDialog.ButtonCallback() {
+        new MaterialDialog.Builder(context)
+            .title(R.string.record_not_found)
+            .content(R.string.file_download_required)
+            .callback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
-              final ProgressDialog progressDialog = new ProgressDialog(context);
-              progressDialog.setMessage("Downloading..");
-              progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-              progressDialog.setMax(100);
-              progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                @Override
-                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                  if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    Ion.getDefault(context).cancelAll();
-                  }
-                  return true;
-                }
-              });
-              progressDialog.setCanceledOnTouchOutside(false);
-              progressDialog.show();
+                final ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setMessage("Downloading..");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setMax(100);
+                progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            Ion.getDefault(context).cancelAll();
+                        }
+                        return true;
+                    }
+                });
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
 
-              Ion.with(context)
-                  .load(record.getRemoteFilePath())
-                  .progressDialog(progressDialog)
-                  .progress(new ProgressCallback() {
+                Ion.with(context)
+                    .load(record.getRemoteFilePath())
+                    .progressDialog(progressDialog)
+                    .progress(new ProgressCallback() {
                     @Override
                     public void onProgress(long downloaded, long total) {
-                      progressDialog.setProgress((int) (downloaded * 100 / total));
+                        progressDialog.setProgress((int) (downloaded * 100 / total));
                     }
-
-
-                  })
-                  .write(recordFile)
-                  .setCallback(new FutureCallback<File>() {
+                })
+                .write(recordFile)
+                .setCallback(new FutureCallback<File>() {
                     @Override
                     public void onCompleted(Exception e, File result) {
-                      progressDialog.dismiss();
+                        progressDialog.dismiss();
+                        if (result != null) {
+                            record.setLocalFile(result);
+                            record.save();
 
-                      if (result != null) {
-                        record.setLocalFile(result);
-                        record.save();
-
-                        Intent intent = new Intent(context, LoroClipEditActivity.class);
-                        intent.putExtra("record_id", record.getId());
-                        context.startActivity(intent);
-                      }
+                            Intent intent = new Intent(context, LoroClipEditActivity.class);
+                            intent.putExtra("record_id", record.getId());
+                            context.startActivity(intent);
+                        }
                     }
-                  });
+                });
             }
-          })
-          .positiveText(R.string.Download)
-          .negativeText(R.string.cancel)
-          .show();
+        })
+        .positiveText(R.string.Download)
+        .negativeText(R.string.cancel)
+        .show();
     }
 
     @Override
