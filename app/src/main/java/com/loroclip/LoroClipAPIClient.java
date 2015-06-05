@@ -7,12 +7,15 @@ import com.loroclip.model.Bookmark;
 import com.loroclip.model.BookmarkHistory;
 import com.loroclip.model.Record;
 import com.loroclip.model.SyncableModel;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -43,8 +46,13 @@ public class LoroClipAPIClient {
             }
         };
 
+        final OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(5, TimeUnit.MINUTES);
+        client.setReadTimeout(5, TimeUnit.MINUTES);
+
         mRestAdapter = new RestAdapter.Builder()
                 .setEndpoint(API_ENDPOINT)
+                .setClient(new OkClient(client))
                 .setRequestInterceptor(requestInterceptor)
                 .setConverter(new GsonConverter(gson))
                 .build();
