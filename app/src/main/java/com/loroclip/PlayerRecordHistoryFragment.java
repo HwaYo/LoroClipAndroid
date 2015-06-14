@@ -33,7 +33,7 @@ public class PlayerRecordHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_demo, container, false);
+        return inflater.inflate(R.layout.bookmark_history_fragment, container, false);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PlayerRecordHistoryFragment extends Fragment {
         mRecord = Record.findById(Record.class, args.getLong(ARG_RECORD_ID));
 
         // Attach different Adapter for each page to this RecyclerView
-        RecyclerView playRecycler = (RecyclerView) view.findViewById(R.id.recycler_play);
+        RecyclerView playRecycler = (RecyclerView) view.findViewById(R.id.bookmark_history_list);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         playRecycler.setLayoutManager(manager);

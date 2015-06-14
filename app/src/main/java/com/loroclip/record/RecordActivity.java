@@ -110,7 +110,7 @@ public class RecordActivity extends ActionBarActivity {
     mRecordActionButton = (ImageView) findViewById(R.id.record_action_img);
 
     mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
-    ViewGroup root = (ViewGroup) findViewById(R.id.root);
+    ViewGroup root = (ViewGroup) findViewById(R.id.record_activity);
     Util.setGlobalFont(root, mTypeface);
   }
 
@@ -137,6 +137,10 @@ public class RecordActivity extends ActionBarActivity {
     mRecorderHandler = new RecorderHandler();
   }
 
+  public BookmarkHandler getBookmarkHandler() {
+    return mBookmarkHandler;
+  }
+
   private void waveformViewSetting() {
     LinearLayout displayLayout = (LinearLayout) findViewById(R.id.displayViewTmp);
     mWaveformView = new RecordWaveformView(getBaseContext());
@@ -157,10 +161,10 @@ public class RecordActivity extends ActionBarActivity {
     mBookmarkRecycler.setLayoutManager(layoutManager);
     mBookmarkRecycler.setAdapter(bookmarkListAdapter);
     mBookmarkRecycler.addItemDecoration(
-            new HorizontalDividerItemDecoration
-                    .Builder(this)
-                    .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                    .build());
+                                           new HorizontalDividerItemDecoration
+                                                   .Builder(this)
+                                               .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                                               .build());
   }
 
   private void animationSetting() {
@@ -342,7 +346,7 @@ private void showDeleteDialog() {
   }
 
 
-  private class RecorderHandler {
+private class RecorderHandler {
     private VorbisRecorder loroclipRecorder;
 
     private final float LOROCLIP_AUDIO_QUALITY = 0.7f;
@@ -508,7 +512,7 @@ private void showDeleteDialog() {
       return mBookmarkHistoryInformationList;
     }
 
-    private class BookmarkHistoryInformation {
+    public class BookmarkHistoryInformation {
       float startTime, endTime;
       Bookmark bookmark;
 

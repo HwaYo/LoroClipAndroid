@@ -211,7 +211,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getApplicationContext(), R.string.Synced, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), R.string.synced, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -312,7 +312,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 });
             }
         })
-        .positiveText(R.string.Download)
+        .positiveText(R.string.download)
         .negativeText(R.string.cancel)
         .show();
     }
@@ -353,6 +353,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         final MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(R.string.edit_name)
                 .content(R.string.set_record_name)
+                .positiveText(R.string.ok)
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .input(record.getTitle(), record.getTitle(), new MaterialDialog.InputCallback() {
                     @Override

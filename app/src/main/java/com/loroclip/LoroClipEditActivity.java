@@ -52,6 +52,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
@@ -135,7 +136,6 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         resources = getResources();
 
         mPlayer = null;
-//        mIsPlaying = false;
 
         mAlertDialog = null;
         mProgressDialog = null;
@@ -322,7 +322,7 @@ public class LoroClipEditActivity extends ActionBarActivity implements
         setContentView(R.layout.editor);
 
         mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
-        ViewGroup root = (ViewGroup) findViewById(R.id.root);
+        ViewGroup root = (ViewGroup) findViewById(R.id.edit_activity);
         Util.setGlobalFont(root, mTypeface);
 
         DisplayMetrics metrics = new DisplayMetrics();

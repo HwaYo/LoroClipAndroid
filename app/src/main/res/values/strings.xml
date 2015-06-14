@@ -195,7 +195,7 @@
     <string name="deleted">Deleted successfully</string>
     <string name="changed">Changed successfully</string>
     <string name="saved">Saved successfully</string>
-    <string name="Synced">Synced successfully</string>
+    <string name="synced">Synced successfully</string>
     <string name="file_not_exist">File dose not exist</string>
 
     <string name="delete">delete</string>
@@ -215,7 +215,8 @@
     <string name="record_not_found">Record file not found</string>
     <string name="file_download_required">File Download Required</string>
 
-    <string name="Download">Download</string>
+    <string name="download">Download</string>
 
     <string name="nudge_user">Record with Button below after Syncing</string>
+    <string name="ok">Ok</string>
 </resources>
