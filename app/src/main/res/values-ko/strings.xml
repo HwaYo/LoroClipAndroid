@@ -59,11 +59,11 @@
     <string name="do_nothing_with_ringtone_button">Close</string>
 
     <!-- Progress dialog text for loading, recording, or saving... -->
-    <string name="progress_dialog_loading">Loading…</string>
-    <string name="progress_dialog_recording">Recording…</string>
-    <string name="progress_dialog_saving">Saving…</string>
-    <string name="progress_dialog_cancel">Cancel</string>
-    <string name="progress_dialog_stop">Stop</string>
+    <string name="progress_dialog_loading">로딩중…</string>
+    <string name="progress_dialog_recording">녹음중…</string>
+    <string name="progress_dialog_saving">저장중…</string>
+    <string name="progress_dialog_cancel">취소</string>
+    <string name="progress_dialog_stop">중지</string>
 
     <!-- Image button descriptions for accessibility -->
 
@@ -75,13 +75,13 @@
     <string name="ffwd">Fast forward</string>
     <string name="zoom_in">Zoom In</string>
     <string name="zoom_out">Zoom Out</string>
-    <string name="save_button">Save</string>
+    <string name="save_button">저장</string>
 
     <!--
      Menu items
      -->
 
-    <string name="menu_save">Save</string>
+    <string name="menu_save">저장</string>
     <string name="menu_show_all_bookmarks">Bookmarks</string>
     <string name="menu_about">About</string>
     <string name="menu_show_all_audio">Show All Audio</string>
@@ -115,10 +115,10 @@
     <!--
      Delete confirmation dialog
      -->
-    <string name="downloading">Downloading...</string>
+    <string name="downloading">다운로드중...</string>
 
-    <string name="delete_record">Delete Record</string>
-    <string name="delete_file">Delete File</string>
+    <string name="delete_record">녹음 삭제</string>
+    <string name="delete_file">녹음 파일 삭제</string>
 
     <string name="confirm_delete_loroclip">Are you sure?</string>
 
@@ -175,30 +175,30 @@
     <string name="action_sync">Sync</string>
     <string name="agree">agree</string>
     <string name="disagree">disagree</string>
-    <string name="edit_record">Edit Record</string>
+    <string name="edit_record">녹음 수정</string>
 
     <!-- added by DevSusu on 5.21 -->
-    <string name="discard_record">Discard</string>
-    <string name="discard_confirm">Recording would not be saved!</string>
+    <string name="discard_record">녹음 취소</string>
+    <string name="discard_confirm">녹음 파일이 저장되지 않습니다!</string>
 
-    <string name="discard">Discard</string>
-    <string name="cancel">Cancel</string>
-    <string name="not_synced">This file is not synced</string>
+    <string name="discard">녹음 취소</string>
+    <string name="cancel">취소</string>
+    <string name="not_synced">이 파일은 동기화되지 않았습니다</string>
 
-    <string name="save_record">Save Recording</string>
-    <string name="set_record_name">Edit your record name</string>
+    <string name="save_record">녹음 저장</string>
+    <string name="set_record_name">녹음의 제목을 설정하세요</string>
     
-    <string name="edit_name">Edit Filename</string>
+    <string name="edit_name">이름 수정</string>
     
-    <string name="delete_record_confirm">Sure to delete record?</string>
-    <string name="delete_file_confirm">Sure to delete file?</string>
-    <string name="deleted">Deleted successfully</string>
-    <string name="changed">Changed successfully</string>
-    <string name="saved">Saved successfully</string>
-    <string name="Synced">Synced successfully</string>
-    <string name="file_not_exist">File dose not exist</string>
+    <string name="delete_record_confirm">정말로 녹음을 영구삭제하시겠습니까?</string>
+    <string name="delete_file_confirm">정말로 기기에서 삭제하시겠습니까?</string>
+    <string name="deleted">삭제 완료</string>
+    <string name="changed">변경 완료</string>
+    <string name="saved">저장 완료</string>
+    <string name="Synced">동기화 완료</string>
+    <string name="file_not_exist">파일이 존재하지 않습니다</string>
 
-    <string name="delete">delete</string>
+    <string name="delete">삭제</string>
     <string name="title_activity_play">PlayActivity</string>
 
     <!--<string name="app_description">The most efficient, complete way to manage your recordings</string>-->
@@ -206,17 +206,17 @@
     <string name="app_description_1">Record with Efficiency.</string>
     <string name="app_description_2">Anywhere, Anytime.</string>
     
-    <string name="login_with_facebook">Login with FaceBook</string>
+    <string name="login_with_facebook">페이스북으로 로그인</string>
 
-    <string name="edit_history">Edit History</string>
-    <string name="new_record">New Record</string>
-    <string name="login_error">Failed to sign in. Please retry.</string>
+    <string name="edit_history">기록 수정</string>
+    <string name="new_record">새 녹음</string>
+    <string name="login_error">로그인하는데 실패했습니다. 다시 시도해주세요.</string>
 
-    <string name="record_not_found">Record file not found</string>
-    <string name="file_download_required">File Download Required</string>
+    <string name="record_not_found">녹음 파일을 찾을 수 없습니다</string>
+    <string name="file_download_required">파일 다운로드가 필요합니다</string>
 
-    <string name="Download">Download</string>
+    <string name="Download">다운로드</string>
 
-    <string name="nudge_user">Record with Button below after Syncing</string>
-    <string name="need_wifi">Please turn on WiFi to Sync</string>
+    <string name="nudge_user">오른쪽 위 버튼으로 동기화하세요</string>
+    <string name="need_wifi">동기화를 위해서는 와이파이에 연결되어야합니다</string>
 </resources>
