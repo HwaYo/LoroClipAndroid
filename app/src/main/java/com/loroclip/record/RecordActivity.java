@@ -302,8 +302,8 @@ public class RecordActivity extends ActionBarActivity {
 
 private void showDeleteDialog() {
     new MaterialDialog.Builder(this)
-        .title(R.string.delete_record)
-        .content(R.string.delete_record_confirm)
+        .title(R.string.discard_record)
+        .content(R.string.discard_confirm)
         .callback(new MaterialDialog.ButtonCallback() {
           @Override
           public void onPositive(MaterialDialog dialog) {

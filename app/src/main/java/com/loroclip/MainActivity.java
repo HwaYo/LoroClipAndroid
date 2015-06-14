@@ -177,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 if (wiki.isConnected()){
                     requestSync();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please turn on WiFi to Sync", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.need_wifi, Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -272,7 +272,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             @Override
             public void onPositive(MaterialDialog dialog) {
                 final ProgressDialog progressDialog = new ProgressDialog(context);
-                progressDialog.setMessage("Downloading..");
+                progressDialog.setMessage(getString(R.string.downloading));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setMax(100);
                 progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
