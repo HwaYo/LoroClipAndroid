@@ -65,6 +65,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 syncRecordFiles(client);
             }
 
+            MainActivity.setmSyncing(true);
+
         } catch (OperationCanceledException e) {
             e.printStackTrace();
         } catch (IOException e) {

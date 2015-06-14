@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     private Toolbar mToolbar;
     RecordListAdapter mRecordListAdapter;
 
-    private boolean mSyncing = false;
+    private static boolean mSyncing = false;
 
     private static Typeface mTypeface;
 
@@ -73,8 +73,6 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         setContentView(R.layout.activity_material_list);
         setSyncAutomatic();
 
-        mRecords = Record.listExists(Record.class);
-
         // Android L Style Title Bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
@@ -82,21 +80,6 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
         mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Regular.ttf");
         ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
         Util.setGlobalFont(root, mTypeface);
-
-        mRecordListAdapter = new RecordListAdapter(mRecords, this, (TextView)findViewById(R.id.emptyListText)  );
-        mRecordListAdapter.setOnRecordSelectedListener(this);
-
-        RecyclerView recordListView = (RecyclerView)findViewById(R.id.record_list);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(OrientationHelper.VERTICAL);
-        recordListView.setLayoutManager(manager);
-        recordListView.setAdapter(mRecordListAdapter);
-        recordListView.addItemDecoration(
-                new HorizontalDividerItemDecoration
-                        .Builder(this)
-                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
-                        .build()
-        );
 
         // Floating Button on Bottom Right Corner
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -124,7 +107,24 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        mRecordListAdapter.notifyDataSetChanged();
+
+        mRecords = Record.listExists(Record.class);
+
+        mRecordListAdapter = new RecordListAdapter(mRecords, this, (TextView)findViewById(R.id.emptyListText)  );
+        mRecordListAdapter.setOnRecordSelectedListener(this);
+
+        RecyclerView recordListView = (RecyclerView)findViewById(R.id.record_list);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(OrientationHelper.VERTICAL);
+        recordListView.setLayoutManager(manager);
+        recordListView.setAdapter(mRecordListAdapter);
+        recordListView.addItemDecoration(
+                new HorizontalDividerItemDecoration
+                        .Builder(this)
+                        .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                        .build()
+        );
+
         checkForCrashes();
     }
 
@@ -177,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                 if (wiki.isConnected()){
                     requestSync();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please turn on WiFi to Sync", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.need_wifi, Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -211,6 +211,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
                                             mRecords.clear();
                                             mRecords.addAll(Record.listExists(Record.class));
                                             mRecordListAdapter.notifyDataSetChanged();
+
                                             Toast.makeText(getApplicationContext(), R.string.Synced, Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -271,7 +272,7 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
             @Override
             public void onPositive(MaterialDialog dialog) {
                 final ProgressDialog progressDialog = new ProgressDialog(context);
-                progressDialog.setMessage("Downloading..");
+                progressDialog.setMessage(getString(R.string.downloading));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setMax(100);
                 progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -456,5 +457,9 @@ public class MainActivity extends ActionBarActivity implements RecordListAdapter
 
     private void checkForUpdates() {
         
+    }
+
+    public static void setmSyncing(boolean mSyncing) {
+        MainActivity.mSyncing = mSyncing;
     }
 }
